@@ -24,10 +24,20 @@
 -(instancetype)init __attribute__((unavailable("init not available, call sharedInstance")));
 +(instancetype)new __attribute__((unavailable("new not available, call sharedInstance")));
 
+/**
+ 
+ */
 +(BMDownloadManager *)sharedInstance;
 
--(NSString *)fetchTest;
+/**
+ 
 
+-(NSString *)fetchTest;
+*/
+
+/**
+ 
+ */
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber;
 
 @end

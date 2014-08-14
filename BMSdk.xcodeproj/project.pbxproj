@@ -37,9 +37,12 @@
 		B915C32D197803C0005618A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B915C32B197803C0005618A6 /* InfoPlist.strings */; };
 		B915C33719780B8E005618A6 /* BMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C33519780B8E005618A6 /* BMLocationManager.m */; };
 		B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B915C338197857C5005618A6 /* BMStoryboard.storyboard */; };
+		B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B91D68BD199C156500C2C135 /* RecipeInfo.h */; };
+		B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B91D68BE199C156500C2C135 /* RecipeInfo.m */; };
 		B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B915C33419780B8E005618A6 /* BMLocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B955D180197ED6CE0052ED2B /* testClassViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B955D183197ED6CE0052ED2B /* testClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B955D181197ED6CE0052ED2B /* testClassViewController.m */; };
+		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
 		B9909F8A1989033500D02CB6 /* testClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B955D181197ED6CE0052ED2B /* testClassViewController.m */; };
 		B9909F8E198903A800D02CB6 /* MenuListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909F8C198903A800D02CB6 /* MenuListViewController.h */; };
 		B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909F8D198903A800D02CB6 /* MenuListViewController.m */; };
@@ -68,6 +71,7 @@
 		B9F08729199138C700002074 /* BMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0871E1991148F00002074 /* BMDataManager.m */; };
 		B9F0872A199138DD00002074 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F08724199120D800002074 /* Reachability.m */; };
 		B9F7D804199174E900EB175F /* BMSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C2F81977FFAF005618A6 /* BMSdk.m */; };
+		B9FA5B41199659080072B21D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,8 +131,11 @@
 		B915C33419780B8E005618A6 /* BMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLocationManager.h; sourceTree = "<group>"; };
 		B915C33519780B8E005618A6 /* BMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLocationManager.m; sourceTree = "<group>"; };
 		B915C338197857C5005618A6 /* BMStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BMStoryboard.storyboard; sourceTree = "<group>"; };
+		B91D68BD199C156500C2C135 /* RecipeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeInfo.h; sourceTree = "<group>"; };
+		B91D68BE199C156500C2C135 /* RecipeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeInfo.m; sourceTree = "<group>"; };
 		B955D180197ED6CE0052ED2B /* testClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testClassViewController.h; sourceTree = "<group>"; };
 		B955D181197ED6CE0052ED2B /* testClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testClassViewController.m; sourceTree = "<group>"; };
+		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		B9909F791988ECC800D02CB6 /* SDWebImage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SDWebImage; sourceTree = "<group>"; };
 		B9909F8C198903A800D02CB6 /* MenuListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuListViewController.h; sourceTree = "<group>"; };
 		B9909F8D198903A800D02CB6 /* MenuListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListViewController.m; sourceTree = "<group>"; };
@@ -147,6 +154,7 @@
 		B9F0872119911FE600002074 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B9F08723199120D800002074 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		B9F08724199120D800002074 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		B9FC03CC198685A700BF7E85 /* RateView */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RateView; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,8 +163,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */,
+				B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */,
 				B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */,
+				B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +184,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9FA5B41199659080072B21D /* libsqlite3.dylib in Frameworks */,
 				B915C327197803BF005618A6 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +216,8 @@
 		B915C2F01977FFAF005618A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */,
+				B96894EF19924042009E1036 /* libsqlite3.dylib */,
 				B9F0872119911FE600002074 /* SystemConfiguration.framework */,
 				B915C2F11977FFAF005618A6 /* Foundation.framework */,
 				B915C2FF1977FFAF005618A6 /* XCTest.framework */,
@@ -287,6 +299,8 @@
 				B9C29F9019864614002309FF /* BMDownloadManager.m */,
 				B9F0871D1991148F00002074 /* BMDataManager.h */,
 				B9F0871E1991148F00002074 /* BMDataManager.m */,
+				B91D68BD199C156500C2C135 /* RecipeInfo.h */,
+				B91D68BE199C156500C2C135 /* RecipeInfo.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -333,6 +347,7 @@
 			files = (
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */,
+				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */,
 				B9F08725199120D800002074 /* Reachability.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
@@ -352,8 +367,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B915C3111977FFAF005618A6 /* Build configuration list for PBXNativeTarget "BMSdk" */;
 			buildPhases = (
-				B915C2EA1977FFAF005618A6 /* Sources */,
 				B915C2EB1977FFAF005618A6 /* Frameworks */,
+				B915C2EA1977FFAF005618A6 /* Sources */,
 				B915C2EC1977FFAF005618A6 /* CopyFiles */,
 				B915C3171977FFFC005618A6 /* Headers */,
 				B915C31919780122005618A6 /* ShellScript */,
@@ -502,6 +517,7 @@
 				B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */,
 				B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */,
 				B9C29FAE19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */,
+				B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */,
 				B9F08726199120D800002074 /* Reachability.m in Sources */,
 				B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */,
 				B9C29FA719865A29002309FF /* MenuListCell.m in Sources */,
@@ -662,7 +678,10 @@
 				DSTROOT = /tmp/BMSdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BMSdk/BMSdk-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
@@ -678,7 +697,10 @@
 				DSTROOT = /tmp/BMSdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BMSdk/BMSdk-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;

@@ -7,7 +7,8 @@
 //
 
 #import "BMLocationManager.h"
-#import "BMDownloadManager.h"
+#import "BMDataManager.h"
+
 #define BMBEACON @"66666666-6666-6666-6666-666666666666"
 
 @import UIKit;
@@ -19,10 +20,16 @@
 @property (nonatomic, strong) NSUUID *BMUUID;
 @property (nonatomic, strong) CLBeacon *closestBeacon;
 
-@property (nonatomic, strong) BMDownloadManager *downloadManager;
+@property (nonatomic, strong) BMDataManager *dataManager;
 
+@property (nonatomic, strong) NSDate *lastExitDate;
+@property (nonatomic, strong) NSDate *lastEntryDate;
+@property (nonatomic, strong) NSDate *lastNotificationDate;
+@property (nonatomic, strong) NSString *beaconDistance;
+
+@property BOOL isRanging;
 @property BOOL trackLocationNotified;
-@property (nonatomic)  BOOL canTrackLocation;
+@property (readonly) BOOL canTrackLocation;
 @property BOOL setupCompleted;
 @property BOOL bluetoothEnabled;
 
@@ -56,11 +63,12 @@
         
         self.trackLocationNotified = NO;
         self.setupCompleted = NO;
+        self.isRanging = NO;
         self.closestBeacon = [[CLBeacon alloc]init];
         self.BMUUID = [[NSUUID alloc]initWithUUIDString:BMBEACON];
         
         //Download Manager
-        self.downloadManager = [BMDownloadManager sharedInstance];
+        self.dataManager = [BMDataManager sharedInstance];
         
         [self setupManager];
         
@@ -141,16 +149,19 @@
 
 -(void)stopRanging
 {
+    [self.locationManager stopRangingBeaconsInRegion:self.bmBeaconRegion];
     NSLog(@"App stopRanging");
 }
 
 -(void)enterBackground
 {
+    [self stopRanging];
     NSLog(@"App enters in background");
 }
 
 -(void)enterForeground
 {
+    [self startRanging];
     NSLog(@"App enters in foreground");
 }
 
@@ -170,6 +181,7 @@
             break;
         case 3:
             authStatus = @"Authorized";
+            [self setupManager];
             break;
         default:
             authStatus = @"Default case";
@@ -200,16 +212,30 @@
     NSLog(@"Location Manager Monitoring did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
 }
 
+/*
+ Il major number del beacon più vicino corrisponde al numero id del ristorante.
+ */
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     NSArray *beaconsFound = beacons;
     
-    if (beaconsFound > 0) {
-        self.closestBeacon = [beaconsFound objectAtIndex:0];
-        [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
+    // Controllo che siano presenti beacons
+    if ([beaconsFound count] > 0) {
+        CLBeacon *newFound = [beaconsFound firstObject];
+        // se l'utente visualizza per tot secondi il beacon, allora scarico il menù
+        if (newFound.proximity != CLProximityUnknown & self.closestBeacon.major == newFound.major) {
+            NSLog(@"[Location Manager] Same beacon for 3 seconds");
+            [self.dataManager requestDataForRestaraunt:self.closestBeacon.major];
+        }
+        else
+        {
+            //Save the new proximity beacon
+            NSLog(@"%@", [beacons firstObject]);
+            self.closestBeacon = [beaconsFound firstObject];
+        }
     }
     
-    NSLog(@"Location Manager did range beacons in region %@", [region identifier]);
+    NSLog(@"Location Manager did range %lu beacons in region %@", [beacons count], [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
@@ -230,6 +256,7 @@
             break;
         case 2:
             status = @"CLRegion State Outside";
+            [self stopRanging];
             break;
         default:
             status = @"Default Case";

@@ -8,54 +8,22 @@
 
 #import "RestarauntStartViewController.h"
 #import "RestarauntStartmenuCell.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 
-@interface RestarauntStartViewController () <UITableViewDataSource, UITableViewDelegate>
+#import "MenuListViewController.h"
+
+@interface RestarauntStartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+
 @property (strong, nonatomic) IBOutlet UIView *restarauntName;
+@property (strong, nonatomic) IBOutlet UIView *sliderContainer;
 
 @property (strong, nonatomic) NSArray *testCategorie;
-@property (strong, nonatomic) NSMutableArray *testNetworkCategorie;
 
 @property BOOL isTesting;
+
 @end
 
 @implementation RestarauntStartViewController
-
-
--(void)networkTester
-{
-    self.isTesting = YES;
-    NSURL *myUrl = [[NSURL alloc]initWithString: @"http://54.76.193.225/api/v1/0/4"];
-    //    NSURL *myUrl = [[NSURL alloc]initWithString: @"https://misiedo.com/api/area_tags/list.json?locale=it&withtotal=true"];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:myUrl];
-    NSURLResponse *resp = nil;
-    NSError *err = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&resp
-                                                     error:&err];
-    NSError *error = nil;
-    
-    self.testNetworkCategorie = [[NSMutableArray alloc]init];
-
-    
-    if (!err) {
-        NSString * printThis =[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:[printThis dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
-
-        if (error) {
-            NSLog(@"Error: %@ %@ %@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoverySuggestion]);
-        }
-        else
-        {
-            for (NSString *cat in jsonObject) {
-                [self.testNetworkCategorie addObject:cat];
-                NSLog(@"%@", [self.testNetworkCategorie description]);
-            }
-            [self.tableView reloadData];
-        }
-//        NSLog(@"JSON Object: %@", [jsonObject description]);
-    }
-}
 
 -(void)tester
 {
@@ -68,6 +36,7 @@
                            @"Vini",
                            @"Dolci",
                            @"Digestivi"];
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,16 +54,34 @@
     // Do any additional setup after loading the view.
     self.restarauntName.layer.cornerRadius = self.restarauntName.frame.size.width / 2;
     
-    //TESTER
-//    [self tester];
+    // Add interactions with views
     
-    [self networkTester];
+    UIPanGestureRecognizer *pgr = [UIPanGestureRecognizer alloc];
+    [self.sliderContainer addGestureRecognizer:pgr];
+    
+    //TESTER
+    [self tester];
+
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Gesture Recognizer Methods
+
+-(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer
+{
+    CGPoint velocity = [panGestureRecognizer velocityInView:self.sliderContainer];
+    return fabs(velocity.x) < fabs(velocity.y);
+}
+
+-(IBAction)handlePan:(UIPanGestureRecognizer *)recognizer
+{
+    CGPoint translation = [recognizer translationInView:_sliderContainer];
+    
 }
 
 #pragma mark - TableView Methods
@@ -108,9 +95,9 @@
         cell = [[RestarauntStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
 
-    NSLog(@"netCategories description %@", [self.testNetworkCategorie description]);
+    NSLog(@"netCategories description %@", [self.testCategorie description]);
 
-    cell.categoryLabel.text = [self.testNetworkCategorie objectAtIndex:indexPath.row];
+    cell.categoryLabel.text = [self.testCategorie objectAtIndex:indexPath.row];
     
     if ((indexPath.row % 2) == 1) {
         cell.backgroundColor = [UIColor lightGrayColor];
@@ -131,7 +118,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.testNetworkCategorie count];
+    return [self.testCategorie count];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -139,15 +126,23 @@
     return 1;
 }
 
-/*
+-(NSString *)nameOfSelectedCell
+{
+    RestarauntStartmenuCell *cell = (RestarauntStartmenuCell *)[self.tableView indexPathForSelectedRow];
+    return cell.categoryLabel.text;
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showRecipes"])
+    {
+        MenuListViewController *menuList = [segue destinationViewController];
+        menuList.category = [self nameOfSelectedCell];
+    }
 }
-*/
+
 
 @end

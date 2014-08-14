@@ -10,4 +10,9 @@
 
 @interface MenuListViewController : UIViewController
 
+// Categoria precedentemente selezionata
+@property (nonatomic, strong) NSString *category;
+
+
+
 @end

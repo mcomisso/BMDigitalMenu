@@ -17,7 +17,6 @@
 
 @property BOOL isNetworkAvailable;
 @property (nonatomic, readwrite) BOOL isMenuDownloaded;
-
 @end
 
 @implementation BMDownloadManager
@@ -39,7 +38,8 @@
 {
     self = [super init];
     if (self != nil) {
-        NSLog(@"BMDownload Manager initialized");
+        NSLog(@"[Download manager] BMDownload Manager initialized");
+
         [self isConnectionAvailable];
     }
     return self;
@@ -59,52 +59,74 @@
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         if (!error) {
-            NSDictionary *parsedMenu = [[self parseData:data] copy];
-            
-            NSLog(@"Parsed menu : %@", [parsedMenu description]);
-            
-            [self saveOnCoreData:parsedMenu];
+            NSArray *parsedMenu = [[self parseData:data] copy];
+            if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
+                NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
+                //Inform backend of error
+            }
+            else
+            {
+                NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
+                [self saveOnDatabase:parsedMenu];
+            }
         }
+    }
+    else
+    {
+        // Network connection error
+        NSLog(@"[Download manager] Network Connection error");
     }
 }
 
--(NSMutableDictionary *)parseData:(NSData *)dataToParse
+-(NSMutableArray *)parseData:(NSData *)dataToParse
 {
     NSString *fetchedData = [[NSString alloc] initWithData:dataToParse encoding:NSUTF8StringEncoding];
     
     NSError *error = nil;
     
     NSMutableDictionary *menuDictionary = [[NSMutableDictionary alloc]init];
-    menuDictionary = [NSJSONSerialization JSONObjectWithData:[fetchedData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+    menuDictionary = [NSJSONSerialization JSONObjectWithData:[fetchedData dataUsingEncoding:NSUTF8StringEncoding]
+                                                     options:NSJSONReadingAllowFragments
+                                                       error:&error];
 
     if (error) {
-        NSLog(@"Error: %@", [error localizedDescription]);
+        NSLog(@"[Download manager] Error: %@", [error localizedDescription]);
         return  nil;
     }
     
-    NSMutableArray *menuArray = menuDictionary[@"menu"];
-    NSString *menu = menuArray[0];
-    NSMutableDictionary *mutableDict = nil;
-    if (menu) {
-        NSData *data = [menu dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *convertingError = nil;
-
-        mutableDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments && NSJSONReadingMutableContainers error:&convertingError];
+    NSArray *menuArray = menuDictionary[@"menu"];
+    NSMutableArray *returner = [[NSMutableArray alloc]initWithCapacity:[menuArray count]];
+    
+    for (int i = 0; i < [menuArray count]; i++) {
         
-        if (convertingError) {
-            NSLog(@"Error while converting to JSON %@", convertingError);
-            return nil;
-        }
-    }
+        NSString *menu = menuArray[i];
+        NSLog(@"%@",[menu description]);
+        NSMutableDictionary *mutableDict = nil;
+        
+        if (menu) {
+            NSData *data = [menu dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *convertingError = nil;
 
+            mutableDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments && NSJSONReadingMutableContainers error:&convertingError];
+            
+            if (convertingError) {
+                NSLog(@"[Download manager] Error while converting to JSON %@", convertingError);
+                return nil;
+            }
+            [returner insertObject:mutableDict atIndex:i];
+        }
+
+    }
     self.isMenuDownloaded = YES;
-    return mutableDict;
+    return returner;
 }
 
 
--(BOOL)saveOnCoreData:(NSDictionary *)toBeSaved
+-(void)saveOnDatabase:(NSArray *)toBeSaved
 {
-    return YES;
+    BMDataManager *dataManagerS = [BMDataManager sharedInstance];
+    NSLog(@"[Download manager] Request to save data");
+    [dataManagerS saveMenuData:toBeSaved];
 }
 
 #pragma mark - Network Test
@@ -116,15 +138,15 @@
     
     if (networkStatus == NotReachable) {
         self.isNetworkAvailable = NO;
-        NSLog(@"No internet connection");
+        NSLog(@"[Download manager] No internet connection");
     }
     else
     {
         self.isNetworkAvailable = YES;
-        NSLog(@"Connected To internet");
+        NSLog(@"[Download manager] Connected To internet");
     }
 }
-
+/*
 -(NSString *)fetchTest
 {
     NSURL *myUrl = [[NSURL alloc]initWithString: @"http://54.76.193.225/api/v1/0/4"];
@@ -139,14 +161,14 @@
         
         NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:[printThis dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        NSLog(@"JSON Object: %@", [jsonObject description]);
+        NSLog(@"[Download manager] JSON Object: %@", [jsonObject description]);
         
         return printThis;
     }
     else
     {
-        return @"ERROR";
+        return @"[Download manager] ERROR";
     }
 }
-
+*/
 @end

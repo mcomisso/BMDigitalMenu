@@ -126,7 +126,6 @@
         // Data to be saved
         NSString *categoria = JSONArray[i][@"categoria"];
         NSNumber *prezzo = JSONArray[i][@"prezzo"];
-        NSNumber *visualizzabile = JSONArray[i][@"visualizzabile"];
         NSString *nome = JSONArray[i][@"nome"];
         NSString *immagine = JSONArray[i][@"immagine"];
 
@@ -152,7 +151,7 @@
         
         if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
             NSString *insertSQL = [NSString stringWithFormat:
-                                   @"INSERT INTO menu (categoria, prezzo, visualizzabile, nome, immagine, data_creazione, descrizione, id, locale_id, ingredienti) VALUES (\"%@\", %@, %@, \"%@\", \"%@\", %f, \"%@\", %@, %@, \"%@\");", categoria, prezzo, visualizzabile, nome, immagine, [dataCreazione timeIntervalSince1970], descrizione, idPiatto, localeId, ingredienti];
+                                   @"INSERT INTO menu (categoria, prezzo, nome, immagine, data_creazione, descrizione, id, locale_id, ingredienti) VALUES (\"%@\", %@, \"%@\", \"%@\", %f, \"%@\", %@, %@, \"%@\");", categoria, prezzo, nome, immagine, [dataCreazione timeIntervalSince1970], descrizione, idPiatto, localeId, ingredienti];
             NSLog(@"%@", insertSQL);
             const char *insert_stmt = [insertSQL UTF8String];
             int response = sqlite3_prepare_v2(_database, insert_stmt, -1, &statement, NULL);
@@ -214,78 +213,47 @@
 /**
  Richiede tutti i piatti di una certa categoria
  */
--(NSArray *)requestDataForCategory:(NSString *)category
+-(NSArray *)requestDataForCategory:(NSString *)category ofRestaraunt:(NSString *)restarauntID
 {
     NSMutableArray *arrval = [[NSMutableArray alloc]init];
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM menu WHERE categoria = \"%@\"", category];
+        NSString *querySQL = [NSString stringWithFormat:@"SELECT * FROM menu WHERE categoria = \"%@\" AND locale_id = %@", category, restarauntID];
         const char *forgedStmt = [querySQL UTF8String];
         
         if (sqlite3_prepare_v2(_database, forgedStmt, -1, &statement, NULL) == SQLITE_OK) {
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 //Add all data for selected category
                 NSMutableDictionary *recipe = [[NSMutableDictionary alloc]init];
-                NSString *nome = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
-                
-                NSNumberFormatter *f = [[NSNumberFormatter alloc]init];
-                [f setNumberStyle:NSNumberFormatterCurrencyStyle];
-                NSNumber *prezzo = [f numberFromString:[[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 3)]];
                 
                 /*
-                 
-                 0|id|INTEGER|1||1
-                 1|nome|VARCHAR(50)|0||0
-                 2|categoria|VARCHAR(50)|0||0
-                 3|prezzo|FLOAT|0||0
-                 4|ingredienti|TEXT|0||0
-                 5|visualizzabile|BOOLEAN|0||0
-                 6|data_creazione|VARCHAR(50)|0||0
-                 7|descrizione|TEXT|0||0
-                 8|immagine|VARCHAR(50)|0||0
-                 9|locale_id|INTEGER|0||0
-                 
-                 NSString *categoria = JSONArray[i][@"categoria"];
-                 NSNumber *prezzo = JSONArray[i][@"prezzo"];
-                 NSNumber *visualizzabile = JSONArray[i][@"visualizzabile"];
-                 NSString *nome = JSONArray[i][@"nome"];
-                 NSString *immagine = JSONArray[i][@"immagine"];
-                 
-                 if (JSONArray[i][@"immagine"] == [NSNull null]) {
-                 immagine = @"nil";
-                 }
-                 
-                 //Date Formatter
-                 NSDateFormatter *df = [[NSDateFormatter alloc]init];
-                 [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-                 NSDate *dataCreazione = [df dateFromString:JSONArray[i][@"data_creazione"]];
-                 
-                 NSString *descrizione = JSONArray[i][@"descrizione"];
-                 if ([descrizione isMemberOfClass:[NSNull class]]) {
-                 descrizione = @"nil";
-                 }
-                 NSNumber *idPiatto = JSONArray[i][@"id"];
-                 NSNumber *localeId = JSONArray[i][@"locale_id"];
-                 NSString *ingredienti = JSONArray[i][@"ingredienti"];
-                 
+                 (categoria TEXT, prezzo REAL, visualizzabile INTEGER, nome TEXT, immagine TEXT, data_creazione INTEGER, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT)
                  */
+                NSString *nome = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+                NSString *prezzo = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
+                NSString *descrizione = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
+                NSString *immagine = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+                
                 [recipe setObject:nome forKey:@"nome"];
                 [recipe setObject:prezzo forKey:@"prezzo"];
+                [recipe setObject:immagine forKey:@"immagine"];
+                [recipe setObject:descrizione forKey:@"descrizione"];
+
                 [arrval addObject:recipe];
             }
-            sqlite3_finalize(statement);
         }
-        sqlite3_close(_database);
+        sqlite3_finalize(statement);
     }
+    sqlite3_close(_database);
     return arrval;
 }
 
-/**
+/*
  Richiede i dettagli di un certo piatto
  */
--(void)requestDataForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt
+-(void)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt
 {
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
@@ -304,6 +272,35 @@
     }
 }
 
+/*Preleva le categorie*/
+-(NSArray *)requestCategoriesForRestaraunt:(NSNumber *)restarauntMajorNumber
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    NSMutableArray *retval = [[NSMutableArray alloc]init];
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT DISTINCT categoria FROM menu WHERE locale_id = %@ ORDER BY categoria ASC;", restarauntMajorNumber];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                //Save all in an array
+                NSString *categoryName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+                [retval addObject:categoryName];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+    else
+    {
+        [retval addObject:@"Errors"];
+    }
+    return retval;
+}
+
 /**
  Gets from internal sqlite database the latest date of a menu
  @param restarauntId The Id of one restaraunt
@@ -315,7 +312,7 @@
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"SELECT id, data_creazione FROM ricetta WHERE locale_id = %@ ORDER BY data_creazione DESC LIMIT 1;", restarauntId];
+        NSString *query = [NSString stringWithFormat:@"SELECT id, data_creazione FROM menu WHERE locale_id = %@ ORDER BY data_creazione DESC LIMIT 1;", restarauntId];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {

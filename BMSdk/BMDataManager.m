@@ -84,8 +84,12 @@
     if (sqlite3_open(dbpath, &_database) == SQLITE_OK) {
         char *errMessage;
         const char *sql_stmt =
-        "CREATE TABLE IF NOT EXISTS restaraunt (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT); \
-        CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, visualizzabile INTEGER, nome TEXT, immagine TEXT, data_creazione INTEGER, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT);";
+        "PRAGMA foreign_keys = ON;\
+        CREATE TABLE IF NOT EXISTS restaraunt (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT); \
+        CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, visualizzabile INTEGER, nome TEXT, immagine TEXT, data_creazione INTEGER, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT);\
+        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, recipe_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id) );\
+        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, locale_id INTEGER, recipe_id INTEGER, ratingValue INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id);";
+        
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
             NSLog(@"[DataManager]Failed To create table");
         }
@@ -175,6 +179,8 @@
         }
     }
 }
+
+#pragma mark - Get data methods
 
 /**
  Richiede il menu per il ristorante identificato da restarauntMajorNumber
@@ -300,6 +306,44 @@
     }
     return retval;
 }
+
+-(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    NSMutableArray *retval = [[NSMutableArray alloc]init];
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                // Save all in array
+                NSMutableDictionary *singleComment = [[NSMutableDictionary alloc]init];
+                
+                NSString *user = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                NSString *comment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
+                NSString *date = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+                
+                [singleComment setObject:user forKey:@"user"];
+                [singleComment setObject:comment forKey:@"comment"];
+                [singleComment setObject:date forKey:@"date"];
+                
+                [retval addObject:singleComment];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+    else
+    {
+        [retval addObject:@"Errors"];
+    }
+    return retval;
+}
+
 
 /**
  Gets from internal sqlite database the latest date of a menu

@@ -53,5 +53,14 @@
  */
 -(void)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
 
+/**
+ Interrogates the existing database to fetch the rating of a particular recipe. Returns nil if there's no data to show.
+ */
+-(NSNumber *)fetchRatingForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+
+/**
+ Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
+ */
+-(NSDictionary *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
 
 @end

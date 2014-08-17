@@ -30,7 +30,7 @@
  @param restarauntMajorNumber The major number of the beacons inside a restaraunt.
  
  */
--(void)requestDataForRestaraunt:(NSNumber*)restarauntMajorNumber;
+-(void)checkDataForRestaraunt:(NSNumber*)restarauntMajorNumber;
 
 /**
  Interrogates the database to fetch all and only the categories for the given restarauntMajorNumber

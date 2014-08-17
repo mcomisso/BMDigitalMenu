@@ -14,7 +14,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        self.rating.starFillColor = [UIColor whiteColor];
+        self.rating.starBorderColor = [UIColor whiteColor];
+        self.rating.starNormalColor = [UIColor blackColor];
     }
     return self;
 }

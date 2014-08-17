@@ -8,7 +8,7 @@
 
 #import "RecipeDetailViewController.h"
 
-@interface RecipeDetailViewController ()
+@interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
 @end
 
@@ -26,7 +26,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(pop)];
+    sepg.delegate = self;
+    [sepg setEdges:UIRectEdgeLeft];
+    [self.view addGestureRecognizer:sepg];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,7 +39,28 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+#pragma mark - bar actions
+
+/* Condividi il piatto sui social networks */
+- (IBAction)share:(id)sender {
+    
+}
+
+/* Carica i commenti */
+- (IBAction)viewComments:(id)sender {
+    
+}
+
+/* Vota il piatto corrente */
+- (IBAction)rateRecipe:(id)sender {
+    
+}
+
+/* Accostamenti fattibili */
+- (IBAction)loadCombinations:(id)sender {
+    
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -44,6 +69,20 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
+-(void)pop
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    
+}
 
 @end

@@ -10,4 +10,9 @@
 
 @interface RecipeDetailViewController : UIViewController
 
+@property (nonatomic, strong) NSString *recipeName;
+@property (nonatomic, strong) NSString *recipeId;
+@property (nonatomic, strong) NSString *recipePrice;
+@property (nonatomic, strong) UIImage *recipeImage;
+
 @end

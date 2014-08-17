@@ -27,11 +27,15 @@
 @property (nonatomic, strong) NSDate *lastNotificationDate;
 @property (nonatomic, strong) NSString *beaconDistance;
 
+@property int timerCounter;
+
 @property BOOL isRanging;
 @property BOOL trackLocationNotified;
 @property (readonly) BOOL canTrackLocation;
 @property BOOL setupCompleted;
 @property BOOL bluetoothEnabled;
+
+@property BOOL restarauntFound;
 
 @end
 
@@ -64,9 +68,10 @@
         self.trackLocationNotified = NO;
         self.setupCompleted = NO;
         self.isRanging = NO;
+        self.restarauntFound = NO;
         self.closestBeacon = [[CLBeacon alloc]init];
         self.BMUUID = [[NSUUID alloc]initWithUUIDString:BMBEACON];
-        
+        self.timerCounter = 0;
         //Download Manager
         self.dataManager = [BMDataManager sharedInstance];
         
@@ -217,25 +222,31 @@
  */
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    NSArray *beaconsFound = beacons;
-    
-    // Controllo che siano presenti beacons
-    if ([beaconsFound count] > 0) {
-        CLBeacon *newFound = [beaconsFound firstObject];
-        // se l'utente visualizza per tot secondi il beacon, allora scarico il menù
+    if ([beacons count] > 0) {
+        CLBeacon *newFound = [beacons firstObject];
         if (newFound.proximity != CLProximityUnknown & self.closestBeacon.major == newFound.major) {
-            NSLog(@"[Location Manager] Same beacon for 3 seconds");
-            [self.dataManager requestDataForRestaraunt:self.closestBeacon.major];
+            // If user keep stayin in same zone for 3 seconds, check and fetch data for restaraunt
+            if (self.timerCounter == 3) {
+                [self.dataManager checkDataForRestaraunt:self.closestBeacon.major];
+                NSString *locatedRestaraunt = [NSString stringWithFormat:@"%@", self.closestBeacon.major];
+                [[NSUserDefaults standardUserDefaults]setObject:locatedRestaraunt forKey:@"locatedRestaraunt"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+            }
+            else
+            {
+                self.timerCounter++;
+            }
         }
         else
         {
             //Save the new proximity beacon
             NSLog(@"%@", [beacons firstObject]);
-            self.closestBeacon = [beaconsFound firstObject];
+            self.closestBeacon = [beacons firstObject];
+            self.timerCounter = 0;
         }
     }
     
-    NSLog(@"Location Manager did range %lu beacons in region %@", [beacons count], [region identifier]);
+    NSLog(@"Location Manager did range %lu beacons in region %@", (unsigned long)[beacons count], [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error

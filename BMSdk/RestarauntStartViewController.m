@@ -10,14 +10,17 @@
 #import "RestarauntStartmenuCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
+#import "BMDataManager.h"
+
 #import "MenuListViewController.h"
 
 @interface RestarauntStartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *restarauntName;
 @property (strong, nonatomic) IBOutlet UIView *sliderContainer;
+@property (strong, nonatomic) IBOutlet UILabel *restarauntLabelName;
 
-@property (strong, nonatomic) NSArray *testCategorie;
+@property (strong, nonatomic) NSArray *categorie;
 
 @property BOOL isTesting;
 
@@ -25,10 +28,10 @@
 
 @implementation RestarauntStartViewController
 
--(void)tester
+-(void)localTester
 {
     self.isTesting = YES;
-    self.testCategorie = @[@"Antipasti",
+    self.categorie = @[@"Antipasti",
                            @"Primi Piatti",
                            @"Secondi Piatti",
                            @"Contorni",
@@ -36,7 +39,7 @@
                            @"Vini",
                            @"Dolci",
                            @"Digestivi"];
-    
+    self.restarauntLabelName.text = @"Ratanà";
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -51,23 +54,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.restarauntName.layer.cornerRadius = self.restarauntName.frame.size.width / 2;
-    
-    // Add interactions with views
     
     UIPanGestureRecognizer *pgr = [UIPanGestureRecognizer alloc];
     [self.sliderContainer addGestureRecognizer:pgr];
-    
-    //TESTER
-    [self tester];
 
+    
+    
+    [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://54.76.193.225/static/images/INDUSTRIALDESIGN.jpg"]];
+    
+    [self loadCategories];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+-(void)loadCategories
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+    self.categorie = [dataManager requestCategoriesForRestaraunt:@2];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Gesture Recognizer Methods
@@ -81,7 +90,6 @@
 -(IBAction)handlePan:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint translation = [recognizer translationInView:_sliderContainer];
-    
 }
 
 #pragma mark - TableView Methods
@@ -95,9 +103,7 @@
         cell = [[RestarauntStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
 
-    NSLog(@"netCategories description %@", [self.testCategorie description]);
-
-    cell.categoryLabel.text = [self.testCategorie objectAtIndex:indexPath.row];
+    cell.categoryLabel.text = [self.categorie objectAtIndex:indexPath.row];
     
     if ((indexPath.row % 2) == 1) {
         cell.backgroundColor = [UIColor lightGrayColor];
@@ -118,7 +124,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.testCategorie count];
+    return [self.categorie count];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -128,8 +134,11 @@
 
 -(NSString *)nameOfSelectedCell
 {
-    RestarauntStartmenuCell *cell = (RestarauntStartmenuCell *)[self.tableView indexPathForSelectedRow];
-    return cell.categoryLabel.text;
+    RestarauntStartmenuCell *cell = (RestarauntStartmenuCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+    NSString *nameOfCategory = cell.categoryLabel.text;
+    NSLog(@"%@", nameOfCategory);
+    
+    return nameOfCategory;
 }
 
 #pragma mark - Navigation

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface RestarauntStartmenuCell : UITableViewCell
+
 @property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
 
 @end

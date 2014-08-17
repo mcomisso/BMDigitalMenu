@@ -31,12 +31,6 @@
 
 /**
  
-
--(NSString *)fetchTest;
-*/
-
-/**
- 
  */
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber;
 

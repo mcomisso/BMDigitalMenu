@@ -11,7 +11,7 @@
 
 #define BMAPI @"http://54.76.193.225/api/v1/"
 
-
+@import UIKit;
 
 @interface BMDownloadManager()
 
@@ -48,33 +48,39 @@
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber
 {
     if (self.isNetworkAvailable) {
-        NSString *majorNumberStringValue = [majorNumber stringValue];
-        
-        NSURL *requestMenuData = [[NSURL alloc]initWithString:[[BMAPI stringByAppendingString:majorNumberStringValue]stringByAppendingString:@"/4"]];
-        
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestMenuData];
-        NSURLResponse *response = nil;
-        NSError *error = nil;
-        
-        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        if (!error) {
-            NSArray *parsedMenu = [[self parseData:data] copy];
-            if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
-                NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
-                //Inform backend of error
-            }
-            else
-            {
-                NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
-                [self saveOnDatabase:parsedMenu];
+        if (!_isMenuDownloaded) {
+            NSString *majorNumberStringValue = [majorNumber stringValue];
+
+#warning Remove the minor number once backend is working
+            NSURL *requestMenuData = [[NSURL alloc]initWithString:[[BMAPI stringByAppendingString:majorNumberStringValue]stringByAppendingString:@"/4"]];
+            
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestMenuData];
+            NSURLResponse *response = nil;
+            NSError *error = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if (!error) {
+                NSArray *parsedMenu = [[self parseData:data] copy];
+                if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
+                    NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
+//Show a message for noticed problem
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:[[parsedMenu objectAtIndex:0] objectForKey:@"Error"] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+                else
+                {
+                    NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
+                    [self saveOnDatabase:parsedMenu];
+                    self.isMenuDownloaded = YES;
+                }
             }
         }
-    }
-    else
-    {
-        // Network connection error
-        NSLog(@"[Download manager] Network Connection error");
+        else
+        {
+            // Network connection error
+            NSLog(@"[Download manager] Network Connection error");
+        }
     }
 }
 
@@ -146,29 +152,21 @@
         NSLog(@"[Download manager] Connected To internet");
     }
 }
-/*
--(NSString *)fetchTest
-{
-    NSURL *myUrl = [[NSURL alloc]initWithString: @"http://54.76.193.225/api/v1/0/4"];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:myUrl];
-    NSURLResponse *resp = nil;
-    NSError *err = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&resp
-                                                     error:&err];
-    if (!err) {
-        NSString * printThis =[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:[printThis dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        NSLog(@"[Download manager] JSON Object: %@", [jsonObject description]);
-        
-        return printThis;
+-(void)aliveConnection
+{
+    NSString *presentUser = [[NSUserDefaults standardUserDefaults]objectForKey:@"user"];
+    
+    if (presentUser == nil) {
+        NSString *user = [NSString stringWithFormat:@"%u", arc4random()];
+        [[NSUserDefaults standardUserDefaults]setObject:user forKey:@"user"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        presentUser = user;
     }
-    else
-    {
-        return @"[Download manager] ERROR";
-    }
+    
+    //Ping a specific api with some private key to show the usage and an unique identifier.
 }
-*/
+
+
+
 @end

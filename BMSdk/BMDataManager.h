@@ -30,7 +30,12 @@
  @param restarauntMajorNumber The major number of the beacons inside a restaraunt.
  
  */
--(void)requestDataForRestaraunt:(NSNumber*)restarauntMajorNumber;
+-(void)checkDataForRestaraunt:(NSNumber*)restarauntMajorNumber;
+
+/**
+ Interrogates the database to fetch all and only the categories for the given restarauntMajorNumber
+ */
+-(NSArray *)requestCategoriesForRestaraunt:(NSNumber *)restarauntMajorNumber;
 
 /**
  Interrogates the database to fetch all the data of a particular category. Policy: Only cache.
@@ -38,7 +43,7 @@
  @param category The category wanted to show.
  
  */
--(NSArray *)requestDataForCategory:(NSString *)category;
+-(NSArray *)requestDataForCategory:(NSString *)category ofRestaraunt:(NSString *)restarauntID;
 
 /**
  Interrogates the database to fetch all the data of a particular recipe. Policy: Only cache. Images are handled as multimedia with SDImageView.
@@ -46,7 +51,16 @@
  @param idRecipe The unique ID of a recipe.
  
  */
--(void)requestDataForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+-(void)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
 
+/**
+ Interrogates the existing database to fetch the rating of a particular recipe. Returns nil if there's no data to show.
+ */
+-(NSNumber *)fetchRatingForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+
+/**
+ Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
+ */
+-(NSDictionary *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
 
 @end

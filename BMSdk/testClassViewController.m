@@ -30,6 +30,7 @@
     // Do any additional setup after loading the view.
     BMLocationManager *locationManager = [BMLocationManager sharedInstance];
     
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     NSLog(@"BMLocationmanager %@", [locationManager description]);
 }
 

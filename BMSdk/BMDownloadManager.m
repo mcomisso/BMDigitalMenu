@@ -10,13 +10,17 @@
 #import "Reachability.h"
 
 #define BMAPI @"http://54.76.193.225/api/v1/"
+#define BMIMAGES @"http://54.76.193.225/static/images/"
 
 @import UIKit;
 
 @interface BMDownloadManager()
 
 @property BOOL isNetworkAvailable;
+
 @property (nonatomic, readwrite) BOOL isMenuDownloaded;
+@property (nonatomic, readwrite) NSString *bmUrl;
+
 @end
 
 @implementation BMDownloadManager
@@ -39,7 +43,7 @@
     self = [super init];
     if (self != nil) {
         NSLog(@"[Download manager] BMDownload Manager initialized");
-
+        self.bmUrl = BMIMAGES;
         [self isConnectionAvailable];
     }
     return self;

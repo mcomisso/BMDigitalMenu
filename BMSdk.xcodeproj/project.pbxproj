@@ -98,6 +98,16 @@
 		B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestarauntStartmenuCell.h */; };
 		B9C29FAE19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */; };
 		B9C29FAF19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */; };
+		B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */; };
+		B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */; };
+		B9DECD4D19A3981400C17799 /* ModalBlurredSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */; };
+		B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */; };
+		B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; };
+		B9DECD5219A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; };
+		B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD5419A3992100C17799 /* CommentsModalViewController.h */; };
+		B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD5519A3992100C17799 /* CommentsModalViewController.m */; };
+		B9DECD5819A3992100C17799 /* CommentsModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD5519A3992100C17799 /* CommentsModalViewController.m */; };
+		B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9DECD5919A3992900C17799 /* comments@2x.png */; };
 		B9F0871F1991148F00002074 /* BMDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F0871D1991148F00002074 /* BMDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9F087201991148F00002074 /* BMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0871E1991148F00002074 /* BMDataManager.m */; };
 		B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0872119911FE600002074 /* SystemConfiguration.framework */; };
@@ -225,6 +235,13 @@
 		B9C29FA519865A29002309FF /* MenuListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListCell.m; sourceTree = "<group>"; };
 		B9C29FAB19865C6B002309FF /* RestarauntStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestarauntStartmenuCell.h; sourceTree = "<group>"; };
 		B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestarauntStartmenuCell.m; sourceTree = "<group>"; };
+		B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalBlurredSegue.h; path = BMSdkResources/ModalBlurredSegue.h; sourceTree = "<group>"; };
+		B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModalBlurredSegue.m; path = BMSdkResources/ModalBlurredSegue.m; sourceTree = "<group>"; };
+		B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		B9DECD5419A3992100C17799 /* CommentsModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsModalViewController.h; sourceTree = "<group>"; };
+		B9DECD5519A3992100C17799 /* CommentsModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsModalViewController.m; sourceTree = "<group>"; };
+		B9DECD5919A3992900C17799 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
 		B9F0871D1991148F00002074 /* BMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataManager.h; sourceTree = "<group>"; };
 		B9F0871E1991148F00002074 /* BMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataManager.m; sourceTree = "<group>"; };
 		B9F0872119911FE600002074 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -350,6 +367,7 @@
 		B915C328197803BF005618A6 /* BMSdkResources */ = {
 			isa = PBXGroup;
 			children = (
+				B9DECD5919A3992900C17799 /* comments@2x.png */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
 				B915C329197803C0005618A6 /* Supporting Files */,
 			);
@@ -369,6 +387,7 @@
 		B9193AC419A09AE10008149D /* Dettaglio Ricetta */ = {
 			isa = PBXGroup;
 			children = (
+				B9DECD5319A3990F00C17799 /* Commenti e rating */,
 				B9C29F9F198659E1002309FF /* RecipeDetailViewController.h */,
 				B9C29FA0198659E1002309FF /* RecipeDetailViewController.m */,
 			);
@@ -378,43 +397,10 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				B9193B0019A110650008149D /* MKAnnotationView+WebCache.h */,
-				B9193B0119A110650008149D /* NSData+ImageContentType.h */,
-				B9193B0219A110650008149D /* UIButton+WebCache.h */,
-				B9193B0319A110650008149D /* UIImage+GIF.h */,
-				B9193B0419A110650008149D /* UIImage+MultiFormat.h */,
-				B9193B0519A110650008149D /* UIImage+WebP.h */,
-				B9193B0619A110650008149D /* UIImageView+HighlightedWebCache.h */,
-				B9193B0719A110650008149D /* UIImageView+WebCache.h */,
-				B9193B0819A110650008149D /* UIView+WebCacheOperation.h */,
-				B9193AEF19A110180008149D /* MKAnnotationView+WebCache.m */,
-				B9193AF019A110180008149D /* NSData+ImageContentType.m */,
-				B9193AF119A110180008149D /* UIButton+WebCache.m */,
-				B9193AF219A110180008149D /* UIImage+GIF.m */,
-				B9193AF319A110180008149D /* UIImage+MultiFormat.m */,
-				B9193AF419A110180008149D /* UIImage+WebP.m */,
-				B9193AF519A110180008149D /* UIImageView+HighlightedWebCache.m */,
-				B9193AF619A110180008149D /* UIImageView+WebCache.m */,
-				B9193AF719A110180008149D /* UIView+WebCacheOperation.m */,
-				B9193AE419A10DBB0008149D /* SDImageCache.h */,
-				B9193AE519A10DBB0008149D /* SDWebImageCompat.h */,
-				B9193AE619A10DBB0008149D /* SDWebImageDecoder.h */,
-				B9193AE719A10DBB0008149D /* SDWebImageDownloader.h */,
-				B9193AE819A10DBB0008149D /* SDWebImageDownloaderOperation.h */,
-				B9193AE919A10DBB0008149D /* SDWebImageManager.h */,
-				B9193AE219A10DAB0008149D /* SDWebImageOperation.h */,
-				B9193AE019A10DA40008149D /* SDWebImagePrefetcher.h */,
-				B9193ADE19A10D9C0008149D /* UIImageView+HighlightedWebCache.h */,
-				B9193ADC19A10D930008149D /* UIImageView+HighlightedWebCache.m */,
-				B9193ADA19A10D850008149D /* SDWebImagePrefetcher.m */,
-				B9193AD919A10D7B0008149D /* SDWebImageManager.m */,
-				B9193AD719A10D730008149D /* SDWebImageManager.m */,
-				B9193AD519A10D6B0008149D /* SDWebImageDownloaderOperation.m */,
-				B9193AD319A10D640008149D /* SDWebImageDownloader.m */,
-				B9193AD119A10D5E0008149D /* SDWebImageDecoder.m */,
-				B9193ACF19A10D580008149D /* SDWebImageCompat.m */,
-				B9193ACD19A10D1C0008149D /* SDImageCache.h */,
-				B9193ACB19A10D0C0008149D /* SDImageCache.m */,
+				B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */,
+				B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */,
+				B9DECD4819A397FB00C17799 /* CustomSegues */,
+				B9DECD4719A397F000C17799 /* SDImageView */,
 				B9193AC919A10C840008149D /* RateView.m */,
 				B9193AC719A10C770008149D /* RateView.h */,
 				B9193AC519A10C370008149D /* RateView.m */,
@@ -470,6 +456,68 @@
 			name = RestarauntStartScreen;
 			sourceTree = "<group>";
 		};
+		B9DECD4719A397F000C17799 /* SDImageView */ = {
+			isa = PBXGroup;
+			children = (
+				B9193B0019A110650008149D /* MKAnnotationView+WebCache.h */,
+				B9193B0119A110650008149D /* NSData+ImageContentType.h */,
+				B9193B0219A110650008149D /* UIButton+WebCache.h */,
+				B9193B0319A110650008149D /* UIImage+GIF.h */,
+				B9193B0419A110650008149D /* UIImage+MultiFormat.h */,
+				B9193B0519A110650008149D /* UIImage+WebP.h */,
+				B9193B0619A110650008149D /* UIImageView+HighlightedWebCache.h */,
+				B9193B0719A110650008149D /* UIImageView+WebCache.h */,
+				B9193B0819A110650008149D /* UIView+WebCacheOperation.h */,
+				B9193AEF19A110180008149D /* MKAnnotationView+WebCache.m */,
+				B9193AF019A110180008149D /* NSData+ImageContentType.m */,
+				B9193AF119A110180008149D /* UIButton+WebCache.m */,
+				B9193AF219A110180008149D /* UIImage+GIF.m */,
+				B9193AF319A110180008149D /* UIImage+MultiFormat.m */,
+				B9193AF419A110180008149D /* UIImage+WebP.m */,
+				B9193AF519A110180008149D /* UIImageView+HighlightedWebCache.m */,
+				B9193AF619A110180008149D /* UIImageView+WebCache.m */,
+				B9193AF719A110180008149D /* UIView+WebCacheOperation.m */,
+				B9193AE419A10DBB0008149D /* SDImageCache.h */,
+				B9193AE519A10DBB0008149D /* SDWebImageCompat.h */,
+				B9193AE619A10DBB0008149D /* SDWebImageDecoder.h */,
+				B9193AE719A10DBB0008149D /* SDWebImageDownloader.h */,
+				B9193AE819A10DBB0008149D /* SDWebImageDownloaderOperation.h */,
+				B9193AE919A10DBB0008149D /* SDWebImageManager.h */,
+				B9193AE219A10DAB0008149D /* SDWebImageOperation.h */,
+				B9193AE019A10DA40008149D /* SDWebImagePrefetcher.h */,
+				B9193ADE19A10D9C0008149D /* UIImageView+HighlightedWebCache.h */,
+				B9193ADC19A10D930008149D /* UIImageView+HighlightedWebCache.m */,
+				B9193ADA19A10D850008149D /* SDWebImagePrefetcher.m */,
+				B9193AD919A10D7B0008149D /* SDWebImageManager.m */,
+				B9193AD719A10D730008149D /* SDWebImageManager.m */,
+				B9193AD519A10D6B0008149D /* SDWebImageDownloaderOperation.m */,
+				B9193AD319A10D640008149D /* SDWebImageDownloader.m */,
+				B9193AD119A10D5E0008149D /* SDWebImageDecoder.m */,
+				B9193ACF19A10D580008149D /* SDWebImageCompat.m */,
+				B9193ACD19A10D1C0008149D /* SDImageCache.h */,
+				B9193ACB19A10D0C0008149D /* SDImageCache.m */,
+			);
+			name = SDImageView;
+			sourceTree = "<group>";
+		};
+		B9DECD4819A397FB00C17799 /* CustomSegues */ = {
+			isa = PBXGroup;
+			children = (
+				B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */,
+				B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */,
+			);
+			name = CustomSegues;
+			sourceTree = "<group>";
+		};
+		B9DECD5319A3990F00C17799 /* Commenti e rating */ = {
+			isa = PBXGroup;
+			children = (
+				B9DECD5419A3992100C17799 /* CommentsModalViewController.h */,
+				B9DECD5519A3992100C17799 /* CommentsModalViewController.m */,
+			);
+			name = "Commenti e rating";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -481,6 +529,7 @@
 				B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */,
+				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B9F08725199120D800002074 /* Reachability.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
 				B9F0871F1991148F00002074 /* BMDataManager.h in Headers */,
@@ -503,8 +552,10 @@
 				B9193AE119A10DA40008149D /* SDWebImagePrefetcher.h in Headers */,
 				B9193AC819A10C770008149D /* RateView.h in Headers */,
 				B9909F8E198903A800D02CB6 /* MenuListViewController.h in Headers */,
+				B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */,
 				B915C31819780002005618A6 /* BMSdk.h in Headers */,
 				B9C29FA1198659E1002309FF /* RecipeDetailViewController.h in Headers */,
+				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */,
 				B9C29FA619865A29002309FF /* MenuListCell.h in Headers */,
 			);
@@ -610,6 +661,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */,
 				B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */,
 				B915C32D197803C0005618A6 /* InfoPlist.strings in Resources */,
 			);
@@ -674,10 +726,12 @@
 				B9193AFE19A110180008149D /* UIImageView+WebCache.m in Sources */,
 				B9193AFF19A110180008149D /* UIView+WebCacheOperation.m in Sources */,
 				B9193ADB19A10D850008149D /* SDWebImagePrefetcher.m in Sources */,
+				B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */,
 				B9193AD819A10D730008149D /* SDWebImageManager.m in Sources */,
 				B9193AD619A10D6B0008149D /* SDWebImageDownloaderOperation.m in Sources */,
 				B9193AD419A10D640008149D /* SDWebImageDownloader.m in Sources */,
 				B9193AD219A10D5E0008149D /* SDWebImageDecoder.m in Sources */,
+				B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B9193AD019A10D580008149D /* SDWebImageCompat.m in Sources */,
 				B9193ACC19A10D0C0008149D /* SDImageCache.m in Sources */,
 				B9193ACA19A10C840008149D /* RateView.m in Sources */,
@@ -690,6 +744,7 @@
 				B9C29FA719865A29002309FF /* MenuListCell.m in Sources */,
 				B955D183197ED6CE0052ED2B /* testClassViewController.m in Sources */,
 				B915C33719780B8E005618A6 /* BMLocationManager.m in Sources */,
+				B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
 				B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B9F087201991148F00002074 /* BMDataManager.m in Sources */,
 				B9C29F9819865037002309FF /* RestarauntStartViewController.m in Sources */,
@@ -710,6 +765,8 @@
 			files = (
 				B9193AC619A10C370008149D /* RateView.m in Sources */,
 				B9F7D804199174E900EB175F /* BMSdk.m in Sources */,
+				B9DECD5219A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
+				B9DECD5819A3992100C17799 /* CommentsModalViewController.m in Sources */,
 				B9F087281991387700002074 /* BMDownloadManager.m in Sources */,
 				B9909F911989047400D02CB6 /* BMLocationManager.m in Sources */,
 				B9909F8A1989033500D02CB6 /* testClassViewController.m in Sources */,
@@ -718,6 +775,7 @@
 				B9C29FAF19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */,
 				B9F08729199138C700002074 /* BMDataManager.m in Sources */,
 				B9C29FA3198659E1002309FF /* RecipeDetailViewController.m in Sources */,
+				B9DECD4D19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B9C29FA819865A29002309FF /* MenuListCell.m in Sources */,
 				B9909F90198903B500D02CB6 /* MenuListViewController.m in Sources */,
 			);

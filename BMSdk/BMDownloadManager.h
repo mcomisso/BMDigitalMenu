@@ -19,6 +19,7 @@
 @interface BMDownloadManager : NSObject
 
 @property (nonatomic, readonly) BOOL isMenuDownloaded;
+@property (nonatomic, readonly) NSString *bmUrl;
 
 +(instancetype)alloc __attribute__((unavailable("alloc not available, call sharedInstance")));
 -(instancetype)init __attribute__((unavailable("init not available, call sharedInstance")));

@@ -7,6 +7,8 @@
 //
 
 #import "RecipeDetailViewController.h"
+#import "ModalBlurredSegue.h"
+
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
@@ -73,16 +75,6 @@
 -(void)pop
 {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
-    
-}
-
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
-{
-    
 }
 
 @end

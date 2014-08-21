@@ -59,11 +59,18 @@
     UIPanGestureRecognizer *pgr = [UIPanGestureRecognizer alloc];
     [self.sliderContainer addGestureRecognizer:pgr];
 
-    
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
     
     [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://54.76.193.225/static/images/INDUSTRIALDESIGN.jpg"]];
     
     [self loadCategories];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,11 +113,11 @@
     cell.categoryLabel.text = [self.categorie objectAtIndex:indexPath.row];
     
     if ((indexPath.row % 2) == 1) {
-        cell.backgroundColor = [UIColor lightGrayColor];
+        cell.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
     }
     else
     {
-        cell.backgroundColor = [UIColor blackColor];
+        cell.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
     }
     cell.categoryLabel.textColor = [UIColor whiteColor];
     

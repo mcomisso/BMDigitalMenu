@@ -10,4 +10,7 @@
 
 @interface singleCommentTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) IBOutlet UITextView *textOfComment;
+@property (strong, nonatomic) IBOutlet UILabel *usernameOfCommenter;
+
 @end

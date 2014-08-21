@@ -21,8 +21,15 @@
 
 /**
  Saves the latest fetched menu into the SQLite DataBase
+ @param JSONArray json containing all the recipes of a particular restaraunt
  */
 -(void)saveMenuData:(NSArray *)JSONArray;
+
+/**
+ Saves the comments fetched with download manager
+ @param commentsArray the array containing all the comments for a particular recipe
+ */
+-(void)saveCommentsData:(NSArray *)commentsArray;
 
 /**
  Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.
@@ -74,6 +81,6 @@
  @param restarauntID The identification number of the restaraunt
 
  */
--(NSDictionary *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
+-(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
 
 @end

@@ -87,8 +87,8 @@
         "PRAGMA foreign_keys = ON;\
         CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER); \
         CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, visualizzabile INTEGER, nome TEXT, immagine TEXT, data_creazione INTEGER, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT, FOREIGN KEY (locale_id) REFERENCES restaraunt (id));\
-        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, recipe_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id) );\
-        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, locale_id INTEGER, recipe_id INTEGER, ratingValue INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id);";
+        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id) );\
+        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, ratingValue INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id);";
         
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
             NSLog(@"[DataManager]Failed To create table");
@@ -102,6 +102,7 @@
     }
 }
 
+#pragma mark - Save methods
 /**
  Salva tutti i piatti di un menu ricevuto come Array[Piatto][Piatto][...]
  @param JSONArray L'array contenente in ogni cella un JSON compatibile con tutte le informazioni per il salvataggio in memoria
@@ -139,20 +140,56 @@
         
         if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
 
-            /*      NSString *insertSQL = [NSString stringWithFormat:
+            /*      
+             NSString *insertSQL = [NSString stringWithFormat:
                                    @"INSERT INTO menu (categoria, prezzo, nome, immagine, descrizione, id, ingredienti, data_ultima_modifica) VALUES (\"%@\", %@, \"%@\", \"%@\", \"%@\", %@, \"%@\", %f);", categoria, prezzo, nome, immagine, descrizione, idPiatto, ingredienti, [data_ultima_modifica timeIntervalSince1970]];
             */
             NSString *insertSQL = [NSString stringWithFormat:@"INSERT INTO menu (categoria, prezzo, nome, immagine, descrizione, id, ingredienti) VALUES (\"%@\", %@, \"%@\", \"%@\", \"%@\", %@, \"%@\");", categoria, prezzo, nome, immagine, descrizione, idPiatto, ingredienti];
             
-            NSLog(@"%@", insertSQL);
+            NSLog(@"[BMData manager] insertSQL: %@", insertSQL);
             const char *insert_stmt = [insertSQL UTF8String];
             int response = sqlite3_prepare_v2(_database, insert_stmt, -1, &statement, NULL);
-            NSLog(@"Response insert inside DB : %d", response);
-            
-            NSLog(@"%s", sqlite3_errmsg(self.database));
+            NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
             
             if (sqlite3_step(statement) == SQLITE_DONE) {
                 NSLog(@"[DataManager] Completed insert in database");
+            }
+            else
+            {
+                NSLog(@"[DataManager] Failed insert into database");
+            }
+            sqlite3_finalize(statement);
+            sqlite3_close(_database);
+        }
+        else
+        {
+            NSLog(@"[DataManager] save - Failed to open database");
+            sqlite3_close(_database);
+        }
+    }
+}
+
+-(void)saveCommentsData:(NSArray *)commentsArray
+{
+    for (int i = 0; i < [commentsArray count]; i++) {
+
+        NSString *ricettaId = [commentsArray[i] objectForKey:@"ricetta_id"];
+        NSString *singleComment = [commentsArray[i] objectForKey:@"commento"];
+        NSString *userId = [commentsArray[i] objectForKey:@"utente"];
+        
+        const char *dbPath = [_databasePath UTF8String];
+        sqlite3_stmt *statement;
+        
+        if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+            //Query id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER  {"commento": "Tagliere fanstastico, ottimo", "utente": 2, "ricetta_id": 1}
+            NSString *query = [NSString stringWithFormat:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (%@, \"%@\", %@)", ricettaId, singleComment, userId];
+            const char *forged = [query UTF8String];
+            
+            int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
+            NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
+            
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                NSLog(@"[DataManager] Completed Insert inside database");
             }
             else
             {
@@ -318,6 +355,11 @@
     return retval;
 }
 
+-(void)checkCommentsForRecipe:(NSString*)idRecipe
+{
+
+}
+
 -(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt
 {
     const char *dbPath = [_databasePath UTF8String];
@@ -326,7 +368,8 @@
     NSMutableArray *retval = [[NSMutableArray alloc]init];
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
+//        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE ricetta_id = %@", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
@@ -441,9 +484,8 @@
         
         if (sqlite3_prepare(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
             while (sqlite3_step(statement) == SQLITE_ROW) {
-                //Save Data
-
                 NSMutableDictionary *specificComment = [[NSMutableDictionary alloc]init];
+                
                 NSString *textComment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
                 NSString *userId = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
                 
@@ -466,14 +508,14 @@
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"SELECT averageVote FROM menu WHERE ricetta_id = %@", recipeId];
+        NSString *query = [NSString stringWithFormat:@"SELECT averageVote FROM rating WHERE ricetta_id = %@", recipeId];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 //Save Data
                 NSString *averageVoteString = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
-#warning convert string to int
+                averageVote = [averageVoteString intValue];
             }
             sqlite3_finalize(statement);
         }

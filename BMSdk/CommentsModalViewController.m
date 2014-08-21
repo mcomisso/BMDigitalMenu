@@ -5,11 +5,14 @@
 //  Created by Matteo Comisso on 17/08/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
-
+#import "singleCommentTableViewCell.h"
 #import "CommentsModalViewController.h"
+#import "BMDataManager.h"
 
-@interface CommentsModalViewController ()
+@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *dataSourceOfComments;
 @end
 
 @implementation CommentsModalViewController
@@ -27,6 +30,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //Load Comments from database
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+    self.dataSourceOfComments = [dataManager fetchCommentsForRecipe:self.idRecipe ofRestaraunt:@"0"];
 }
 
 
@@ -35,8 +42,39 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)dismiss:(id)sender {
     [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+- (IBAction)dismissModal:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"cellIdentifier";
+    
+    singleCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[singleCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textOfComment.text = [self.dataSourceOfComments[indexPath.row] objectForKey:@"comment"];
+    cell.usernameOfCommenter.text = [self.dataSourceOfComments[indexPath.row] objectForKey:@"user"];
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 0.f;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.dataSourceOfComments count];
 }
 
 /*

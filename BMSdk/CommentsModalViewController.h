@@ -10,4 +10,6 @@
 
 @interface CommentsModalViewController : UIViewController
 
+@property (nonatomic, strong) NSString *idRecipe;
+
 @end

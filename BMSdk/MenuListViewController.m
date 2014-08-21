@@ -13,6 +13,8 @@
 
 #import "UIImageView+WebCache.h"
 
+#import "AFNetworking.h"
+
 @interface MenuListViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
@@ -48,6 +50,13 @@
     [self.view addGestureRecognizer:sepg];
     
     [self loadRecipesForCategory];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 -(void)customPopViewController
@@ -90,7 +99,7 @@
     
     cell.recipeTitle.text = [recipe objectForKey:@"nome"];
     cell.recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
-    
+    RateView *ratevw = nil;
     cell.rating = [RateView rateViewWithRating:2.5f];
     cell.rating.tag = 88888;
     cell.rating.starSize = 30;

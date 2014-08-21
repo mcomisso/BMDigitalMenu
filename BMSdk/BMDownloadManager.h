@@ -31,8 +31,23 @@
 +(BMDownloadManager *)sharedInstance;
 
 /**
- 
+ Downloads all the menu for a particular restaraunt, identified by its majornumber
+ @param majorNumber The major number of the beacons for a particular restaraunt
  */
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber;
+
+/**
+ Downloads all the comments for a particular recipe.
+ @param idRecipe The id of the selected recipe.
+ */
+-(void)fetchCommentsForRecipe:(NSString *)idRecipe;
+
+/**
+ Downloads the rating for a particular recipe.
+ @param idRecipe The id of the selected recipe.
+ 
+ */
+-(void)fetchRatingForRecipe:(NSString *)idRecipe;
+
 
 @end

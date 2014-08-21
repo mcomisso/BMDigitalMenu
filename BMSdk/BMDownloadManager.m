@@ -8,6 +8,7 @@
 
 #import "BMDownloadManager.h"
 #import "Reachability.h"
+#import "AFNetworking.h"
 
 #define BMAPI @"http://54.76.193.225/api/v1/client/"
 #define BMIMAGES @"http://54.76.193.225/static/images/"
@@ -67,7 +68,7 @@
             NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
             
             if (!error) {
-                NSArray *parsedMenu = [[self parseData:data] copy];
+                NSArray *parsedMenu = [[self parseData:data of:@"menu"] copy];
                 if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
                     NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
 //Show a message for noticed problem
@@ -90,7 +91,7 @@
     }
 }
 
--(NSMutableArray *)parseData:(NSData *)dataToParse
+-(NSMutableArray *)parseData:(NSData *)dataToParse of:(NSString*)categoryToParse
 {
     NSString *fetchedData = [[NSString alloc] initWithData:dataToParse encoding:NSUTF8StringEncoding];
     
@@ -105,9 +106,15 @@
         NSLog(@"[Download manager] Error: %@", [error localizedDescription]);
         return  nil;
     }
-    
-    NSArray *menuArray = menuDictionary[@"ricette"];
-//    NSMutableArray *returner = [[NSMutableArray alloc]initWithCapacity:[menuArray count]];
+    NSArray *menuArray = nil;
+
+    if ([categoryToParse isEqualToString:@"menu"]) {
+        menuArray = menuDictionary[@"ricette"];
+    }
+    else
+    {
+        menuArray = menuDictionary[@"commenti"];
+    }
     NSMutableArray *returner = [[NSMutableArray alloc]initWithArray:menuArray copyItems:YES];
     
     return returner;
@@ -119,6 +126,41 @@
     BMDataManager *dataManagerS = [BMDataManager sharedInstance];
     NSLog(@"[Download manager] Request to save data");
     [dataManagerS saveMenuData:toBeSaved];
+}
+
+-(void)fetchCommentsForRecipe:(NSString *)idRecipe
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+
+    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
+    [afmanager GET:[[BMAPI stringByAppendingString:@"comment/"]stringByAppendingString:idRecipe]
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
+               
+               [dataManager saveCommentsData:[self parseData:responseObject of:@"comments"]];
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               NSLog(@"[Download Manager] Cannot download data for comments");
+           }];
+    
+}
+
+-(void)fetchRatingForRecipe:(NSString *)idRecipe
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
+    
+    [afmanager GET:[[BMAPI stringByAppendingString:@"vote/"]stringByAppendingString:idRecipe]
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               //saveRatingData
+               
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //Save into db
+               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
+           }];
 }
 
 #pragma mark - Network Test

@@ -14,5 +14,6 @@
 @property (strong, nonatomic) IBOutlet RateView *rating;
 @property (strong, nonatomic) IBOutlet UILabel *recipeTitle;
 @property (strong, nonatomic) IBOutlet UILabel *recipePrice;
+@property (strong, nonatomic) NSString *recipeId;
 
 @end

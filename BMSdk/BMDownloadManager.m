@@ -9,7 +9,7 @@
 #import "BMDownloadManager.h"
 #import "Reachability.h"
 
-#define BMAPI @"http://54.76.193.225/api/v1/"
+#define BMAPI @"http://54.76.193.225/api/v1/client/"
 #define BMIMAGES @"http://54.76.193.225/static/images/"
 
 @import UIKit;
@@ -53,11 +53,13 @@
 {
     if (self.isNetworkAvailable) {
         if (!_isMenuDownloaded) {
-            NSString *majorNumberStringValue = [majorNumber stringValue];
+//            NSString *majorNumberStringValue = [majorNumber stringValue];
 
-#warning Remove the minor number once backend is working
-            NSURL *requestMenuData = [[NSURL alloc]initWithString:[[BMAPI stringByAppendingString:majorNumberStringValue]stringByAppendingString:@"/4"]];
+//#warning Remove the minor number once backend is working
+//            NSURL *requestMenuData = [[NSURL alloc]initWithString:[[BMAPI stringByAppendingString:majorNumberStringValue]stringByAppendingString:@"/4"]];
             
+#warning single restaraunt request
+            NSURL *requestMenuData = [[NSURL alloc]initWithString:[BMAPI stringByAppendingString:@"menu"]];
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestMenuData];
             NSURLResponse *response = nil;
             NSError *error = nil;
@@ -104,30 +106,10 @@
         return  nil;
     }
     
-    NSArray *menuArray = menuDictionary[@"menu"];
-    NSMutableArray *returner = [[NSMutableArray alloc]initWithCapacity:[menuArray count]];
+    NSArray *menuArray = menuDictionary[@"ricette"];
+//    NSMutableArray *returner = [[NSMutableArray alloc]initWithCapacity:[menuArray count]];
+    NSMutableArray *returner = [[NSMutableArray alloc]initWithArray:menuArray copyItems:YES];
     
-    for (int i = 0; i < [menuArray count]; i++) {
-        
-        NSString *menu = menuArray[i];
-        NSLog(@"%@",[menu description]);
-        NSMutableDictionary *mutableDict = nil;
-        
-        if (menu) {
-            NSData *data = [menu dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *convertingError = nil;
-
-            mutableDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments && NSJSONReadingMutableContainers error:&convertingError];
-            
-            if (convertingError) {
-                NSLog(@"[Download manager] Error while converting to JSON %@", convertingError);
-                return nil;
-            }
-            [returner insertObject:mutableDict atIndex:i];
-        }
-
-    }
-    self.isMenuDownloaded = YES;
     return returner;
 }
 

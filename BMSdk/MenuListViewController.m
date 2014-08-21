@@ -58,7 +58,7 @@
 -(void)loadRecipesForCategory
 {
     BMDataManager *dataManger = [BMDataManager sharedInstance];
-    self.recipesInCategory = [dataManger requestDataForCategory:self.category ofRestaraunt:@"2"];
+    self.recipesInCategory = [dataManger requestRecipesForCategory:self.category ofRestaraunt:@"2"];
     NSLog(@"Array description: %@", [_recipesInCategory description]);
     [self.tableView reloadData];
 }
@@ -84,7 +84,9 @@
     }
     
     NSDictionary *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
-    NSLog(@"MenuList Controller: recipe description %@", [recipe description]);
+//    NSLog(@"MenuList Controller: recipe description %@", [recipe description]);
+    
+    cell.recipeId = [recipe objectForKey:@"ricetta_id"];
     
     cell.recipeTitle.text = [recipe objectForKey:@"nome"];
     cell.recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
@@ -140,6 +142,7 @@
         dvc.recipeName = cell.recipeTitle.text;
         dvc.recipePrice = cell.recipePrice.text;
         dvc.recipeImage = cell.recipeImage.image;
+        dvc.recipeId = cell.recipeId;
     }
 }
 

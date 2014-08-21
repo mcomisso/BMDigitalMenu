@@ -8,9 +8,17 @@
 
 #import "RecipeDetailViewController.h"
 #import "ModalBlurredSegue.h"
-
+#import "BMDataManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
+@property (strong, nonatomic) IBOutlet UILabel *recipeNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *recipePriceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *recipeIngredientsLabel;
+@property (strong, nonatomic) IBOutlet UITextView *ingredientsText;
+@property (strong, nonatomic) IBOutlet UILabel *recipeDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UITextView *descriptionText;
+
+@property (strong, nonatomic) NSMutableDictionary *recipeDetails;
 
 @end
 
@@ -28,11 +36,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //return to previous view
     UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(pop)];
     sepg.delegate = self;
     [sepg setEdges:UIRectEdgeLeft];
     [self.view addGestureRecognizer:sepg];
     
+    [self loadRecipeData];
+    
+}
+
+-(void)loadRecipeData
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+    [[NSUserDefaults standardUserDefaults]objectForKey:@""];
+
+    self.recipeDetails = [dataManager requestDetailsForRecipe:self.recipeId ofRestaraunt:@"0"];
+    
+    self.recipeNameLabel.text = self.recipeName;
+    self.recipePriceLabel.text = self.recipePrice;
+    self.ingredientsText.text = [self.recipeDetails objectForKey:@"ingredienti"];
+    self.descriptionText.text = [self.recipeDetails objectForKey:@"descrizione"];
 }
 
 - (void)didReceiveMemoryWarning

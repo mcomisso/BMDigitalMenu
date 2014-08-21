@@ -34,6 +34,9 @@
 
 /**
  Interrogates the database to fetch all and only the categories for the given restarauntMajorNumber
+
+ @param restarauntMajorNumber The major number of a certain restaraunt.
+ 
  */
 -(NSArray *)requestCategoriesForRestaraunt:(NSNumber *)restarauntMajorNumber;
 
@@ -41,26 +44,36 @@
  Interrogates the database to fetch all the data of a particular category. Policy: Only cache.
  
  @param category The category wanted to show.
+ @param restarauntId The identification number of the restaraunt
  
  */
--(NSArray *)requestDataForCategory:(NSString *)category ofRestaraunt:(NSString *)restarauntID;
+-(NSArray *)requestRecipesForCategory:(NSString *)category ofRestaraunt:(NSString *)restarauntID;
 
 /**
  Interrogates the database to fetch all the data of a particular recipe. Policy: Only cache. Images are handled as multimedia with SDImageView.
  
  @param idRecipe The unique ID of a recipe.
+ @param restarauntID The identification number of the restaraunt
  
  */
--(void)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+-(NSMutableDictionary*)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
 
 /**
  Interrogates the existing database to fetch the rating of a particular recipe. Returns nil if there's no data to show.
+
+ @param idRecipe The unique ID of a recipe.
+ @param restarauntID The identification number of the restaraunt
+ 
  */
--(NSNumber *)fetchRatingForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+-(NSNumber *)fetchRatingForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
 
 /**
  Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
+
+ @param idRecipe The unique ID of a recipe.
+ @param restarauntID The identification number of the restaraunt
+
  */
--(NSDictionary *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt;
+-(NSDictionary *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
 
 @end

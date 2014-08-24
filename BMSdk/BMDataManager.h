@@ -29,7 +29,7 @@
  Saves the comments fetched with download manager
  @param commentsArray the array containing all the comments for a particular recipe
  */
--(void)saveCommentsData:(NSArray *)commentsArray;
+-(void)saveCommentsData:(NSDictionary *)commentsDictionary;
 
 /**
  Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.
@@ -82,5 +82,12 @@
 
  */
 -(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
+
+/**
+ Interrogates the existing database to determine if should download data
+ @param idRecipe The unique ID of a recipe
+ @return BOOL YES or NO
+ */
+-(BOOL)shouldFetchCommentsFromServer:(NSString*)idRecipe;
 
 @end

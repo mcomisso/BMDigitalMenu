@@ -10,7 +10,6 @@
 #import <sqlite3.h>
 #import "BMDownloadManager.h"
 
-
 @interface BMDataManager()
 
 @property (nonatomic, strong) NSString *databasePath;
@@ -87,8 +86,8 @@
         "PRAGMA foreign_keys = ON;\
         CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER); \
         CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, visualizzabile INTEGER, nome TEXT, immagine TEXT, data_creazione INTEGER, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT, FOREIGN KEY (locale_id) REFERENCES restaraunt (id));\
-        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id) );\
-        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, ratingValue INTEGER, FOREIGN KEY (recipe_id) REFERENCES menu(id);";
+        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id) );\
+        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id);";
         
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
             NSLog(@"[DataManager]Failed To create table");
@@ -169,8 +168,9 @@
     }
 }
 
--(void)saveCommentsData:(NSArray *)commentsArray
+-(void)saveCommentsData:(NSDictionary *)commentsDictionary
 {
+    NSArray *commentsArray = [commentsDictionary objectForKey:@"commenti"];
     for (int i = 0; i < [commentsArray count]; i++) {
 
         NSString *ricettaId = [commentsArray[i] objectForKey:@"ricetta_id"];
@@ -355,9 +355,35 @@
     return retval;
 }
 
--(void)checkCommentsForRecipe:(NSString*)idRecipe
-{
+#pragma mark - Comments Section
 
+-(BOOL)shouldFetchCommentsFromServer:(NSString*)idRecipe
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    BOOL retval = YES;
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        //        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
+        //CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id) )
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", idRecipe];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            
+            if (sqlite3_step(statement) == SQLITE_ROW) {
+                retval = NO;
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+    else
+    {
+        retval = YES;
+    }
+    return retval;
 }
 
 -(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restaraunt
@@ -369,17 +395,19 @@
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
 //        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE ricetta_id = %@", idRecipe];
+//CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id) )
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 // Save all in array
                 NSMutableDictionary *singleComment = [[NSMutableDictionary alloc]init];
                 
-                NSString *user = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
-                NSString *comment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
-                NSString *date = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+                NSString *user = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                NSString *comment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+                NSString *date = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
                 
                 [singleComment setObject:user forKey:@"user"];
                 [singleComment setObject:comment forKey:@"comment"];
@@ -406,7 +434,7 @@
     NSNumber *retval = [NSNumber numberWithInt:0];
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
@@ -479,7 +507,7 @@
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"SELECT * FROM commenti WHERE ricetta_id = %@", recipeId];
+        NSString *query = [NSString stringWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", recipeId];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare(_database, forged, -1, &statement, NULL) == SQLITE_OK) {

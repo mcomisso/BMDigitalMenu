@@ -9,6 +9,10 @@
 #import "RecipeDetailViewController.h"
 #import "ModalBlurredSegue.h"
 #import "BMDataManager.h"
+#import "CommentsModalViewController.h"
+
+//TEST
+#import "BMDownloadManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *recipeNameLabel;
@@ -43,7 +47,18 @@
     [self.view addGestureRecognizer:sepg];
     
     [self loadRecipeData];
-
+    
+    BMDownloadManager *dm = [BMDownloadManager sharedInstance];
+    BMDataManager *dataManage = [BMDataManager sharedInstance];
+    
+    if ([dataManage shouldFetchCommentsFromServer:self.recipeId]) {
+        NSLog(@"[RecipeDetailViewController] Comments not found for recipeID %@, name: %@", self.recipeId, self.recipeName);
+        [dm fetchCommentsForRecipe:self.recipeId];
+    }
+    else
+    {
+        NSLog(@"[RecipeDetailViewController] Comments found in database");
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -101,9 +116,8 @@
 {
     if ([[segue identifier]isEqualToString:@"commentSegue"]) {
 
-#warning Complete Segue
-        //DO something
-    
+        CommentsModalViewController *cmv = [segue destinationViewController];
+        cmv.idRecipe = self.recipeId;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataSourceOfComments;
+
 @end
 
 @implementation CommentsModalViewController
@@ -33,6 +34,7 @@
     
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
+    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
     self.dataSourceOfComments = [dataManager fetchCommentsForRecipe:self.idRecipe ofRestaraunt:@"0"];
 }
 
@@ -62,14 +64,10 @@
     }
     
     cell.textOfComment.text = [self.dataSourceOfComments[indexPath.row] objectForKey:@"comment"];
-    cell.usernameOfCommenter.text = [self.dataSourceOfComments[indexPath.row] objectForKey:@"user"];
+    cell.textOfComment.textColor = [UIColor whiteColor];
     
+    cell.usernameOfCommenter.text = [NSString stringWithFormat:@"Utente id: %@",[self.dataSourceOfComments[indexPath.row] objectForKey:@"user"]];
     return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 0.f;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

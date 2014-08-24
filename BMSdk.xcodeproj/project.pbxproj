@@ -136,8 +136,8 @@
 		B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */; };
 		B9DECD4D19A3981400C17799 /* ModalBlurredSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */; };
 		B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */; };
-		B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; };
-		B9DECD5219A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; };
+		B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		B9DECD5219A3985600C17799 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD5419A3992100C17799 /* CommentsModalViewController.h */; };
 		B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD5519A3992100C17799 /* CommentsModalViewController.m */; };
 		B9DECD5819A3992100C17799 /* CommentsModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD5519A3992100C17799 /* CommentsModalViewController.m */; };
@@ -955,6 +955,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matteo Comisso (S7YH5DL2AY)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -974,6 +975,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRIP_STYLE = "non-global";
@@ -996,6 +998,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1008,6 +1011,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRIP_STYLE = "non-global";
@@ -1024,6 +1028,7 @@
 				GCC_PREFIX_HEADER = "BMSdk/BMSdk-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
@@ -1040,6 +1045,7 @@
 				GCC_PREFIX_HEADER = "BMSdk/BMSdk-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
@@ -1116,6 +1122,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = BMSdk;
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				SDKROOT = iphoneos7.1;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -1135,6 +1142,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = BMSdk;
+				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
 				SDKROOT = iphoneos7.1;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;

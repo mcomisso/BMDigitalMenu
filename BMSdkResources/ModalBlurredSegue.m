@@ -31,14 +31,14 @@
     }
     
     blurredImageView.clipsToBounds = YES;
-    blurredImageView.contentMode = UIViewContentModeBottom;
+    blurredImageView.contentMode = UIViewContentModeRight;
     blurredImageView.image = blurredSourceImage;
     
     [sourceView addSubview:blurredImageView];
     [sourceView addSubview:destinationView];
     
     CGPoint originalCenter = destinationView.center;
-    destinationView.center = CGPointMake(originalCenter.x, originalCenter.y+sourceView.frame.size.height);
+    destinationView.center = CGPointMake(originalCenter.x+sourceView.frame.size.width, originalCenter.y);
     
     [UIView animateWithDuration:0.6
                           delay:0.0

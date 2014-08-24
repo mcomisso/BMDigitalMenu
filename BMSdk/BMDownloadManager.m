@@ -7,6 +7,7 @@
 //
 
 #import "BMDownloadManager.h"
+#import "BMLocationManager.h"
 #import "Reachability.h"
 #import "AFNetworking.h"
 
@@ -52,8 +53,11 @@
 
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber
 {
+    BMLocationManager *locationManager = [BMLocationManager sharedInstance];
+    
     if (self.isNetworkAvailable) {
         if (!_isMenuDownloaded) {
+            [locationManager stopRanging];
 //            NSString *majorNumberStringValue = [majorNumber stringValue];
 
 //#warning Remove the minor number once backend is working
@@ -71,12 +75,14 @@
                 NSArray *parsedMenu = [[self parseData:data of:@"menu"] copy];
                 if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
                     NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
+                    [locationManager stopRanging];
 //Show a message for noticed problem
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:[[parsedMenu objectAtIndex:0] objectForKey:@"Error"] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
                     [alert show];
                 }
                 else
                 {
+                    [locationManager stopRanging];
                     NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
                     [self saveOnDatabase:parsedMenu];
                     self.isMenuDownloaded = YES;
@@ -86,7 +92,11 @@
         else
         {
             // Network connection error
+            [locationManager stopRanging];
             NSLog(@"[Download manager] Network Connection error");
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Network error" message:@"Controllare la disponibilità di rete del dispositivo, non è possibile scaricare il menù del ristorante." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+
         }
     }
 }
@@ -133,15 +143,16 @@
     BMDataManager *dataManager = [BMDataManager sharedInstance];
 
     AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
+    afmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     [afmanager GET:[[BMAPI stringByAppendingString:@"comment/"]stringByAppendingString:idRecipe]
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
                
-               [dataManager saveCommentsData:[self parseData:responseObject of:@"comments"]];
+               [dataManager saveCommentsData:responseObject];
            }
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               NSLog(@"[Download Manager] Cannot download data for comments");
+               NSLog(@"[Download Manager] Cannot download data for comments: %@, %@", [error localizedDescription], [error localizedFailureReason]);
            }];
     
 }

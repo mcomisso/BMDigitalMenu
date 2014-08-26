@@ -9,8 +9,10 @@
 #import "RestarauntStartViewController.h"
 #import "RestarauntStartmenuCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import "TDBadgedCell.h"
 
 #import "BMDataManager.h"
+#import "BMCartManager.h"
 
 #import "MenuListViewController.h"
 
@@ -20,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet UIView *sliderContainer;
 @property (strong, nonatomic) IBOutlet UILabel *restarauntLabelName;
 
+@property (strong, nonatomic) BMCartManager *cartManager;
+
 @property (strong, nonatomic) NSArray *categorie;
 
 @property BOOL isTesting;
@@ -27,20 +31,6 @@
 @end
 
 @implementation RestarauntStartViewController
-
--(void)localTester
-{
-    self.isTesting = YES;
-    self.categorie = @[@"Antipasti",
-                           @"Primi Piatti",
-                           @"Secondi Piatti",
-                           @"Contorni",
-                           @"Bevande",
-                           @"Vini",
-                           @"Dolci",
-                           @"Digestivi"];
-    self.restarauntLabelName.text = @"Ratanà";
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -55,6 +45,9 @@
 {
     [super viewDidLoad];
     self.restarauntName.layer.cornerRadius = self.restarauntName.frame.size.width / 2;
+    self.restarauntName.layer.backgroundColor = [[UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]CGColor];
+    
+    self.cartManager = [BMCartManager sharedInstance];
     
     UIPanGestureRecognizer *pgr = [UIPanGestureRecognizer alloc];
     [self.sliderContainer addGestureRecognizer:pgr];
@@ -69,7 +62,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.tableView reloadData];
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
@@ -102,36 +95,71 @@
 #pragma mark - TableView Methods
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    int indexed = (int) indexPath.row;
+    
     static NSString *cellIdentifier = @"cellIdentifier";
+    static NSString *TDCellIdentifier = @"badgeCellIdentifier";
     
-    RestarauntStartmenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[RestarauntStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    if (indexed == 0) {
+        TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:TDCellIdentifier];
+        if (cell == nil) {
+            cell = [[TDBadgedCell alloc]initWithFrame:CGRectZero];
+        }
+        cell.badgeString = [NSString stringWithFormat:@"%d",[self.cartManager numbersOfItemInCart]];
+        cell.badgeTextColor = [UIColor whiteColor];
+        cell.textLabel.textColor = [UIColor greenColor];
+        cell.textLabel.text = @"SCELTI";
+        
+        cell.badgeColor = [UIColor redColor];
+        cell.badge.radius = 9;
+        cell.badge.fontSize = 18;
+        if ([self.cartManager numbersOfItemInCart]) {
+            cell.badge.alpha = 1;
+        }
+        else
+        {
+            cell.badge.alpha = 0;
+        }
+        cell.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
 
-    cell.categoryLabel.text = [self.categorie objectAtIndex:indexPath.row];
-    
-    if ((indexPath.row % 2) == 1) {
-        cell.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+        return cell;
     }
     else
     {
-        cell.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+        RestarauntStartmenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+
+        if (cell == nil) {
+            cell = [[RestarauntStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        
+        cell.categoryLabel.text = [self.categorie objectAtIndex:indexPath.row - 1];
+        
+        if ((indexPath.row % 2) == 1) {
+            cell.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+        }
+        else
+        {
+            cell.backgroundColor = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1];
+        }
+        cell.categoryLabel.textColor = [UIColor whiteColor];
+        
+        return cell;
     }
-    cell.categoryLabel.textColor = [UIColor whiteColor];
-    
-    return cell;
+    return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Selezionato row %@", [indexPath description]);
+    if (indexPath.row == 0) {
+        [self performSegueWithIdentifier:@"cartSegue" sender:self];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.categorie count];
+    return [self.categorie count] + 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -153,6 +181,9 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([[segue identifier]isEqualToString:@"cartSegue"]) {
+        NSLog(@"Cart View segue");
+    }
     if ([[segue identifier] isEqualToString:@"showRecipes"])
     {
         MenuListViewController *menuList = [segue destinationViewController];

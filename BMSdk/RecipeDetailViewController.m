@@ -13,6 +13,7 @@
 
 //TEST
 #import "BMDownloadManager.h"
+#import "BMCartManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *recipeNameLabel;
@@ -101,7 +102,13 @@
 
 /* Vota il piatto corrente */
 - (IBAction)rateRecipe:(id)sender {
+    BMCartManager *cartManager = [BMCartManager sharedInstance];
     
+    [cartManager addItemInCart:self.recipeId];
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Success" message:@"Aggiunto con successo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    [alert show];
 }
 
 /* Accostamenti fattibili */

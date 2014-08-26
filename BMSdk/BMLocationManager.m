@@ -7,7 +7,7 @@
 //
 
 #import "BMLocationManager.h"
-#import "BMDataManager.h"
+#import "BMDownloadManager.h"
 
 #define BMBEACON @"66666666-6666-6666-6666-666666666666"
 
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSUUID *BMUUID;
 @property (nonatomic, strong) CLBeacon *closestBeacon;
 
-@property (nonatomic, strong) BMDataManager *dataManager;
+@property (nonatomic, strong) BMDownloadManager *downloadManager;
 
 @property (nonatomic, strong) NSDate *lastExitDate;
 @property (nonatomic, strong) NSDate *lastEntryDate;
@@ -73,7 +73,7 @@
         self.BMUUID = [[NSUUID alloc]initWithUUIDString:BMBEACON];
         self.timerCounter = 0;
         //Download Manager
-        self.dataManager = [BMDataManager sharedInstance];
+        self.downloadManager = [BMDownloadManager sharedInstance];
         
         [self setupManager];
         
@@ -197,9 +197,15 @@
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    
+    notification.alertBody = @"Test enter region";
+    
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
     NSLog(@"Location Manager entered in region: %@", [region identifier]);
+    
+    [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
@@ -222,13 +228,19 @@
  */
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    notification.alertBody = @"Ranging notification";
+    [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
+    
     if ([beacons count] > 0) {
         CLBeacon *newFound = [beacons firstObject];
         if (newFound.proximity != CLProximityUnknown & self.closestBeacon.major == newFound.major) {
+            
             // If user keep stayin in same zone for 3 seconds, check and fetch data for restaraunt
             if (self.timerCounter == 3) {
-                [self.dataManager checkDataForRestaraunt:self.closestBeacon.major];
+                [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
                 NSString *locatedRestaraunt = [NSString stringWithFormat:@"%@", self.closestBeacon.major];
+
                 [[NSUserDefaults standardUserDefaults]setObject:locatedRestaraunt forKey:@"locatedRestaraunt"];
                 [[NSUserDefaults standardUserDefaults]synchronize];
             }

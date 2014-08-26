@@ -14,8 +14,8 @@
 				B915C32019780208005618A6 /* ShellScript */,
 			);
 			dependencies = (
-				B915C333197804FF005618A6 /* PBXTargetDependency */,
 				B915C31F197801F7005618A6 /* PBXTargetDependency */,
+				B915C333197804FF005618A6 /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -74,6 +74,16 @@
 		B9193B1019A110650008149D /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = B9193B0819A110650008149D /* UIView+WebCacheOperation.h */; };
 		B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B91D68BD199C156500C2C135 /* RecipeInfo.h */; };
 		B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B91D68BE199C156500C2C135 /* RecipeInfo.m */; };
+		B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B92AD6D519AA87C600DDA65A /* Localizable.strings */; };
+		B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6D919AB27DC00DDA65A /* BMCartManager.h */; };
+		B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */; };
+		B92AD6DD19AB27DC00DDA65A /* BMCartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */; };
+		B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */; };
+		B92AD6E119AB353200DDA65A /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */; };
+		B92AD6E219AB353200DDA65A /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */; };
+		B92AD6E519AB46DA00DDA65A /* cartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6E319AB46DA00DDA65A /* cartViewController.h */; };
+		B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6E419AB46DA00DDA65A /* cartViewController.m */; };
+		B92AD6E719AB46DA00DDA65A /* cartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6E419AB46DA00DDA65A /* cartViewController.m */; };
 		B93CD7AB19A640A900C97622 /* BMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0871E1991148F00002074 /* BMDataManager.m */; };
 		B93CD7AC19A640AD00C97622 /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B93CD7AD19A640B000C97622 /* BMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C33519780B8E005618A6 /* BMLocationManager.m */; };
@@ -251,6 +261,18 @@
 		B9193B0819A110650008149D /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "BMSdk/SDWebImage/UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		B91D68BD199C156500C2C135 /* RecipeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeInfo.h; sourceTree = "<group>"; };
 		B91D68BE199C156500C2C135 /* RecipeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeInfo.m; sourceTree = "<group>"; };
+		B92AD6D119AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B92AD6D219AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B92AD6D419AA87C600DDA65A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B92AD6D619AA87D600DDA65A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B92AD6D719AA87D600DDA65A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B92AD6D819AA87D600DDA65A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B92AD6D919AB27DC00DDA65A /* BMCartManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMCartManager.h; sourceTree = "<group>"; };
+		B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMCartManager.m; sourceTree = "<group>"; };
+		B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDBadgedCell.h; sourceTree = "<group>"; };
+		B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
+		B92AD6E319AB46DA00DDA65A /* cartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cartViewController.h; sourceTree = "<group>"; };
+		B92AD6E419AB46DA00DDA65A /* cartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cartViewController.m; sourceTree = "<group>"; };
 		B93CD7B719A642D300C97622 /* star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star@2x.png"; sourceTree = "<group>"; };
 		B93CD7B919A6433700C97622 /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = "<group>"; };
 		B93CD7BB19A650B200C97622 /* singleCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleCommentTableViewCell.h; sourceTree = "<group>"; };
@@ -379,6 +401,7 @@
 		B915C2F31977FFAF005618A6 /* BMSdk */ = {
 			isa = PBXGroup;
 			children = (
+				B92AD6E819AB46E100DDA65A /* Lista piatti da ordinare */,
 				B9C29F94198649A9002309FF /* External libs */,
 				B9C29FAA19865A40002309FF /* RestarauntStartScreen */,
 				B9C29FA919865A31002309FF /* Menu List */,
@@ -427,6 +450,7 @@
 				B9DECD5919A3992900C17799 /* comments@2x.png */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
 				B915C329197803C0005618A6 /* Supporting Files */,
+				B92AD6D519AA87C600DDA65A /* Localizable.strings */,
 			);
 			path = BMSdkResources;
 			sourceTree = "<group>";
@@ -454,6 +478,8 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */,
+				B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */,
 				B943ECC919A60D20001ABB4E /* AFNetworking */,
 				B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */,
 				B9DECD4F19A3985600C17799 /* UIImage+ImageEffects.m */,
@@ -463,6 +489,15 @@
 				B9193AC519A10C370008149D /* RateView.m */,
 			);
 			name = libs;
+			sourceTree = "<group>";
+		};
+		B92AD6E819AB46E100DDA65A /* Lista piatti da ordinare */ = {
+			isa = PBXGroup;
+			children = (
+				B92AD6E319AB46DA00DDA65A /* cartViewController.h */,
+				B92AD6E419AB46DA00DDA65A /* cartViewController.m */,
+			);
+			name = "Lista piatti da ordinare";
 			sourceTree = "<group>";
 		};
 		B943ECC919A60D20001ABB4E /* AFNetworking */ = {
@@ -502,6 +537,8 @@
 				B9F0871E1991148F00002074 /* BMDataManager.m */,
 				B91D68BD199C156500C2C135 /* RecipeInfo.h */,
 				B91D68BE199C156500C2C135 /* RecipeInfo.m */,
+				B92AD6D919AB27DC00DDA65A /* BMCartManager.h */,
+				B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -615,6 +652,7 @@
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
+				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9F08725199120D800002074 /* Reachability.h in Headers */,
 				B943ECDD19A60D7D001ABB4E /* AFHTTPRequestOperation.h in Headers */,
 				B943ECDF19A60D7D001ABB4E /* AFHTTPRequestOperationManager.h in Headers */,
@@ -625,6 +663,7 @@
 				B943ECE619A60D7D001ABB4E /* AFSecurityPolicy.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFURLConnectionOperation.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFURLRequestSerialization.h in Headers */,
+				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
 				B943ECEC19A60D7D001ABB4E /* AFURLResponseSerialization.h in Headers */,
 				B943ECEE19A60D7D001ABB4E /* AFURLSessionManager.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
@@ -644,6 +683,7 @@
 				B9193AEC19A10DBB0008149D /* SDWebImageDownloader.h in Headers */,
 				B9193AED19A10DBB0008149D /* SDWebImageDownloaderOperation.h in Headers */,
 				B9193AEE19A10DBB0008149D /* SDWebImageManager.h in Headers */,
+				B92AD6E519AB46DA00DDA65A /* cartViewController.h in Headers */,
 				B9193AE319A10DAB0008149D /* SDWebImageOperation.h in Headers */,
 				B9193AE119A10DA40008149D /* SDWebImagePrefetcher.h in Headers */,
 				B9193AC819A10C770008149D /* RateView.h in Headers */,
@@ -730,6 +770,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				es,
+				it,
 			);
 			mainGroup = B915C2E51977FFAF005618A6;
 			productRefGroup = B915C2EF1977FFAF005618A6 /* Products */;
@@ -758,6 +800,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */,
+				B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */,
 				B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */,
 				B93CD7BA19A6433700C97622 /* heart@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
@@ -814,6 +857,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
 				B9193AFA19A110180008149D /* UIButton+WebCache.m in Sources */,
@@ -848,7 +892,9 @@
 				B9DECD5B19A3A99B00C17799 /* RateView.m in Sources */,
 				B9C29F9819865037002309FF /* RestarauntStartViewController.m in Sources */,
 				B943ECDE19A60D7D001ABB4E /* AFHTTPRequestOperation.m in Sources */,
+				B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */,
 				B943ECE019A60D7D001ABB4E /* AFHTTPRequestOperationManager.m in Sources */,
+				B92AD6E119AB353200DDA65A /* TDBadgedCell.m in Sources */,
 				B943ECE219A60D7D001ABB4E /* AFHTTPSessionManager.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
@@ -871,6 +917,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B92AD6DD19AB27DC00DDA65A /* BMCartManager.m in Sources */,
 				B9193AC619A10C370008149D /* RateView.m in Sources */,
 				B9F7D804199174E900EB175F /* BMSdk.m in Sources */,
 				B93CD7AD19A640B000C97622 /* BMLocationManager.m in Sources */,
@@ -879,6 +926,7 @@
 				B93CD7B119A640CE00C97622 /* AFNetworkReachabilityManager.m in Sources */,
 				B93CD7AE19A640CE00C97622 /* AFHTTPRequestOperation.m in Sources */,
 				B93CD7B419A640CE00C97622 /* AFURLRequestSerialization.m in Sources */,
+				B92AD6E219AB353200DDA65A /* TDBadgedCell.m in Sources */,
 				B93CD7B319A640CE00C97622 /* AFURLConnectionOperation.m in Sources */,
 				B93CD7B619A640CE00C97622 /* AFURLSessionManager.m in Sources */,
 				B9DECD5819A3992100C17799 /* CommentsModalViewController.m in Sources */,
@@ -889,6 +937,7 @@
 				B9F0872A199138DD00002074 /* Reachability.m in Sources */,
 				B9C29FAF19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */,
 				B9C29FA3198659E1002309FF /* RecipeDetailViewController.m in Sources */,
+				B92AD6E719AB46DA00DDA65A /* cartViewController.m in Sources */,
 				B93CD7AB19A640A900C97622 /* BMDataManager.m in Sources */,
 				B9DECD4D19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B93CD7B219A640CE00C97622 /* AFSecurityPolicy.m in Sources */,
@@ -924,6 +973,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				B915C30B1977FFAF005618A6 /* en */,
+				B92AD6D219AA878100DDA65A /* es */,
+				B92AD6D819AA87D600DDA65A /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -932,8 +983,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				B915C32C197803C0005618A6 /* en */,
+				B92AD6D119AA878100DDA65A /* es */,
+				B92AD6D619AA87D600DDA65A /* it */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B92AD6D519AA87C600DDA65A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B92AD6D419AA87C600DDA65A /* en */,
+				B92AD6D719AA87D600DDA65A /* it */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

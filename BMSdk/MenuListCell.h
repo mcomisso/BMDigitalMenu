@@ -11,6 +11,7 @@
 
 @interface MenuListCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *recipeImage;
+@property (strong, nonatomic) NSString *recipeImageUrl;
 @property (strong, nonatomic) IBOutlet RateView *rating;
 @property (strong, nonatomic) IBOutlet UILabel *recipeTitle;
 @property (strong, nonatomic) IBOutlet UILabel *recipePrice;

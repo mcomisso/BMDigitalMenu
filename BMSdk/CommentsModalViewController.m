@@ -35,7 +35,7 @@
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
-    self.dataSourceOfComments = [dataManager fetchCommentsForRecipe:self.idRecipe ofRestaraunt:@"0"];
+    self.dataSourceOfComments = [dataManager requestCommentsForRecipe:self.idRecipe];
 }
 
 

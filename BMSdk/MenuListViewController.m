@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 
 #import "AFNetworking.h"
+#define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
 
 @interface MenuListViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -44,10 +45,7 @@
     //Scroll to top gesture
     self.tableView.scrollsToTop = YES;
     
-    UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(customPopViewController)];
-    sepg.delegate = self;
-    [sepg setEdges:UIRectEdgeLeft];
-    [self.view addGestureRecognizer:sepg];
+    [self setBackGesture];
     
     [self loadRecipesForCategory];
 }
@@ -57,6 +55,14 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setToolbarHidden:YES animated:NO];
+}
+
+-(void)setBackGesture
+{
+    UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(customPopViewController)];
+    sepg.delegate = self;
+    [sepg setEdges:UIRectEdgeLeft];
+    [self.view addGestureRecognizer:sepg];
 }
 
 -(void)customPopViewController
@@ -93,20 +99,18 @@
     }
     
     NSDictionary *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
-//    NSLog(@"MenuList Controller: recipe description %@", [recipe description]);
     
     cell.recipeId = [recipe objectForKey:@"ricetta_id"];
     
     cell.recipeTitle.text = [recipe objectForKey:@"nome"];
     cell.recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
-    RateView *ratevw = nil;
+//    RateView *ratevw = nil;
     cell.rating = [RateView rateViewWithRating:2.5f];
     cell.rating.tag = 88888;
     cell.rating.starSize = 30;
-    
-
-#warning API implementation for fetch images
-    //[cell.recipeImage sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@""]]];
+    cell.recipeImageUrl = [recipe objectForKey:@"immagine"];
+    NSString *downloadString = [BMIMAGEAPI stringByAppendingString:cell.recipeImageUrl];
+    [cell.recipeImage  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString]];
 
     return cell;
 }
@@ -138,7 +142,6 @@
 {
     return [self.recipesInCategory count];
 }
-
 
 #pragma mark - Navigation
 

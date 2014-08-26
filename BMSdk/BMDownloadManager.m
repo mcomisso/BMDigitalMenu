@@ -12,7 +12,7 @@
 #import "AFNetworking.h"
 
 #define BMAPI @"http://54.76.193.225/api/v1/client/"
-#define BMIMAGES @"http://54.76.193.225/static/images/"
+#define BMIMAGES @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
 
 @import UIKit;
 
@@ -22,6 +22,7 @@
 
 @property (nonatomic, readwrite) BOOL isMenuDownloaded;
 @property (nonatomic, readwrite) NSString *bmUrl;
+@property (nonatomic, strong) NSString *locale;
 
 @end
 
@@ -47,8 +48,31 @@
         NSLog(@"[Download manager] BMDownload Manager initialized");
         self.bmUrl = BMIMAGES;
         [self isConnectionAvailable];
+        self.locale = [[NSLocale preferredLanguages]objectAtIndex:0];
     }
     return self;
+}
+
+-(void)fetchLatestRecipeOfRestaraunt:(NSNumber *)majorNumber
+{
+    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
+    [afmanager GET:[BMAPI stringByAppendingString:@"menu/"]
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               //saveRatingData
+               [self performSelector:@selector(latestFetchedDate:) withObject:responseObject];
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //Something wrong happened
+               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
+           }];
+}
+
+-(void)latestFetchedDate:(NSData *)data
+{
+    NSArray *arrayOfRecipes = [self parseData:data of:@"menu"];
+    
+    NSLog(@"[Download manager] Array description: %@ ", [arrayOfRecipes description]);
 }
 
 -(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber
@@ -59,32 +83,61 @@
         if (!_isMenuDownloaded) {
             [locationManager stopRanging];
 //            NSString *majorNumberStringValue = [majorNumber stringValue];
-
-//#warning Remove the minor number once backend is working
 //            NSURL *requestMenuData = [[NSURL alloc]initWithString:[[BMAPI stringByAppendingString:majorNumberStringValue]stringByAppendingString:@"/4"]];
-            
-#warning single restaraunt request
+
+            //TODO: multiple restaraunt management
             NSURL *requestMenuData = [[NSURL alloc]initWithString:[BMAPI stringByAppendingString:@"menu"]];
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestMenuData];
             NSURLResponse *response = nil;
             NSError *error = nil;
             
-            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&response
+                                                             error:&error];
             
             if (!error) {
+                BMDataManager *dataManager = [BMDataManager sharedInstance];
+                //TODO: Restaraunt must be programmatically inserted
+                NSString *stringDateOfLastSavedRecipe = [[dataManager latestMenuEntryOfRestaraunt:@"CAMBIARE"] copy];
+                
                 NSArray *parsedMenu = [[self parseData:data of:@"menu"] copy];
+
                 if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
                     NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
+                
                     [locationManager stopRanging];
-//Show a message for noticed problem
+
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:[[parsedMenu objectAtIndex:0] objectForKey:@"Error"] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
                     [alert show];
                 }
                 else
                 {
                     [locationManager stopRanging];
+                    
                     NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
-                    [self saveOnDatabase:parsedMenu];
+                    
+                    NSDictionary *latestRecipe =[parsedMenu objectAtIndex:[parsedMenu count]-1];
+
+                    NSDateFormatter *df = [[NSDateFormatter alloc]init];
+                    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss.SSSSS"];
+
+                    NSDate *lastEditDateServer = [[NSDate alloc]init];
+                    NSDate *lastEditDateCache = [[NSDate alloc]init];
+                    
+                    lastEditDateServer = [df dateFromString:[latestRecipe objectForKey:@"data_ultima_modifica"]];
+                    lastEditDateCache = [df dateFromString:stringDateOfLastSavedRecipe];
+
+                    double timeIntervalFromServer = [lastEditDateServer timeIntervalSince1970];
+                    
+                    double timeIntervalFromCache = [lastEditDateCache timeIntervalSince1970];
+                    
+                    if (timeIntervalFromCache == 0) {
+                        [dataManager saveMenuData:parsedMenu];
+                    }
+                    else if (timeIntervalFromServer > timeIntervalFromCache || [parsedMenu count] < [dataManager numberOfrecipesInCache]) {
+                        [dataManager deleteDataFromRestaraunt:@"restaraunt"];
+                        [dataManager saveMenuData:parsedMenu];
+                    }
                     self.isMenuDownloaded = YES;
                 }
             }
@@ -96,7 +149,6 @@
             NSLog(@"[Download manager] Network Connection error");
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Network error" message:@"Controllare la disponibilità di rete del dispositivo, non è possibile scaricare il menù del ristorante." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alertView show];
-
         }
     }
 }
@@ -159,7 +211,7 @@
 
 -(void)fetchRatingForRecipe:(NSString *)idRecipe
 {
-    BMDataManager *dataManager = [BMDataManager sharedInstance];
+//    BMDataManager *dataManager = [BMDataManager sharedInstance];
     AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
     
     [afmanager GET:[[BMAPI stringByAppendingString:@"vote/"]stringByAppendingString:idRecipe]
@@ -169,9 +221,25 @@
                
            }
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               //Save into db
+               //Something wrong happened
                NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
            }];
+}
+
+#pragma mark - Check methods
+
+-(void)checkTypeOfMenu:(NSString *)forRestaraunt
+{
+    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
+    
+    [afmanager GET:[[BMAPI stringByAppendingString:@""]stringByAppendingString:forRestaraunt]
+     parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         //Type Downloaded
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         //Something wrong happened
+         NSLog(@"[Download Manager] Error while checking type of menu. Details: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+     }];
 }
 
 #pragma mark - Network Test

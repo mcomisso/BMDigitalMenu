@@ -49,5 +49,4 @@
  */
 -(void)fetchRatingForRecipe:(NSString *)idRecipe;
 
-
 @end

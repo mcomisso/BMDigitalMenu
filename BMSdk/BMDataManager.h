@@ -18,7 +18,7 @@
  Creates and returns an `BMDataManager` object. Instantiate this object only through this class method.
  */
 +(BMDataManager *)sharedInstance;
-
+#pragma mark - Save Methods
 /**
  Saves the latest fetched menu into the SQLite DataBase
  @param JSONArray json containing all the recipes of a particular restaraunt
@@ -31,14 +31,23 @@
  */
 -(void)saveCommentsData:(NSDictionary *)commentsDictionary;
 
+#pragma mark - Check Methods
 /**
  Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.
- 
- @param restarauntMajorNumber The major number of the beacons inside a restaraunt.
+
+ @param restarauntId The major number of the beacons inside a restaraunt.
  
  */
--(void)checkDataForRestaraunt:(NSNumber*)restarauntMajorNumber;
+-(NSString *)latestMenuEntryOfRestaraunt:(NSString *)restarauntId;
 
+/**
+ Interrogates the existing database to determine if should download data
+ @param idRecipe The unique ID of a recipe
+ @return BOOL YES or NO
+ */
+-(BOOL)shouldFetchCommentsFromServer:(NSString*)idRecipe;
+
+#pragma mark - Data Request Methods
 /**
  Interrogates the database to fetch all and only the categories for the given restarauntMajorNumber
 
@@ -72,22 +81,30 @@
  @param restarauntID The identification number of the restaraunt
  
  */
--(NSNumber *)fetchRatingForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
+-(int)requestRatingForRecipe:(NSString *)idRecipe;
 
 /**
  Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
 
  @param idRecipe The unique ID of a recipe.
- @param restarauntID The identification number of the restaraunt
-
+ @return Array containing all the comments available
  */
--(NSArray *)fetchCommentsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
+-(NSArray *)requestCommentsForRecipe:(NSString *)idRecipe;
 
 /**
- Interrogates the existing database to determine if should download data
- @param idRecipe The unique ID of a recipe
- @return BOOL YES or NO
+ Fetch all data for recipes inserted in "cart"
+
+ @param listOfRecipesToFind Array containing the id's of recipes to find inside the database
+ @return array containing all the detailed recipes
  */
--(BOOL)shouldFetchCommentsFromServer:(NSString*)idRecipe;
+-(NSMutableArray *)requestDataForCart:(NSArray*)listOfRecipesToFind;
+
+#pragma mark - Delete from menu
+
+-(void)deleteDataFromRestaraunt:(NSString *)restarauntId;
+
+-(void)deleteCommentsOfRecipe:(NSString *)idRecipe;
+
+-(int)numberOfrecipesInCache;
 
 @end

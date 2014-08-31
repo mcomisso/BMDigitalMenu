@@ -111,7 +111,7 @@
     for (int i = 0; i < [JSONArray count]; i++) {
 
         // Data to be saved
-        NSString *categoria = JSONArray[i][@"categoria"];
+        NSString *categoria = [JSONArray[i][@"categoria"]capitalizedString];
         NSNumber *prezzo = JSONArray[i][@"prezzo"];
         NSString *nome = JSONArray[i][@"nome"];
         NSString *immagine = JSONArray[i][@"immagine"];
@@ -168,6 +168,8 @@
             sqlite3_close(_database);
         }
     }
+    //TODO: remove observer?
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"updateMenu" object:@"YES"];
 }
 
 -(void)saveCommentsData:(NSDictionary *)commentsDictionary
@@ -227,7 +229,7 @@
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 //Save all in an array
-                NSString *categoryName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+                NSString *categoryName = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]capitalizedString];
                 [retval addObject:categoryName];
             }
             sqlite3_finalize(statement);
@@ -399,13 +401,11 @@
                 // Save all in array
                 NSMutableDictionary *singleComment = [[NSMutableDictionary alloc]init];
                 
-                NSString *user = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-                NSString *comment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-                NSString *date = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
+                int userID = (int)sqlite3_column_int(statement, 3);
+                NSString *comment = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
                 
-                [singleComment setObject:user forKey:@"user"];
+                [singleComment setObject:[NSNumber numberWithInt:userID] forKey:@"user"];
                 [singleComment setObject:comment forKey:@"comment"];
-                [singleComment setObject:date forKey:@"date"];
                 
                 [retval addObject:singleComment];
             }
@@ -429,13 +429,13 @@
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
         //        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaraunt, idRecipe];
-        //CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id) )
         NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
             
             if (sqlite3_step(statement) == SQLITE_ROW) {
+                //Check Last Date.
                 retval = NO;
             }
             sqlite3_finalize(statement);
@@ -457,21 +457,19 @@
     int retval = 0;
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", idRecipe];
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT ratingValue FROM comments WHERE ricetta_id = %@", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            
             if (sqlite3_step(statement) == SQLITE_ROW) {
-                NSString *numberToConvert = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
-                // Convert string to number
-                NSNumberFormatter *nf = [NSNumberFormatter new];
-                retval = [[nf numberFromString:numberToConvert]intValue];
+                int rating = (int)sqlite3_column_int(statement, 0);
+                retval = rating;
             }
             sqlite3_finalize(statement);
         }
         sqlite3_close(_database);
     }
-    
     return retval;
 }
 

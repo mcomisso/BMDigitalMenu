@@ -36,6 +36,9 @@
 @property BOOL bluetoothEnabled;
 
 @property BOOL restarauntFound;
+@property (readwrite, nonatomic) BOOL canStartInterface;
+
+@property (nonatomic) UIBackgroundTaskIdentifier downloadTask;
 
 @end
 
@@ -78,6 +81,7 @@
         [self setupManager];
         
         self.dispatchGroup = dispatch_group_create();
+        self.canStartInterface = NO;
     }
     return self;
 }
@@ -170,7 +174,7 @@
     NSLog(@"App enters in foreground");
 }
 
-#pragma mark - BMLocation Manager Delegate Methods
+#pragma mark - BM[Location Manager] Delegate Methods
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     NSString *authStatus = [[NSString alloc]init];
@@ -192,7 +196,7 @@
             authStatus = @"Default case";
             break;
     }
-    NSLog(@"Location Manager changed auth status. Now: %u", status);
+    NSLog(@"[Location Manager] changed auth status. Now: %u", status);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
@@ -203,24 +207,24 @@
     
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
-    NSLog(@"Location Manager entered in region: %@", [region identifier]);
+    NSLog(@"[Location Manager] entered in region: %@", [region identifier]);
     
     [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
-    NSLog(@"Location Manager exited region: %@", [region identifier]);
+    NSLog(@"[Location Manager] exited region: %@", [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
-    NSLog(@"Location Manager started Monitoring for region %@", [region identifier]);
+    NSLog(@"[Location Manager] started Monitoring for region %@", [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
-    NSLog(@"Location Manager Monitoring did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
+    NSLog(@"[Location Manager] Monitoring did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
 }
 
 /*
@@ -229,8 +233,6 @@
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     UILocalNotification *notification = [[UILocalNotification alloc]init];
-    notification.alertBody = @"Ranging notification";
-    [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
     
     if ([beacons count] > 0) {
         CLBeacon *newFound = [beacons firstObject];
@@ -243,6 +245,9 @@
 
                 [[NSUserDefaults standardUserDefaults]setObject:locatedRestaraunt forKey:@"locatedRestaraunt"];
                 [[NSUserDefaults standardUserDefaults]synchronize];
+
+                notification.alertBody = [NSString stringWithFormat:@"Proximity: %ld, ID: %@", self.closestBeacon.proximity, self.closestBeacon.minor];
+                [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
             }
             else
             {
@@ -258,12 +263,12 @@
         }
     }
     
-    NSLog(@"Location Manager did range %lu beacons in region %@", (unsigned long)[beacons count], [region identifier]);
+    NSLog(@"[Location Manager] did range %lu beacons in region %@", (unsigned long)[beacons count], [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
 {
-    NSLog(@"Location Manager did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
+    NSLog(@"[Location Manager] did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
@@ -272,25 +277,29 @@
     switch (state) {
         case 0:
             status = @"CLRegion State Unknown";
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"disableButton" object:nil];
             break;
         case 1:
             status = @"CLRegion State Inside";
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableButton" object:nil];
             [self startRanging];
             break;
         case 2:
             status = @"CLRegion State Outside";
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"disableButton" object:nil];
             [self stopRanging];
             break;
         default:
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"disableButton" object:nil];
             status = @"Default Case";
             break;
     }
-    NSLog(@"Location Manager did determine state \"%@\" in region %@", status, [region identifier]);
+    NSLog(@"[Location Manager] did determine state \"%@\" in region %@", status, [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Location Manager did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+    NSLog(@"[Location Manager] did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "CommentsModalViewController.h"
 #import "BMDataManager.h"
 
-@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataSourceOfComments;
@@ -31,22 +31,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
-    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
+//    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
     self.dataSourceOfComments = [dataManager requestCommentsForRecipe:self.idRecipe];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)dismiss:(id)sender {
-    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (IBAction)dismissModal:(id)sender {
@@ -55,24 +51,73 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    return [self basicCellAtIndexPath:indexPath];
+}
+
+-(singleCommentTableViewCell *)basicCellAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *cellIdentifier = @"cellIdentifier";
-    
-    singleCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[singleCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.textOfComment.text = [self.dataSourceOfComments[indexPath.row] objectForKey:@"comment"];
-    cell.textOfComment.textColor = [UIColor whiteColor];
-    
-    cell.usernameOfCommenter.text = [NSString stringWithFormat:@"Utente id: %@",[self.dataSourceOfComments[indexPath.row] objectForKey:@"user"]];
+    singleCommentTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    [self configureBasicCell:cell atIndexPath:indexPath];
     return cell;
+}
+
+-(void)configureBasicCell:(singleCommentTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *recipe = self.dataSourceOfComments[indexPath.row];
+    [self setUsernameForCell:cell item:recipe];
+    [self setCommentForCell:cell item:recipe];
+}
+
+-(void)setUsernameForCell:(singleCommentTableViewCell *)cell item:(NSDictionary*)item
+{
+    NSNumber *usernameID = [item objectForKey:@"user"];
+    NSString *string = [NSString stringWithFormat:@"Utente id: %@", usernameID];
+    [cell.usernameLabel setText:string];
+}
+
+-(void)setCommentForCell:(singleCommentTableViewCell *)cell item:(NSDictionary *)item
+{
+    NSString *string = [item objectForKey:@"comment"];
+    [cell.commentLabel setText:string];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self heightForBasicCellAtIndexPath:indexPath];
+}
+
+-(CGFloat)heightForBasicCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"cellIdentifier";
+    static singleCommentTableViewCell *sizingCell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sizingCell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    });
+    
+    [self configureBasicCell:sizingCell atIndexPath:indexPath];
+    return [self calculateHeightForConfiguredSizingCell:sizingCell];
+}
+
+-(CGFloat)calculateHeightForConfiguredSizingCell:(UITableViewCell *)sizingCell
+{
+    [sizingCell setNeedsLayout];
+    [sizingCell layoutIfNeeded];
+    
+    CGSize size = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.dataSourceOfComments count];
+}
+
+-(void)textViewDidChange:(UITextView *)textView
+{
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 /*

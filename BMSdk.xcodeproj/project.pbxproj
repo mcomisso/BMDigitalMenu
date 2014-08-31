@@ -23,8 +23,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
+		B909D5F019AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
+		B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */; };
+		B909D5F819AD59230064B794 /* FBShimmering.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F219AD59230064B794 /* FBShimmering.h */; };
+		B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F319AD59230064B794 /* FBShimmeringLayer.h */; };
+		B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F419AD59230064B794 /* FBShimmeringLayer.m */; };
+		B909D5FB19AD59230064B794 /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F419AD59230064B794 /* FBShimmeringLayer.m */; };
+		B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F519AD59230064B794 /* FBShimmeringView.h */; };
+		B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F619AD59230064B794 /* FBShimmeringView.m */; };
+		B909D5FE19AD59230064B794 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F619AD59230064B794 /* FBShimmeringView.m */; };
+		B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D60019AE350F0064B794 /* cartTableViewCell.h */; };
+		B909D60319AE350F0064B794 /* cartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D60119AE350F0064B794 /* cartTableViewCell.m */; };
+		B909D60419AE350F0064B794 /* cartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D60119AE350F0064B794 /* cartTableViewCell.m */; };
 		B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2F11977FFAF005618A6 /* Foundation.framework */; };
-		B915C2F71977FFAF005618A6 /* BMSdk.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B915C2F61977FFAF005618A6 /* BMSdk.h */; };
+		B915C2F71977FFAF005618A6 /* BMSdk.h in Copy Files */ = {isa = PBXBuildFile; fileRef = B915C2F61977FFAF005618A6 /* BMSdk.h */; };
 		B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C2F81977FFAF005618A6 /* BMSdk.m */; };
 		B915C3001977FFAF005618A6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2FF1977FFAF005618A6 /* XCTest.framework */; };
 		B915C3011977FFAF005618A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2F11977FFAF005618A6 /* Foundation.framework */; };
@@ -74,13 +88,15 @@
 		B9193B1019A110650008149D /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = B9193B0819A110650008149D /* UIView+WebCacheOperation.h */; };
 		B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B91D68BD199C156500C2C135 /* RecipeInfo.h */; };
 		B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B91D68BE199C156500C2C135 /* RecipeInfo.m */; };
+		B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */ = {isa = PBXBuildFile; fileRef = B91E545D19B0F61D00DE56AB /* NGAParallaxMotion.h */; };
+		B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */ = {isa = PBXBuildFile; fileRef = B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */; };
+		B91E546119B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */ = {isa = PBXBuildFile; fileRef = B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */; };
 		B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B92AD6D519AA87C600DDA65A /* Localizable.strings */; };
 		B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6D919AB27DC00DDA65A /* BMCartManager.h */; };
 		B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */; };
 		B92AD6DD19AB27DC00DDA65A /* BMCartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */; };
 		B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */; };
 		B92AD6E119AB353200DDA65A /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */; };
-		B92AD6E219AB353200DDA65A /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */; };
 		B92AD6E519AB46DA00DDA65A /* cartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6E319AB46DA00DDA65A /* cartViewController.h */; };
 		B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6E419AB46DA00DDA65A /* cartViewController.m */; };
 		B92AD6E719AB46DA00DDA65A /* cartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6E419AB46DA00DDA65A /* cartViewController.m */; };
@@ -123,11 +139,18 @@
 		B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B915C33419780B8E005618A6 /* BMLocationManager.h */; };
 		B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B955D180197ED6CE0052ED2B /* testClassViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B955D183197ED6CE0052ED2B /* testClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B955D181197ED6CE0052ED2B /* testClassViewController.m */; };
+		B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9607D1419AF676D00B9556B /* AXRatingView.h */; };
+		B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9607D1519AF676D00B9556B /* AXRatingView.m */; };
+		B9607D1819AF676D00B9556B /* AXRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9607D1519AF676D00B9556B /* AXRatingView.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
 		B9909F8A1989033500D02CB6 /* testClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B955D181197ED6CE0052ED2B /* testClassViewController.m */; };
 		B9909F8E198903A800D02CB6 /* MenuListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909F8C198903A800D02CB6 /* MenuListViewController.h */; };
 		B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909F8D198903A800D02CB6 /* MenuListViewController.m */; };
 		B9909F90198903B500D02CB6 /* MenuListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909F8D198903A800D02CB6 /* MenuListViewController.m */; };
+		B9A180A419AD374B00866E36 /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */; };
+		B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9A180A519AD3C8A00866E36 /* BMActivator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A180A619AD3C8A00866E36 /* BMActivator.m */; };
+		B9A180A919AD3C8A00866E36 /* BMActivator.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A180A619AD3C8A00866E36 /* BMActivator.m */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestarauntStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -188,19 +211,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B915C2EC1977FFAF005618A6 /* CopyFiles */ = {
+		B915C2EC1977FFAF005618A6 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				B915C2F71977FFAF005618A6 /* BMSdk.h in CopyFiles */,
+				B915C2F71977FFAF005618A6 /* BMSdk.h in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LocationManager.h"; sourceTree = "<group>"; };
+		B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+LocationManager.m"; sourceTree = "<group>"; };
+		B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBShimmering-Prefix.pch"; sourceTree = "<group>"; };
+		B909D5F219AD59230064B794 /* FBShimmering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmering.h; sourceTree = "<group>"; };
+		B909D5F319AD59230064B794 /* FBShimmeringLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringLayer.h; sourceTree = "<group>"; };
+		B909D5F419AD59230064B794 /* FBShimmeringLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringLayer.m; sourceTree = "<group>"; };
+		B909D5F519AD59230064B794 /* FBShimmeringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringView.h; sourceTree = "<group>"; };
+		B909D5F619AD59230064B794 /* FBShimmeringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringView.m; sourceTree = "<group>"; };
+		B909D60019AE350F0064B794 /* cartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cartTableViewCell.h; sourceTree = "<group>"; };
+		B909D60119AE350F0064B794 /* cartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cartTableViewCell.m; sourceTree = "<group>"; };
 		B915C2EE1977FFAF005618A6 /* libBMSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBMSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B915C2F11977FFAF005618A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B915C2F51977FFAF005618A6 /* BMSdk-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BMSdk-Prefix.pch"; sourceTree = "<group>"; };
@@ -261,6 +295,8 @@
 		B9193B0819A110650008149D /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "BMSdk/SDWebImage/UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		B91D68BD199C156500C2C135 /* RecipeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeInfo.h; sourceTree = "<group>"; };
 		B91D68BE199C156500C2C135 /* RecipeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeInfo.m; sourceTree = "<group>"; };
+		B91E545D19B0F61D00DE56AB /* NGAParallaxMotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGAParallaxMotion.h; sourceTree = "<group>"; };
+		B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGAParallaxMotion.m; sourceTree = "<group>"; };
 		B92AD6D119AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B92AD6D219AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B92AD6D419AA87C600DDA65A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -298,10 +334,14 @@
 		B943ECDC19A60D7D001ABB4E /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		B955D180197ED6CE0052ED2B /* testClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testClassViewController.h; sourceTree = "<group>"; };
 		B955D181197ED6CE0052ED2B /* testClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testClassViewController.m; sourceTree = "<group>"; };
+		B9607D1419AF676D00B9556B /* AXRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXRatingView.h; sourceTree = "<group>"; };
+		B9607D1519AF676D00B9556B /* AXRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXRatingView.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		B9909F791988ECC800D02CB6 /* SDWebImage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SDWebImage; sourceTree = "<group>"; };
 		B9909F8C198903A800D02CB6 /* MenuListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuListViewController.h; sourceTree = "<group>"; };
 		B9909F8D198903A800D02CB6 /* MenuListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListViewController.m; sourceTree = "<group>"; };
+		B9A180A519AD3C8A00866E36 /* BMActivator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMActivator.h; sourceTree = "<group>"; };
+		B9A180A619AD3C8A00866E36 /* BMActivator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMActivator.m; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
 		B9C29F9519865037002309FF /* RestarauntStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestarauntStartViewController.h; sourceTree = "<group>"; };
@@ -362,6 +402,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B909D5FF19AD59290064B794 /* Shimmering Effect */ = {
+			isa = PBXGroup;
+			children = (
+				B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */,
+				B909D5F219AD59230064B794 /* FBShimmering.h */,
+				B909D5F319AD59230064B794 /* FBShimmeringLayer.h */,
+				B909D5F419AD59230064B794 /* FBShimmeringLayer.m */,
+				B909D5F519AD59230064B794 /* FBShimmeringView.h */,
+				B909D5F619AD59230064B794 /* FBShimmeringView.m */,
+			);
+			name = "Shimmering Effect";
+			sourceTree = "<group>";
+		};
 		B915C2E51977FFAF005618A6 = {
 			isa = PBXGroup;
 			children = (
@@ -411,6 +464,8 @@
 				B9909F9B19892B2000D02CB6 /* Managers */,
 				B955D180197ED6CE0052ED2B /* testClassViewController.h */,
 				B955D181197ED6CE0052ED2B /* testClassViewController.m */,
+				B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */,
+				B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */,
 				B915C2F41977FFAF005618A6 /* Supporting Files */,
 			);
 			path = BMSdk;
@@ -478,6 +533,7 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				B909D5FF19AD59290064B794 /* Shimmering Effect */,
 				B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */,
 				B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */,
 				B943ECC919A60D20001ABB4E /* AFNetworking */,
@@ -496,6 +552,8 @@
 			children = (
 				B92AD6E319AB46DA00DDA65A /* cartViewController.h */,
 				B92AD6E419AB46DA00DDA65A /* cartViewController.m */,
+				B909D60019AE350F0064B794 /* cartTableViewCell.h */,
+				B909D60119AE350F0064B794 /* cartTableViewCell.m */,
 			);
 			name = "Lista piatti da ordinare";
 			sourceTree = "<group>";
@@ -539,6 +597,8 @@
 				B91D68BE199C156500C2C135 /* RecipeInfo.m */,
 				B92AD6D919AB27DC00DDA65A /* BMCartManager.h */,
 				B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */,
+				B9A180A519AD3C8A00866E36 /* BMActivator.h */,
+				B9A180A619AD3C8A00866E36 /* BMActivator.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -546,6 +606,10 @@
 		B9C29F94198649A9002309FF /* External libs */ = {
 			isa = PBXGroup;
 			children = (
+				B91E545D19B0F61D00DE56AB /* NGAParallaxMotion.h */,
+				B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */,
+				B9607D1419AF676D00B9556B /* AXRatingView.h */,
+				B9607D1519AF676D00B9556B /* AXRatingView.m */,
 				B9F08723199120D800002074 /* Reachability.h */,
 				B9F08724199120D800002074 /* Reachability.m */,
 				B9909F791988ECC800D02CB6 /* SDWebImage */,
@@ -647,13 +711,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */,
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
+				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
+				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
 				B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9F08725199120D800002074 /* Reachability.h in Headers */,
+				B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */,
 				B943ECDD19A60D7D001ABB4E /* AFHTTPRequestOperation.h in Headers */,
 				B943ECDF19A60D7D001ABB4E /* AFHTTPRequestOperationManager.h in Headers */,
 				B943ECE119A60D7D001ABB4E /* AFHTTPSessionManager.h in Headers */,
@@ -667,6 +735,7 @@
 				B943ECEC19A60D7D001ABB4E /* AFURLResponseSerialization.h in Headers */,
 				B943ECEE19A60D7D001ABB4E /* AFURLSessionManager.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
+				B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */,
 				B9F0871F1991148F00002074 /* BMDataManager.h in Headers */,
 				B9193B0919A110650008149D /* MKAnnotationView+WebCache.h in Headers */,
 				B9193B0A19A110650008149D /* NSData+ImageContentType.h in Headers */,
@@ -691,9 +760,13 @@
 				B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */,
 				B915C31819780002005618A6 /* BMSdk.h in Headers */,
 				B9C29FA1198659E1002309FF /* RecipeDetailViewController.h in Headers */,
+				B909D5F819AD59230064B794 /* FBShimmering.h in Headers */,
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */,
+				B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */,
 				B9C29FA619865A29002309FF /* MenuListCell.h in Headers */,
+				B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */,
+				B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,7 +779,7 @@
 			buildPhases = (
 				B915C2EB1977FFAF005618A6 /* Frameworks */,
 				B915C2EA1977FFAF005618A6 /* Sources */,
-				B915C2EC1977FFAF005618A6 /* CopyFiles */,
+				B915C2EC1977FFAF005618A6 /* Copy Files */,
 				B915C3171977FFFC005618A6 /* Headers */,
 				B915C31919780122005618A6 /* ShellScript */,
 			);
@@ -857,18 +930,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */,
 				B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
+				B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */,
 				B9193AFA19A110180008149D /* UIButton+WebCache.m in Sources */,
 				B9193AFB19A110180008149D /* UIImage+GIF.m in Sources */,
 				B9193AFC19A110180008149D /* UIImage+MultiFormat.m in Sources */,
+				B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */,
 				B9193AFD19A110180008149D /* UIImage+WebP.m in Sources */,
 				B9193ADD19A10D930008149D /* UIImageView+HighlightedWebCache.m in Sources */,
 				B93CD7BE19A650B200C97622 /* singleCommentTableViewCell.m in Sources */,
+				B909D60319AE350F0064B794 /* cartTableViewCell.m in Sources */,
 				B9193AFE19A110180008149D /* UIImageView+WebCache.m in Sources */,
 				B9193AFF19A110180008149D /* UIView+WebCacheOperation.m in Sources */,
 				B9193ADB19A10D850008149D /* SDWebImagePrefetcher.m in Sources */,
+				B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */,
 				B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */,
 				B9193AD819A10D730008149D /* SDWebImageManager.m in Sources */,
 				B9193AD619A10D6B0008149D /* SDWebImageDownloaderOperation.m in Sources */,
@@ -889,6 +967,7 @@
 				B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
 				B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B9F087201991148F00002074 /* BMDataManager.m in Sources */,
+				B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */,
 				B9DECD5B19A3A99B00C17799 /* RateView.m in Sources */,
 				B9C29F9819865037002309FF /* RestarauntStartViewController.m in Sources */,
 				B943ECDE19A60D7D001ABB4E /* AFHTTPRequestOperation.m in Sources */,
@@ -898,6 +977,7 @@
 				B943ECE219A60D7D001ABB4E /* AFHTTPSessionManager.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
+				B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */,
 				B943ECE919A60D7D001ABB4E /* AFURLConnectionOperation.m in Sources */,
 				B943ECEB19A60D7D001ABB4E /* AFURLRequestSerialization.m in Sources */,
 				B943ECED19A60D7D001ABB4E /* AFURLResponseSerialization.m in Sources */,
@@ -917,23 +997,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9607D1819AF676D00B9556B /* AXRatingView.m in Sources */,
 				B92AD6DD19AB27DC00DDA65A /* BMCartManager.m in Sources */,
 				B9193AC619A10C370008149D /* RateView.m in Sources */,
 				B9F7D804199174E900EB175F /* BMSdk.m in Sources */,
+				B909D5FE19AD59230064B794 /* FBShimmeringView.m in Sources */,
 				B93CD7AD19A640B000C97622 /* BMLocationManager.m in Sources */,
+				B909D5F019AD4DE50064B794 /* UIButton+LocationManager.m in Sources */,
 				B93CD7B019A640CE00C97622 /* AFHTTPSessionManager.m in Sources */,
 				B9DECD5219A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
 				B93CD7B119A640CE00C97622 /* AFNetworkReachabilityManager.m in Sources */,
+				B91E546119B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */,
 				B93CD7AE19A640CE00C97622 /* AFHTTPRequestOperation.m in Sources */,
 				B93CD7B419A640CE00C97622 /* AFURLRequestSerialization.m in Sources */,
-				B92AD6E219AB353200DDA65A /* TDBadgedCell.m in Sources */,
 				B93CD7B319A640CE00C97622 /* AFURLConnectionOperation.m in Sources */,
 				B93CD7B619A640CE00C97622 /* AFURLSessionManager.m in Sources */,
 				B9DECD5819A3992100C17799 /* CommentsModalViewController.m in Sources */,
 				B93CD7BF19A650B200C97622 /* singleCommentTableViewCell.m in Sources */,
 				B9909F8A1989033500D02CB6 /* testClassViewController.m in Sources */,
 				B9C29F9919865037002309FF /* RestarauntStartViewController.m in Sources */,
+				B909D5FB19AD59230064B794 /* FBShimmeringLayer.m in Sources */,
+				B909D60419AE350F0064B794 /* cartTableViewCell.m in Sources */,
 				B93CD7AC19A640AD00C97622 /* BMDownloadManager.m in Sources */,
+				B9A180A419AD374B00866E36 /* TDBadgedCell.m in Sources */,
 				B9F0872A199138DD00002074 /* Reachability.m in Sources */,
 				B9C29FAF19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */,
 				B9C29FA3198659E1002309FF /* RecipeDetailViewController.m in Sources */,
@@ -945,6 +1031,7 @@
 				B93CD7AF19A640CE00C97622 /* AFHTTPRequestOperationManager.m in Sources */,
 				B9909F90198903B500D02CB6 /* MenuListViewController.m in Sources */,
 				B93CD7B519A640CE00C97622 /* AFURLResponseSerialization.m in Sources */,
+				B9A180A919AD3C8A00866E36 /* BMActivator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,8 @@
 #define BMAPI @"http://54.76.193.225/api/v1/client/"
 #define BMIMAGES @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
 
+#define DEBUGGER NO
+
 @import UIKit;
 
 @interface BMDownloadManager()
@@ -51,6 +53,11 @@
         self.locale = [[NSLocale preferredLanguages]objectAtIndex:0];
     }
     return self;
+}
+
+-(void)checkTypeOfMenu
+{
+    
 }
 
 -(void)fetchLatestRecipeOfRestaraunt:(NSNumber *)majorNumber
@@ -99,6 +106,7 @@
                 BMDataManager *dataManager = [BMDataManager sharedInstance];
                 //TODO: Restaraunt must be programmatically inserted
                 NSString *stringDateOfLastSavedRecipe = [[dataManager latestMenuEntryOfRestaraunt:@"CAMBIARE"] copy];
+                int savedRecipes = [dataManager numberOfrecipesInCache];
                 
                 NSArray *parsedMenu = [[self parseData:data of:@"menu"] copy];
 
@@ -114,18 +122,23 @@
                 {
                     [locationManager stopRanging];
                     
-                    NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
+                    if (DEBUGGER) {
+                        [dataManager deleteDataFromRestaraunt:@"restaraunt"];
+                    }
+                    
+//                    NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
                     
                     NSDictionary *latestRecipe =[parsedMenu objectAtIndex:[parsedMenu count]-1];
 
                     NSDateFormatter *df = [[NSDateFormatter alloc]init];
-                    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss.SSSSS"];
-
-                    NSDate *lastEditDateServer = [[NSDate alloc]init];
-                    NSDate *lastEditDateCache = [[NSDate alloc]init];
+                    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                     
-                    lastEditDateServer = [df dateFromString:[latestRecipe objectForKey:@"data_ultima_modifica"]];
-                    lastEditDateCache = [df dateFromString:stringDateOfLastSavedRecipe];
+                    NSString *formattedServerString = [[[latestRecipe objectForKey:@"data_ultima_modifica"]componentsSeparatedByString:@"."]objectAtIndex:0];
+
+                    NSString *formattedCachedString = [[stringDateOfLastSavedRecipe componentsSeparatedByString:@"."]objectAtIndex:0];
+                    
+                    NSDate *lastEditDateServer = [df dateFromString:formattedServerString];
+                    NSDate *lastEditDateCache = [df dateFromString:formattedCachedString];
 
                     double timeIntervalFromServer = [lastEditDateServer timeIntervalSince1970];
                     
@@ -134,7 +147,7 @@
                     if (timeIntervalFromCache == 0) {
                         [dataManager saveMenuData:parsedMenu];
                     }
-                    else if (timeIntervalFromServer > timeIntervalFromCache || [parsedMenu count] < [dataManager numberOfrecipesInCache]) {
+                    else if (timeIntervalFromServer > timeIntervalFromCache || [parsedMenu count] < savedRecipes) {
                         [dataManager deleteDataFromRestaraunt:@"restaraunt"];
                         [dataManager saveMenuData:parsedMenu];
                     }

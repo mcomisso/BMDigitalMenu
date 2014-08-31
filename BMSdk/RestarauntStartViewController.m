@@ -10,6 +10,7 @@
 #import "RestarauntStartmenuCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "TDBadgedCell.h"
+#import "NGAParallaxMotion.h"
 
 #import "BMDataManager.h"
 #import "BMCartManager.h"
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIView *restarauntName;
 @property (strong, nonatomic) IBOutlet UIView *sliderContainer;
 @property (strong, nonatomic) IBOutlet UILabel *restarauntLabelName;
+@property (strong, nonatomic) IBOutlet UIView *headupview;
 
 @property (strong, nonatomic) BMCartManager *cartManager;
 
@@ -41,9 +43,17 @@
     return self;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    self.headupview.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
     self.restarauntName.layer.cornerRadius = self.restarauntName.frame.size.width / 2;
     self.restarauntName.layer.backgroundColor = [[UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]CGColor];
     
@@ -54,8 +64,16 @@
 
     self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
     
-    [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://54.76.193.225/static/images/INDUSTRIALDESIGN.jpg"]];
+    self.backgroundRestarauntImage.contentMode = UIViewContentModeScaleAspectFill;
+    [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/154/rbig_ratana2.jpg"]];
     
+    [self loadCategories];
+
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dataChangedInDB) name:@"updateMenu" object:nil];
+}
+
+-(void)dataChangedInDB
+{
     [self loadCategories];
 }
 
@@ -63,6 +81,7 @@
 {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
@@ -177,6 +196,20 @@
 }
 
 #pragma mark - Navigation
+
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"cartSegue"]) {
+        if ([self.cartManager numbersOfItemInCart] == 0) {
+            return NO;
+        }
+        return YES;
+    }
+    else
+    {
+        return YES;
+    }
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

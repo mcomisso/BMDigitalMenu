@@ -1,26 +1,20 @@
 //
-//  singleCommentTableViewCell.m
+//  cartTableViewCell.m
 //  BMSdk
 //
-//  Created by Matteo Comisso on 21/08/14.
+//  Created by Matteo Comisso on 27/08/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
 
-#import "singleCommentTableViewCell.h"
+#import "cartTableViewCell.h"
 
-@interface singleCommentTableViewCell()
-
-@property (nonatomic, assign) BOOL didSetupContraints;
-
-@end
-
-@implementation singleCommentTableViewCell
+@implementation cartTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        // Initialization code
     }
     return self;
 }

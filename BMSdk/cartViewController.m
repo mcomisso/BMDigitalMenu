@@ -7,7 +7,7 @@
 //
 
 #import "cartViewController.h"
-#import "MenuListCell.h"
+#import "cartTableViewCell.h"
 
 #import "BMCartManager.h"
 
@@ -71,19 +71,19 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     NSDictionary *recipe = [self.dataSource objectAtIndex:indexPath.row];
     
     static NSString *cellIdentifier = @"cellIdentifier";
-    MenuListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cartTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[MenuListCell alloc]initWithStyle:UITableViewCellStyleDefault
+        cell = [[cartTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
                                   reuseIdentifier:cellIdentifier];
     }
+    NSLog(@"Recipe Description: %@", [recipe description]);
     cell.recipeId = [recipe objectForKey:@"id"];
-    cell.recipeImage = [recipe objectForKey:@"image"];
-    cell.recipePrice = [recipe objectForKey:@"price"];
-    cell.recipeTitle = [recipe objectForKey:@"title"];
+    cell.recipeImageView = [recipe objectForKey:@"image"];
+    cell.recipePrice.text = [recipe objectForKey:@"price"];
+    cell.recipeName = [recipe objectForKey:@"title"];
 
     return cell;
 }

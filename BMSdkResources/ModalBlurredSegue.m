@@ -39,7 +39,7 @@
     
     CGPoint originalCenter = destinationView.center;
     destinationView.center = CGPointMake(originalCenter.x+sourceView.frame.size.width, originalCenter.y);
-    
+    destinationView.alpha = 0.f;
     [UIView animateWithDuration:0.6
                           delay:0.0
          usingSpringWithDamping:0.8
@@ -48,6 +48,7 @@
                      animations:^{
                          destinationView.center = originalCenter;
                          blurredImageView.frame = sourceView.frame;
+                         destinationView.alpha = 1.f;
                      } completion:^(BOOL finished) {
                          [blurredImageView removeFromSuperview];
                          [destinationView removeFromSuperview];

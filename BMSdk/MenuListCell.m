@@ -14,9 +14,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.rating.starFillColor = [UIColor whiteColor];
-        self.rating.starBorderColor = [UIColor whiteColor];
-        self.rating.starNormalColor = [UIColor blackColor];
+        // init stars
+
     }
     return self;
 }
@@ -31,6 +30,29 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(UIImage *)imageColoredGenerator
+{
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    UIColor *color = [[UIColor alloc]initWithCGColor:[UIColor whiteColor].CGColor];
+    [color setFill];
+    UIRectFill(rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+-(void)prepareForReuse
+{
+    AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
+    [axrate removeFromSuperview];
+ 
+    UIImageView *imag = (UIImageView *)[self.recipeImage viewWithTag:110];
+    imag.image = [self imageColoredGenerator];
+
+    [super prepareForReuse];
 }
 
 @end

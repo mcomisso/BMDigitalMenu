@@ -15,6 +15,11 @@
 @property (nonatomic, strong, readonly) NSString *latestRestarauntID;
 
 /**
+ Method to activate an external UX element. Use the return value YES|NO to activate or deactivate a interface element, such a button.
+ */
+@property (nonatomic, readonly) BOOL canStartInterface;
+
+/**
  Instantiate a BMLocationManager object. Call only this method to create.
  */
 +(BMLocationManager *)sharedInstance;
@@ -43,13 +48,6 @@
  Warns the Location Manager that the app is going in background mode.
  */
 -(void)enterBackground;
-
-#pragma mark - external methods
-
-/**
- Method to activate an external UX element. Use the return value YES|NO to activate or deactivate a interface element, such a button.
- */
--(BOOL)canStartInterface;
 
 @property dispatch_group_t dispatchGroup;
 

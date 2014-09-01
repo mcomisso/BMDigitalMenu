@@ -33,11 +33,14 @@
     blurredImageView.clipsToBounds = YES;
     blurredImageView.contentMode = UIViewContentModeRight;
     blurredImageView.image = blurredSourceImage;
+    blurredImageView.alpha = 0.f;
     
     [sourceView addSubview:blurredImageView];
     [sourceView addSubview:destinationView];
     
     CGPoint originalCenter = destinationView.center;
+
+    blurredImageView.frame = sourceView.frame;
     destinationView.center = CGPointMake(originalCenter.x+sourceView.frame.size.width, originalCenter.y);
     destinationView.alpha = 0.f;
     [UIView animateWithDuration:0.6
@@ -46,9 +49,10 @@
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         destinationView.center = originalCenter;
-                         blurredImageView.frame = sourceView.frame;
                          destinationView.alpha = 1.f;
+                         blurredImageView.alpha = 1.f;
+                         destinationView.center = originalCenter;
+//                         blurredImageView.frame = sourceView.frame;
                      } completion:^(BOOL finished) {
                          [blurredImageView removeFromSuperview];
                          [destinationView removeFromSuperview];
@@ -71,7 +75,7 @@
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        UIImage *blurredImage = [image applyDarkEffect];
+        UIImage *blurredImage = [image applyLightEffect];
         return blurredImage;
     }
     else

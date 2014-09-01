@@ -13,8 +13,10 @@
 
 #import "UIImageView+WebCache.h"
 #define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
+
 //TEST
 #import "BMDownloadManager.h"
+#import "AXRatingView.h"
 #import "BMCartManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
@@ -56,12 +58,15 @@
     [sepg setEdges:UIRectEdgeLeft];
     [self.view addGestureRecognizer:sepg];
     
+    [self.navigationController.toolbar setBarStyle:UIBarStyleBlackTranslucent];
+    
     //Text bigger
     self.recipeNameLabel.text = [self.recipeNameLabel.text uppercaseString];
-    
+    self.navigationController.toolbar.tintColor = [UIColor whiteColor];
     [self.rateViewContainer setBackgroundColor:[UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]];
     
     [self loadRecipeData];
+    [self loadRating];
     
     BMDownloadManager *dm = [BMDownloadManager sharedInstance];
     BMDataManager *dataManage = [BMDataManager sharedInstance];
@@ -110,6 +115,23 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+-(void)loadRating
+{
+    AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, 25)];
+    CGPoint center = CGPointMake(55, 17);
+    thisratingView.center = center;
+    thisratingView.value = 4.f;
+    thisratingView.tag = 114;
+    thisratingView.numberOfStar = 5;
+    thisratingView.baseColor = [UIColor blackColor];
+    thisratingView.highlightColor = [UIColor whiteColor];
+    
+    thisratingView.userInteractionEnabled = NO;
+    thisratingView.stepInterval = 1.f;
+    
+    [self.rateViewContainer addSubview:thisratingView];
+}
+
 -(void)loadRecipeData
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];
@@ -126,6 +148,7 @@
     self.descriptionText.text = [self.recipeDetails objectForKey:@"descrizione"];
     [self.descriptionText setFont:[UIFont systemFontOfSize:16]];
 
+    self.recipeImageView.clipsToBounds = YES;
     [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:[BMIMAGEAPI stringByAppendingString:self.recipeImageUrl]]];
 }
 
@@ -161,6 +184,7 @@
 
 /* Carica i commenti */
 - (IBAction)viewComments:(id)sender {
+    [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setToolbarHidden:YES animated:YES];
 }
 

@@ -51,7 +51,9 @@
     self.tableView.scrollsToTop = YES;
     self.title = [self.category uppercaseString];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+    
     self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
     
     self.navigationItem.hidesBackButton = YES;
@@ -140,9 +142,12 @@
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              int value = [[responseObject objectForKey:@"media"]intValue];
              thisratingView.value = value;
+             //Update rating and load from data manager
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error while giving rate to cells: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+             
+             //Get Rate Data from Data Manager
          }];
     /*
     FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:self.view.bounds];
@@ -180,7 +185,7 @@
 
         cell.recipeTitle.frame = CGRectMake(168, 10, 142, 45);
         cell.recipePrice.frame = CGRectMake(168, 62, 132, 21);
-        
+        recipeImageView.clipsToBounds = YES;
         [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString] placeholderImage:[self imageColoredGenerator] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
                 NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);

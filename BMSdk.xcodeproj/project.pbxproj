@@ -23,6 +23,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B909AF4819B4D3E600CBA2B1 /* TransitionManager.h */; };
+		B909AF4C19B4DAC400CBA2B1 /* TransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */; };
+		B909AF4D19B4DBC000CBA2B1 /* TransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */; };
 		B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
 		B909D5F019AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
@@ -139,6 +142,10 @@
 		B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B915C33419780B8E005618A6 /* BMLocationManager.h */; };
 		B955D182197ED6CE0052ED2B /* testClassViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B955D180197ED6CE0052ED2B /* testClassViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B955D183197ED6CE0052ED2B /* testClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B955D181197ED6CE0052ED2B /* testClassViewController.m */; };
+		B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B95C3D9519B5DDFD009FE141 /* Commenti@2x.png */; };
+		B95C3D9A19B5DDFD009FE141 /* Condividi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B95C3D9619B5DDFD009FE141 /* Condividi@2x.png */; };
+		B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B95C3D9719B5DDFD009FE141 /* Cuore@2x.png */; };
+		B95C3D9C19B5DDFD009FE141 /* Suggerimenti@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */; };
 		B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9607D1419AF676D00B9556B /* AXRatingView.h */; };
 		B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9607D1519AF676D00B9556B /* AXRatingView.m */; };
 		B9607D1819AF676D00B9556B /* AXRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9607D1519AF676D00B9556B /* AXRatingView.m */; };
@@ -225,6 +232,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B909AF4819B4D3E600CBA2B1 /* TransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionManager.h; sourceTree = "<group>"; };
+		B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionManager.m; sourceTree = "<group>"; };
 		B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LocationManager.h"; sourceTree = "<group>"; };
 		B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+LocationManager.m"; sourceTree = "<group>"; };
 		B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBShimmering-Prefix.pch"; sourceTree = "<group>"; };
@@ -334,6 +343,10 @@
 		B943ECDC19A60D7D001ABB4E /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		B955D180197ED6CE0052ED2B /* testClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testClassViewController.h; sourceTree = "<group>"; };
 		B955D181197ED6CE0052ED2B /* testClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testClassViewController.m; sourceTree = "<group>"; };
+		B95C3D9519B5DDFD009FE141 /* Commenti@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commenti@2x.png"; sourceTree = "<group>"; };
+		B95C3D9619B5DDFD009FE141 /* Condividi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Condividi@2x.png"; sourceTree = "<group>"; };
+		B95C3D9719B5DDFD009FE141 /* Cuore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cuore@2x.png"; sourceTree = "<group>"; };
+		B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Suggerimenti@2x.png"; sourceTree = "<group>"; };
 		B9607D1419AF676D00B9556B /* AXRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXRatingView.h; sourceTree = "<group>"; };
 		B9607D1519AF676D00B9556B /* AXRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXRatingView.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -500,6 +513,10 @@
 		B915C328197803BF005618A6 /* BMSdkResources */ = {
 			isa = PBXGroup;
 			children = (
+				B95C3D9519B5DDFD009FE141 /* Commenti@2x.png */,
+				B95C3D9619B5DDFD009FE141 /* Condividi@2x.png */,
+				B95C3D9719B5DDFD009FE141 /* Cuore@2x.png */,
+				B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */,
 				B93CD7B919A6433700C97622 /* heart@2x.png */,
 				B93CD7B719A642D300C97622 /* star@2x.png */,
 				B9DECD5919A3992900C17799 /* comments@2x.png */,
@@ -689,6 +706,8 @@
 			children = (
 				B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */,
 				B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */,
+				B909AF4819B4D3E600CBA2B1 /* TransitionManager.h */,
+				B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */,
 			);
 			name = CustomSegues;
 			sourceTree = "<group>";
@@ -763,6 +782,7 @@
 				B909D5F819AD59230064B794 /* FBShimmering.h in Headers */,
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */,
+				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
 				B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */,
 				B9C29FA619865A29002309FF /* MenuListCell.h in Headers */,
 				B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */,
@@ -876,8 +896,12 @@
 				B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */,
 				B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */,
 				B93CD7BA19A6433700C97622 /* heart@2x.png in Resources */,
+				B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
+				B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */,
+				B95C3D9A19B5DDFD009FE141 /* Condividi@2x.png in Resources */,
 				B915C32D197803C0005618A6 /* InfoPlist.strings in Resources */,
+				B95C3D9C19B5DDFD009FE141 /* Suggerimenti@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -974,6 +998,7 @@
 				B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */,
 				B943ECE019A60D7D001ABB4E /* AFHTTPRequestOperationManager.m in Sources */,
 				B92AD6E119AB353200DDA65A /* TDBadgedCell.m in Sources */,
+				B909AF4D19B4DBC000CBA2B1 /* TransitionManager.m in Sources */,
 				B943ECE219A60D7D001ABB4E /* AFHTTPSessionManager.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
@@ -1025,6 +1050,7 @@
 				B9C29FA3198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B92AD6E719AB46DA00DDA65A /* cartViewController.m in Sources */,
 				B93CD7AB19A640A900C97622 /* BMDataManager.m in Sources */,
+				B909AF4C19B4DAC400CBA2B1 /* TransitionManager.m in Sources */,
 				B9DECD4D19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B93CD7B219A640CE00C97622 /* AFSecurityPolicy.m in Sources */,
 				B9C29FA819865A29002309FF /* MenuListCell.m in Sources */,

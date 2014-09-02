@@ -31,6 +31,13 @@
  */
 -(void)saveCommentsData:(NSDictionary *)commentsDictionary;
 
+/**
+ Saves the rating of the loaded recipe
+ @param value The current value of rating
+ @param recipe The recipe identified
+ */
+-(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipe;
+
 #pragma mark - Check Methods
 /**
  Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.

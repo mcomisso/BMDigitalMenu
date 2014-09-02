@@ -87,7 +87,7 @@
         CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER); \
         CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, nome TEXT, immagine TEXT, data_ultima_modifica TEXT, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT, FOREIGN KEY (locale_id) REFERENCES restaraunt (id));\
         CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));\
-        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, ricetta_id INTEGER, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));";
+        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, ricetta_id INTEGER UNIQUE, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));";
         
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
             NSLog(@"[DataManager]Failed To create table, %s", errMessage);
@@ -128,16 +128,6 @@
         if ([descrizione isMemberOfClass:[NSNull class]]) {
             descrizione = @"nil";
         }
-
-//        NSNumber *localeId = JSONArray[i][@"locale_id"];
-/*        if ([date1 compare:date2] == NSOrderedDescending) {
-            NSLog(@"date1 is later than date2");
-        } else if ([date1 compare:date2] == NSOrderedAscending) {
-            NSLog(@"date1 is earlier than date2");
-        } else {
-            NSLog(@"dates are the same");
-        }
- */
         
         sqlite3_stmt *statement;
         const char *dbPath = [_databasePath UTF8String];
@@ -448,7 +438,7 @@
     }
     return retval;
 }
-
+#pragma mark -
 -(int)requestRatingForRecipe:(NSString *)idRecipe
 {
     const char *dbPath = [_databasePath UTF8String];
@@ -457,7 +447,7 @@
     int retval = 0;
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT ratingValue FROM comments WHERE ricetta_id = %@", idRecipe];
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT ratingValue FROM rating WHERE ricetta_id = %@;", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
@@ -471,6 +461,32 @@
         sqlite3_close(_database);
     }
     return retval;
+}
+
+-(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipe
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        
+        //CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, ricetta_id INTEGER UNIQUE, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id))
+        NSString *query = [[NSString alloc]initWithFormat:@"INSERT OR REPLACE INTO rating(ratingValue, ricetta_id) VALUES (%@, %@)", value, recipe];
+        const char *forged = [query UTF8String];
+        
+        int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
+        NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
+        
+        if (sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"[DataManager] Rating saved inside database");
+        }
+        else
+        {
+            NSLog(@"[DataManager] Failed to save rating into database");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(_database);
+    }
 }
 
 /**

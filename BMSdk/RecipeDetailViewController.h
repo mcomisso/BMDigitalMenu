@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RecipeDetailViewController : UIViewController
+@interface RecipeDetailViewController : UIViewController<UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSString *recipeName;
 @property (nonatomic, strong) NSString *recipeId;

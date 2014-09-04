@@ -9,7 +9,7 @@
 #import "CommentsModalViewController.h"
 #import "BMDataManager.h"
 
-@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
+@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataSourceOfComments;
@@ -30,6 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipe];
+    
+
     // Do any additional setup after loading the view.
     self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
 
@@ -37,6 +43,11 @@
     BMDataManager *dataManager = [BMDataManager sharedInstance];
 //    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
     self.dataSourceOfComments = [dataManager requestCommentsForRecipe:self.idRecipe];
+}
+
+-(void)dismiss:(UIGestureRecognizer *)gesture
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -130,5 +141,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Gesture recognizer
+
 
 @end

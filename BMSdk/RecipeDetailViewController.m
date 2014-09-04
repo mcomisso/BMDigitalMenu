@@ -19,21 +19,45 @@
 #import "AXRatingView.h"
 #import "BMCartManager.h"
 
+#import "TransitionManager.h"
+
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
+
 @property (strong, nonatomic) IBOutlet UILabel *recipeNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *recipePriceLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *recipeIngredientsLabel;
-@property (strong, nonatomic) IBOutlet UITextView *ingredientsText;
 @property (strong, nonatomic) IBOutlet UILabel *recipeDescriptionLabel;
-@property (strong, nonatomic) IBOutlet UITextView *descriptionText;
+
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
 @property (strong, nonatomic) IBOutlet UIView *rateViewContainer;
+@property (strong, nonatomic) IBOutlet UIView *secondaryInfoView;
+
+@property (strong, nonatomic) IBOutlet UILabel *descriptionTextLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ingredientsTextLabel;
+
 
 @property (strong, nonatomic) NSMutableDictionary *recipeDetails;
+@property (nonatomic, strong) TransitionManager *transitionManager;
 
 @end
 
 @implementation RecipeDetailViewController
+
+-(void)viewDidLayoutSubviews
+{
+    CGFloat heightSize = 0;
+
+    for (UILabel *label in self.secondaryInfoView.subviews) {
+        heightSize += label.frame.size.height + 8;
+    }
+    
+    heightSize += 69;
+    
+    self.scrollView.contentSize = CGSizeMake(320, heightSize);
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.transitionManager = [[TransitionManager alloc]init];
+    
     //return to previous view
     UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(pop)];
     sepg.delegate = self;
@@ -68,11 +94,10 @@
     [self loadRecipeData];
     [self loadRating];
     
+
+    
     BMDownloadManager *dm = [BMDownloadManager sharedInstance];
     BMDataManager *dataManage = [BMDataManager sharedInstance];
-    
-    [self testLayerGradient];
-    
     
     if ([dataManage shouldFetchCommentsFromServer:self.recipeId]) {
         NSLog(@"[RecipeDetailViewController] Comments not found for recipeID %@, name: %@", self.recipeId, self.recipeName);
@@ -82,22 +107,6 @@
     {
         NSLog(@"[RecipeDetailViewController] Comments found in database");
     }
-}
-
--(void)testLayerGradient
-{
-    UIColor *topColor = [UIColor colorWithWhite:1 alpha:0];
-    UIColor *bottomColor = [UIColor colorWithWhite:1 alpha:1];
-    
-    NSArray *gradientColors = [NSArray arrayWithObjects:(id)topColor.CGColor, (id)bottomColor.CGColor, nil];
-    NSArray *gradientLocations = [NSArray arrayWithObjects:[NSNumber numberWithInt:0.0], [NSNumber numberWithInt:1.0], nil];
-    
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.colors = gradientColors;
-    gradientLayer.locations = gradientLocations;
-
-    gradientLayer.frame = self.recipeImageView.frame;
-    [self.scrollView.layer insertSublayer:gradientLayer atIndex:0];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -134,6 +143,9 @@
 
 -(void)loadRecipeData
 {
+    
+    UIFont *fontForItems = [UIFont systemFontOfSize:16];
+    
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     [[NSUserDefaults standardUserDefaults]objectForKey:@"//RESTARAUNT"];
 
@@ -142,14 +154,29 @@
     self.recipeNameLabel.text = [self.recipeName uppercaseString];
     self.recipePriceLabel.text = self.recipePrice;
 
-    self.ingredientsText.text = [self.recipeDetails objectForKey:@"ingredienti"];
-    [self.ingredientsText setFont:[UIFont systemFontOfSize:16]];
+    self.ingredientsTextLabel.text = [self.recipeDetails objectForKey:@"ingredienti"];
+    [self.ingredientsTextLabel setFont:fontForItems];
 
-    self.descriptionText.text = [self.recipeDetails objectForKey:@"descrizione"];
-    [self.descriptionText setFont:[UIFont systemFontOfSize:16]];
-
+    self.descriptionTextLabel.text = [self.recipeDetails objectForKey:@"descrizione"];
+    [self.descriptionTextLabel setFont:fontForItems];
+    
     self.recipeImageView.clipsToBounds = YES;
     [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:[BMIMAGEAPI stringByAppendingString:self.recipeImageUrl]]];
+    
+    [self.secondaryInfoView sizeToFit];
+    self.contentViewHeight.constant = self.secondaryInfoView.frame.size.height;
+    
+}
+
+-(void)setConstraint
+{
+    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.secondaryInfoView attribute:NSLayoutAttributeLeading relatedBy:0 toItem:self.scrollView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    
+    [self.view addConstraint:leftConstraint];
+    
+    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.secondaryInfoView attribute:NSLayoutAttributeTrailing relatedBy:0 toItem:self.scrollView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+    
+    [self.view addConstraint:rightConstraint];
 }
 
 - (void)didReceiveMemoryWarning
@@ -184,8 +211,32 @@
 
 /* Carica i commenti */
 - (IBAction)viewComments:(id)sender {
+
     [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setToolbarHidden:YES animated:YES];
+    
+    UIStoryboard *BMStoryboard = [UIStoryboard storyboardWithName:@"BMStoryboard"
+                                                                                                    bundle:[NSBundle bundleWithIdentifier:@"com.blueMate.BMSdk"]];
+    
+    CommentsModalViewController *modal = [BMStoryboard instantiateViewControllerWithIdentifier:@"commentsModalView"];
+    
+    modal.idRecipe = self.recipeId;
+    
+    modal.transitioningDelegate = self;
+    modal.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:modal animated:YES completion:nil];
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    self.transitionManager.transitionTo = MODAL;
+    return self.transitionManager;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    self.transitionManager.transitionTo = INITIAL;
+    return self.transitionManager;
 }
 
 /* Vota il piatto corrente */
@@ -206,19 +257,15 @@
 }
 
 #pragma mark - Navigation
-
+/*
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier]isEqualToString:@"commentSegue"]) {
 
-        CommentsModalViewController *cmv = [segue destinationViewController];
-        cmv.idRecipe = self.recipeId;
-    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
+*/
 -(void)pop
 {
     [self.navigationController popViewControllerAnimated:YES];

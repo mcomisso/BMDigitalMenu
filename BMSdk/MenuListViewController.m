@@ -26,8 +26,10 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *recipesInCategory;
 
+@property (strong, nonatomic) BMDataManager *dataManager;
+
 //Testing purpose variables
-@property (nonatomic, strong) NSArray *testingArray;
+@property (nonatomic) BOOL ratingDownloaded;
 
 @end
 
@@ -47,6 +49,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    self.dataManager = [BMDataManager sharedInstance];
+    
     //Scroll to top gesture
     self.tableView.scrollsToTop = YES;
     self.title = [self.category uppercaseString];
@@ -84,8 +88,7 @@
 
 -(void)loadRecipesForCategory
 {
-    BMDataManager *dataManger = [BMDataManager sharedInstance];
-    self.recipesInCategory = [dataManger requestRecipesForCategory:self.category ofRestaraunt:@"2"];
+    self.recipesInCategory = [self.dataManager requestRecipesForCategory:self.category ofRestaraunt:@"2"];
     NSLog(@"Array description: %@", [_recipesInCategory description]);
     [self.tableView reloadData];
 }
@@ -137,29 +140,20 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
 
+    thisratingView.value = [self.dataManager requestRatingForRecipe:cell.recipeId];
+    
     [manager GET:[BMRATEAPI stringByAppendingString:cell.recipeId]
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              int value = [[responseObject objectForKey:@"media"]intValue];
-             thisratingView.value = value;
+
              //Update rating and load from data manager
+             [self.dataManager saveRatingValue:[NSNumber numberWithInt:value] forRecipe:cell.recipeId];
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error while giving rate to cells: %@ %@", [error localizedDescription], [error localizedFailureReason]);
              
-             //Get Rate Data from Data Manager
          }];
-    /*
-    FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:shimmeringView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = NSLocalizedString(@"Shimmer", nil);
-    shimmeringView.contentView = loadingLabel;
-    
-    // Start shimmering.
-    shimmeringView.shimmering = YES;*/
     
     return cell;
 }
@@ -186,11 +180,13 @@
         cell.recipeTitle.frame = CGRectMake(168, 10, 142, 45);
         cell.recipePrice.frame = CGRectMake(168, 62, 132, 21);
         recipeImageView.clipsToBounds = YES;
-        [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString] placeholderImage:[self imageColoredGenerator] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            if (error) {
-                NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);
-            }
-        }];
+        [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString]
+                            placeholderImage:[self imageColoredGenerator]
+                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                       if (error) {
+                                           NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                                       }
+                                   }];
     }
     else
     {

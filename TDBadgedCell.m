@@ -139,8 +139,14 @@
                 CGContextSetBlendMode(context, kCGBlendModeClear);
             }
         }
-        
-        [__badgeString drawInRect:bounds withFont:font lineBreakMode:TDLineBreakModeClip];
+        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+        [paragraph setLineBreakMode:NSLineBreakByClipping];
+        paragraph.alignment = NSTextAlignmentLeft;
+        [__badgeString drawInRect:bounds withAttributes:@{ NSFontAttributeName:font,
+                                                           NSParagraphStyleAttributeName:paragraph}];
+
+#warning testEdit
+        //        [__badgeString drawInRect:bounds withFont:font lineBreakMode:TDLineBreakModeClip];
     }
 	
     // Create an image from the new badge (Fast and easy to cache)

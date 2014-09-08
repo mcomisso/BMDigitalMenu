@@ -1,19 +1,18 @@
 //
-//  testClassViewController.m
+//  DocumentsViewController.m
 //  BMSdk
 //
-//  Created by Matteo Comisso on 22/07/14.
+//  Created by Matteo Comisso on 08/09/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
 
-#import "testClassViewController.h"
-#import "BMLocationManager.h"
+#import "DocumentsViewController.h"
 
-@interface testClassViewController ()
+@interface DocumentsViewController ()
 
 @end
 
-@implementation testClassViewController
+@implementation DocumentsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,10 +27,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    BMLocationManager *locationManager = [BMLocationManager sharedInstance];
-    
-    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
-    NSLog(@"BMLocationmanager %@", [locationManager description]);
 }
 
 - (void)didReceiveMemoryWarning

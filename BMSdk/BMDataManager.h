@@ -38,12 +38,18 @@
  */
 -(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipe;
 
+/**
+ Saves The UUID of the PDF inside the database.
+ @param pdfUUID The name of the pdf
+ @param restaraunt The id of the restaraunt
+ */
+-(void)savePDFUuid:(NSString *)pdfUUID ofRestaraunt:(NSString *)restaraunt;
+
 #pragma mark - Check Methods
 /**
  Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.
-
  @param restarauntId The major number of the beacons inside a restaraunt.
- 
+ @return The date in string format of the latest recipe inside the database.
  */
 -(NSString *)latestMenuEntryOfRestaraunt:(NSString *)restarauntId;
 
@@ -108,10 +114,29 @@
 
 #pragma mark - Delete from menu
 
+/**
+ Deletes all recipes for a partcular restaraunt
+ @param restarauntId Id of restaraunt, which recipes will be deleted.
+ */
 -(void)deleteDataFromRestaraunt:(NSString *)restarauntId;
 
+/**
+ Deletes all comments for a particular recipe
+ @param idRecipe ID for a particular recipe.
+ */
 -(void)deleteCommentsOfRecipe:(NSString *)idRecipe;
 
+/**
+ Counts the numbers of recipes currently inside the database.
+ @return COUNT(*) of recipes
+ */
 -(int)numberOfrecipesInCache;
+
+#pragma mark - PDF utils
+
+/**
+ Controls if the PDF directory exists. If not, the method creates one.
+ */
+-(NSString *)pathToPDFDirectory;
 
 @end

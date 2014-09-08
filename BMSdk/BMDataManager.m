@@ -84,7 +84,7 @@
         char *errMessage;
         const char *sql_stmt =
         "PRAGMA foreign_keys = ON;\
-        CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER); \
+        CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER, pdfUUID TEXT); \
         CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, nome TEXT, immagine TEXT, data_ultima_modifica TEXT, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT, FOREIGN KEY (locale_id) REFERENCES restaraunt (id));\
         CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));\
         CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, ricetta_id INTEGER UNIQUE, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));";
@@ -176,7 +176,7 @@
         
         if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
             //Query id INTEGER PRIMARY KEY, locale_id INTEGER, ricetta_id INTEGER, comment TEXT, userId INTEGER  {"commento": "Tagliere fanstastico, ottimo", "utente": 2, "ricetta_id": 1}
-            NSString *query = [NSString stringWithFormat:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (%@, \"%@\", %@)", ricettaId, singleComment, userId];
+            NSString *query = [NSString stringWithFormat:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (%@, \"%@\", %@);", ricettaId, singleComment, userId];
             const char *forged = [query UTF8String];
             
             int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
@@ -197,6 +197,34 @@
             NSLog(@"[DataManager] save - Failed to open database");
             sqlite3_close(_database);
         }
+    }
+}
+
+-(void)savePDFUuid:(NSString *)pdfUUID ofRestaraunt:(NSString *)restaraunt
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [NSString stringWithFormat:@"INSERT INTO restaraunt(pdfUUID) VALUES(\"%@\")", pdfUUID];
+        const char *forged = [query UTF8String];
+        
+        int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
+        
+        NSLog(@"[SAVE PDF] Response insert inside DB: %d %s", response, sqlite3_errmsg(self.database));
+        if (sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"[Save PDF] Completed save");
+        }
+        else
+        {
+            NSLog(@"[Save PDF] Failed Insert into database");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(_database);
+    }
+    else
+    {
+        NSLog(@"[Save PDF] Failed Open Database");
+        sqlite3_close(_database);
     }
 }
 
@@ -304,43 +332,46 @@
 #pragma mark - Fetch data for cart
 -(NSMutableArray *)requestDataForCart:(NSArray*)listOfRecipesToFind
 {
-    NSMutableArray *retval = [[NSMutableArray alloc]initWithCapacity:[listOfRecipesToFind count]];
-    
-    const char *dbPath = [_databasePath UTF8String];
-    sqlite3_stmt *statement;
-    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"SELECT * FROM menu WHERE id = %@", [listOfRecipesToFind objectAtIndex:0]];
-        if ([listOfRecipesToFind count] > 1) {
-            for (int i = 1; i < [listOfRecipesToFind count]; i++) {
-                query = [query stringByAppendingString:[NSString stringWithFormat:@" OR id = %@", [listOfRecipesToFind objectAtIndex:i]]];
-            }
-            query = [query stringByAppendingString:@";"];
-        }
-        const char *forged = [query UTF8String];
+    if ([listOfRecipesToFind count] != 0) {
+        NSMutableArray *retval = [[NSMutableArray alloc]initWithCapacity:[listOfRecipesToFind count]];
         
-        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                NSMutableDictionary *recipe = [[NSMutableDictionary alloc]init];
-                
-                NSString *title = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
-                NSString *categoria = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
-                NSString *idRecipe = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
-                NSString *image = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
-                NSString *price = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
-
-                [recipe setObject:title forKey:@"title"];
-                [recipe setObject:categoria forKey:@"categoria"];
-                [recipe setObject:idRecipe forKey:@"id"];
-                [recipe setObject:image forKey:@"image"];
-                [recipe setObject:price forKey:@"price"];
-                
-                [retval addObject:recipe];
+        const char *dbPath = [_databasePath UTF8String];
+        sqlite3_stmt *statement;
+        if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+            NSString *query = [NSString stringWithFormat:@"SELECT * FROM menu WHERE id = %@", [listOfRecipesToFind objectAtIndex:0]];
+            if ([listOfRecipesToFind count] > 1) {
+                for (int i = 1; i < [listOfRecipesToFind count]; i++) {
+                    query = [query stringByAppendingString:[NSString stringWithFormat:@" OR id = %@", [listOfRecipesToFind objectAtIndex:i]]];
+                }
+                query = [query stringByAppendingString:@";"];
             }
-            sqlite3_finalize(statement);
+            const char *forged = [query UTF8String];
+            
+            if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+                while (sqlite3_step(statement) == SQLITE_ROW) {
+                    NSMutableDictionary *recipe = [[NSMutableDictionary alloc]init];
+                    
+                    NSString *title = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 2)];
+                    NSString *categoria = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
+                    NSString *idRecipe = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
+                    NSString *image = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
+                    NSString *price = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
+                    
+                    [recipe setObject:title forKey:@"title"];
+                    [recipe setObject:categoria forKey:@"categoria"];
+                    [recipe setObject:idRecipe forKey:@"id"];
+                    [recipe setObject:image forKey:@"image"];
+                    [recipe setObject:price forKey:@"price"];
+                    
+                    [retval addObject:recipe];
+                }
+                sqlite3_finalize(statement);
+            }
+            sqlite3_close(_database);
         }
-        sqlite3_close(_database);
+        return retval;
     }
-    return retval;
+    return nil;
 }
 
 #pragma mark - Delete data from menu
@@ -365,14 +396,27 @@
     }
 }
 
-#pragma mark - SYNC methods
-
--(void)compareLastEditDate:(NSArray *)arrayOfRecipeToCompare
-{
-    
-}
-
 #pragma mark - Comments and rating Management
+
+-(void)deleteCommentsOfRecipe:(NSString *)idRecipe
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        //        NSString *query = [NSString stringWithFormat:@"DELETE FROM menu WHERE locale_id = %@;", restarauntId];
+        NSString *query = [NSString stringWithFormat:@"DELETE FROM comments WHERE ricetta_id = %@;", idRecipe];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            //DONE
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                NSLog(@"Deleted successfully from db");
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+}
 
 -(NSArray *)requestCommentsForRecipe:(NSString *)idRecipe
 {
@@ -382,7 +426,7 @@
     NSMutableArray *retval = [[NSMutableArray alloc]init];
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", idRecipe];
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@;", idRecipe];
         const char *forged = [query UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
@@ -539,6 +583,24 @@
     }
     
     return total;
+}
+
+#pragma mark - PDF utils
+-(NSString *)pathToPDFDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = [paths firstObject];
+    NSString *dataPath = [cachesDirectory stringByAppendingPathComponent:@"/PDF"];
+    NSError *error = nil;
+    
+    if (![[NSFileManager defaultManager]fileExistsAtPath:dataPath]) {
+        [[NSFileManager defaultManager]createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:&error];
+        if (error) {
+            NSLog(@"Error while creating directory: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+            return nil;
+        }
+    }
+    return dataPath;
 }
 
 @end

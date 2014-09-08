@@ -10,6 +10,8 @@
 
 @interface DocumentsViewController ()
 
+@property (strong, nonatomic) IBOutlet UIWebView *documentWebView;
+
 @end
 
 @implementation DocumentsViewController
@@ -27,12 +29,24 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //LOAD the pdf file inside the webview
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)loadDocument
+{
+    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"FILENAME" ofType:@"pdf"];
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    
+    [self.documentWebView loadRequest:[NSURLRequest requestWithURL:fileURL]];
+    
 }
 
 /*

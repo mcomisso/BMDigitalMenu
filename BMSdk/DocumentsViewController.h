@@ -10,4 +10,6 @@
 
 @interface DocumentsViewController : UIViewController
 
+@property (nonatomic, strong) NSString *documentName;
+
 @end

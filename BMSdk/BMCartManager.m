@@ -39,7 +39,16 @@
 
 -(int)numbersOfItemInCart
 {
-    return (int)self.selectedRecipes.count;
+    int numbersOfItems = 0;
+    if (_selectedRecipes == nil) {
+        return numbersOfItems;
+    }
+    else
+    {
+        numbersOfItems = (int)[self.selectedRecipes count];
+        return numbersOfItems;
+    }
+
 }
 
 -(NSArray *)itemsInCart

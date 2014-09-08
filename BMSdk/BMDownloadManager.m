@@ -26,6 +26,8 @@
 @property (nonatomic, readwrite) NSString *bmUrl;
 @property (nonatomic, strong) NSString *locale;
 
+@property (nonatomic, strong) AFHTTPRequestOperationManager *AFmanager;
+
 @end
 
 @implementation BMDownloadManager
@@ -51,51 +53,18 @@
         self.bmUrl = BMIMAGES;
         [self isConnectionAvailable];
         self.locale = [[NSLocale preferredLanguages]objectAtIndex:0];
+        self.AFmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     }
     return self;
 }
 
+#pragma mark - First Caller
 -(void)fetchMenuOfRestaraunt:(NSNumber *)restarauntMajorNumber
 {
     [self checkTypeOfMenu:restarauntMajorNumber];
 }
 
--(void)checkTypeOfMenu:(NSNumber *)majorNumber
-{
-    NSString *url = [BMAPI stringByAppendingString:@"type"];
-
-    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
-    
-    afmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    
-    [afmanager GET:url
-        parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-               NSString *pdfAvailable = [responseObject objectForKey:@"pdf"];
-               NSString *menuAvailable = [responseObject objectForKey:@"menu"];
-            
-               if (![menuAvailable isEqualToString:@"Yes"]) {
-                   //Download Menu
-                   [self performSelector:@selector(fetchDataOfRestaraunt:) withObject:majorNumber];
-               }
-               else
-               {
-                   if ([pdfAvailable isEqualToString:@"Yes"]) {
-                       //Download pdf
-                       [self performSelector:@selector(fetchPDFOfRestaraunt:) withObject:majorNumber];
-                   }
-                   else
-                   {
-                       // NO MENU OR PDF AVAILABLE
-                       NSLog(@"NO MENU OR PDF AVAILABLE");
-                   }
-               }
-           }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               //DISPLAY ERROR CONNECTION
-               NSLog(@"[Download Manager]Error while checking type of menu -> %@ %@", [error localizedDescription], [error localizedFailureReason]);
-           }];
-}
+#pragma mark - Download methods
 
 -(void)fetchPDFOfRestaraunt:(NSNumber *)majorNumber
 {
@@ -103,9 +72,7 @@
     
     if (self.isNetworkAvailable) {
         if (!_isMenuDownloaded) {
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-            [manager GET:urlMenu parameters:nil
+            [_AFmanager GET:urlMenu parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      
                      BMDataManager *dataManager = [BMDataManager sharedInstance];
@@ -148,29 +115,7 @@
     }
 }
 
--(void)fetchLatestRecipeOfRestaraunt:(NSNumber *)majorNumber
-{
-    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
-    [afmanager GET:[BMAPI stringByAppendingString:@"menu/"]
-        parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-               //saveRatingData
-               [self performSelector:@selector(latestFetchedDate:) withObject:responseObject];
-           }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               //Something wrong happened
-               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
-           }];
-}
-
--(void)latestFetchedDate:(NSData *)data
-{
-    NSArray *arrayOfRecipes = [self parseData:data of:@"menu"];
-    
-    NSLog(@"[Download manager] Array description: %@ ", [arrayOfRecipes description]);
-}
-
--(void)fetchDataOfRestaraunt:(NSNumber *)majorNumber
+-(void)fetchJSONOfRestaraunt:(NSNumber *)majorNumber
 {
     BMLocationManager *locationManager = [BMLocationManager sharedInstance];
     
@@ -250,6 +195,61 @@
     }
 }
 
+#pragma mark - Utils
+-(void)fetchLatestRecipeOfRestaraunt:(NSNumber *)majorNumber
+{
+    [_AFmanager GET:[BMAPI stringByAppendingString:@"menu/"]
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               //saveRatingData
+               [self performSelector:@selector(latestFetchedDate:) withObject:responseObject];
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //Something wrong happened
+               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
+           }];
+}
+
+-(void)checkTypeOfMenu:(NSNumber *)majorNumber
+{
+    NSString *url = [BMAPI stringByAppendingString:@"type"];
+    
+    [_AFmanager GET:url
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSString *pdfAvailable = [responseObject objectForKey:@"pdf"];
+               NSString *menuAvailable = [responseObject objectForKey:@"menu"];
+               
+               if (![menuAvailable isEqualToString:@"Yes"]) {
+                   //Download Menu
+                   [self performSelector:@selector(fetchJSONOfRestaraunt:) withObject:majorNumber];
+               }
+               else
+               {
+                   if ([pdfAvailable isEqualToString:@"Yes"]) {
+                       //Download pdf
+                       [self performSelector:@selector(fetchPDFOfRestaraunt:) withObject:majorNumber];
+                   }
+                   else
+                   {
+                       // NO MENU OR PDF AVAILABLE
+                       NSLog(@"NO MENU OR PDF AVAILABLE");
+                   }
+               }
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //DISPLAY ERROR CONNECTION
+               NSLog(@"[Download Manager]Error while checking type of menu -> %@ %@", [error localizedDescription], [error localizedFailureReason]);
+           }];
+}
+
+-(void)latestFetchedDate:(NSData *)data
+{
+    NSArray *arrayOfRecipes = [self parseData:data of:@"menu"];
+    
+    NSLog(@"[Download manager] Array description: %@ ", [arrayOfRecipes description]);
+}
+
 -(NSMutableArray *)parseData:(NSData *)dataToParse of:(NSString*)categoryToParse
 {
     NSString *fetchedData = [[NSString alloc] initWithData:dataToParse encoding:NSUTF8StringEncoding];
@@ -287,13 +287,12 @@
     [dataManagerS saveMenuData:toBeSaved];
 }
 
+#pragma mark - Comments and rating
 -(void)fetchCommentsForRecipe:(NSString *)idRecipe
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];
-
-    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
-    afmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [afmanager GET:[[BMAPI stringByAppendingString:@"comment/"]stringByAppendingString:idRecipe]
+    
+    [_AFmanager GET:[[BMAPI stringByAppendingString:@"comment/"]stringByAppendingString:idRecipe]
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
@@ -309,9 +308,8 @@
 -(void)fetchRatingForRecipe:(NSString *)idRecipe
 {
 //    BMDataManager *dataManager = [BMDataManager sharedInstance];
-    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
     
-    [afmanager GET:[[BMAPI stringByAppendingString:@"vote/"]stringByAppendingString:idRecipe]
+    [_AFmanager GET:[[BMAPI stringByAppendingString:@"vote/"]stringByAppendingString:idRecipe]
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                //saveRatingData
@@ -323,22 +321,6 @@
            }];
 }
 
-#pragma mark - Check methods
-/*
--(void)checkTypeOfMenu:(NSString *)forRestaraunt
-{
-    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
-    
-    [afmanager GET:[[BMAPI stringByAppendingString:@""]stringByAppendingString:forRestaraunt]
-     parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         //Type Downloaded
-         
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         //Something wrong happened
-         NSLog(@"[Download Manager] Error while checking type of menu. Details: %@ %@", [error localizedDescription], [error localizedFailureReason]);
-     }];
-}
-*/
 #pragma mark - Network Test
 
 -(void)isConnectionAvailable
@@ -356,21 +338,5 @@
         NSLog(@"[Download manager] Connected To internet");
     }
 }
-
--(void)aliveConnection
-{
-    NSString *presentUser = [[NSUserDefaults standardUserDefaults]objectForKey:@"user"];
-    
-    if (presentUser == nil) {
-        NSString *user = [NSString stringWithFormat:@"%u", arc4random()];
-        [[NSUserDefaults standardUserDefaults]setObject:user forKey:@"user"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-        presentUser = user;
-    }
-    
-    //Ping a specific api with some private key to show the usage and an unique identifier.
-}
-
-
 
 @end

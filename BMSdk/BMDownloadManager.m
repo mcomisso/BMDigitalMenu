@@ -55,9 +55,97 @@
     return self;
 }
 
--(void)checkTypeOfMenu
+-(void)fetchMenuOfRestaraunt:(NSNumber *)restarauntMajorNumber
 {
+    [self checkTypeOfMenu:restarauntMajorNumber];
+}
+
+-(void)checkTypeOfMenu:(NSNumber *)majorNumber
+{
+    NSString *url = [BMAPI stringByAppendingString:@"type"];
+
+    AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
     
+    afmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
+    [afmanager GET:url
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSString *pdfAvailable = [responseObject objectForKey:@"pdf"];
+               NSString *menuAvailable = [responseObject objectForKey:@"menu"];
+            
+               if (![menuAvailable isEqualToString:@"Yes"]) {
+                   //Download Menu
+                   [self performSelector:@selector(fetchDataOfRestaraunt:) withObject:majorNumber];
+               }
+               else
+               {
+                   if ([pdfAvailable isEqualToString:@"Yes"]) {
+                       //Download pdf
+                       [self performSelector:@selector(fetchPDFOfRestaraunt:) withObject:majorNumber];
+                   }
+                   else
+                   {
+                       // NO MENU OR PDF AVAILABLE
+                       NSLog(@"NO MENU OR PDF AVAILABLE");
+                   }
+               }
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //DISPLAY ERROR CONNECTION
+               NSLog(@"[Download Manager]Error while checking type of menu -> %@ %@", [error localizedDescription], [error localizedFailureReason]);
+           }];
+}
+
+-(void)fetchPDFOfRestaraunt:(NSNumber *)majorNumber
+{
+    NSString *urlMenu = [BMAPI stringByAppendingString:@"menu/pdf"];
+    
+    if (self.isNetworkAvailable) {
+        if (!_isMenuDownloaded) {
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+            [manager GET:urlMenu parameters:nil
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     
+                     BMDataManager *dataManager = [BMDataManager sharedInstance];
+                     
+                     NSLog(@"URL of pdf id: %@", [responseObject description]);
+                     NSString *pdfURL = [responseObject objectForKey:@"url"];
+                     NSArray *urlName = [pdfURL componentsSeparatedByString:@"/"];
+                     
+                     //Save Name of pdf inside Database
+                     [dataManager savePDFUuid:[urlName lastObject] ofRestaraunt:@"CAMBIARE"];
+                     
+                     //Download and save pdf file to filepath
+                     NSString *filePath = [[dataManager pathToPDFDirectory]stringByAppendingPathComponent:[urlName lastObject]];
+                     
+                     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:pdfURL]];
+                     AFHTTPRequestOperation *downloadOperation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+                     
+                     downloadOperation.outputStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
+                     
+                     [downloadOperation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+                         NSLog(@"Percent completed: %f", (float)totalBytesRead/totalBytesExpectedToRead);
+                     }];
+                     
+                     [downloadOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                         //DONE
+                         NSLog(@"Download complete");
+                         _isMenuDownloaded = YES;
+                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         //FAILURE
+                         NSLog(@"Error while downloading pdf: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                     }];
+                     
+                     [downloadOperation start];
+                     
+                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     NSLog(@"Error while getting URL of pdf: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                 }];
+            
+        }
+    }
 }
 
 -(void)fetchLatestRecipeOfRestaraunt:(NSNumber *)majorNumber
@@ -136,13 +224,9 @@
                     NSString *formattedServerString = [[[latestRecipe objectForKey:@"data_ultima_modifica"]componentsSeparatedByString:@"."]objectAtIndex:0];
 
                     NSString *formattedCachedString = [[stringDateOfLastSavedRecipe componentsSeparatedByString:@"."]objectAtIndex:0];
-                    
-                    NSDate *lastEditDateServer = [df dateFromString:formattedServerString];
-                    NSDate *lastEditDateCache = [df dateFromString:formattedCachedString];
 
-                    double timeIntervalFromServer = [lastEditDateServer timeIntervalSince1970];
-                    
-                    double timeIntervalFromCache = [lastEditDateCache timeIntervalSince1970];
+                    double timeIntervalFromServer = [[df dateFromString:formattedServerString] timeIntervalSince1970];
+                    double timeIntervalFromCache = [[df dateFromString:formattedCachedString] timeIntervalSince1970];
                     
                     if (timeIntervalFromCache == 0) {
                         [dataManager saveMenuData:parsedMenu];
@@ -240,7 +324,7 @@
 }
 
 #pragma mark - Check methods
-
+/*
 -(void)checkTypeOfMenu:(NSString *)forRestaraunt
 {
     AFHTTPRequestOperationManager *afmanager = [AFHTTPRequestOperationManager manager];
@@ -254,7 +338,7 @@
          NSLog(@"[Download Manager] Error while checking type of menu. Details: %@ %@", [error localizedDescription], [error localizedFailureReason]);
      }];
 }
-
+*/
 #pragma mark - Network Test
 
 -(void)isConnectionAvailable

@@ -49,4 +49,9 @@
  */
 -(void)fetchRatingForRecipe:(NSString *)idRecipe;
 
+/**
+ 
+ */
+-(void)fetchMenuOfRestaraunt:(NSNumber *)restarauntMajorNumber;
+
 @end

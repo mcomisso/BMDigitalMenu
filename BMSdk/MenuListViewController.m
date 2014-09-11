@@ -11,13 +11,13 @@
 #import "NoImageTableViewCell.h"
 
 #import "BMDataManager.h"
+#import "BMUsageStatisticManager.h"
+
 #import "RecipeDetailViewController.h"
 
+//Cell related
 #import "UIImageView+WebCache.h"
-
 #import "AFNetworking.h"
-
-#import "FBShimmering.h"
 #import "AXRatingView.h"
 
 #define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
@@ -28,7 +28,10 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *recipesInCategory;
 
+@property (strong, nonatomic) NSMutableDictionary *ratingForRecipe;
+
 @property (strong, nonatomic) BMDataManager *dataManager;
+@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 
 //Testing purpose variables
 @property (nonatomic) BOOL ratingDownloaded;
@@ -59,12 +62,14 @@
     // Do any additional setup after loading the view.
 
     self.dataManager = [BMDataManager sharedInstance];
+    self.statsManager = [BMUsageStatisticManager sharedInstance];
 
     [self setPreferredToolbar];
     
-//    [self setBackGesture];
-    
     [self loadRecipesForCategory];
+
+    [self loadSwipeGestureRecognizer];
+    //Load From Database with filter on categories
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -81,31 +86,130 @@
 
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setBarTintColor:[self BMDarkValueColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.61 green:0.77 blue:0.8 alpha:1]];
 
-    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.hidesBackButton = NO;
 }
 
--(void)setBackGesture
+-(void)loadSwipeGestureRecognizer
 {
-    UIScreenEdgePanGestureRecognizer *sepg = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(customPopViewController)];
-    sepg.delegate = self;
-    [sepg setEdges:UIRectEdgeLeft];
-    [self.view addGestureRecognizer:sepg];
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                     action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.tableView addGestureRecognizer:recognizer];
+    
+    //Add a right swipe gesture recognizer
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                           action:@selector(handleSwipeRight:)];
+    recognizer.delegate = self;
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.tableView addGestureRecognizer:recognizer];
 }
 
--(void)customPopViewController
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    //Get location of the swipe
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    
+    //Get the corresponding index path within the table view
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    //Check if index path is valid
+    if(indexPath)
+    {
+        if ([[self.tableView cellForRowAtIndexPath:indexPath]isKindOfClass:[MenuListCell class]]) {
+            MenuListCell *cell = (MenuListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+            
+            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:114];
+            
+            if (cell.canWhiteViewBeMovedLeft) {
+                CGPoint originalCenter = whiteView.center;
+                whiteView.alpha = 0.f;
+                [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    whiteView.alpha = 1;
+                    whiteView.center = CGPointMake(originalCenter.x - 210, originalCenter.y);
+                } completion:^(BOOL finished) {
+                    NSLog(@"End animation");
+                    cell.canWhiteViewBeMovedRight = YES;
+                    cell.canWhiteViewBeMovedLeft = NO;
+                }];
+            }
+        }
+        
+        //Get the cell out of the table view
+        //        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        //Update the cell or model
+        //        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+}
+
+- (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    if (indexPath) {
+        if ([[self.tableView cellForRowAtIndexPath:indexPath]isKindOfClass:[MenuListCell class]]) {
+            MenuListCell *cell = (MenuListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+            
+            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:114];
+
+            if (cell.canWhiteViewBeMovedRight) {
+                CGPoint originalCenter = whiteView.center;
+                
+                [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    whiteView.center = CGPointMake(originalCenter.x + 210, originalCenter.y);
+                } completion:^(BOOL finished) {
+                    NSLog(@"End animation");
+                    cell.canWhiteViewBeMovedRight = NO;
+                    cell.canWhiteViewBeMovedLeft = YES;
+                }];
+            }
+        }
+    }
 }
 
 -(void)loadRecipesForCategory
 {
+    self.ratingForRecipe = [[NSMutableDictionary alloc]init];
     self.recipesInCategory = [self.dataManager requestRecipesForCategory:self.category ofRestaraunt:@"2"];
     NSLog(@"Array description: %@", [_recipesInCategory description]);
+
+    [self loadRatingForRecipesInThisCategory];
+    
     [self.tableView reloadData];
+}
+
+-(void)loadRatingForRecipesInThisCategory
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    for (NSDictionary *recipe in self.recipesInCategory)
+    {
+        NSString *ricetta_id = [recipe objectForKey:@"ricetta_id"];
+        
+        // Point to vote API for every recipeID inside the Array
+        [manager GET:[BMRATEAPI stringByAppendingString:ricetta_id]
+          parameters:nil
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+                 //Set the pair "AVG Rate" : "Recipe ID"
+                 [self.ratingForRecipe setObject:[responseObject objectForKey:@"media"] forKey:ricetta_id];
+
+                 //Save rating value inside database
+                 [self.dataManager saveRatingValue:[NSNumber numberWithInt:(int)[[responseObject objectForKey:@"media"]intValue]] forRecipe:ricetta_id];
+                 
+             }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+                 NSLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+
+             }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -176,25 +280,9 @@
                                            NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);
                                        }
                                    }];
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-        
+    
         thisratingView.value = [self.dataManager requestRatingForRecipe:cell.recipeId];
-        
-        [manager GET:[BMRATEAPI stringByAppendingString:cell.recipeId]
-          parameters:nil
-             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 int value = [[responseObject objectForKey:@"media"]intValue];
-                 
-                 //Update rating and load from data manager
-                 [self.dataManager saveRatingValue:[NSNumber numberWithInt:value] forRecipe:cell.recipeId];
-             }
-             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 NSLog(@"Error while giving rate to cells: %@ %@", [error localizedDescription], [error localizedFailureReason]);
-                 
-             }];
-        
+
         return cell;
     }
 }
@@ -210,32 +298,6 @@
     UIGraphicsEndImageContext();
     return image;
 }
-
-/*
--(void)tableView:(UITableView *)tableView willDisplayCell:(MenuListCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UIImageView *recipeImageView = (UIImageView *)[cell viewWithTag:110];
-
-    NSString *downloadString = [BMIMAGEAPI stringByAppendingString:cell.recipeImageUrl];
-    if (![downloadString isEqualToString:[BMIMAGEAPI stringByAppendingString:@"nil"]]) {
-
-        cell.recipeTitle.frame = CGRectMake(168, 10, 142, 45);
-        cell.recipePrice.frame = CGRectMake(168, 62, 132, 21);
-        recipeImageView.clipsToBounds = YES;
-        [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString]
-                            placeholderImage:[self imageColoredGenerator]
-                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                       if (error) {
-                                           NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);
-                                       }
-                                   }];
-    }
-    else
-    {
-        cell.recipeTitle.frame = CGRectMake(10, 10, 320, 45);
-        cell.recipePrice.frame = CGRectMake(10, 91, 132, 21);
-    }
-}*/
 
 /* Deve ritornare il count degli elemeti padre nell NSDictionary */
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

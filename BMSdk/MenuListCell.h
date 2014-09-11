@@ -19,4 +19,7 @@
 @property (strong, nonatomic) NSString *recipeId;
 @property (strong, nonatomic) NSString *recipeImageUrl;
 
+@property (nonatomic) BOOL canWhiteViewBeMovedLeft;
+@property (nonatomic) BOOL canWhiteViewBeMovedRight;
+
 @end

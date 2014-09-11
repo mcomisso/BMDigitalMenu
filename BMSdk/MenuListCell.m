@@ -8,6 +8,12 @@
 
 #import "MenuListCell.h"
 
+@interface MenuListCell()
+
+@property (nonatomic) CGPoint whiteViewCenter;
+
+@end
+
 @implementation MenuListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -15,7 +21,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // init stars
-
+        UIView *whiteView =(UIView *)[self.contentView viewWithTag:114];
+        self.whiteViewCenter = whiteView.center;
     }
     return self;
 }
@@ -23,6 +30,9 @@
 - (void)awakeFromNib
 {
     // Initialization code
+    self.canWhiteViewBeMovedLeft = NO;
+    self.canWhiteViewBeMovedRight = YES;
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -46,6 +56,12 @@
 
 -(void)prepareForReuse
 {
+    self.canWhiteViewBeMovedLeft = NO;
+    self.canWhiteViewBeMovedRight = YES;
+
+    UIView *whiteView = (UIView *)[self.contentView viewWithTag:114];
+    whiteView.center = self.whiteViewCenter;
+    
     AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
     [axrate removeFromSuperview];
  

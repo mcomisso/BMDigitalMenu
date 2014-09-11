@@ -9,7 +9,8 @@
 #import "BMLocationManager.h"
 #import "BMDownloadManager.h"
 
-#define BMBEACON @"66666666-6666-6666-6666-666666666666"
+//#define BMBEACON @"66666666-6666-6666-6666-666666666666"
+#define BMBEACON @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"
 
 @import UIKit;
 
@@ -34,6 +35,8 @@
 @property (readonly) BOOL canTrackLocation;
 @property BOOL setupCompleted;
 @property BOOL bluetoothEnabled;
+
+@property BOOL isBlueMateInterfacePresented;
 
 @property BOOL restarauntFound;
 @property (readwrite, nonatomic) BOOL canStartInterface;
@@ -67,6 +70,8 @@
     self = [super init];
     if (self) {
         NSLog(@"Initialization BMSdk");
+        
+        self.isBlueMateInterfacePresented = NO;
         
         self.trackLocationNotified = NO;
         self.setupCompleted = NO;
@@ -106,6 +111,7 @@
     {
         if (![CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
             errorMessage = @"Location Tracking not Available";
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         }
         else
         {
@@ -134,6 +140,10 @@
     
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = self;
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager requestWhenInUseAuthorization];
+    }
     self.locationManager.distanceFilter = kCLLocationAccuracyBest;
     
     self.bmBeaconRegion = [[CLBeaconRegion alloc]initWithProximityUUID:self.BMUUID identifier:@"com.bluemate.mssdk"];
@@ -152,7 +162,14 @@
 #pragma mark - Shortcut methods
 -(void)startRanging
 {
-    [self.locationManager startRangingBeaconsInRegion:self.bmBeaconRegion];
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+        [self.locationManager startRangingBeaconsInRegion:self.bmBeaconRegion];
+    }
+    else
+    {
+        [self.locationManager startRangingBeaconsInRegion:self.bmBeaconRegion];
+    }
     NSLog(@"App startRanging");
 }
 
@@ -172,6 +189,11 @@
 {
     [self startRanging];
     NSLog(@"App enters in foreground");
+}
+
+-(void)startLookingForTable
+{
+    [self startRanging];
 }
 
 #pragma mark - BM[Location Manager] Delegate Methods
@@ -240,13 +262,20 @@
             
             // If user keep stayin in same zone for 3 seconds, check and fetch data for restaraunt
             if (self.timerCounter == 3) {
-                [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
+                if (!self.isBlueMateInterfacePresented) {
+                    //Present Interface
+                    self.isBlueMateInterfacePresented = YES;
+                    
+                }
+                [self stopRanging];
+                [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
+//                [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
                 NSString *locatedRestaraunt = [NSString stringWithFormat:@"%@", self.closestBeacon.major];
 
                 [[NSUserDefaults standardUserDefaults]setObject:locatedRestaraunt forKey:@"locatedRestaraunt"];
                 [[NSUserDefaults standardUserDefaults]synchronize];
 
-                notification.alertBody = [NSString stringWithFormat:@"Proximity: %ld, ID: %@", self.closestBeacon.proximity, self.closestBeacon.minor];
+                notification.alertBody = [NSString stringWithFormat:@"Proximity: %ld, ID: %@", (long)self.closestBeacon.proximity, self.closestBeacon.minor];
                 [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
             }
             else
@@ -300,6 +329,28 @@
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"[Location Manager] did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+}
+
+#pragma mark - Determine current view
+
+-(UIViewController *)topViewController
+{
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+-(UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    if ([rootViewController.presentedViewController isMemberOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers]lastObject];
+        return [self topViewController:lastViewController];
+    }
+    
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
 }
 
 @end

@@ -53,6 +53,7 @@
         self.bmUrl = BMIMAGES;
         [self isConnectionAvailable];
         self.locale = [[NSLocale preferredLanguages]objectAtIndex:0];
+        self.AFmanager = [AFHTTPRequestOperationManager manager];
         self.AFmanager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     }
     return self;
@@ -220,7 +221,7 @@
                NSString *pdfAvailable = [responseObject objectForKey:@"pdf"];
                NSString *menuAvailable = [responseObject objectForKey:@"menu"];
                
-               if (![menuAvailable isEqualToString:@"Yes"]) {
+               if ([menuAvailable isEqualToString:@"Yes"]) {
                    //Download Menu
                    [self performSelector:@selector(fetchJSONOfRestaraunt:) withObject:majorNumber];
                }

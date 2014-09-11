@@ -8,11 +8,12 @@
 
 #import "BMSdk.h"
 #import "BMLocationManager.h"
-#import "BMDownloadManager.h"
+#import "BMUsageStatisticManager.h"
 
 @interface BMSdk()
 
 @property (nonatomic, strong) BMLocationManager *locationManager;
+@property (nonatomic, strong) BMUsageStatisticManager *statsManager;
 
 @end
 
@@ -24,9 +25,15 @@
     if (self) {
         //Initialization
         NSLog(@"Start BMSDK");
-        _locationManager = [BMLocationManager sharedInstance];
     }
     return self;
+}
+
+-(void)start
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    _locationManager = [BMLocationManager sharedInstance];
+    _statsManager = [BMUsageStatisticManager sharedInstance];
 }
 
 @end

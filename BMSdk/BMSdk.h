@@ -10,4 +10,9 @@
 
 @interface BMSdk : NSObject
 
+/**
+ The start method instantiates the framework.
+ */
+-(void)start;
+
 @end

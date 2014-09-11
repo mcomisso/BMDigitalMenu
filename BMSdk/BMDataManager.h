@@ -97,6 +97,13 @@
 -(int)requestRatingForRecipe:(NSString *)idRecipe;
 
 /**
+ Interrogates the existing database to fetch all the ratings for the selected categories.
+ @param category The category "searched"
+ @return A dictionary with key value as recipeID and value as average count of rating
+ */
+-(NSDictionary *)requestRatingForRecipesInCategory:(NSString *)category;
+
+/**
  Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
 
  @param idRecipe The unique ID of a recipe.
@@ -138,5 +145,12 @@
  Controls if the PDF directory exists. If not, the method creates one.
  */
 -(NSString *)pathToPDFDirectory;
+
+/**
+ Selects from the database the name of the pdf for a particular restarauntID
+ @param restarauntId The ID of the restaraunt
+ @return The UUID of the pdf for the selected restarauntId
+ */
+-(NSString *)requestPDFNameOfRestaraunt:(NSString *)restarauntId;
 
 @end

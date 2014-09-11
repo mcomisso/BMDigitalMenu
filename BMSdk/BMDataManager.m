@@ -205,7 +205,7 @@
     const char *dbPath = [_databasePath UTF8String];
     sqlite3_stmt *statement;
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"INSERT INTO restaraunt(pdfUUID) VALUES(\"%@\")", pdfUUID];
+        NSString *query = [NSString stringWithFormat:@"INSERT INTO restaraunt(id, pdfUUID, name) VALUES(1, \"%@\", \"ratana\")", pdfUUID];
         const char *forged = [query UTF8String];
         
         int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
@@ -507,6 +507,34 @@
     return retval;
 }
 
+-(NSDictionary *)requestRatingForRecipesInCategory:(NSString *)category
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc]init];
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [[NSString alloc]initWithFormat:@"SELECT ratingValue, ricetta_id FROM rating WHERE id IN (SELECT id FROM menu WHERE categoria = \"%@\");", category];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                int rating = (int)sqlite3_column_int(statement, 0);
+                NSString *recipeId = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
+                
+                [retval setObject:[NSNumber numberWithInt:rating] forKey:recipeId];
+                
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+    return retval;
+}
+
 -(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipe
 {
     const char *dbPath = [_databasePath UTF8String];
@@ -601,6 +629,33 @@
         }
     }
     return dataPath;
+}
+
+-(NSString *)requestPDFNameOfRestaraunt:(NSString *)restarauntId
+{
+    NSString *retval;
+    
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        //        NSString *query = [NSString stringWithFormat:@"SELECT id, data_creazione FROM menu WHERE locale_id = %@ ORDER BY data_creazione DESC LIMIT 1;", restarauntId];
+        NSString *query = [NSString stringWithFormat:@"SELECT pdfUUID FROM restaraunt;"];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            if (sqlite3_step(statement) == SQLITE_ROW) {
+                //Fetched latest
+                retval =  [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+        return retval;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 @end

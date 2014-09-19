@@ -183,11 +183,11 @@
             NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
             
             if (sqlite3_step(statement) == SQLITE_DONE) {
-                NSLog(@"[DataManager] Completed Insert inside database");
+                NSLog(@"[DataManager] Comment successfully writed in database");
             }
             else
             {
-                NSLog(@"[DataManager] Failed insert into database");
+                NSLog(@"[DataManager] Failed to insert comment into database");
             }
             sqlite3_finalize(statement);
             sqlite3_close(_database);
@@ -284,11 +284,12 @@
                 NSString *prezzo = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
                 NSString *immagine = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 3)];
                 NSString *idRecipe = [[NSString alloc]initWithUTF8String:(char*)sqlite3_column_text(statement, 6)];
-                
+                NSString *ingredienti = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(statement, 8)];
                 [recipe setObject:nome forKey:@"nome"];
                 [recipe setObject:prezzo forKey:@"prezzo"];
                 [recipe setObject:immagine forKey:@"immagine"];
                 [recipe setObject:idRecipe forKey:@"ricetta_id"];
+                [recipe setObject:ingredienti forKey:@"ingredienti"];
                 
                 [arrval addObject:recipe];
             }
@@ -656,6 +657,43 @@
     {
         return nil;
     }
+}
+
+#pragma mark - FAKE IT UNTIL YOU MAKE IT
+-(NSMutableArray *)bestMatchForRecipe:(NSString *)idRecipe
+{
+    NSMutableArray *retval = [[NSMutableArray alloc]init];
+    
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [NSString stringWithFormat:@"SELECT categoria, id, nome, immagine, ingredienti FROM menu WHERE categoria != (SELECT categoria FROM menu WHERE id = %@) GROUP BY categoria ORDER BY RANDOM();", idRecipe];
+        const char *forged = [query UTF8String];
+        
+        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                NSMutableDictionary *recipe = [[NSMutableDictionary alloc] init];
+                
+                NSString *nome = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                NSString *idRecipe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                NSString *categoria = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+                NSString *immmagine = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                NSString *ingredienti = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
+                
+                [recipe setObject:nome forKey:@"nome"];
+                [recipe setObject:idRecipe forKey:@"idRecipe"];
+                [recipe setObject:categoria forKey:@"categoria"];
+                [recipe setObject:immmagine forKey:@"immagine"];
+                [recipe setObject:ingredienti forKey:@"ingredienti"];
+                
+                [retval addObject:recipe];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_database);
+    }
+    return retval;
 }
 
 @end

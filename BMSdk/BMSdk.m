@@ -10,6 +10,8 @@
 #import "BMLocationManager.h"
 #import "BMUsageStatisticManager.h"
 
+#import "Flurry.h"
+
 @interface BMSdk()
 
 @property (nonatomic, strong) BMLocationManager *locationManager;
@@ -31,6 +33,8 @@
 
 -(void)start
 {
+    [Flurry startSession:@"PQKM6JQY9Z9GNP6ZMPB4"];
+    
     NSLog(@"%s", __PRETTY_FUNCTION__);
     _locationManager = [BMLocationManager sharedInstance];
     _statsManager = [BMUsageStatisticManager sharedInstance];

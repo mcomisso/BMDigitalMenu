@@ -21,8 +21,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // init stars
-        UIView *whiteView =(UIView *)[self.contentView viewWithTag:114];
-        self.whiteViewCenter = whiteView.center;
     }
     return self;
 }
@@ -32,7 +30,6 @@
     // Initialization code
     self.canWhiteViewBeMovedLeft = NO;
     self.canWhiteViewBeMovedRight = YES;
-
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -56,10 +53,12 @@
 
 -(void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     self.canWhiteViewBeMovedLeft = NO;
     self.canWhiteViewBeMovedRight = YES;
 
-    UIView *whiteView = (UIView *)[self.contentView viewWithTag:114];
+    UIView *whiteView = (UIView *)[self.contentView viewWithTag:115];
     whiteView.center = self.whiteViewCenter;
     
     AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
@@ -67,8 +66,6 @@
  
     UIImageView *imag = (UIImageView *)[self.recipeImage viewWithTag:110];
     imag.image = [self imageColoredGenerator];
-
-    [super prepareForReuse];
 }
 
 @end

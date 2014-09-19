@@ -21,10 +21,11 @@
 -(void)collectDescription:(NSString *)description withKey:(NSString *)key;
 
 
-
 // SEND DATA AS JSON
-
-
+/**
+ 
+ */
+-(void)sendEventually:(NSDictionary *)data;
 
 
 @end

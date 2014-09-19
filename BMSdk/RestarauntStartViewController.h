@@ -11,8 +11,10 @@
 @interface RestarauntStartViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundRestarauntImage;
-
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) IBOutlet UITableView *dailyMenu;
+
 
 
 @end

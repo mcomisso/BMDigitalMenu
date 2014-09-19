@@ -96,7 +96,7 @@
 -(BOOL)canTrackLocation
 {
 #if TARGET_IPHONE_SIMULATOR
-// return YES;
+    return YES;
 #endif
     NSString *errorMessage;
     
@@ -132,6 +132,10 @@
 
 -(void)setupManager
 {
+ 
+#if TARGET_IPHONE_SIMULATOR
+    [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
+#endif
     if (!self.canTrackLocation || self.setupCompleted) {
         return;
     }
@@ -268,7 +272,6 @@
                     
                 }
                 [self stopRanging];
-                [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
 //                [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
                 NSString *locatedRestaraunt = [NSString stringWithFormat:@"%@", self.closestBeacon.major];
 
@@ -280,6 +283,9 @@
             }
             else
             {
+                if (self.timerCounter == 0) {
+                    [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
+                }
                 self.timerCounter++;
             }
         }

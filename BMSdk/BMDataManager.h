@@ -153,4 +153,11 @@
  */
 -(NSString *)requestPDFNameOfRestaraunt:(NSString *)restarauntId;
 
+
+#pragma mark - fakeituntilyoumakeit
+/**
+    Returns 1 recipe for every category inside the local database
+ */
+-(NSMutableArray *)bestMatchForRecipe:(NSString *)idRecipe;
+
 @end

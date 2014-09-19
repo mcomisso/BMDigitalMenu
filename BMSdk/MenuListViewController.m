@@ -60,7 +60,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     self.dataManager = [BMDataManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
 
@@ -69,15 +69,18 @@
     [self loadRecipesForCategory];
 
     [self loadSwipeGestureRecognizer];
-    //Load From Database with filter on categories
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
+/**
+ Sets the colors of the navigation and tool bar
+ */
 -(void)setPreferredToolbar
 {
     self.tableView.scrollsToTop = YES;
@@ -85,10 +88,12 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.61 green:0.77 blue:0.8 alpha:1]];
-
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [self BMDarkValueColor];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [self BMDarkValueColor]}];
+    
+//    self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.hidesBackButton = NO;
 }
@@ -108,6 +113,9 @@
     [self.tableView addGestureRecognizer:recognizer];
 }
 
+/**
+ Handlers for swiping left/right the content inside the UITableViewCell
+ */
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
 {
     //Get location of the swipe
@@ -122,7 +130,7 @@
         if ([[self.tableView cellForRowAtIndexPath:indexPath]isKindOfClass:[MenuListCell class]]) {
             MenuListCell *cell = (MenuListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
             
-            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:114];
+            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
             
             if (cell.canWhiteViewBeMovedLeft) {
                 CGPoint originalCenter = whiteView.center;
@@ -155,7 +163,7 @@
         if ([[self.tableView cellForRowAtIndexPath:indexPath]isKindOfClass:[MenuListCell class]]) {
             MenuListCell *cell = (MenuListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
             
-            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:114];
+            UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
 
             if (cell.canWhiteViewBeMovedRight) {
                 CGPoint originalCenter = whiteView.center;
@@ -222,6 +230,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+
     static NSString *cellIdentifier = @"cellIdentifier";
     static NSString *whiteCellIdentifier = @"whiteCellIdentifier";
 
@@ -231,11 +241,24 @@
         NoImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:whiteCellIdentifier];
         //Setup Cell
         cell.recipeId = [recipe objectForKey:@"ricetta_id"];
+        cell.recipeIngredients.text = [recipe objectForKey:@"ingredienti"];
         UILabel *recipeName = (UILabel *)[cell viewWithTag:200];
         recipeName.text = [[recipe objectForKey:@"nome"]uppercaseString];
 
         UILabel *recipePrice = (UILabel *)[cell viewWithTag:201];
         recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
+
+        AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, cell.rateViewContainer.frame.size.height)];
+        thisratingView.value = 4.f;
+        thisratingView.tag = 114;
+        thisratingView.numberOfStar = 5;
+        thisratingView.baseColor = [self BMDarkValueColor];
+        thisratingView.highlightColor = [UIColor whiteColor];
+
+        thisratingView.userInteractionEnabled = NO;
+        thisratingView.stepInterval = 1.f;
+        
+        [cell.rateViewContainer addSubview:thisratingView];
 
         return cell;
     }
@@ -275,11 +298,7 @@
         recipeImageView.clipsToBounds = YES;
         [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString]
                             placeholderImage:[self imageColoredGenerator]
-                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                       if (error) {
-                                           NSLog(@"Error! %@ %@", [error localizedDescription], [error localizedFailureReason]);
-                                       }
-                                   }];
+                                     options:SDWebImageRefreshCached];
     
         thisratingView.value = [self.dataManager requestRatingForRecipe:cell.recipeId];
 

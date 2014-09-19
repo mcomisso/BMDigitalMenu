@@ -139,30 +139,23 @@
             if (!error) {
                 BMDataManager *dataManager = [BMDataManager sharedInstance];
                 //TODO: Restaraunt must be programmatically inserted
-                NSString *stringDateOfLastSavedRecipe = [[dataManager latestMenuEntryOfRestaraunt:@"CAMBIARE"] copy];
-                int savedRecipes = [dataManager numberOfrecipesInCache];
+//                NSString *stringDateOfLastSavedRecipe = [[dataManager latestMenuEntryOfRestaraunt:@"CAMBIARE"] copy];
+//                int savedRecipes = [dataManager numberOfrecipesInCache];
                 
                 NSArray *parsedMenu = [[self parseData:data of:@"menu"] copy];
 
                 if ([[parsedMenu objectAtIndex:0] objectForKey:@"Error"]) {
                     NSLog(@"[Download Manager] Error! %@", parsedMenu[0][@"Error"]);
-                
-                    [locationManager stopRanging];
 
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:[[parsedMenu objectAtIndex:0] objectForKey:@"Error"] delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
                     [alert show];
                 }
                 else
                 {
-                    [locationManager stopRanging];
-                    
-                    if (DEBUGGER) {
-                        [dataManager deleteDataFromRestaraunt:@"restaraunt"];
-                    }
-                    
-//                    NSLog(@"[Download manager] Parsed menu: %@", [parsedMenu description]);
-                    
-                    NSDictionary *latestRecipe =[parsedMenu objectAtIndex:[parsedMenu count]-1];
+                    [dataManager deleteDataFromRestaraunt:@"restaraunt"];
+                    [dataManager saveMenuData:parsedMenu];
+
+                    /*NSDictionary *latestRecipe =[parsedMenu objectAtIndex:[parsedMenu count]-1];
 
                     NSDateFormatter *df = [[NSDateFormatter alloc]init];
                     [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -180,7 +173,7 @@
                     else if (timeIntervalFromServer > timeIntervalFromCache || [parsedMenu count] < savedRecipes) {
                         [dataManager deleteDataFromRestaraunt:@"restaraunt"];
                         [dataManager saveMenuData:parsedMenu];
-                    }
+                    }*/
                     self.isMenuDownloaded = YES;
                 }
             }

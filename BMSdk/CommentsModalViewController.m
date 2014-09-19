@@ -8,12 +8,13 @@
 #import "singleCommentTableViewCell.h"
 #import "CommentsModalViewController.h"
 #import "BMDataManager.h"
+#import "BMUsageStatisticManager.h"
 
 @interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataSourceOfComments;
-
+@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @end
 
 @implementation CommentsModalViewController
@@ -30,11 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss:)];
-    swipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:swipe];
-    
+    self.statsManager = [BMUsageStatisticManager sharedInstance];
 
     // Do any additional setup after loading the view.
     self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
@@ -42,12 +39,7 @@
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
 //    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
-    self.dataSourceOfComments = [dataManager requestCommentsForRecipe:self.idRecipe];
-}
-
--(void)dismiss:(UIGestureRecognizer *)gesture
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    self.dataSourceOfComments = [NSArray arrayWithArray:[dataManager requestCommentsForRecipe:self.idRecipe]];
 }
 
 - (void)didReceiveMemoryWarning

@@ -7,12 +7,17 @@
 //
 
 #import "BMUsageStatisticManager.h"
+#import "BMDataManager.h"
 #import "AFHTTPRequestOperationManager.h"
 
-#define ENDPOINT @""
+#import "AFNetworkReachabilityManager.h"
+#import <sys/utsname.h>
+
+#define BMAPI @""
 
 @interface BMUsageStatisticManager()
 
+@property (strong, nonatomic) NSString *presentUser;
 @property (strong, nonatomic) NSDate *enterTime;
 @property (strong, nonatomic) NSDate *exitTime;
 
@@ -25,6 +30,7 @@
 
 @property (strong, nonatomic) NSOperationQueue *dataMonitoringQueue;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
+@property (strong, nonatomic) AFNetworkReachabilityManager *reachManager;
 
 @end
 
@@ -37,6 +43,7 @@
     
     dispatch_once(&onceToken, ^{
         sharedInstance = [[super alloc]initUniqueInstance];
+        [BMUsageStatisticManager checkIphoneType];
     });
     
     return sharedInstance;
@@ -46,14 +53,61 @@
 {
     self = [super init];
     if (self != nil) {
+        //Add observers for terminating and resignation
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        
         NSLog(@"[Usage Statistic] BMUsageStatistic initialized");
         _categoriesViewed = [[NSMutableArray alloc]init];
         _info = [[NSMutableDictionary alloc]init];
+        
+        _reachManager = [AFNetworkReachabilityManager sharedManager];
+
         _manager = [AFHTTPRequestOperationManager manager];
         _manager.securityPolicy.allowInvalidCertificates = YES;
+        _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         _dataMonitoringQueue = _manager.operationQueue;
+        // SAVE THE DISPLAY SIZE
+        
+        [_reachManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+            if (status == AFNetworkReachabilityStatusNotReachable) {
+                // Save data in DB
+                
+            }
+            else if (status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)
+            {
+                // Send data
+                
+            }
+        }];
+        
     }
     return self;
+}
+
+#pragma mark - App States instances
+
+-(void)appWillBecomeActive:(NSNotification *)note
+{
+    
+}
+
+-(void)appWillTerminate:(NSNotification *)note
+{
+    NSLog(@"Usage Manager: app will terminate");
+    //Save everyting not sent on DB
+
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+}
+
+-(void)appWillResignActive:(NSNotification*)note
+{
+    NSLog(@"Usage Manager: app will resign active");
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 #pragma mark - Collect data
@@ -96,9 +150,7 @@
         }
     }];
     
-
-    
-    [_manager POST:ENDPOINT
+    [_manager POST:BMAPI
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               //DELETE THIS DATA
@@ -109,9 +161,36 @@
           }];
 }
 
--(BOOL)determineNetworkReachability
+-(void)aliveConnection
 {
-    return YES;
+    _presentUser = [[NSUserDefaults standardUserDefaults]objectForKey:@"user"];
+    
+    if (_presentUser == nil) {
+        NSString *user = [NSString stringWithFormat:@"%u", arc4random()];
+        [[NSUserDefaults standardUserDefaults]setObject:user forKey:@"user"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        _presentUser = user;
+    }
+    
+    //Ping a specific api with some private key to show the usage and an unique identifier.
+}
+
+-(void)saveViewControllerName:(id)viewController
+{
+    
+}
+
+#pragma mark - utils
+
++(NSString *)checkIphoneType
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    NSString *sysInformation = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", sysInformation);
+    return sysInformation;
 }
 
 @end

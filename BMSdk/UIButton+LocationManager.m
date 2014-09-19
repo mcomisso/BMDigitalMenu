@@ -27,6 +27,10 @@
                                                     name:@"disableButton"
                                                   object:nil];
     }
+
+#if TARGET_IPHONE_SIMULATOR
+    [self setEnabled:YES];
+#endif
     
     return self;
 }

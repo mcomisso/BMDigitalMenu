@@ -44,5 +44,11 @@
 	<string>Copyright © 2014 Blue-Mate. All rights reserved.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is used to determine if you&apos;re inside a enabled restaraunt.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your always location is used to determine if you&apos;re inside a enabled restaraunt.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Your location is used to determine if you&apos;re inside a enabled restaraunt.</string>
 </dict>
 </plist>

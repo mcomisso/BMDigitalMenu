@@ -22,6 +22,7 @@
 #import "AXRatingView.h"
 #import "BMCartManager.h"
 
+#import "CRMotionView.h"
 #import "TransitionManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
@@ -60,6 +61,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *bestMatchRecipeViewLabelName;
 @property (strong, nonatomic) IBOutlet UILabel *bestMatchRecipeViewLabelIngredients;
 
+@property (strong, nonatomic) CRMotionView *motionView;
 
 @end
 
@@ -200,7 +202,21 @@
     [self.descriptionTextLabel setFont:fontForItems];
     
     self.recipeImageView.clipsToBounds = YES;
-    [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:[BMIMAGEAPI stringByAppendingString:self.recipeImageUrl]]];
+
+    _motionView = [[CRMotionView alloc]initWithFrame:self.view.frame];
+    
+    [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:[BMIMAGEAPI stringByAppendingString:self.recipeImageUrl]]
+                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                       if (error) {
+                                           NSLog(@"Error download image: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                                       }else
+                                       {
+                                           NSLog(@"Download completed");
+                                           [_motionView setImage:image];
+                                           [self.view insertSubview:_motionView atIndex:0];
+                                           [_motionView setMotionEnabled:NO];
+                                       }
+                                   }];
     
     [self.secondaryInfoView sizeToFit];
     self.contentViewHeight.constant = self.secondaryInfoView.frame.size.height;
@@ -446,12 +462,13 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             panDifference = screenSize.height > 480.f ? 15 : 5;
         }
-        
+
         if (self.scrollView.contentOffset.y < 0 & self.scrollView.contentOffset.y <= -panDifference) {
 
             //Determine the alpha value to applicate after a scroll of 15px
             float alphaTransitionValue = 1+((self.scrollView.contentOffset.y + panDifference) * 2)/100;
 
+            [self.motionView setMotionEnabled:YES];
             self.backviewContainer.alpha = alphaTransitionValue;
             self.scrollView.alpha = alphaTransitionValue;
         }
@@ -459,6 +476,7 @@
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
         [UIView animateWithDuration:0.2 animations:^{
+            [self.motionView setMotionEnabled:NO];
             self.backviewContainer.alpha = 1;
             self.scrollView.alpha = 1;
         }];

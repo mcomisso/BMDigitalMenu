@@ -39,7 +39,7 @@
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Testo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBv-BA-mc9">
                                                     <rect key="frame" x="20" y="15" width="110" height="25"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -332,10 +332,10 @@
                                                 <imageView userInteractionEnabled="NO" tag="110" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dr4-lj-wuT" userLabel="RecipeImage">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                                 </imageView>
-                                                <view tag="115" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MaC-w4-Rlj">
+                                                <view tag="115" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MaC-w4-Rlj">
                                                     <rect key="frame" x="110" y="0.0" width="210" height="120"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="142" translatesAutoresizingMaskIntoConstraints="NO" id="4us-Sn-wFr" userLabel="TitoloPiatto">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="142" translatesAutoresizingMaskIntoConstraints="NO" id="4us-Sn-wFr" userLabel="TitoloPiatto">
                                                             <rect key="frame" x="8" y="8" width="194" height="55"/>
                                                             <attributedString key="attributedText">
                                                                 <fragment content="Spaghetti con gamberi">
@@ -348,7 +348,7 @@
                                                             </attributedString>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view tag="113" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uJd-Ld-asI" userLabel="RateView">
+                                                        <view tag="113" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJd-Ld-asI" userLabel="RateView">
                                                             <rect key="frame" x="120" y="92" width="90" height="20"/>
                                                             <color key="backgroundColor" white="0.17332175925925927" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -356,9 +356,21 @@
                                                                 <constraint firstAttribute="height" constant="20" id="a5R-6v-BCC"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Prezzo: 1000€" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="132" translatesAutoresizingMaskIntoConstraints="NO" id="6Na-T5-a48" userLabel="PrezzoPiatto">
-                                                            <rect key="frame" x="8" y="71" width="104" height="21"/>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prezzo:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="132" translatesAutoresizingMaskIntoConstraints="NO" id="6Na-T5-a48" userLabel="PrezzoPiatto">
+                                                            <rect key="frame" x="8" y="72" width="46" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="tgB-wd-GIO"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="10€" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSh-Og-fLt">
+                                                            <rect key="frame" x="62" y="72" width="50" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="AxX-yY-e9F"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -371,9 +383,12 @@
                                                         <constraint firstAttribute="bottom" secondItem="uJd-Ld-asI" secondAttribute="bottom" constant="8" id="6Db-an-C6I"/>
                                                         <constraint firstItem="6Na-T5-a48" firstAttribute="top" secondItem="4us-Sn-wFr" secondAttribute="bottom" constant="8" id="7tz-Nd-pK4"/>
                                                         <constraint firstItem="4us-Sn-wFr" firstAttribute="top" secondItem="MaC-w4-Rlj" secondAttribute="top" constant="8" id="DVr-5O-WIH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="TSh-Og-fLt" secondAttribute="trailing" priority="250" constant="98" id="UQd-Ou-caY"/>
                                                         <constraint firstAttribute="trailing" secondItem="4us-Sn-wFr" secondAttribute="trailing" constant="8" id="e5C-pd-3gZ"/>
                                                         <constraint firstItem="6Na-T5-a48" firstAttribute="leading" secondItem="MaC-w4-Rlj" secondAttribute="leading" constant="8" id="fF6-Rp-W72"/>
-                                                        <constraint firstAttribute="trailing" secondItem="6Na-T5-a48" secondAttribute="trailing" priority="750" constant="98" id="nKB-2Q-KdC"/>
+                                                        <constraint firstItem="uJd-Ld-asI" firstAttribute="leading" secondItem="MaC-w4-Rlj" secondAttribute="leading" priority="750" constant="120" id="fIo-8U-LQd"/>
+                                                        <constraint firstItem="TSh-Og-fLt" firstAttribute="leading" secondItem="6Na-T5-a48" secondAttribute="trailing" constant="8" id="gYS-Zp-DmZ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="TSh-Og-fLt" secondAttribute="bottom" constant="28" id="qtS-oq-nIr"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -391,7 +406,7 @@
                                         <connections>
                                             <outlet property="rateViewContainer" destination="uJd-Ld-asI" id="w0f-Wb-QU2"/>
                                             <outlet property="recipeImage" destination="dr4-lj-wuT" id="VNc-dA-F8u"/>
-                                            <outlet property="recipePrice" destination="6Na-T5-a48" id="TxZ-1D-i8K"/>
+                                            <outlet property="recipePrice" destination="TSh-Og-fLt" id="Lsg-QI-IEF"/>
                                             <outlet property="recipeTitle" destination="4us-Sn-wFr" id="neR-UR-UU7"/>
                                             <segue destination="hiB-J9-Yko" kind="push" identifier="details" id="ud4-Ql-A1H"/>
                                         </connections>
@@ -408,8 +423,8 @@
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="18"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Prezzo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cx-aY-CHo">
-                                                    <rect key="frame" x="20" y="102" width="202" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Prezzo:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cx-aY-CHo">
+                                                    <rect key="frame" x="20" y="102" width="50" height="20"/>
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -424,12 +439,18 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10€" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SLy-ti-9MH">
+                                                    <rect key="frame" x="78" y="102" width="42" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="rateViewContainer" destination="JnS-qQ-HT0" id="k1q-py-SXS"/>
                                             <outlet property="recipeIngredients" destination="FVf-tc-LQz" id="Mi3-Mz-BfQ"/>
-                                            <outlet property="recipePrice" destination="4Cx-aY-CHo" id="gi7-JA-J2k"/>
+                                            <outlet property="recipePrice" destination="SLy-ti-9MH" id="ytA-yL-bTy"/>
                                             <outlet property="recipeTitle" destination="cZp-lb-hzc" id="Hxc-kV-PxK"/>
                                         </connections>
                                     </tableViewCell>

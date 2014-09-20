@@ -246,7 +246,7 @@
         recipeName.text = [[recipe objectForKey:@"nome"]uppercaseString];
 
         UILabel *recipePrice = (UILabel *)[cell viewWithTag:201];
-        recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
+        recipePrice.text = [[recipe objectForKey:@"prezzo"]stringByAppendingString:@"€"];
 
         AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, cell.rateViewContainer.frame.size.height)];
         thisratingView.value = 4.f;
@@ -274,7 +274,7 @@
         
         UILabel *recipePrice = (UILabel *)[cell viewWithTag:112];
         
-        recipePrice.text = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
+        recipePrice.text = [[recipe objectForKey:@"prezzo"]stringByAppendingString:@"€"];
         
         AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, cell.rateViewContainer.frame.size.height)];
         thisratingView.value = 4.f;

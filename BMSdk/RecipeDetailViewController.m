@@ -357,7 +357,6 @@
 #pragma mark -
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"%lu", (unsigned long)[self.bestMatchDataSource count]);
     return [self.bestMatchDataSource count];
 }
 
@@ -457,10 +456,14 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
 
         CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-        CGFloat panDifference = 0;
+        CGFloat panDifference = 0.0;
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             panDifference = screenSize.height > 480.f ? 15 : 5;
+        }
+        else
+        {
+            panDifference = 10.0;
         }
 
         if (self.scrollView.contentOffset.y < 0 & self.scrollView.contentOffset.y <= -panDifference) {

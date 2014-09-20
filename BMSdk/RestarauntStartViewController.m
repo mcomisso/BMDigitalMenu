@@ -147,6 +147,24 @@
         [self.dailyMenuFullContainer setCenter:CGPointMake(self.dailyMenuFullContainer.center.x + translation.x, self.dailyMenuFullContainer.center.y)];
         [recognizer setTranslation:CGPointZero inView:self.view];
     }
+    else if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        float xValueOfContainer = self.dailyMenuFullContainer.center.x;
+        float thresholdOfAnimation = (self.view.frame.size.width - (self.view.frame.size.width/7));
+        
+        if (xValueOfContainer < thresholdOfAnimation) {
+            [UIView animateWithDuration:0.3
+                                  delay:0.0
+                 usingSpringWithDamping:0.8
+                  initialSpringVelocity:6
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 self.dailyMenuFullContainer.center = CGPointMake(self.view.center.x, self.dailyMenuFullContainer.center.y);
+                             } completion:^(BOOL finished) {
+                                 NSLog(@"Should be fully open.");
+                             }];
+        }
+    }
 }
 
 /**

@@ -57,9 +57,6 @@
     
     self.canWhiteViewBeMovedLeft = NO;
     self.canWhiteViewBeMovedRight = YES;
-
-    UIView *whiteView = (UIView *)[self.contentView viewWithTag:115];
-    whiteView.center = self.whiteViewCenter;
     
     AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
     [axrate removeFromSuperview];

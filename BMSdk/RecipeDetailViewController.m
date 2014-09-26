@@ -26,34 +26,39 @@
 #import "TransitionManager.h"
 
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+#pragma mark -
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
+#pragma mark - Recipe details
 @property (strong, nonatomic) IBOutlet UILabel *recipeNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *recipePriceLabel;
-
 @property (strong, nonatomic) IBOutlet UILabel *recipeIngredientsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *recipeDescriptionLabel;
-
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) IBOutlet UIView *rateViewContainer;
 @property (strong, nonatomic) IBOutlet UIView *secondaryInfoView;
 
+//Descrizioni di ingredienti e composizione della ricetta
 @property (strong, nonatomic) IBOutlet UILabel *descriptionTextLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ingredientsTextLabel;
-
 
 @property (strong, nonatomic) NSMutableDictionary *recipeDetails;
 @property (nonatomic, strong) TransitionManager *transitionManager;
 
+//Classes for Blue-Mate services
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
+@property (strong, nonatomic) BMCartManager *cartManager;
+
 @property (strong, nonatomic) IBOutlet UIView *backviewContainer;
 
+// Best Match Properties (Data source - IBOutlets)
 @property (strong, nonatomic) NSArray *bestMatchDataSource;
 @property (strong, nonatomic) IBOutlet UICollectionView *bestMatchCollectionView;
 @property (nonatomic) BOOL isCombinationOpen;
-@property (nonatomic) CGPoint originalCenter;
 
+//Views properties
+@property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) CGPoint firstContainerViewCenter;
 
 @property (strong, nonatomic) IBOutlet UIView *bestMatchSelectedView;
@@ -61,7 +66,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *bestMatchRecipeViewLabelName;
 @property (strong, nonatomic) IBOutlet UILabel *bestMatchRecipeViewLabelIngredients;
 
+#pragma mark - MotionView
+//Motion view
 @property (strong, nonatomic) CRMotionView *motionView;
+
+#pragma mark - Others
+//Toolbar items and utils
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *heartButton;
+@property (nonatomic) BOOL isRecipeSelected;
+@property (strong, nonatomic) NSArray *imagesPathArray;
 
 @end
 
@@ -76,8 +89,9 @@
     }
 
     heightSize += 69;
-    
+
     self.scrollView.contentSize = CGSizeMake(320, heightSize);
+
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -94,6 +108,16 @@
     return UIStatusBarStyleDefault;
 }
 
+-(void)loadBundleForResources
+{
+    NSBundle *bundleTest = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"BMSdk" withExtension:@"bundle"]];
+    [bundleTest load];
+    NSString *filledHeart = [bundleTest pathForResource:@"Cuore-filled@2x" ofType:@"png"];
+    NSString *openHeart = [bundleTest pathForResource:@"Cuore@2x" ofType:@"png"];
+
+    self.imagesPathArray = [NSArray arrayWithObjects:openHeart, filledHeart, nil];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -104,15 +128,24 @@
 {
     [super viewDidLoad];
     [self.navigationController.toolbar setBarStyle:UIBarStyleBlackTranslucent];
+
+    //Loads the images from the bluemateSDK bundle
+    [self loadBundleForResources];
     
+    // Save the important centers for future animations
     [self saveViewsCenters];
     
+    // Loads the dummy data for the collection view
     [self loadDataForCollectionView];
     
+    // Adds the scroll down gesture recognizer to show the full picture + motion sensor
     [self addGestureRecognizerToScrollview];
     
     //Setup Center for abbinamenti
     [self setCenterForBestMatchCollection];
+    
+    //Check if the recipe is saved inside the cart manager
+    [self isRecipeInsideCart];
     
     self.bestMatchCollectionView.alpha = 0.f;
     self.transitionManager = [[TransitionManager alloc]init];
@@ -163,10 +196,24 @@
     _originalCenter = CGPointMake(self.bestMatchCollectionView.center.x, self.bestMatchCollectionView.center.y);
 }
 
+/*Controlla se il piatto è inserito all'interno del carrello*/
+-(void)isRecipeInsideCart
+{
+    BMCartManager *cartManager = [BMCartManager sharedInstance];
+    self.isRecipeSelected = [cartManager isRecipeSavedInCart:self.recipeId];
+    
+    if (_isRecipeSelected) {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+    }
+    else
+    {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+    }
+}
 
 -(void)loadRating
 {
-    AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, 25)];
+    AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(self.rateViewContainer.frame.origin.x, self.rateViewContainer.frame.origin.y, 70, 25)];
 //    CGPoint center = CGPointMake(55, 17);
     thisratingView.center = self.rateViewContainer.center;
     thisratingView.value = 4.f;
@@ -282,9 +329,60 @@
 /**
  Aggiunge il piatto nella lista da ordinare
  */
-- (IBAction)rateRecipe:(id)sender {
+- (IBAction)addRecipeToCart:(id)sender {
     BMCartManager *cartManager = [BMCartManager sharedInstance];
-    [cartManager addItemInCart:self.recipeId];
+
+    if (_isRecipeSelected) {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+        [cartManager deleteFromCartWithId:self.recipeId];
+        self.isRecipeSelected = NO;
+    }
+    else
+    {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+        [cartManager addItemInCart:self.recipeId];
+        self.isRecipeSelected = YES;
+/*
+ CREATE "Instagram style" notification
+ 
+        UIView *heartContainer = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2)-50, 100, 100, 100)];
+        heartContainer.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.4];
+        heartContainer.layer.cornerRadius = 10.f;
+        
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:self.imagesPathArray[1]]];
+        imageView.center = CGPointMake(heartContainer.center.x, heartContainer.center.y);
+        imageView.alpha = 1.f;
+        
+        [heartContainer addSubview:imageView];
+        
+        [self.view addSubview:heartContainer];
+        
+        [UIView animateWithDuration:0.8
+                              delay:0.0
+             usingSpringWithDamping:0.6
+              initialSpringVelocity:8
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             //make the animation alive
+                             heartContainer.alpha = 0.f;
+                         } completion:^(BOOL finished) {
+                             //remove the animated view
+                             [heartContainer removeFromSuperview];
+                         }];*/
+    }
+}
+
+-(void)loadCorrectImageForHeartButton
+{
+    BMCartManager *cartManager = [BMCartManager sharedInstance];
+    
+    if ([cartManager isRecipeSavedInCart:self.recipeId]) {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+    }
+    else
+    {
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+    }
 }
 
 /** 

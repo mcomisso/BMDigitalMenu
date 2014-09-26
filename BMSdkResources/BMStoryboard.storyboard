@@ -949,7 +949,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ywz-sU-YSf"/>
                         <barButtonItem image="Cuore.png" id="8Iz-RB-FVg">
                             <connections>
-                                <action selector="rateRecipe:" destination="hiB-J9-Yko" id="FZL-lP-nd9"/>
+                                <action selector="addRecipeToCart:" destination="hiB-J9-Yko" id="PLh-WH-Qee"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="jTN-hE-PoF"/>

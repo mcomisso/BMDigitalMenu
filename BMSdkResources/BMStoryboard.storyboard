@@ -977,6 +977,7 @@
                         <outlet property="bestMatchSelectedView" destination="neS-aj-CNj" id="EW2-Yb-Yrw"/>
                         <outlet property="contentViewHeight" destination="ll3-Ar-3YN" id="a5t-9q-OQw"/>
                         <outlet property="descriptionTextLabel" destination="y8q-Vo-pSO" id="FH4-Kl-l9w"/>
+                        <outlet property="heartButton" destination="8Iz-RB-FVg" id="TsU-wT-6Dp"/>
                         <outlet property="ingredientsTextLabel" destination="i9e-yR-PoM" id="UY3-fT-x8q"/>
                         <outlet property="rateViewContainer" destination="Z6E-Y9-3ph" id="8Ql-SB-w4v"/>
                         <outlet property="recipeDescriptionLabel" destination="Piv-4e-c6a" id="jdD-Fl-sk5"/>

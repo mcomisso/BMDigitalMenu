@@ -98,8 +98,8 @@
 		B92AD6E519AB46DA00DDA65A /* cartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6E319AB46DA00DDA65A /* cartViewController.h */; };
 		B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6E419AB46DA00DDA65A /* cartViewController.m */; };
 		B934988319C1A8C80034DC86 /* AddRecipe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B934988219C1A8C80034DC86 /* AddRecipe@2x.png */; };
+		B935492A19D5C1B2002138DE /* Cuore-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B935492919D5C1B2002138DE /* Cuore-filled@2x.png */; };
 		B93CD7B819A642D300C97622 /* star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B93CD7B719A642D300C97622 /* star@2x.png */; };
-		B93CD7BA19A6433700C97622 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B93CD7B919A6433700C97622 /* heart@2x.png */; };
 		B93CD7BD19A650B200C97622 /* singleCommentTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B93CD7BB19A650B200C97622 /* singleCommentTableViewCell.h */; };
 		B93CD7BE19A650B200C97622 /* singleCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93CD7BC19A650B200C97622 /* singleCommentTableViewCell.m */; };
 		B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = B93D7DCA19BA697100EAD43A /* Reachability.h */; };
@@ -162,6 +162,7 @@
 		B9C29FAE19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */; };
 		B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */; };
 		B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C4870E19C777E1003F2F6E /* Flurry.h */; };
+		B9D4B2BB19D080AD00116805 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D4B2BA19D080AD00116805 /* Constants.h */; };
 		B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */; };
 		B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */; };
 		B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */; };
@@ -305,8 +306,8 @@
 		B92AD6E319AB46DA00DDA65A /* cartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cartViewController.h; sourceTree = "<group>"; };
 		B92AD6E419AB46DA00DDA65A /* cartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cartViewController.m; sourceTree = "<group>"; };
 		B934988219C1A8C80034DC86 /* AddRecipe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AddRecipe@2x.png"; sourceTree = "<group>"; };
+		B935492919D5C1B2002138DE /* Cuore-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cuore-filled@2x.png"; sourceTree = "<group>"; };
 		B93CD7B719A642D300C97622 /* star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star@2x.png"; sourceTree = "<group>"; };
-		B93CD7B919A6433700C97622 /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = "<group>"; };
 		B93CD7BB19A650B200C97622 /* singleCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleCommentTableViewCell.h; sourceTree = "<group>"; };
 		B93CD7BC19A650B200C97622 /* singleCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = singleCommentTableViewCell.m; sourceTree = "<group>"; };
 		B93D7DCA19BA697100EAD43A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -368,6 +369,7 @@
 		B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestarauntStartmenuCell.m; sourceTree = "<group>"; };
 		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
 		B9C4870E19C777E1003F2F6E /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = BMSdk/Flurry.h; sourceTree = "<group>"; };
+		B9D4B2BA19D080AD00116805 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalBlurredSegue.h; path = BMSdkResources/ModalBlurredSegue.h; sourceTree = "<group>"; };
 		B9DECD4A19A3981400C17799 /* ModalBlurredSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModalBlurredSegue.m; path = BMSdkResources/ModalBlurredSegue.m; sourceTree = "<group>"; };
 		B9DECD4E19A3985600C17799 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
@@ -515,8 +517,8 @@
 				B95C3D9519B5DDFD009FE141 /* Commenti@2x.png */,
 				B95C3D9619B5DDFD009FE141 /* Condividi@2x.png */,
 				B95C3D9719B5DDFD009FE141 /* Cuore@2x.png */,
+				B935492919D5C1B2002138DE /* Cuore-filled@2x.png */,
 				B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */,
-				B93CD7B919A6433700C97622 /* heart@2x.png */,
 				B93CD7B719A642D300C97622 /* star@2x.png */,
 				B9DECD5919A3992900C17799 /* comments@2x.png */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
@@ -682,6 +684,7 @@
 				B9A180A619AD3C8A00866E36 /* BMActivator.m */,
 				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
 				B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */,
+				B9D4B2BA19D080AD00116805 /* Constants.h */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -881,6 +884,7 @@
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
 				B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */,
 				B9C29FA619865A29002309FF /* MenuListCell.h in Headers */,
+				B9D4B2BB19D080AD00116805 /* Constants.h in Headers */,
 				B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */,
 				B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */,
 				B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */,
@@ -993,7 +997,7 @@
 				B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */,
 				B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */,
 				B934988319C1A8C80034DC86 /* AddRecipe@2x.png in Resources */,
-				B93CD7BA19A6433700C97622 /* heart@2x.png in Resources */,
+				B935492A19D5C1B2002138DE /* Cuore-filled@2x.png in Resources */,
 				B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
 				B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */,

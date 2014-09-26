@@ -70,4 +70,17 @@
     [self.selectedRecipes removeObjectAtIndex:[self.selectedRecipes indexOfObject:idOfRecipe]];
 }
 
+-(BOOL)isRecipeSavedInCart:(NSString *)idOfRecipe
+{
+    NSLog(@"[CartManager] ID recipe to check %@", idOfRecipe);
+    if ([self.selectedRecipes containsObject:idOfRecipe]) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+    
+}
+
 @end

@@ -8,8 +8,9 @@
 
 /*
     DESCRIPTION of Class:
-    BMDownload Manager Should fetch and store all the data requested by the application to gather informations about restaraunt and its recipes.
-    Once done, permits to unlock the view.
+ Singleton Class.
+ 
+ BMDownload Manager Should fetch and store all the data requested by the application to gather informations about restaraunt and its recipes.
  
  */
 

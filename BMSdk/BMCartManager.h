@@ -5,6 +5,12 @@
 //  Created by Matteo Comisso on 25/08/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
+/*
+ DESCRIPTION:
+ SingletonClass.
+ La classe BMCartManager implementa un modo per salvare la lista di piatti preferiti dall'utente.
+ L'idea è quella di fornire al consumatore un modo per salvare le proprie portate e successivamente ordinarle vocalmente al cameriere, quindi non verrà mantenuta traccia in memoria. I dati dei piatti "salvati per dopo" verranno prelevati dalla classe BMUsageStatisticManager
+ */
 
 #import <Foundation/Foundation.h>
 

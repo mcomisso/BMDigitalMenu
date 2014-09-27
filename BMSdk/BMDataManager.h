@@ -5,7 +5,14 @@
 //  Created by Matteo Comisso on 05/08/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
-
+/*
+ DESCRIPTION:
+ Singleton Class.
+ 
+ La classe BMDataManager si occupa del salvataggio/caching dei documenti prelevati da backend.
+ 
+ 
+ */
 #import <Foundation/Foundation.h>
 
 @interface BMDataManager : NSObject

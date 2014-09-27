@@ -452,9 +452,24 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
-    [headerView setBackgroundColor:[UIColor whiteColor]];
-    return headerView;
+    if (tableView == self.dailyMenu) {
+        UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+        [headerView setBackgroundColor:[UIColor whiteColor]];
+
+        UILabel *titleHeader = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    
+        [titleHeader setText:[self.dailyCategorieDataSource objectAtIndex:section]];
+        titleHeader.font = [UIFont fontWithName:@"Avenir" size:25];
+        
+        
+        [headerView addSubview:titleHeader];
+        
+        return headerView;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

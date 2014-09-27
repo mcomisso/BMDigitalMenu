@@ -15,6 +15,4 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *dailyMenu;
 
-
-
 @end

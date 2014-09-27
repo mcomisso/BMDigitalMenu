@@ -5,7 +5,15 @@
 //  Created by Matteo Comisso on 15/07/14.
 //  Copyright (c) 2014 Matteo Comisso. All rights reserved.
 //
+/*
+ DESCRIPTION:
 
+ Singleton class.
+ È usata app-wide per monitorare la presenza o meno di una area geografica determinata dall'emissione BT-LE di un iBeacon
+
+ La classe BMLocationManager implementa il delegate della CLLocationManager, specificando i metodi per l'entrata o l'uscita dall'area e le azioni da compiere in caso di passaggi di stato.
+
+ */
 @import Foundation;
 @import CoreLocation;
 

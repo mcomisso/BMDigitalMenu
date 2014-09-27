@@ -27,7 +27,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="P2n-yB-QmX">
-                                <rect key="frame" x="157" y="20" width="163" height="498"/>
+                                <rect key="frame" x="157" y="20" width="163" height="447"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellIdentifier" rowHeight="55" id="1X1-Id-gi9" customClass="RestarauntStartmenuCell">
@@ -97,17 +97,17 @@
                                 </constraints>
                             </view>
                             <view alpha="0.69999999999999973" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kfe-6I-z3I" userLabel="DailyMenu Hider">
-                                <rect key="frame" x="157" y="518" width="163" height="50"/>
+                                <rect key="frame" x="157" y="467" width="163" height="101"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="fNG-oZ-7as"/>
+                                    <constraint firstAttribute="height" constant="101" id="fNG-oZ-7as"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0D-ch-QdI" userLabel="DailyMenu Full Container" customClass="NoInteractionView">
                                 <rect key="frame" x="200" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTw-An-3to" userLabel="ViewHandler">
-                                        <rect key="frame" x="0.0" y="498" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="472" width="320" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDT-RR-I0P">
                                                 <rect key="frame" x="8" y="8" width="34" height="34"/>
@@ -200,7 +200,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="wTw-An-3to" secondAttribute="bottom" id="FvT-nS-m18"/>
+                                    <constraint firstAttribute="bottom" secondItem="wTw-An-3to" secondAttribute="bottom" constant="26" id="FvT-nS-m18"/>
                                     <constraint firstItem="wTw-An-3to" firstAttribute="leading" secondItem="W0D-ch-QdI" secondAttribute="leading" id="JrL-ea-uee"/>
                                     <constraint firstAttribute="trailing" secondItem="wTw-An-3to" secondAttribute="trailing" id="ieG-aD-Q4n"/>
                                 </constraints>
@@ -217,7 +217,7 @@
                             <constraint firstItem="TBI-Ri-rc8" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leadingMargin" constant="-16" id="F5o-sR-8S4"/>
                             <constraint firstItem="tEm-2S-HXI" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leadingMargin" constant="13" id="HBw-7U-tVO"/>
                             <constraint firstItem="2Yc-oA-iw5" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leadingMargin" constant="-7" id="LGk-sg-vd9"/>
-                            <constraint firstItem="no6-94-9oJ" firstAttribute="top" secondItem="P2n-yB-QmX" secondAttribute="bottom" constant="50" id="NOn-Vi-U8O"/>
+                            <constraint firstItem="no6-94-9oJ" firstAttribute="top" secondItem="P2n-yB-QmX" secondAttribute="bottom" constant="101" id="NOn-Vi-U8O"/>
                             <constraint firstItem="P2n-yB-QmX" firstAttribute="leading" secondItem="2Yc-oA-iw5" secondAttribute="trailing" constant="8" id="Q8H-Cv-el9"/>
                             <constraint firstAttribute="bottomMargin" secondItem="SFB-7s-VTa" secondAttribute="bottom" constant="-10" id="RAT-g0-6Jo"/>
                             <constraint firstAttribute="trailingMargin" secondItem="P2n-yB-QmX" secondAttribute="trailing" constant="-16" id="RP5-AE-uI3"/>

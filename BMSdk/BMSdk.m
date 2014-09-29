@@ -40,4 +40,26 @@
     _statsManager = [BMUsageStatisticManager sharedInstance];
 }
 
+/**
+ Handles the notification for BlueMate notifications type (Area/Modal/Background)
+ @param userInfo The notification dictionary
+ @return The notification minus the objectForKey used
+ */
+-(NSDictionary *)handleNotificationOrReturn:(NSDictionary *)userInfo
+{
+    if ([userInfo objectForKey:@"b"]) {
+        NSLog(@"Found push notification for Background Notification Usage");
+    }
+    else if ([userInfo objectForKey:@"m"])
+    {
+        NSLog(@"Found push notification for ModalView Notification Usage");
+    }
+    else if ([userInfo objectForKey:@"a"])
+    {
+        NSLog(@"Found push notification for Area Notification Usage");
+    }
+    
+    return userInfo;
+}
+
 @end

@@ -136,6 +136,7 @@
 		B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */; };
 		B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
+		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
 		B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4D19CC3E1200355418 /* CRMotionView.h */; };
@@ -343,6 +344,7 @@
 		B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticManager.h; sourceTree = "<group>"; };
 		B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticManager.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
 		B9909C4D19CC3E1200355418 /* CRMotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMotionView.h; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 		B915C328197803BF005618A6 /* BMSdkResources */ = {
 			isa = PBXGroup;
 			children = (
+				B96D556119D96C2700DEC274 /* dragMe2@.png */,
 				B902F8D719C2EE650031B8D8 /* backArrow@2x.png */,
 				B934988219C1A8C80034DC86 /* AddRecipe@2x.png */,
 				B95C3D9519B5DDFD009FE141 /* Commenti@2x.png */,
@@ -998,6 +1001,7 @@
 				B915C339197857C5005618A6 /* BMStoryboard.storyboard in Resources */,
 				B934988319C1A8C80034DC86 /* AddRecipe@2x.png in Resources */,
 				B935492A19D5C1B2002138DE /* Cuore-filled@2x.png in Resources */,
+				B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */,
 				B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
 				B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */,

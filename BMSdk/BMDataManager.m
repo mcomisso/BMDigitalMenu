@@ -668,8 +668,8 @@
     sqlite3_stmt *statement;
     
     if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"SELECT categoria, id, nome, immagine, ingredienti FROM menu WHERE categoria != (SELECT categoria FROM menu WHERE id = %@) GROUP BY categoria ORDER BY RANDOM();", idRecipe];
-        const char *forged = [query UTF8String];
+        NSString *queryRandom = [NSString stringWithFormat:@"SELECT * FROM (SELECT categoria, id, nome, immagine, ingredienti FROM menu ORDER BY RANDOM()) WHERE id != %@ GROUP BY categoria;", idRecipe];
+        const char *forged = [queryRandom UTF8String];
         
         if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
             while (sqlite3_step(statement) == SQLITE_ROW) {

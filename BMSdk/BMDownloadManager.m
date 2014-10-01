@@ -155,25 +155,7 @@
                     [dataManager deleteDataFromRestaraunt:@"restaraunt"];
                     [dataManager saveMenuData:parsedMenu];
 
-                    /*NSDictionary *latestRecipe =[parsedMenu objectAtIndex:[parsedMenu count]-1];
 
-                    NSDateFormatter *df = [[NSDateFormatter alloc]init];
-                    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    
-                    NSString *formattedServerString = [[[latestRecipe objectForKey:@"data_ultima_modifica"]componentsSeparatedByString:@"."]objectAtIndex:0];
-
-                    NSString *formattedCachedString = [[stringDateOfLastSavedRecipe componentsSeparatedByString:@"."]objectAtIndex:0];
-
-                    double timeIntervalFromServer = [[df dateFromString:formattedServerString] timeIntervalSince1970];
-                    double timeIntervalFromCache = [[df dateFromString:formattedCachedString] timeIntervalSince1970];
-                    
-                    if (timeIntervalFromCache == 0) {
-                        [dataManager saveMenuData:parsedMenu];
-                    }
-                    else if (timeIntervalFromServer > timeIntervalFromCache || [parsedMenu count] < savedRecipes) {
-                        [dataManager deleteDataFromRestaraunt:@"restaraunt"];
-                        [dataManager saveMenuData:parsedMenu];
-                    }*/
                     self.isMenuDownloaded = YES;
                 }
             }

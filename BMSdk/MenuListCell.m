@@ -7,10 +7,12 @@
 //
 
 #import "MenuListCell.h"
+#import "Constants.h"
 
 @interface MenuListCell()
 
 @property (nonatomic) CGPoint whiteViewCenter;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightLayoutConstraint;
 
 @end
 
@@ -60,7 +62,11 @@
     
     AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
     [axrate removeFromSuperview];
- 
+    if (!IS_OS_8_OR_LATER) {
+        if (self.whiteViewContainer.center.x > 215) {
+            self.whiteViewContainer.center = CGPointMake(215, self.whiteViewContainer.center.y);
+        }
+    }
     UIImageView *imag = (UIImageView *)[self.recipeImage viewWithTag:110];
     imag.image = [self imageColoredGenerator];
 }

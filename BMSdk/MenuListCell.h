@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIView *rateViewContainer;
 @property (strong, nonatomic) AXRatingView *ratingView;
 
+@property (strong, nonatomic) IBOutlet UIView *whiteViewContainer;
+
 @property (strong, nonatomic) NSString *recipeId;
 @property (strong, nonatomic) NSString *recipeImageUrl;
 

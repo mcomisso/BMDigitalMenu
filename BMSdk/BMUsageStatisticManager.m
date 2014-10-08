@@ -13,6 +13,8 @@
 #import "AFNetworkReachabilityManager.h"
 #import <sys/utsname.h>
 
+#define POLLINGTIMER 20
+
 #define BMAPI @""
 
 @interface BMUsageStatisticManager()

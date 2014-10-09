@@ -10,5 +10,6 @@
 
 @interface DailyMenuCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *recipeName;
-
+@property (strong, nonatomic) IBOutlet UILabel *recipePrice;
+@property (strong, nonatomic) NSString *recipeId;
 @end

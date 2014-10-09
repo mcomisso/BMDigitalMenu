@@ -22,34 +22,39 @@
 #import "DocumentsViewController.h"
 
 //Daily Menu
-#import "DailyMenuCell.h"
+#import "BFPaperButton.h"
+
+//Remove in production
+#import "BMDownloadManager.h"
+
 
 @interface RestarauntStartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) IBOutlet UIView *restarauntName;
+//Contenitore della view "tableView" con le categorie
+@property (strong, nonatomic) IBOutlet UIView *categoriesMenuContainer;
+@property (strong, nonatomic) NSArray *categorie;
+
+//Dettagli del ristorante
+@property (strong, nonatomic) IBOutlet UIView *restarauntNameContainer;
 @property (strong, nonatomic) IBOutlet UILabel *restarauntLabelName;
 @property (strong, nonatomic) IBOutlet UIView *topBarHider;
 @property (strong, nonatomic) IBOutlet UIView *pdfViewLoader;
 
+//Bluemate managers classes
 @property (strong, nonatomic) BMCartManager *cartManager;
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 
-@property (strong, nonatomic) NSArray *categorie;
+
+// Daily - PaperButton
+@property (strong, nonatomic) IBOutlet BFPaperButton *dailyMenuButton;
+@property (strong, nonatomic) IBOutlet UIView *dailyButtonContainer;
+
 
 /* DAILY MENU DATA*/
 @property (strong, nonatomic) NSArray *dailyCategorieDataSource;
 @property (strong, nonatomic) NSArray *dailyRecipesDataSource;
 
-// Daily Menu Container
-@property (strong, nonatomic) IBOutlet UIView *dailyMenuFullContainer;
-@property (strong, nonatomic) IBOutlet UIView *viewHandler;
-@property (strong, nonatomic) IBOutlet UIView *dailyMenuHider;
-
-@property (strong, nonatomic) IBOutlet UILabel *draggableViewTodayLabel;
-@property (strong, nonatomic) IBOutlet UILabel *todayDayLabel;
-@property (strong, nonatomic) IBOutlet UILabel *todayDayNameLabel;
-@property (strong, nonatomic) IBOutlet UILabel *todayMonthLabel;
-@property (strong, nonatomic) IBOutlet UILabel *todayYearLabel;
+@property (strong, nonatomic) NSDictionary *dailyMenuDataSource;
 
 @end
 
@@ -64,108 +69,26 @@
     return self;
 }
 
--(void)setupDatesOfDailyMenu
+#pragma mark - DEBUG ONLY
+#warning REMOVE ONCE IN PRODUCTION
+-(void)downloadCatalogOfRecipesWithoutBeacon
 {
-    NSDateComponents *calendar = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:[NSDate date]];
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"EEEE"];
-    dateFormatter.locale = [NSLocale currentLocale];
-    
-    NSInteger year = [calendar year];
-    NSInteger month = [calendar month];
-    
-    NSString *monthName = [[[dateFormatter monthSymbols]objectAtIndex:month-1] capitalizedString];
-    NSString *dayName = [dateFormatter stringFromDate:[NSDate date]];
-    
-    NSInteger day = [calendar day];
-    
-    self.draggableViewTodayLabel.text = [NSString stringWithFormat:@"%ld", (long)day];
-    self.todayDayLabel.text = [NSString stringWithFormat:@"%ld", (long)day];
-    self.todayYearLabel.text = [NSString stringWithFormat:@"%ld", (long)year];
-    
-    self.todayDayNameLabel.text = [dayName uppercaseString];
-    self.todayMonthLabel.text = monthName;
-    
+    BMDownloadManager *downloadManager = [BMDownloadManager sharedInstance];
+    [downloadManager fetchMenuOfRestaraunt:@123];
 }
 
-/* 
- Initial setup of the position for the daily menu.
- Moves the view out of the window
- */
--(void)initialPositionOfDailyMenu
+#warning REMOVE ONCE IN PRODUCTION
+-(void)setupMutitapForDownload
 {
-        self.dailyMenuFullContainer.center = CGPointMake(self.dailyMenuFullContainer.center.x + self.dailyMenu.frame.size.width , self.dailyMenu.center.y);
-}
-
-/*
- Attach the pangestureRecognizer to the full view for daily menu
- */
--(void)setupDragGestureForDailyMenu
-{
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanOfDailyMenu:)];
-    panGestureRecognizer.delegate = self;
+    UITapGestureRecognizer *tpg = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(downloadCatalogOfRecipesWithoutBeacon)];
     
-    [self.viewHandler addGestureRecognizer:panGestureRecognizer];
-}
-
-
--(void)dailyMenuFakerLoader
-{
-    self.dailyRecipesDataSource = @[
-                                    @[
-                                        @"Linguine al Pesto",
-                                        @"Pasta all'amatriciana",
-                                        @"Pasta al Ragù",
-                                        @"Risotto alla milanese"],
-                                    @[
-                                        @"Scaloppine al vino bianco",
-                                        @"Tagliata di manzo",
-                                        @"Vitello tonnato",
-                                        @"Cotoletta alla milanese"],
-                                    @[
-                                        @"Carote e insalata",
-                                        @"Patate al forno",
-                                        @"Verdure grigliate",
-                                        @"Spinaci"]
-                                    ];
+    tpg.delegate = self;
+    tpg.numberOfTapsRequired = 5;
     
-    self.dailyCategorieDataSource = @[@"PRIMI",@"SECONDI",@"CONTORNI"];
+    [self.restarauntNameContainer addGestureRecognizer:tpg];
 }
+#pragma mark -
 
-/*
- Handles the pan of the view for daily menu
- */
--(void)handlePanOfDailyMenu:(UIPanGestureRecognizer *)recognizer
-{
-    UIView *piece = [recognizer view];
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan || recognizer.state == UIGestureRecognizerStateChanged)
-    {
-        CGPoint translation = [recognizer translationInView:piece];
-//        CGPoint velocity = [recognizer velocityInView:self.view];
-        [self.dailyMenuFullContainer setCenter:CGPointMake(self.dailyMenuFullContainer.center.x + translation.x, self.dailyMenuFullContainer.center.y)];
-        [recognizer setTranslation:CGPointZero inView:self.view];
-    }
-    else if (recognizer.state == UIGestureRecognizerStateEnded)
-    {
-        float xValueOfContainer = self.dailyMenuFullContainer.center.x;
-        float thresholdOfAnimation = (self.view.frame.size.width - (self.view.frame.size.width/7));
-        
-        if (xValueOfContainer < thresholdOfAnimation) {
-            [UIView animateWithDuration:0.3
-                                  delay:0.0
-                 usingSpringWithDamping:0.8
-                  initialSpringVelocity:6
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 self.dailyMenuFullContainer.center = CGPointMake(self.view.center.x, self.dailyMenuFullContainer.center.y);
-                             } completion:^(BOOL finished) {
-                                 NSLog(@"Should be fully open.");
-                             }];
-        }
-    }
-}
 
 /**
  Scale and rotation transforms are applied relative to the layer's anchor point this method moves a gesture recognizer's view's anchor point between the user's fingers.
@@ -180,39 +103,6 @@
         
         piece.layer.anchorPoint = CGPointMake(locationInView.x / piece.bounds.size.width, locationInView.y / piece.bounds.size.height);
         piece.center = locationInSuperview;
-    }
-}
-
-/*Check if daily menu is available and downloads it*/
--(BOOL)isDailyMenuAvailable
-{
-    int i = 1;
-    
-    if (i) {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
-}
-
-/*
- FIRST CALLER:
- This method initializes every other one
- */
--(void)setupDailyMenu
-{
-    if ([self isDailyMenuAvailable]) {
-        [self dailyMenuFakerLoader];
-        [self setupDatesOfDailyMenu];
-
-        [self initialPositionOfDailyMenu];
-        [self setupDragGestureForDailyMenu];
-    }
-    else
-    {
-        //Remove from superview the container of tableview
     }
 }
 
@@ -238,17 +128,50 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+
+/**
+ Setup del bottone in stile material design (per menu del giorno)
+ */
+-(void)setupPaperButton
+{
+    self.dailyMenuButton.cornerRadius = self.dailyMenuButton.frame.size.width / 2;
+    [self.dailyMenuButton addTarget:self action:@selector(alertView) forControlEvents:UIControlEventTouchUpInside];
+    
+    //Colors
+    self.dailyMenuButton.tapCircleColor = [UIColor whiteColor];
+    [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.dailyMenuButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+    
+    //puts a shadow behind the button
+    self.dailyMenuButton.isRaised = YES;
+}
+
+-(void)alertView
+{
+    NSLog(@"Paper button pressed");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
+
+    // Setup the black layer gradient
+    [self blackLayerGradient];
+    [self setupPaperButton];
     
-    [self setupDailyMenu];
-    
+    /*
+     TODO: REMOVE THIS ONCE IN PRODUCTION
+     */
+    [self setupMutitapForDownload];
+    /**/
+
+
     // Ask for Background Image
     self.backgroundRestarauntImage.contentMode = UIViewContentModeScaleAspectFill;
+    
     [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
     
     // Appereance Settings
@@ -260,44 +183,70 @@
     
     [self loadCategories];
 
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dataChangedInDB) name:@"updateMenu" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(dataChangedInDB)
+                                                name:@"updateMenu"
+                                              object:nil];
 }
-
+/**
+ Sets the colors of the static interface
+ */
 -(void)setColors
 {
     self.topBarHider.backgroundColor = [UIColor whiteColor];
-    self.restarauntName.layer.cornerRadius = self.restarauntName.frame.size.width / 2;
-    self.restarauntName.layer.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8].CGColor;
-
-    //TableView Background Color
-    self.tableView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.7];
+    self.restarauntNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
 }
 
+-(void)blackLayerGradient
+{
+
+    UIColor *topColor = [UIColor colorWithWhite:0 alpha:0.8];
+    UIColor *bottomColor = [UIColor colorWithWhite:0 alpha:0];
+    
+    NSArray *gradientColors = @[(id)topColor.CGColor, (id)bottomColor.CGColor];
+    NSArray *gradientLocations = @[[NSNumber numberWithInt:0.0], [NSNumber numberWithInt:1.0]];
+    
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.colors = gradientColors;
+    gradientLayer.locations = gradientLocations;
+    
+    gradientLayer.frame = self.restarauntNameContainer.frame;
+    [self.restarauntNameContainer.layer insertSublayer:gradientLayer atIndex:0];
+}
+
+/**
+ Sets the pdf "button"
+ */
 -(void)setPdfButton
 {
     self.pdfViewLoader.layer.cornerRadius = self.pdfViewLoader.frame.size.width /2;
-
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(loadPDFView)];
     [self.pdfViewLoader addGestureRecognizer:tgr];
 }
 
+
+/**
+ Initial animation for menù entry
+ */
 -(void)animateToPositionsForMenu
 {
-    CGPoint originalCenter = self.restarauntName.center;
-    
-    CGPoint originalTableCenter = self.tableView.center;
+//    CGPoint originalCenter = self.restarauntNameContainer.center;
+//    CGPoint originalTableCenter = self.categoriesMenuContainer.center;
+    CGPoint originalDailyButtonCenter = self.dailyButtonContainer.center;
     
     self.pdfViewLoader.alpha = 0.f;
 
-    self.restarauntName.center = self.view.center;
-    self.tableView.center = CGPointMake(originalTableCenter.x + self.tableView.frame.size.width, originalTableCenter.y);
-    self.dailyMenuHider.center = self.tableView.center;
+//    self.restarauntNameContainer.center = CGPointMake(originalCenter.x - self.restarauntNameContainer.frame.size.width, originalCenter.y);
     
-    [UIView animateWithDuration:0.4 delay:0.3 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.restarauntName.center = originalCenter;
-        self.tableView.center = originalTableCenter;
-        self.dailyMenuHider.center = originalTableCenter;
-
+//    self.categoriesMenuContainer.center = CGPointMake(originalTableCenter.x + self.categoriesMenuContainer.frame.size.width, originalTableCenter.y);
+    
+    self.dailyButtonContainer.center = CGPointMake(originalDailyButtonCenter.x, originalDailyButtonCenter.y + self.dailyButtonContainer.frame.size.height);
+    
+    [UIView animateWithDuration:0.4 delay:2 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        self.restarauntNameContainer.center = originalCenter;
+//        self.categoriesMenuContainer.center = originalTableCenter;
+        self.dailyButtonContainer.center = originalDailyButtonCenter;
+        
     } completion:^(BOOL finished) {
         NSLog(@"Completed");
     }];
@@ -308,14 +257,14 @@
 
 -(void)animateToPositionsForPDF
 {
-    CGPoint originalCenter = self.restarauntName.center;
+    CGPoint originalCenter = self.restarauntNameContainer.center;
     
-    self.restarauntName.center = self.view.center;
+    self.restarauntNameContainer.center = self.view.center;
 
     [self.tableView removeFromSuperview];
     
     [UIView animateWithDuration:0.4 delay:0.3 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.restarauntName.center = originalCenter;
+        self.restarauntNameContainer.center = originalCenter;
     } completion:^(BOOL finished) {
         NSLog(@"Completed");
     }];
@@ -339,6 +288,7 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - Tableview utils
 -(void)loadCategories
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];
@@ -350,8 +300,6 @@
 #pragma mark - TableView Methods
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (tableView == self.tableView) {
         
         int indexed = (int) indexPath.row;
         
@@ -365,8 +313,11 @@
             }
             cell.badgeString = [NSString stringWithFormat:@"%d",[self.cartManager numbersOfItemInCart]];
             cell.badgeTextColor = [UIColor whiteColor];
-            cell.textLabel.textColor = [UIColor colorWithRed:0.61 green:0.77 blue:0.8 alpha:1];
+//            cell.textLabel.textColor = [UIColor colorWithRed:0.61 green:0.77 blue:0.8 alpha:1];
+
+            cell.textLabel.textColor = [UIColor redColor];
             cell.textLabel.text = @"SCELTI";
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
             
             cell.badgeColor = [UIColor redColor];
             cell.badge.radius = cell.badge.frame.size.width /2;;
@@ -404,19 +355,6 @@
             
             return cell;
         }
-    }
-    else if(tableView == self.dailyMenu)
-    {
-        static NSString *dailyCellIdentifier = @"dailyCell";
-        
-        DailyMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:dailyCellIdentifier];
-        
-        if (cell == nil) {
-            cell = [[DailyMenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:dailyCellIdentifier];
-        }
-        cell.recipeName.text = [[self.dailyRecipesDataSource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        return cell;
-    }
     return nil;
 }
 
@@ -430,72 +368,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.tableView) {
-        return [self.categorie count] + 1;
-    }
-    else
-    {
-        return 4;
-    }
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (tableView == self.dailyMenu) {
-        return 30;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (tableView == self.dailyMenu) {
-        UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
-        [headerView setBackgroundColor:[UIColor whiteColor]];
-
-        UILabel *titleHeader = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
-    
-        [titleHeader setText:[self.dailyCategorieDataSource objectAtIndex:section]];
-        titleHeader.font = [UIFont fontWithName:@"Avenir" size:25];
-        
-        
-        [headerView addSubview:titleHeader];
-        
-        return headerView;
-    }
-    else
-    {
-        return nil;
-    }
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (tableView == self.dailyMenu) {
-        NSString *sectionName;
-        switch (section) {
-            case 0:
-                sectionName = [self.dailyCategorieDataSource objectAtIndex:0];
-                break;
-            case 1:
-                sectionName = [self.dailyCategorieDataSource objectAtIndex:1];
-                break;
-            case 2:
-                sectionName = [self.dailyCategorieDataSource objectAtIndex:2];
-                break;
-            case 3:
-                sectionName = [self.dailyCategorieDataSource objectAtIndex:3];
-                break;
-            default:
-                sectionName = @"nil";
-                break;
-        }
-        return sectionName;
-    }
-    return nil;
+    return [self.categorie count] + 1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -7,6 +7,7 @@
 //
 
 #import "DailyMenuCell.h"
+#import "BMCartManager.h"
 
 @implementation DailyMenuCell
 
@@ -18,6 +19,10 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+- (IBAction)addToCart:(id)sender {
+//    BMCartManager *cartManager = [BMCartManager sharedInstance];
+//    [cartManager addItemInCart:self.recipeId];
 }
 
 @end

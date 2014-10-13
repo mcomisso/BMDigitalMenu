@@ -156,7 +156,12 @@
     
     NSInteger day = [calendar day];
     
-    self.todayDayLabel.text = [NSString stringWithFormat:@"%ld", (long)day];
+    if (day < 10) {
+        self.todayDayLabel.text = [NSString stringWithFormat:@"0%ld", (long)day];
+    }
+    else{
+        self.todayDayLabel.text = [NSString stringWithFormat:@"%ld", (long)day];
+    }
     self.todayYearLabel.text = [NSString stringWithFormat:@"%ld", (long)year];
     
     self.todayDayNameLabel.text = [dayName uppercaseString];
@@ -186,16 +191,30 @@
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
     [headerView setBackgroundColor:[UIColor whiteColor]];
     
-    UILabel *titleHeader = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    UILabel *titleHeader = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, tableView.bounds.size.width-10, 30)];
     
     [titleHeader setText:[self.dailyCategorieDataSource objectAtIndex:section]];
     titleHeader.font = [UIFont fontWithName:@"Avenir" size:25];
-    titleHeader.textAlignment = NSTextAlignmentCenter;
+    titleHeader.textColor = [UIColor colorWithRed:0.03 green:0.5 blue:0.84 alpha:1];
+    
+    titleHeader.textAlignment = NSTextAlignmentLeft;
     
     [headerView addSubview:titleHeader];
     
     return headerView;
 }
+/*
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section
+{
+    return 4;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 4)];
+    footerView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+    return footerView;
+}*/
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {

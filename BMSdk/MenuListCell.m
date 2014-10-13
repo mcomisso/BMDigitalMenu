@@ -7,7 +7,6 @@
 //
 
 #import "MenuListCell.h"
-#import "Constants.h"
 
 @interface MenuListCell()
 

@@ -10,6 +10,8 @@
 #import "BMLocationManager.h"
 #import "BMUsageStatisticManager.h"
 
+#import "AFHTTPRequestOperationManager.h"
+
 #import "Flurry.h"
 
 @interface BMSdk()
@@ -45,18 +47,28 @@
  @param userInfo The notification dictionary
  @return The notification minus the objectForKey used
  */
--(NSDictionary *)handleNotificationOrReturn:(NSDictionary *)userInfo
+-(NSDictionary *)handleNotification:(NSDictionary *)userInfo
 {
     if ([userInfo objectForKey:@"b"]) {
         NSLog(@"Found push notification for Background Notification Usage");
+        NSLog(@"B Content: %@", [userInfo description]);
+        
     }
     else if ([userInfo objectForKey:@"m"])
     {
         NSLog(@"Found push notification for ModalView Notification Usage");
+        NSLog(@"M Content: %@", [userInfo description]);
     }
     else if ([userInfo objectForKey:@"a"])
     {
         NSLog(@"Found push notification for Area Notification Usage");
+        //Save data inside NSUserDefaults
+        NSLog(@"A Content: %@", [userInfo description]);
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[userInfo objectForKey:@"hi"] forKey:@"welcomeMessage"];
+        [userDefaults setObject:[userInfo objectForKey:@"bye"] forKey:@"goodbyeMessage"];
+        [userDefaults synchronize];
     }
     
     return userInfo;

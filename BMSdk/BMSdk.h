@@ -15,6 +15,6 @@
  */
 -(void)start;
 
--(NSDictionary *)handleNotificationOrReturn:(NSDictionary *)userInfo;
+-(NSDictionary *)handleNotification:(NSDictionary *)userInfo;
 
 @end

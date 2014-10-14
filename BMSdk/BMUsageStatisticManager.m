@@ -15,7 +15,14 @@
 
 #define POLLINGTIMER 20
 
-#define BMAPI @""
+#define BMPARSEAPI @"https://api.parse.com/1/"
+
+// Test Parse REST
+#define APPLICATION_ID @"aHSvZObWED0XrBDCqbL6eeO01tCXmdFTyRH9oY2V"
+#define REST_API @"H9HXKUKQTtpq3F69PDyj0fnfQ8iTYV02JZqEwfeG"
+
+//DEFINE A NEW SQLITE DB
+
 
 @interface BMUsageStatisticManager()
 
@@ -92,6 +99,8 @@
 
 -(void)appWillBecomeActive:(NSNotification *)note
 {
+    //Check if data exists inside DB, restore timer run
+    //send to parse existing data
     
 }
 
@@ -99,7 +108,7 @@
 {
     NSLog(@"Usage Manager: app will terminate");
     //Save everyting not sent on DB
-
+    //Stop timer run
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
@@ -134,17 +143,18 @@
         switch (status) {
             case AFNetworkReachabilityStatusNotReachable:
                 //Something when not reachable
-
+                //Save data inside the db
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 //Something online
-
+                //Send data
                 break;
             case AFNetworkReachabilityStatusUnknown:
-
+                //Save data inside the db
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
-
+                //Send data
+                
                 break;
                 
             default:
@@ -152,7 +162,7 @@
         }
     }];
     
-    [_manager POST:BMAPI
+    [_manager POST:BMPARSEAPI
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               //DELETE THIS DATA
@@ -161,6 +171,20 @@
               //SAVE AND RETRY
         
           }];
+}
+
+-(void)sendData
+{
+    
+    [_manager POST:BMPARSEAPI
+        parameters:0
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               //DELETE THIS DATA
+
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               //SAVE AND RETRY
+
+           }];
 }
 
 -(void)aliveConnection
@@ -175,6 +199,22 @@
     }
     
     //Ping a specific api with some private key to show the usage and an unique identifier.
+}
+
+-(void)testConnectionToParse
+{
+    NSURL *baseUrl = [NSURL URLWithString:[BMPARSEAPI stringByAppendingString:@"classes/Analytics"]];
+    [_manager GET:[baseUrl absoluteString]
+       parameters:@{@"X-Parse-Application-Id":APPLICATION_ID,
+                    @"X-Parse-REST-API-Key":REST_API,
+                    }
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              NSLog(@"%@",[responseObject description]);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+          }];
 }
 
 -(void)saveViewControllerName:(id)viewController

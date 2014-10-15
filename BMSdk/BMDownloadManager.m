@@ -255,7 +255,10 @@
     return returner;
 }
 
-
+/**
+ Save the menu inside the database through the data manager
+ @param toBeSaved The array to be saved inside the database
+ */
 -(void)saveOnDatabase:(NSArray *)toBeSaved
 {
     BMDataManager *dataManagerS = [BMDataManager sharedInstance];
@@ -264,6 +267,10 @@
 }
 
 #pragma mark - Comments and rating
+/**
+ Fetches the comments for a recipe
+ @param idRecipe
+ */
 -(void)fetchCommentsForRecipe:(NSString *)idRecipe
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];

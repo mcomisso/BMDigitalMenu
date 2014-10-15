@@ -142,10 +142,16 @@
     [self.dailyMenuButton setBackgroundColor:[UIColor colorWithRed:1 green:0.44 blue:0.2 alpha:1]];
     
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     //puts a shadow behind the button
     self.dailyMenuButton.isRaised = YES;
+    
+    //Set title
+    self.dailyMenuButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.dailyMenuButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [self.dailyMenuButton setTitle:@"MENÙ\nDEL\nGIORNO" forState:UIControlStateNormal];
 }
 
 -(void)alertView
@@ -194,7 +200,7 @@
 -(void)setColors
 {
     self.topBarHider.backgroundColor = [UIColor whiteColor];
-    self.restarauntNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
+//    self.restarauntNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
 }
 
 -(void)blackLayerGradient
@@ -210,7 +216,9 @@
     gradientLayer.colors = gradientColors;
     gradientLayer.locations = gradientLocations;
     
-    gradientLayer.frame = self.restarauntNameContainer.frame;
+    //Set the layer at 0,0 for the dimension of the frame
+    gradientLayer.frame = CGRectMake(0, 0, self.restarauntNameContainer.frame.size.width, self.restarauntNameContainer.frame.size.height);
+    
     [self.restarauntNameContainer.layer insertSublayer:gradientLayer atIndex:0];
 }
 

@@ -73,6 +73,7 @@
 #pragma mark - Others
 //Toolbar items and utils
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *heartButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *puzzleButton;
 @property (nonatomic) BOOL isRecipeSelected;
 @property (strong, nonatomic) NSArray *imagesPathArray;
 
@@ -90,8 +91,13 @@
 
     heightSize += 69;
 
-    self.scrollView.contentSize = CGSizeMake(320, heightSize);
-
+    if (heightSize < 370) {
+        self.scrollView.contentSize = CGSizeMake(320, 380);
+    }
+    else
+    {
+        self.scrollView.contentSize = CGSizeMake(320, heightSize);
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -114,8 +120,18 @@
     [bundleTest load];
     NSString *filledHeart = [bundleTest pathForResource:@"Cuore-filled@2x" ofType:@"png"];
     NSString *openHeart = [bundleTest pathForResource:@"Cuore@2x" ofType:@"png"];
+    NSString *bigHeart = [bundleTest pathForResource:@"Cuore-big@2x" ofType:@"png"];
 
-    self.imagesPathArray = [NSArray arrayWithObjects:openHeart, filledHeart, nil];
+    NSString *filledPuzzle = [bundleTest pathForResource:@"Suggerimenti-filled@2x" ofType:@"png"];
+    NSString *openPuzzle = [bundleTest pathForResource:@"Suggerimenti@2x" ofType:@"png"];
+    
+    // 0 -> Cuore vuoto
+    // 1 -> Cuore colorato
+    // 2 -> Cuore grande colorato
+    // 3 -> Puzzle vuoto
+    // 4 -> Puzzle colorato
+    
+    self.imagesPathArray = [NSArray arrayWithObjects:openHeart, filledHeart, bigHeart, openPuzzle, filledPuzzle, nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -193,7 +209,14 @@
 
 -(void)setCenterForBestMatchCollection
 {
-    _originalCenter = CGPointMake(self.bestMatchCollectionView.center.x, self.bestMatchCollectionView.center.y);
+    if (!IS_IPHONE4) {
+        _originalCenter = CGPointMake(self.bestMatchCollectionView.center.x, self.bestMatchCollectionView.center.y);
+        NSLog(@"[BESTMATCH VIEW] Original center in view for bestMatchCollectionView: %f, %f", _originalCenter.x, _originalCenter.y);
+    }
+    else
+    {
+        _originalCenter = CGPointMake(self.bestMatchCollectionView.center.x, self.bestMatchCollectionView.center.y - (self.bestMatchCollectionView.frame.size.height/2) - 30);
+    }
 }
 
 /*Controlla se il piatto è inserito all'interno del carrello*/
@@ -213,11 +236,13 @@
 
 -(void)loadRating
 {
-    AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(self.rateViewContainer.frame.origin.x, self.rateViewContainer.frame.origin.y, 70, 25)];
-//    CGPoint center = CGPointMake(55, 17);
-    thisratingView.center = self.rateViewContainer.center;
-    thisratingView.value = 4.f;
-    thisratingView.value =
+    AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(14, 1, 70, 25)];
+    
+    //Load the rating for this recipe
+    
+    BMDataManager *dm = [BMDataManager sharedInstance];
+    
+    thisratingView.value = [dm requestRatingForRecipe:self.recipeId];
     thisratingView.tag = 114;
     thisratingView.numberOfStar = 5;
     thisratingView.baseColor = [UIColor blackColor];
@@ -318,12 +343,7 @@
 
     [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setToolbarHidden:YES animated:YES];
-    
-    CommentsModalViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"commentsModalView"];
-    
-    modal.idRecipe = self.recipeId;
-    
-    [self presentViewController:modal animated:YES completion:nil];
+
 }
 
 /**
@@ -342,33 +362,37 @@
         self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
         [cartManager addItemInCart:self.recipeId];
         self.isRecipeSelected = YES;
-/*
- CREATE "Instagram style" notification
+
+// CREATE "Instagram style" notification
  
-        UIView *heartContainer = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2)-50, 100, 100, 100)];
-        heartContainer.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.4];
-        heartContainer.layer.cornerRadius = 10.f;
+        UIView *heartContainer = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width / 2)-100, (self.view.frame.size.height / 2)-150, 200, 200)];
+        heartContainer.backgroundColor = [UIColor clearColor];
         
-        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:self.imagesPathArray[1]]];
-        imageView.center = CGPointMake(heartContainer.center.x, heartContainer.center.y);
-        imageView.alpha = 1.f;
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:self.imagesPathArray[2]]];
         
         [heartContainer addSubview:imageView];
+
+        heartContainer.transform = CGAffineTransformScale(heartContainer.transform, 0.1, 0.1);
+        heartContainer.alpha = 0.f;
         
         [self.view addSubview:heartContainer];
+
+        [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:5 initialSpringVelocity:8 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            heartContainer.alpha = 1.f;
+            heartContainer.transform = CGAffineTransformScale(heartContainer.transform, 10, 10);
+            
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:1
+                                  delay:0.3
+                                options:0
+                             animations:^{
+                                 heartContainer.alpha = 0.f;
+                             }
+                             completion:^(BOOL finished) {
+                                 [heartContainer removeFromSuperview];
+                             }];
+        }];
         
-        [UIView animateWithDuration:0.8
-                              delay:0.0
-             usingSpringWithDamping:0.6
-              initialSpringVelocity:8
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             //make the animation alive
-                             heartContainer.alpha = 0.f;
-                         } completion:^(BOOL finished) {
-                             //remove the animated view
-                             [heartContainer removeFromSuperview];
-                         }];*/
     }
 }
 
@@ -392,6 +416,7 @@
     [sender setEnabled:NO];
     if (_isCombinationOpen) {
         //Hide collectionView
+        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[3]];
         [UIView animateWithDuration:0.3
                               delay:0.0
              usingSpringWithDamping:0.8
@@ -403,15 +428,18 @@
                              self.bestMatchSelectedView.alpha = 0.f;
                          }
                          completion:^(BOOL finished) {
+                             
                              _isCombinationOpen = NO;
                              [sender setEnabled:YES];
                          }];
     }
     else
     {
+        //Show CollectionView
         //Alter the center of bestMatchCollectionView
         self.bestMatchCollectionView.center = CGPointMake(_originalCenter.x, _originalCenter.y + self.bestMatchCollectionView.frame.size.height);
-        
+        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[4]];
+
         //Animate it to new position with animation
         [UIView animateWithDuration:0.3
                               delay:0.0
@@ -465,10 +493,11 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Bestmatch collectionView CENTER IN Y: %f", _bestMatchCollectionView.center.y);
     static NSString *cellIdentifier = @"bestMatchIdentifier";
     
     bestMatchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    NSLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
+//    NSLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
     
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[BMIMAGEAPI stringByAppendingString:[[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"immagine"]]]];
     cell.imageView.layer.borderColor = [UIColor blackColor].CGColor;
@@ -480,21 +509,16 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGPoint bestMatchContainerCenter = CGPointMake(self.bestMatchSelectedView.center.x, self.bestMatchSelectedView.center.y + self.view.frame.size.height/2);
-    
-    self.bestMatchSelectedView.center = CGPointMake(bestMatchContainerCenter.x, bestMatchContainerCenter.y);
-    
     self.bestMatchSelectedView.layer.cornerRadius = 10.f;
     self.bestMatchSelectedView.layer.borderColor = [UIColor blackColor].CGColor;
     self.bestMatchSelectedView.layer.borderWidth = 1.f;
 
     [UIView animateWithDuration:0.3
                      animations:^{
-                         self.bestMatchSelectedView.center = self.bestMatchSelectedView.center;
                          self.bestMatchSelectedView.alpha = 1.f;
                      }
                      completion:^(BOOL finished) {
-                         NSLog(@"Completed transition");
+                         NSLog(@"Completed show recipe transition");
                      }];
 
     self.bestMatchRecipeViewLabelName.text = [[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"nome"];
@@ -590,14 +614,17 @@
 }
 
 #pragma mark - Navigation
-/*
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 
+    if ([segue.identifier isEqualToString:@"commentSegue"]) {
+        CommentsModalViewController *cmd = segue.destinationViewController;
+        cmd.idRecipe = self.recipeId;
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
 
 @end

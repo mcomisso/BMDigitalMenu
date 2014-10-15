@@ -47,8 +47,6 @@
 
 // Daily - PaperButton
 @property (strong, nonatomic) IBOutlet BFPaperButton *dailyMenuButton;
-@property (strong, nonatomic) IBOutlet UIView *dailyButtonContainer;
-
 
 /* DAILY MENU DATA*/
 @property (strong, nonatomic) NSArray *dailyCategorieDataSource;
@@ -136,13 +134,15 @@
  */
 -(void)setupPaperButton
 {
-    self.dailyMenuButton.cornerRadius = self.dailyMenuButton.frame.size.width / 2;
+//    self.dailyMenuButton.cornerRadius = self.dailyMenuButton.frame.size.width / 2;
     [self.dailyMenuButton addTarget:self action:@selector(alertView) forControlEvents:UIControlEventTouchUpInside];
     
-    //Colors
-    self.dailyMenuButton.tapCircleColor = [UIColor whiteColor];
+    //Set orange colors
+    [self.dailyMenuButton setTapCircleColor:[UIColor colorWithRed:0.91 green:0.25 blue:0.1 alpha:1]];
+    [self.dailyMenuButton setBackgroundColor:[UIColor colorWithRed:1 green:0.44 blue:0.2 alpha:1]];
+    
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.dailyMenuButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+    [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     //puts a shadow behind the button
     self.dailyMenuButton.isRaised = YES;
@@ -232,7 +232,7 @@
 {
 //    CGPoint originalCenter = self.restarauntNameContainer.center;
 //    CGPoint originalTableCenter = self.categoriesMenuContainer.center;
-    CGPoint originalDailyButtonCenter = self.dailyButtonContainer.center;
+    CGPoint originalDailyButtonCenter = self.dailyMenuButton.center;
     
     self.pdfViewLoader.alpha = 0.f;
 
@@ -240,12 +240,12 @@
     
 //    self.categoriesMenuContainer.center = CGPointMake(originalTableCenter.x + self.categoriesMenuContainer.frame.size.width, originalTableCenter.y);
     
-    self.dailyButtonContainer.center = CGPointMake(originalDailyButtonCenter.x, originalDailyButtonCenter.y + self.dailyButtonContainer.frame.size.height);
+    self.dailyMenuButton.center = CGPointMake(originalDailyButtonCenter.x - self.dailyMenuButton.frame.size.width, originalDailyButtonCenter.y);
     
-    [UIView animateWithDuration:0.4 delay:2 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.4 delay:1 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
 //        self.restarauntNameContainer.center = originalCenter;
 //        self.categoriesMenuContainer.center = originalTableCenter;
-        self.dailyButtonContainer.center = originalDailyButtonCenter;
+        self.dailyMenuButton.center = originalDailyButtonCenter;
         
     } completion:^(BOOL finished) {
         NSLog(@"Completed");

@@ -160,7 +160,6 @@
 		B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C3319CAE10800C5C749 /* NoInteractionView.m */; };
 		B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9A180A519AD3C8A00866E36 /* BMActivator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A180A619AD3C8A00866E36 /* BMActivator.m */; };
-		B9A964DD19EC2433001BBEDB /* BMAnalytics.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9A964DB19EC2432001BBEDB /* BMAnalytics.xcdatamodeld */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestarauntStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -393,7 +392,6 @@
 		B9938C3319CAE10800C5C749 /* NoInteractionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoInteractionView.m; path = BMSdk/NoInteractionView.m; sourceTree = "<group>"; };
 		B9A180A519AD3C8A00866E36 /* BMActivator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMActivator.h; sourceTree = "<group>"; };
 		B9A180A619AD3C8A00866E36 /* BMActivator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMActivator.m; sourceTree = "<group>"; };
-		B9A964DC19EC2432001BBEDB /* BMAnalytics.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BMAnalytics.xcdatamodel; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
 		B9C29F9519865037002309FF /* RestarauntStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestarauntStartViewController.h; sourceTree = "<group>"; };
@@ -753,7 +751,6 @@
 				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
 				B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */,
 				B9D4B2BA19D080AD00116805 /* Constants.h */,
-				B9A964DB19EC2432001BBEDB /* BMAnalytics.xcdatamodeld */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1252,7 +1249,6 @@
 				B9F1A01019E808A700DD177E /* UIView+SLKAdditions.m in Sources */,
 				B9F1A00119E8089100DD177E /* SLKTypingIndicatorView.m in Sources */,
 				B93D7DD419BA7D5300EAD43A /* NoImageTableViewCell.m in Sources */,
-				B9A964DD19EC2433001BBEDB /* BMAnalytics.xcdatamodeld in Sources */,
 				B9909C5419CC3E1200355418 /* UIScrollView+CRScrollIndicator.m in Sources */,
 				B943ECEF19A60D7D001ABB4E /* AFURLSessionManager.m in Sources */,
 			);
@@ -1601,19 +1597,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		B9A964DB19EC2432001BBEDB /* BMAnalytics.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B9A964DC19EC2432001BBEDB /* BMAnalytics.xcdatamodel */,
-			);
-			currentVersion = B9A964DC19EC2432001BBEDB /* BMAnalytics.xcdatamodel */;
-			path = BMAnalytics.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = B915C2E61977FFAF005618A6 /* Project object */;
 }

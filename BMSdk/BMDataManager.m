@@ -84,10 +84,40 @@
         char *errMessage;
         const char *sql_stmt =
         "PRAGMA foreign_keys = ON;\
-        CREATE TABLE IF NOT EXISTS restaraunt (id INTEGER PRIMARY KEY, name TEXT, beaconNumber INTEGER, pdfUUID TEXT); \
-        CREATE TABLE IF NOT EXISTS menu (categoria TEXT, prezzo REAL, nome TEXT, immagine TEXT, data_ultima_modifica TEXT, descrizione TEXT, id INTEGER PRIMARY KEY, locale_id INTEGER, ingredienti TEXT, FOREIGN KEY (locale_id) REFERENCES restaraunt (id));\
-        CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY, ricetta_id INTEGER, comment TEXT, userId INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));\
-        CREATE TABLE IF NOT EXISTS rating (id INTEGER PRIMARY KEY, ricetta_id INTEGER UNIQUE, ratingValue INTEGER, FOREIGN KEY (ricetta_id) REFERENCES menu(id));";
+        CREATE TABLE IF NOT EXISTS restaraunt ( \
+            id INTEGER PRIMARY KEY, \
+            name TEXT, \
+            beaconNumber INTEGER, \
+            pdfUUID TEXT); \
+        \
+        CREATE TABLE IF NOT EXISTS menu ( \
+            categoria TEXT, \
+            prezzo REAL, \
+            nome TEXT, \
+            immagine TEXT, \
+            data_ultima_modifica TEXT, \
+            descrizione TEXT, \
+            id INTEGER PRIMARY KEY, \
+            locale_id INTEGER, \
+            ingredienti TEXT, \
+            FOREIGN KEY (locale_id) REFERENCES restaraunt (id)); \
+        \
+        CREATE TABLE IF NOT EXISTS comments ( \
+            id INTEGER PRIMARY KEY, \
+            ricetta_id INTEGER, \
+            comment TEXT, \
+            userId INTEGER, \
+            FOREIGN KEY (ricetta_id) REFERENCES menu(id)); \
+        \
+        CREATE TABLE IF NOT EXISTS rating ( \
+            id INTEGER PRIMARY KEY, \
+            ricetta_id INTEGER UNIQUE, \
+            ratingValue INTEGER, \
+            FOREIGN KEY (ricetta_id) REFERENCES menu(id)); \
+        \
+        CREATE TABLE IF NOT EXISTS cartManager( \
+            id INTEGER PRIMARY KEY, \
+            ricetta_id INTEGER UNIQUE)";
         
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
             NSLog(@"[DataManager]Failed To create table, %s", errMessage);

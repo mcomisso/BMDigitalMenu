@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fy1-tG-f7a">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -141,7 +140,7 @@
                             <constraint firstAttribute="trailing" secondItem="vYA-ht-lUp" secondAttribute="trailing" id="E4r-GC-UYp"/>
                             <constraint firstItem="TBI-Ri-rc8" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leading" id="F5o-sR-8S4"/>
                             <constraint firstItem="tEm-2S-HXI" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leadingMargin" constant="144" id="HBw-7U-tVO"/>
-                            <constraint firstItem="kv7-RB-AWO" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leadingMargin" constant="-16" id="L4o-0f-X6I"/>
+                            <constraint firstItem="kv7-RB-AWO" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leading" id="L4o-0f-X6I"/>
                             <constraint firstItem="vYA-ht-lUp" firstAttribute="leading" secondItem="2FJ-9z-3kL" secondAttribute="leading" priority="750" constant="160" id="O9X-ZD-pQv"/>
                             <constraint firstAttribute="bottomMargin" secondItem="SFB-7s-VTa" secondAttribute="bottom" constant="-10" id="RAT-g0-6Jo"/>
                             <constraint firstItem="TBI-Ri-rc8" firstAttribute="top" secondItem="2FJ-9z-3kL" secondAttribute="top" id="Srt-c3-u48"/>
@@ -176,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Mi-v9-7nx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="-709"/>
+            <point key="canvasLocation" x="1034" y="-817"/>
         </scene>
         <!--DailyMenu-->
         <scene sceneID="BM6-CI-2nm">
@@ -611,7 +610,7 @@
                                                     <rect key="frame" x="0.0" y="62" width="320" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Piatto Piatto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5v-8D-D7B">
-                                                            <rect key="frame" x="8" y="9" width="95" height="43"/>
+                                                            <rect key="frame" x="8" y="9" width="95" height="24"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -625,14 +624,23 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5e-vg-oOG" userLabel="Prezzo">
+                                                            <rect key="frame" x="8" y="31" width="42" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="B5v-8D-D7B" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="17F-Ht-jRx"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="B5v-8D-D7B" secondAttribute="trailing" priority="250" constant="8" symbolic="YES" id="HuS-Oz-cPu"/>
+                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="B5v-8D-D7B" secondAttribute="trailing" priority="250" constant="156" id="HuS-Oz-cPu"/>
                                                         <constraint firstItem="MO7-us-FlM" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="WM2-M4-Tw3"/>
-                                                        <constraint firstAttribute="bottom" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="8" id="gDl-FQ-9yr"/>
+                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="A5e-vg-oOG" secondAttribute="trailing" constant="209" id="Xip-Gb-auc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="27" id="gDl-FQ-9yr"/>
                                                         <constraint firstAttribute="trailing" secondItem="MO7-us-FlM" secondAttribute="trailing" constant="8" id="hZ3-TS-EDs"/>
+                                                        <constraint firstItem="A5e-vg-oOG" firstAttribute="leading" secondItem="IE3-gM-UDq" secondAttribute="leading" constant="8" id="hib-RJ-x1B"/>
+                                                        <constraint firstItem="A5e-vg-oOG" firstAttribute="top" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="-2" id="sHP-VK-HBB"/>
                                                         <constraint firstAttribute="bottom" secondItem="MO7-us-FlM" secondAttribute="bottom" constant="8" id="vFK-Ph-bvW"/>
                                                         <constraint firstItem="B5v-8D-D7B" firstAttribute="leading" secondItem="IE3-gM-UDq" secondAttribute="leading" constant="8" id="xhg-R3-ojF"/>
                                                     </constraints>
@@ -972,8 +980,8 @@
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="neS-aj-CNj" userLabel="Additional View">
                                 <rect key="frame" x="16" y="8" width="288" height="328"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ingredienti" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MbV-TO-4bq" userLabel="Ingredienti">
-                                        <rect key="frame" x="8" y="418" width="272" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredienti" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MbV-TO-4bq" userLabel="Ingredienti">
+                                        <rect key="frame" x="8" y="250" width="272" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -987,7 +995,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEC-m2-ZEl">
                                         <rect key="frame" x="0.0" y="182" width="288" height="48"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ds-OA-UL7" userLabel="Titolo Recipe">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Ds-OA-UL7" userLabel="Titolo Recipe">
                                                 <rect key="frame" x="8" y="0.0" width="272" height="48"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1019,6 +1027,7 @@
                                     <constraint firstAttribute="bottom" secondItem="mpu-Ao-WKH" secondAttribute="bottom" constant="98" id="19C-ks-4Ct"/>
                                     <constraint firstAttribute="bottom" secondItem="MbV-TO-4bq" secondAttribute="bottom" priority="250" constant="57" id="9o9-g3-vbz"/>
                                     <constraint firstAttribute="trailing" secondItem="JY2-i1-qrg" secondAttribute="trailing" constant="8" id="A1p-hQ-1L1"/>
+                                    <constraint firstItem="mpu-Ao-WKH" firstAttribute="bottom" secondItem="GEC-m2-ZEl" secondAttribute="bottom" id="Hgc-Dn-3AB"/>
                                     <constraint firstItem="mpu-Ao-WKH" firstAttribute="leading" secondItem="neS-aj-CNj" secondAttribute="leading" id="Nvg-NC-l1j"/>
                                     <constraint firstItem="MbV-TO-4bq" firstAttribute="leading" secondItem="neS-aj-CNj" secondAttribute="leading" constant="8" id="Ttf-3b-Muv"/>
                                     <constraint firstAttribute="trailing" secondItem="MbV-TO-4bq" secondAttribute="trailing" constant="8" id="VMT-op-rYs"/>
@@ -1028,7 +1037,6 @@
                                     <constraint firstItem="GEC-m2-ZEl" firstAttribute="leading" secondItem="neS-aj-CNj" secondAttribute="leading" id="oAF-PI-8yt"/>
                                     <constraint firstItem="mpu-Ao-WKH" firstAttribute="top" secondItem="neS-aj-CNj" secondAttribute="top" id="pbA-y1-zhT"/>
                                     <constraint firstAttribute="trailing" secondItem="GEC-m2-ZEl" secondAttribute="trailing" id="rAa-nX-Wkg"/>
-                                    <constraint firstAttribute="height" constant="328" id="yC0-1R-oAa"/>
                                     <constraint firstItem="GEC-m2-ZEl" firstAttribute="top" secondItem="mpu-Ao-WKH" secondAttribute="bottom" constant="-48" id="zNe-uW-xos"/>
                                 </constraints>
                             </view>
@@ -1038,7 +1046,7 @@
                             <constraint firstItem="AHT-j8-g0Y" firstAttribute="top" secondItem="j3H-QW-JaC" secondAttribute="bottom" id="4q3-WX-p45"/>
                             <constraint firstItem="3SJ-0T-pgc" firstAttribute="leading" secondItem="FkL-NS-k5r" secondAttribute="leading" id="8m1-SX-hif"/>
                             <constraint firstItem="2R6-ga-7bb" firstAttribute="leading" secondItem="FkL-NS-k5r" secondAttribute="leadingMargin" constant="-16" id="90d-K2-6rh"/>
-                            <constraint firstItem="neS-aj-CNj" firstAttribute="top" secondItem="j3H-QW-JaC" secondAttribute="bottom" priority="250" constant="8" id="C4W-ix-Wl4"/>
+                            <constraint firstItem="neS-aj-CNj" firstAttribute="top" secondItem="j3H-QW-JaC" secondAttribute="bottom" constant="8" id="C4W-ix-Wl4"/>
                             <constraint firstItem="UwY-sp-e88" firstAttribute="top" secondItem="2R6-ga-7bb" secondAttribute="bottom" id="CaQ-wK-8q0"/>
                             <constraint firstItem="6FD-IV-bnU" firstAttribute="top" secondItem="FkL-NS-k5r" secondAttribute="top" id="DQp-nI-en4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AHT-j8-g0Y" secondAttribute="trailing" constant="-16" id="GN1-cL-Usc"/>

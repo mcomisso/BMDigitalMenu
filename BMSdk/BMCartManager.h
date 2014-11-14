@@ -37,20 +37,20 @@
 
 /**
  Adds an item inside the cart
- @param idOfRecipe id of recipe to add
+ @param recipeSlug slug of recipe to add
  */
--(void)addItemInCart:(NSString *)idOfRecipe;
+-(void)addItemInCart:(NSString *)recipeSlug;
 
 /**
  Removes an item from the cart
- @param idOfRecipe id of recipe to be deleted
+ @param recipeSlug slug of recipe to be deleted
  */
--(void)deleteFromCartWithId:(NSString *)idOfRecipe;
+-(void)deleteFromCartWithSlug:(NSString *)recipeSlug;
 
 /**
  Checks inside the current array if the wanted recipe exists
- @param idOfRecipe id of recipe to check
+ @param recipeSlug slug of recipe to check
  */
--(BOOL)isRecipeSavedInCart:(NSString *)idOfRecipe;
+-(BOOL)isRecipeSavedInCart:(NSString *)recipeSlug;
 
 @end

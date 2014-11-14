@@ -58,22 +58,22 @@
     return retval;
 }
 
--(void)addItemInCart:(NSString *)idOfRecipe
+-(void)addItemInCart:(NSString *)recipeSlug
 {
-    NSLog(@"[CartManager]ID recipe %@", idOfRecipe);
+    NSLog(@"[CartManager]ID recipe %@", recipeSlug);
     NSLog(@"[Cartmanager]Description %@", [self.selectedRecipes description]);
-    [self.selectedRecipes addObject:idOfRecipe];
+    [self.selectedRecipes addObject:recipeSlug];
 }
 
--(void)deleteFromCartWithId:(NSString *)idOfRecipe
+-(void)deleteFromCartWithSlug:(NSString *)recipeSlug
 {
-    [self.selectedRecipes removeObjectAtIndex:[self.selectedRecipes indexOfObject:idOfRecipe]];
+    [self.selectedRecipes removeObjectAtIndex:[self.selectedRecipes indexOfObject:recipeSlug]];
 }
 
--(BOOL)isRecipeSavedInCart:(NSString *)idOfRecipe
+-(BOOL)isRecipeSavedInCart:(NSString *)recipeSlug
 {
-    NSLog(@"[CartManager] ID recipe to check %@", idOfRecipe);
-    if ([self.selectedRecipes containsObject:idOfRecipe]) {
+    NSLog(@"[CartManager] ID recipe to check %@", recipeSlug);
+    if ([self.selectedRecipes containsObject:recipeSlug]) {
         return YES;
     }
     else

@@ -9,10 +9,11 @@
 #import "BMLocationManager.h"
 #import "BMDownloadManager.h"
 
-//#define BMBEACON @"66666666-6666-6666-6666-666666666666"
 #define BMBEACON @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"
+//#define BMBEACON @"96A1736B-11FC-85C3-1762-80DF658F0B29"
 
 @import UIKit;
+@import CoreBluetooth;
 
 @interface BMLocationManager() <CLLocationManagerDelegate>
 
@@ -28,9 +29,12 @@
 @property (nonatomic, strong) NSDate *lastNotificationDate;
 @property (nonatomic, strong) NSString *beaconDistance;
 
+//Every scan in didRangeBeacons increments this counter of 1
 @property int timerCounter;
 
 @property BOOL isRanging;
+
+// Setup checks
 @property BOOL trackLocationNotified;
 @property (readonly) BOOL canTrackLocation;
 @property BOOL setupCompleted;
@@ -38,7 +42,7 @@
 
 @property BOOL isBlueMateInterfacePresented;
 
-@property BOOL restarauntFound;
+@property BOOL restaurantFound;
 @property (readwrite, nonatomic) BOOL canStartInterface;
 
 @property (nonatomic) UIBackgroundTaskIdentifier downloadTask;
@@ -56,14 +60,13 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[super alloc]initUniqueInstance];
     });
-    
+
     return sharedInstance;
 }
 
 /*
  Inizializzazione componenti essenziali
- -> settings manager (riutilizzabile in caso di problemi hardware e/o)
- ->
+ -> settings manager
  */
 -(id)initUniqueInstance
 {
@@ -73,10 +76,14 @@
         
         self.isBlueMateInterfacePresented = NO;
         
+        // Notification explicitally called on entry&&exit
+        self.bmBeaconRegion.notifyOnEntry = YES;
+        self.bmBeaconRegion.notifyOnExit = YES;
+
         self.trackLocationNotified = NO;
         self.setupCompleted = NO;
         self.isRanging = NO;
-        self.restarauntFound = NO;
+        self.restaurantFound = NO;
         self.closestBeacon = [[CLBeacon alloc]init];
         self.BMUUID = [[NSUUID alloc]initWithUUIDString:BMBEACON];
         self.timerCounter = 0;
@@ -106,12 +113,25 @@
     
     if (![CLLocationManager locationServicesEnabled]) {
         errorMessage = @"locationServices Not enabled";
+        if (IS_OS_8_OR_LATER) {
+            // Open the settings app
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }
     }
     else
     {
         if (![CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
             errorMessage = @"Location Tracking not Available";
-            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            //Check if is iOS 8 or not
+            if (IS_OS_8_OR_LATER) {
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            }
+            else
+            {
+                //Comunicate the user that the Location tracking is unavailable
+                //TODO
+            }
+
         }
         else
         {
@@ -130,12 +150,38 @@
     
 }
 
+#pragma mark -
+/**
+ Activates the notifications only if the beacon is seen in a available hour
+ */
+-(BOOL)canShowNotification
+{
+    NSDate *date = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *dateComponents = [calendar components:NSHourCalendarUnit fromDate:date];
+    
+    long hour = [dateComponents hour];
+    
+    if (hour <= 6 || hour >= 0) {
+        NSLog(@"Test");
+    }
+    
+    return YES;
+}
+
+
+/**
+ Completes the setup of this class
+ */
 -(void)setupManager
 {
  
 #if TARGET_IPHONE_SIMULATOR
-    [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
+    [self.downloadManager fetchMenuOfRestaurantWithMajor:@161 andMinor:@243];
 #endif
+    
+    
     if (!self.canTrackLocation || self.setupCompleted) {
         return;
     }
@@ -200,6 +246,25 @@
     [self startRanging];
 }
 
+//TODO: schedule notification for iOS 8 with UILocalNotification part
+-(void)scheduleLocalNotificationForEnteringZone
+{
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        notification.region = self.bmBeaconRegion;
+        notification.regionTriggersOnce = YES;
+        notification.alertBody = @"Alert for iOS 8";
+    }
+    else
+    {
+        notification.alertBody = @"Alert for iOS 7";
+    }
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+}
+
 #pragma mark - BM[Location Manager] Delegate Methods
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
@@ -227,19 +292,32 @@
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
-    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    UILocalNotification *welcomeNotification = [[UILocalNotification alloc]init];
     
-    notification.alertBody = @"Test enter region";
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"welcomeMessage"]) {
+        welcomeNotification.alertBody = [[NSUserDefaults standardUserDefaults]objectForKey:@"welcomeMessage"];
+    }
+    else{
+        welcomeNotification.alertBody = @"Welcome";
+    }
+
     
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
     NSLog(@"[Location Manager] entered in region: %@", [region identifier]);
     
-    [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
+    [[UIApplication sharedApplication]presentLocalNotificationNow:welcomeNotification];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
+    //If the notification was setted from the
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"goodbyeNotification"]) {
+        UILocalNotification *goodbyeNotification = [[UILocalNotification alloc]init];
+        goodbyeNotification.alertBody = [[NSUserDefaults standardUserDefaults]objectForKey:@"goodbyeNotification"];
+        [[UIApplication sharedApplication]presentLocalNotificationNow:goodbyeNotification];
+    }
+
     NSLog(@"[Location Manager] exited region: %@", [region identifier]);
 }
 
@@ -261,22 +339,18 @@
     UILocalNotification *notification = [[UILocalNotification alloc]init];
     
     if ([beacons count] > 0) {
-        CLBeacon *newFound = [beacons firstObject];
-        if (newFound.proximity != CLProximityUnknown & self.closestBeacon.major == newFound.major) {
+        //Filter out the beacons Unknown
+        beacons = [beacons filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"proximity != %d", CLProximityUnknown]];
+        self.closestBeacon = [beacons firstObject];
+        if (self.closestBeacon.proximity != CLProximityUnknown) {
             
-            // If user keep stayin in same zone for 3 seconds, check and fetch data for restaraunt
+            // If user keep stayin in same zone for 3 seconds, check and fetch data for Restaurant
             if (self.timerCounter == 3) {
                 if (!self.isBlueMateInterfacePresented) {
                     //Present Interface
                     self.isBlueMateInterfacePresented = YES;
-                    
                 }
                 [self stopRanging];
-//                [self.downloadManager fetchDataOfRestaraunt:self.closestBeacon.major];
-                NSString *locatedRestaraunt = [NSString stringWithFormat:@"%@", self.closestBeacon.major];
-
-                [[NSUserDefaults standardUserDefaults]setObject:locatedRestaraunt forKey:@"locatedRestaraunt"];
-                [[NSUserDefaults standardUserDefaults]synchronize];
 
                 notification.alertBody = [NSString stringWithFormat:@"Proximity: %ld, ID: %@", (long)self.closestBeacon.proximity, self.closestBeacon.minor];
                 [[UIApplication sharedApplication]presentLocalNotificationNow:notification];
@@ -284,17 +358,18 @@
             else
             {
                 if (self.timerCounter == 0) {
-                    [self.downloadManager fetchMenuOfRestaraunt:self.closestBeacon.major];
+                    NSNumber *locatedRestaurantMajor = self.closestBeacon.major;
+                    NSNumber *locatedRestaurantMinor = self.closestBeacon.minor;
+                    NSLog(@"%@", [self.closestBeacon description]);
+                    
+                    [[NSUserDefaults standardUserDefaults]setObject:locatedRestaurantMajor forKey:@"majorBeacon"];
+                    [[NSUserDefaults standardUserDefaults]setObject:locatedRestaurantMinor forKey:@"minorBeacon"];
+                    [[NSUserDefaults standardUserDefaults]synchronize];
+                    
+                    [self.downloadManager fetchMenuOfRestaurantWithMajor:self.closestBeacon.major andMinor:self.closestBeacon.minor];
                 }
                 self.timerCounter++;
             }
-        }
-        else
-        {
-            //Save the new proximity beacon
-            NSLog(@"%@", [beacons firstObject]);
-            self.closestBeacon = [beacons firstObject];
-            self.timerCounter = 0;
         }
     }
     

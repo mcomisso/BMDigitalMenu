@@ -20,7 +20,7 @@
 @interface BMLocationManager : NSObject
 
 
-@property (nonatomic, strong, readonly) NSString *latestRestarauntID;
+@property (nonatomic, strong, readonly) NSString *latestRestaurantID;
 
 /**
  Method to activate an external UX element. Use the return value YES|NO to activate or deactivate a interface element, such a button.

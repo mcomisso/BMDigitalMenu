@@ -17,7 +17,7 @@
 @property (strong, nonatomic) AXRatingView *ratingView;
 @property (strong, nonatomic) IBOutlet UILabel *recipeIngredients;
 
-@property (strong, nonatomic) NSString *recipeId;
+@property (strong, nonatomic) NSString *recipeSlug;
 
 
 @end

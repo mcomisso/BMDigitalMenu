@@ -14,14 +14,15 @@
 
 @interface RecipeInfo : NSObject
 
-@property NSString *categoria;
-@property NSNumber *prezzo;
-@property NSNumber *visualizzabile;
-@property NSString *nome;
-@property NSString *immagine;
-@property NSDate *dataCreazione;
-@property NSString *descrizione;
-@property NSNumber *localeId;
-@property NSArray *ingredienti;
+@property NSString *name;
+@property NSNumber *price;
+@property NSString *category;
+@property NSDate *last_edit_datetime;
+@property NSString *image_url;
+@property NSString *recipe_description;
+@property NSString *ingredients;
+@property NSString *slug;
+@property NSArray *best_match;
+
 
 @end

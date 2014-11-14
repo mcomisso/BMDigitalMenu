@@ -10,17 +10,9 @@
 
 @implementation RecipeInfo
 
-/*
- @property NSString *categoria;
- @property NSNumber *prezzo;
- @property NSNumber *visualizzabile;
- @property NSString *nome;
- @property NSString *immagine;
- @property NSDate *dataCreazione;
- @property NSString *descrizione;
- @property NSNumber *localeId;
- @property NSArray *ingredienti;
- */
-
+-(NSString *)description
+{
+    return [NSString stringWithFormat:@"<RecipeInfo: Name %@, Slug: %@>", self.name, self.slug];
+}
 
 @end

@@ -12,15 +12,13 @@
 #import "BMCartManager.h"
 #import "BMUsageStatisticManager.h"
 
-#define BMAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
+#import "RecipeInfo.h"
 
 @interface cartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) BMCartManager *cartManager;
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
-
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
 @end
@@ -45,7 +43,7 @@
     self.cartManager = [BMCartManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
     
-    self.dataSource = [[NSMutableArray alloc] initWithArray:[self.cartManager itemsInCart] copyItems:YES];
+    self.dataSource = [[NSMutableArray alloc] initWithArray:[self.cartManager itemsInCart]];
 
     [self setupViewIfEmptyArray];
     
@@ -98,26 +96,26 @@
 {
     static NSString *cellIdentifier = @"cellIdentifier";
     
-    NSDictionary *recipe = [self.dataSource objectAtIndex:indexPath.row];
+    RecipeInfo *recipe = [self.dataSource objectAtIndex:indexPath.row];
     
     cartTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[cartTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
                                   reuseIdentifier:cellIdentifier];
     }
-    cell.recipeId = [recipe objectForKey:@"id"];
+    cell.recipeSlug = recipe.slug;
     NSLog(@"Recipe Description: %@", [recipe description]);
     
     // SD_IMAGE to set the image in async
-    [cell.recipeImageView sd_setImageWithURL:[NSURL URLWithString:[BMAPI stringByAppendingString:[recipe objectForKey:@"image"]]]
+    [cell.recipeImageView sd_setImageWithURL:[NSURL URLWithString:recipe.image_url]
                             placeholderImage:[self generateWhiteImage]];
 
     cell.recipeImageView.clipsToBounds = YES;
 
     // Set the strings for the labels
-    cell.recipePrice.text = [[recipe objectForKey:@"price"]stringByAppendingString:@"€"];
+    cell.recipePrice.text = [[NSString stringWithFormat:@"%@",recipe.price] stringByAppendingString:@"€"];
     
-    cell.recipeName.text = [recipe objectForKey:@"title"];
+    cell.recipeName.text = recipe.name;
 
     return cell;
 }
@@ -137,7 +135,7 @@
         
         cartTableViewCell *cell = (cartTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
 
-        [self.cartManager deleteFromCartWithId:cell.recipeId];
+        [self.cartManager deleteFromCartWithSlug:cell.recipeSlug];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
         if ([self.dataSource count] == 0) {
             [UIView animateWithDuration:0.3
@@ -158,7 +156,7 @@
 #pragma mark - Utils
 -(void)reloadDataFromCart
 {
-    self.dataSource = [[NSMutableArray alloc]initWithArray:[self.cartManager itemsInCart] copyItems:YES];
+    self.dataSource = [[NSMutableArray alloc]initWithArray:[self.cartManager itemsInCart]];
 }
 
 -(UIImage *)generateWhiteImage

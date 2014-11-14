@@ -11,7 +11,7 @@
 @interface cartTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *recipeName;
 @property (strong, nonatomic) IBOutlet UIImageView *recipeImageView;
-@property (strong, nonatomic) NSString *recipeId;
+@property (strong, nonatomic) NSString *recipeSlug;
 @property (strong, nonatomic) IBOutlet UILabel *recipePrice;
 
 @end

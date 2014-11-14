@@ -1,13 +1,13 @@
 //
-//  RestarauntStartViewController.m
+//  RestaurantStartViewController.m
 //  BMSdk
 //
 //  Created by Matteo Comisso on 28/07/14.
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
 
-#import "RestarauntStartViewController.h"
-#import "RestarauntStartmenuCell.h"
+#import "RestaurantStartViewController.h"
+#import "RestaurantStartmenuCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "TDBadgedCell.h"
 #import "NGAParallaxMotion.h"
@@ -28,15 +28,15 @@
 #import "BMDownloadManager.h"
 
 
-@interface RestarauntStartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+@interface RestaurantStartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 //Contenitore della view "tableView" con le categorie
 @property (strong, nonatomic) IBOutlet UIView *categoriesMenuContainer;
 @property (strong, nonatomic) NSArray *categorie;
 
 //Dettagli del ristorante
-@property (strong, nonatomic) IBOutlet UIView *restarauntNameContainer;
-@property (strong, nonatomic) IBOutlet UILabel *restarauntLabelName;
+@property (strong, nonatomic) IBOutlet UIView *restaurantNameContainer;
+@property (strong, nonatomic) IBOutlet UILabel *restaurantLabelName;
 @property (strong, nonatomic) IBOutlet UIView *topBarHider;
 @property (strong, nonatomic) IBOutlet UIView *pdfViewLoader;
 
@@ -56,7 +56,7 @@
 
 @end
 
-@implementation RestarauntStartViewController
+@implementation RestaurantStartViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,19 +71,38 @@
 #warning REMOVE ONCE IN PRODUCTION
 -(void)downloadCatalogOfRecipesWithoutBeacon
 {
+    [[NSUserDefaults standardUserDefaults]setObject:@161 forKey:@"majorBeacon"];
+    [[NSUserDefaults standardUserDefaults]setObject:@243 forKey:@"minorBeacon"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     BMDownloadManager *downloadManager = [BMDownloadManager sharedInstance];
-    [downloadManager fetchMenuOfRestaraunt:@123];
+    [downloadManager fetchMenuOfRestaurantWithMajor:@161 andMinor:@243];
+}
+
+#warning REMOVE ONCE IN PRODUCTION
+-(void)deleteAllRecipes
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+
+    NSLog(@"Deleted Entire database");
 }
 
 #warning REMOVE ONCE IN PRODUCTION
 -(void)setupMutitapForDownload
 {
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deleteAllRecipes)];
+    doubleTapGesture.delegate = self;
+    doubleTapGesture.numberOfTapsRequired = 3;
+    [doubleTapGesture setNumberOfTouchesRequired: 2];
+    
+    [self.restaurantNameContainer addGestureRecognizer:doubleTapGesture];
+    
     UITapGestureRecognizer *tpg = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(downloadCatalogOfRecipesWithoutBeacon)];
     
     tpg.delegate = self;
     tpg.numberOfTapsRequired = 5;
     
-    [self.restarauntNameContainer addGestureRecognizer:tpg];
+    [self.restaurantNameContainer addGestureRecognizer:tpg];
 }
 #pragma mark -
 
@@ -176,9 +195,9 @@
 
 
     // Ask for Background Image
-    self.backgroundRestarauntImage.contentMode = UIViewContentModeScaleAspectFill;
+    self.backgroundRestaurantImage.contentMode = UIViewContentModeScaleAspectFill;
     
-    [self.backgroundRestarauntImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
+    [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
     
     // Appereance Settings
     [self setColors];
@@ -200,13 +219,13 @@
 -(void)setColors
 {
     self.topBarHider.backgroundColor = [UIColor whiteColor];
-//    self.restarauntNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
+//    self.restaurantNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
 }
 
 -(void)blackLayerGradient
 {
 
-    UIColor *topColor = [UIColor colorWithWhite:0 alpha:0.8];
+    UIColor *topColor = [UIColor colorWithWhite:0 alpha:0.95];
     UIColor *bottomColor = [UIColor colorWithWhite:0 alpha:0];
     
     NSArray *gradientColors = @[(id)topColor.CGColor, (id)bottomColor.CGColor];
@@ -217,9 +236,9 @@
     gradientLayer.locations = gradientLocations;
     
     //Set the layer at 0,0 for the dimension of the frame
-    gradientLayer.frame = CGRectMake(0, 0, self.restarauntNameContainer.frame.size.width, self.restarauntNameContainer.frame.size.height);
+    gradientLayer.frame = CGRectMake(0, 0, self.restaurantNameContainer.frame.size.width, self.restaurantNameContainer.frame.size.height);
     
-    [self.restarauntNameContainer.layer insertSublayer:gradientLayer atIndex:0];
+    [self.restaurantNameContainer.layer insertSublayer:gradientLayer atIndex:0];
 }
 
 /**
@@ -238,25 +257,25 @@
  */
 -(void)animateToPositionsForMenu
 {
-//    CGPoint originalCenter = self.restarauntNameContainer.center;
+//    CGPoint originalCenter = self.restaurantNameContainer.center;
 //    CGPoint originalTableCenter = self.categoriesMenuContainer.center;
     CGPoint originalDailyButtonCenter = self.dailyMenuButton.center;
     
     self.pdfViewLoader.alpha = 0.f;
 
-//    self.restarauntNameContainer.center = CGPointMake(originalCenter.x - self.restarauntNameContainer.frame.size.width, originalCenter.y);
+//    self.restaurantNameContainer.center = CGPointMake(originalCenter.x - self.restaurantNameContainer.frame.size.width, originalCenter.y);
     
 //    self.categoriesMenuContainer.center = CGPointMake(originalTableCenter.x + self.categoriesMenuContainer.frame.size.width, originalTableCenter.y);
     
     self.dailyMenuButton.center = CGPointMake(originalDailyButtonCenter.x - self.dailyMenuButton.frame.size.width, originalDailyButtonCenter.y);
     
     [UIView animateWithDuration:0.4 delay:1 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//        self.restarauntNameContainer.center = originalCenter;
+//        self.restaurantNameContainer.center = originalCenter;
 //        self.categoriesMenuContainer.center = originalTableCenter;
         self.dailyMenuButton.center = originalDailyButtonCenter;
         
     } completion:^(BOOL finished) {
-        NSLog(@"Completed");
+        NSLog(@"Day Menu Button Animation Completed");
     }];
     //Central circle with spinning
     //Move central circle to storyboard position
@@ -265,16 +284,16 @@
 
 -(void)animateToPositionsForPDF
 {
-    CGPoint originalCenter = self.restarauntNameContainer.center;
+    CGPoint originalCenter = self.restaurantNameContainer.center;
     
-    self.restarauntNameContainer.center = self.view.center;
+    self.restaurantNameContainer.center = self.view.center;
 
     [self.tableView removeFromSuperview];
     
     [UIView animateWithDuration:0.4 delay:0.3 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.restarauntNameContainer.center = originalCenter;
+        self.restaurantNameContainer.center = originalCenter;
     } completion:^(BOOL finished) {
-        NSLog(@"Completed");
+        NSLog(@"PDF Button Animation Completed");
     }];
     //Central circle with spinning
     //move central circle up to 2/3
@@ -300,8 +319,13 @@
 -(void)loadCategories
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];
-    self.categorie = [dataManager requestCategoriesForRestaraunt:@2];
+    
+    NSNumber *majorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
+    NSNumber *minorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"minorBeacon"];
 
+    [self.restaurantLabelName setText:[dataManager requestRestaurantNameForMajorBeacon:majorNumber andMinorBeacon:minorNumber]];
+    self.categorie = [dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber];
+    
     [self.tableView reloadData];
 }
 
@@ -344,10 +368,10 @@
         }
         else
         {
-            RestarauntStartmenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            RestaurantStartmenuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             
             if (cell == nil) {
-                cell = [[RestarauntStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+                cell = [[RestaurantStartmenuCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
             }
             
             cell.categoryLabel.text = [self.categorie objectAtIndex:indexPath.row - 1];
@@ -381,22 +405,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView == self.tableView) {
-        return 1;
-    }
-    else if(tableView == self.dailyMenu)
-    {
-        return [self.dailyCategorieDataSource count];
-    }
-    else
-    {
-        return 0;
-    }
+    return 1;
 }
 
 -(NSString *)nameOfSelectedCell
 {
-    RestarauntStartmenuCell *cell = (RestarauntStartmenuCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+    RestaurantStartmenuCell *cell = (RestaurantStartmenuCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
     NSString *nameOfCategory = cell.categoryLabel.text;
     NSLog(@"%@", nameOfCategory);
     
@@ -433,8 +447,8 @@
     if ([[segue identifier] isEqualToString:@"pdfView"]) {
         DocumentsViewController *dvc = [segue destinationViewController];
         BMDataManager *dataManager = [BMDataManager sharedInstance];
-#warning Change the restarauntID
-        dvc.documentName = [dataManager requestPDFNameOfRestaraunt:@"Ciao"];
+#warning Change the RestaurantID
+        dvc.documentName = [dataManager requestPDFNameOfRestaurant:@"Ciao"];
     }
 }
 

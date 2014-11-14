@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RestarauntStartmenuCell : UITableViewCell
+@interface RestaurantStartmenuCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
 

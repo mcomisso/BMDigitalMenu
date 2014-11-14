@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RestarauntStartViewController : UIViewController
+@interface RestaurantStartViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundRestarauntImage;
+@property (strong, nonatomic) IBOutlet UIImageView *backgroundRestaurantImage;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) IBOutlet UITableView *dailyMenu;
 
 @end

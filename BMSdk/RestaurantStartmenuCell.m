@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
 
-#import "RestarauntStartmenuCell.h"
+#import "RestaurantStartmenuCell.h"
 
-@implementation RestarauntStartmenuCell
+@implementation RestaurantStartmenuCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

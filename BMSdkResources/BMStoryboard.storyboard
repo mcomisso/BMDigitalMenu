@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fy1-tG-f7a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fy1-tG-f7a">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Restaraunt Start View Controller-->
+        <!--Restaurant Start View Controller-->
         <scene sceneID="irF-Va-1aL">
             <objects>
-                <viewController id="DdD-jr-gEA" customClass="RestarauntStartViewController" sceneMemberID="viewController">
+                <viewController id="DdD-jr-gEA" customClass="RestaurantStartViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9j6-kq-NdW"/>
                         <viewControllerLayoutGuide type="bottom" id="no6-94-9oJ"/>
@@ -80,7 +81,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="548"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellIdentifier" rowHeight="57" id="1X1-Id-gi9" customClass="RestarauntStartmenuCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellIdentifier" rowHeight="57" id="1X1-Id-gi9" customClass="RestaurantStartmenuCell">
                                                 <rect key="frame" x="0.0" y="22" width="163" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1X1-Id-gi9" id="iCL-kJ-K7e">
@@ -161,12 +162,12 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="backgroundRestarauntImage" destination="SFB-7s-VTa" id="UzH-fv-FFR"/>
+                        <outlet property="backgroundRestaurantImage" destination="SFB-7s-VTa" id="B9S-Rc-10P"/>
                         <outlet property="categoriesMenuContainer" destination="vYA-ht-lUp" id="hhN-0l-19J"/>
                         <outlet property="dailyMenuButton" destination="kv7-RB-AWO" id="29G-wq-fZc"/>
                         <outlet property="pdfViewLoader" destination="tEm-2S-HXI" id="lcb-iM-D6R"/>
-                        <outlet property="restarauntLabelName" destination="jfd-cW-dL7" id="G4t-bJ-rBT"/>
-                        <outlet property="restarauntNameContainer" destination="2Yc-oA-iw5" id="77C-I2-byz"/>
+                        <outlet property="restaurantLabelName" destination="jfd-cW-dL7" id="wHM-jP-MQj"/>
+                        <outlet property="restaurantNameContainer" destination="2Yc-oA-iw5" id="Kue-Ge-KJx"/>
                         <outlet property="tableView" destination="P2n-yB-QmX" id="g6o-kQ-8p3"/>
                         <outlet property="topBarHider" destination="TBI-Ri-rc8" id="ELI-Nm-42T"/>
                         <segue destination="r4J-8l-QES" kind="push" identifier="pdfView" id="d9L-3x-wJc"/>

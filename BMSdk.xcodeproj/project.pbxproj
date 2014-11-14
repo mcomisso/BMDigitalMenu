@@ -162,14 +162,14 @@
 		B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A180A619AD3C8A00866E36 /* BMActivator.m */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
-		B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestarauntStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B9C29F9819865037002309FF /* RestarauntStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9619865037002309FF /* RestarauntStartViewController.m */; };
+		B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestaurantStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B9C29F9819865037002309FF /* RestaurantStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9619865037002309FF /* RestaurantStartViewController.m */; };
 		B9C29FA1198659E1002309FF /* RecipeDetailViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9F198659E1002309FF /* RecipeDetailViewController.h */; };
 		B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FA0198659E1002309FF /* RecipeDetailViewController.m */; };
 		B9C29FA619865A29002309FF /* MenuListCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FA419865A29002309FF /* MenuListCell.h */; };
 		B9C29FA719865A29002309FF /* MenuListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FA519865A29002309FF /* MenuListCell.m */; };
-		B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestarauntStartmenuCell.h */; };
-		B9C29FAE19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */; };
+		B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */; };
+		B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */; };
 		B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */; };
 		B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C4870E19C777E1003F2F6E /* Flurry.h */; };
 		B9D4B2BB19D080AD00116805 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D4B2BA19D080AD00116805 /* Constants.h */; };
@@ -181,24 +181,11 @@
 		B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD5419A3992100C17799 /* CommentsModalViewController.h */; };
 		B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9DECD5519A3992100C17799 /* CommentsModalViewController.m */; };
 		B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9DECD5919A3992900C17799 /* comments@2x.png */; };
+		B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B9E45A601A0D39D200EC4F7D /* RestaurantInfo.h */; };
+		B9E45A631A0D39D200EC4F7D /* RestaurantInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E45A611A0D39D200EC4F7D /* RestaurantInfo.m */; };
 		B9F0871F1991148F00002074 /* BMDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F0871D1991148F00002074 /* BMDataManager.h */; };
 		B9F087201991148F00002074 /* BMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0871E1991148F00002074 /* BMDataManager.m */; };
 		B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0872119911FE600002074 /* SystemConfiguration.framework */; };
-		B9F19FFA19E8089100DD177E /* SLKTextInputbar.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F19FF219E8089100DD177E /* SLKTextInputbar.h */; };
-		B9F19FFB19E8089100DD177E /* SLKTextInputbar.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F19FF319E8089100DD177E /* SLKTextInputbar.m */; };
-		B9F19FFC19E8089100DD177E /* SLKTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F19FF419E8089100DD177E /* SLKTextView.h */; };
-		B9F19FFD19E8089100DD177E /* SLKTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F19FF519E8089100DD177E /* SLKTextView.m */; };
-		B9F19FFE19E8089100DD177E /* SLKTextViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F19FF619E8089100DD177E /* SLKTextViewController.h */; };
-		B9F19FFF19E8089100DD177E /* SLKTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F19FF719E8089100DD177E /* SLKTextViewController.m */; };
-		B9F1A00019E8089100DD177E /* SLKTypingIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F19FF819E8089100DD177E /* SLKTypingIndicatorView.h */; };
-		B9F1A00119E8089100DD177E /* SLKTypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F19FF919E8089100DD177E /* SLKTypingIndicatorView.m */; };
-		B9F1A00A19E808A700DD177E /* SLKUIConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F1A00319E808A700DD177E /* SLKUIConstants.h */; };
-		B9F1A00B19E808A700DD177E /* UIScrollView+SLKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F1A00419E808A700DD177E /* UIScrollView+SLKAdditions.h */; };
-		B9F1A00C19E808A700DD177E /* UIScrollView+SLKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F1A00519E808A700DD177E /* UIScrollView+SLKAdditions.m */; };
-		B9F1A00D19E808A700DD177E /* UITextView+SLKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F1A00619E808A700DD177E /* UITextView+SLKAdditions.h */; };
-		B9F1A00E19E808A700DD177E /* UITextView+SLKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F1A00719E808A700DD177E /* UITextView+SLKAdditions.m */; };
-		B9F1A00F19E808A700DD177E /* UIView+SLKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B9F1A00819E808A700DD177E /* UIView+SLKAdditions.h */; };
-		B9F1A01019E808A700DD177E /* UIView+SLKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F1A00919E808A700DD177E /* UIView+SLKAdditions.m */; };
 		B9FA5B41199659080072B21D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
 		B9FB0EDA19DEF3310007DAC7 /* Suggerimenti-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9FB0ED919DEF3310007DAC7 /* Suggerimenti-filled@2x.png */; };
 /* End PBXBuildFile section */
@@ -394,14 +381,14 @@
 		B9A180A619AD3C8A00866E36 /* BMActivator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMActivator.m; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
-		B9C29F9519865037002309FF /* RestarauntStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestarauntStartViewController.h; sourceTree = "<group>"; };
-		B9C29F9619865037002309FF /* RestarauntStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestarauntStartViewController.m; sourceTree = "<group>"; };
+		B9C29F9519865037002309FF /* RestaurantStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartViewController.h; sourceTree = "<group>"; };
+		B9C29F9619865037002309FF /* RestaurantStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartViewController.m; sourceTree = "<group>"; };
 		B9C29F9F198659E1002309FF /* RecipeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeDetailViewController.h; sourceTree = "<group>"; };
 		B9C29FA0198659E1002309FF /* RecipeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeDetailViewController.m; sourceTree = "<group>"; };
 		B9C29FA419865A29002309FF /* MenuListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuListCell.h; sourceTree = "<group>"; };
 		B9C29FA519865A29002309FF /* MenuListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListCell.m; sourceTree = "<group>"; };
-		B9C29FAB19865C6B002309FF /* RestarauntStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestarauntStartmenuCell.h; sourceTree = "<group>"; };
-		B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestarauntStartmenuCell.m; sourceTree = "<group>"; };
+		B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartmenuCell.h; sourceTree = "<group>"; };
+		B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartmenuCell.m; sourceTree = "<group>"; };
 		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
 		B9C4870E19C777E1003F2F6E /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = BMSdk/Flurry.h; sourceTree = "<group>"; };
 		B9D4B2BA19D080AD00116805 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -413,24 +400,11 @@
 		B9DECD5419A3992100C17799 /* CommentsModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsModalViewController.h; sourceTree = "<group>"; };
 		B9DECD5519A3992100C17799 /* CommentsModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsModalViewController.m; sourceTree = "<group>"; };
 		B9DECD5919A3992900C17799 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
+		B9E45A601A0D39D200EC4F7D /* RestaurantInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantInfo.h; sourceTree = "<group>"; };
+		B9E45A611A0D39D200EC4F7D /* RestaurantInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantInfo.m; sourceTree = "<group>"; };
 		B9F0871D1991148F00002074 /* BMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataManager.h; sourceTree = "<group>"; };
 		B9F0871E1991148F00002074 /* BMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataManager.m; sourceTree = "<group>"; };
 		B9F0872119911FE600002074 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		B9F19FF219E8089100DD177E /* SLKTextInputbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKTextInputbar.h; sourceTree = "<group>"; };
-		B9F19FF319E8089100DD177E /* SLKTextInputbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKTextInputbar.m; sourceTree = "<group>"; };
-		B9F19FF419E8089100DD177E /* SLKTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKTextView.h; sourceTree = "<group>"; };
-		B9F19FF519E8089100DD177E /* SLKTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKTextView.m; sourceTree = "<group>"; };
-		B9F19FF619E8089100DD177E /* SLKTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKTextViewController.h; sourceTree = "<group>"; };
-		B9F19FF719E8089100DD177E /* SLKTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKTextViewController.m; sourceTree = "<group>"; };
-		B9F19FF819E8089100DD177E /* SLKTypingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKTypingIndicatorView.h; sourceTree = "<group>"; };
-		B9F19FF919E8089100DD177E /* SLKTypingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKTypingIndicatorView.m; sourceTree = "<group>"; };
-		B9F1A00319E808A700DD177E /* SLKUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKUIConstants.h; sourceTree = "<group>"; };
-		B9F1A00419E808A700DD177E /* UIScrollView+SLKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SLKAdditions.h"; sourceTree = "<group>"; };
-		B9F1A00519E808A700DD177E /* UIScrollView+SLKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SLKAdditions.m"; sourceTree = "<group>"; };
-		B9F1A00619E808A700DD177E /* UITextView+SLKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+SLKAdditions.h"; sourceTree = "<group>"; };
-		B9F1A00719E808A700DD177E /* UITextView+SLKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+SLKAdditions.m"; sourceTree = "<group>"; };
-		B9F1A00819E808A700DD177E /* UIView+SLKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SLKAdditions.h"; sourceTree = "<group>"; };
-		B9F1A00919E808A700DD177E /* UIView+SLKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SLKAdditions.m"; sourceTree = "<group>"; };
 		B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		B9FB0ED919DEF3310007DAC7 /* Suggerimenti-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Suggerimenti-filled@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -536,6 +510,7 @@
 		B915C2F31977FFAF005618A6 /* BMSdk */ = {
 			isa = PBXGroup;
 			children = (
+				B99CBDF51A14D1AD00B8BEDE /* Class Definition */,
 				B9909F9B19892B2000D02CB6 /* Managers */,
 				B9A0286619C7076200B86031 /* Views */,
 				B915C2F61977FFAF005618A6 /* BMSdk.h */,
@@ -606,7 +581,6 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				B9F1A00219E8089600DD177E /* SLKText */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
 				B9C4870E19C777E1003F2F6E /* Flurry.h */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
@@ -740,8 +714,6 @@
 				B9C29F9019864614002309FF /* BMDownloadManager.m */,
 				B9F0871D1991148F00002074 /* BMDataManager.h */,
 				B9F0871E1991148F00002074 /* BMDataManager.m */,
-				B91D68BD199C156500C2C135 /* RecipeInfo.h */,
-				B91D68BE199C156500C2C135 /* RecipeInfo.m */,
 				B92AD6D919AB27DC00DDA65A /* BMCartManager.h */,
 				B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */,
 				B9A180A519AD3C8A00866E36 /* BMActivator.h */,
@@ -753,6 +725,17 @@
 				B9D4B2BA19D080AD00116805 /* Constants.h */,
 			);
 			name = Managers;
+			sourceTree = "<group>";
+		};
+		B99CBDF51A14D1AD00B8BEDE /* Class Definition */ = {
+			isa = PBXGroup;
+			children = (
+				B91D68BD199C156500C2C135 /* RecipeInfo.h */,
+				B91D68BE199C156500C2C135 /* RecipeInfo.m */,
+				B9E45A601A0D39D200EC4F7D /* RestaurantInfo.h */,
+				B9E45A611A0D39D200EC4F7D /* RestaurantInfo.m */,
+			);
+			name = "Class Definition";
 			sourceTree = "<group>";
 		};
 		B9A0286619C7076200B86031 /* Views */ = {
@@ -786,10 +769,10 @@
 		B9C29FAA19865A40002309FF /* RestarauntStartScreen */ = {
 			isa = PBXGroup;
 			children = (
-				B9C29F9519865037002309FF /* RestarauntStartViewController.h */,
-				B9C29F9619865037002309FF /* RestarauntStartViewController.m */,
-				B9C29FAB19865C6B002309FF /* RestarauntStartmenuCell.h */,
-				B9C29FAC19865C6B002309FF /* RestarauntStartmenuCell.m */,
+				B9C29F9519865037002309FF /* RestaurantStartViewController.h */,
+				B9C29F9619865037002309FF /* RestaurantStartViewController.m */,
+				B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */,
+				B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */,
 			);
 			name = RestarauntStartScreen;
 			sourceTree = "<group>";
@@ -860,36 +843,6 @@
 			name = "Commenti e rating";
 			sourceTree = "<group>";
 		};
-		B9F1A00219E8089600DD177E /* SLKText */ = {
-			isa = PBXGroup;
-			children = (
-				B9F1A01119E808AE00DD177E /* SLKTextAdditions */,
-				B9F19FF219E8089100DD177E /* SLKTextInputbar.h */,
-				B9F19FF319E8089100DD177E /* SLKTextInputbar.m */,
-				B9F19FF419E8089100DD177E /* SLKTextView.h */,
-				B9F19FF519E8089100DD177E /* SLKTextView.m */,
-				B9F19FF619E8089100DD177E /* SLKTextViewController.h */,
-				B9F19FF719E8089100DD177E /* SLKTextViewController.m */,
-				B9F19FF819E8089100DD177E /* SLKTypingIndicatorView.h */,
-				B9F19FF919E8089100DD177E /* SLKTypingIndicatorView.m */,
-			);
-			name = SLKText;
-			sourceTree = "<group>";
-		};
-		B9F1A01119E808AE00DD177E /* SLKTextAdditions */ = {
-			isa = PBXGroup;
-			children = (
-				B9F1A00319E808A700DD177E /* SLKUIConstants.h */,
-				B9F1A00419E808A700DD177E /* UIScrollView+SLKAdditions.h */,
-				B9F1A00519E808A700DD177E /* UIScrollView+SLKAdditions.m */,
-				B9F1A00619E808A700DD177E /* UITextView+SLKAdditions.h */,
-				B9F1A00719E808A700DD177E /* UITextView+SLKAdditions.m */,
-				B9F1A00819E808A700DD177E /* UIView+SLKAdditions.h */,
-				B9F1A00919E808A700DD177E /* UIView+SLKAdditions.m */,
-			);
-			name = SLKTextAdditions;
-			sourceTree = "<group>";
-		};
 		B9F1A01219E824DF00DD177E /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -930,32 +883,26 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9F1A00F19E808A700DD177E /* UIView+SLKAdditions.h in Headers */,
 				B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */,
-				B9F1A00D19E808A700DD177E /* UITextView+SLKAdditions.h in Headers */,
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
-				B9F19FFC19E8089100DD177E /* SLKTextView.h in Headers */,
 				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
-				B9C29F9719865037002309FF /* RestarauntStartViewController.h in Headers */,
+				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */,
 				B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */,
 				B943ECDD19A60D7D001ABB4E /* AFHTTPRequestOperation.h in Headers */,
-				B9F19FFE19E8089100DD177E /* SLKTextViewController.h in Headers */,
 				B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */,
 				B943ECDF19A60D7D001ABB4E /* AFHTTPRequestOperationManager.h in Headers */,
 				B9116BE819E59ABC0024332B /* UIColor+BFPaperColors.h in Headers */,
-				B9F1A00A19E808A700DD177E /* SLKUIConstants.h in Headers */,
 				B943ECE119A60D7D001ABB4E /* AFHTTPSessionManager.h in Headers */,
 				B943ECE319A60D7D001ABB4E /* AFNetworking.h in Headers */,
 				B93CD7BD19A650B200C97622 /* singleCommentTableViewCell.h in Headers */,
 				B943ECE419A60D7D001ABB4E /* AFNetworkReachabilityManager.h in Headers */,
 				B943ECE619A60D7D001ABB4E /* AFSecurityPolicy.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFURLConnectionOperation.h in Headers */,
-				B9F1A00B19E808A700DD177E /* UIScrollView+SLKAdditions.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFURLRequestSerialization.h in Headers */,
 				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
 				B943ECEC19A60D7D001ABB4E /* AFURLResponseSerialization.h in Headers */,
@@ -995,17 +942,16 @@
 				B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */,
 				B9938C2F19CA42CF00C5C749 /* DailyMenuCell.h in Headers */,
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
-				B9C29FAD19865C6B002309FF /* RestarauntStartmenuCell.h in Headers */,
+				B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */,
 				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
 				B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */,
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
+				B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */,
 				B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */,
 				B9C29FA619865A29002309FF /* MenuListCell.h in Headers */,
 				B9D4B2BB19D080AD00116805 /* Constants.h in Headers */,
-				B9F1A00019E8089100DD177E /* SLKTypingIndicatorView.h in Headers */,
 				B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */,
 				B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */,
-				B9F19FFA19E8089100DD177E /* SLKTextInputbar.h in Headers */,
 				B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1074,7 +1020,7 @@
 		B915C2E61977FFAF005618A6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Blue-Mate";
 			};
 			buildConfigurationList = B915C2E91977FFAF005618A6 /* Build configuration list for PBXProject "BMSdk" */;
@@ -1184,7 +1130,6 @@
 				B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */,
 				B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */,
 				B9116BE419E59A300024332B /* BFPaperButton.m in Sources */,
-				B9F19FFF19E8089100DD177E /* SLKTextViewController.m in Sources */,
 				B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
@@ -1197,12 +1142,10 @@
 				B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */,
 				B9193AFD19A110180008149D /* UIImage+WebP.m in Sources */,
 				B9193ADD19A10D930008149D /* UIImageView+HighlightedWebCache.m in Sources */,
-				B9F1A00C19E808A700DD177E /* UIScrollView+SLKAdditions.m in Sources */,
 				B93CD7BE19A650B200C97622 /* singleCommentTableViewCell.m in Sources */,
 				B909D60319AE350F0064B794 /* cartTableViewCell.m in Sources */,
 				B9193AFE19A110180008149D /* UIImageView+WebCache.m in Sources */,
 				B921D5EC19BDB1EA001294AD /* DocumentsViewController.m in Sources */,
-				B9F19FFD19E8089100DD177E /* SLKTextView.m in Sources */,
 				B9193AFF19A110180008149D /* UIView+WebCacheOperation.m in Sources */,
 				B9193ADB19A10D850008149D /* SDWebImagePrefetcher.m in Sources */,
 				B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */,
@@ -1216,21 +1159,21 @@
 				B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */,
 				B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */,
 				B9193AD019A10D580008149D /* SDWebImageCompat.m in Sources */,
+				B9E45A631A0D39D200EC4F7D /* RestaurantInfo.m in Sources */,
 				B95744F019E5E880000B9540 /* DailyMenuViewController.m in Sources */,
 				B9193ACC19A10D0C0008149D /* SDImageCache.m in Sources */,
 				B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */,
 				B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */,
-				B9C29FAE19865C6B002309FF /* RestarauntStartmenuCell.m in Sources */,
+				B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */,
 				B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */,
 				B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */,
 				B9C29FA719865A29002309FF /* MenuListCell.m in Sources */,
-				B9F1A00E19E808A700DD177E /* UITextView+SLKAdditions.m in Sources */,
 				B915C33719780B8E005618A6 /* BMLocationManager.m in Sources */,
 				B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
 				B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B9F087201991148F00002074 /* BMDataManager.m in Sources */,
 				B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */,
-				B9C29F9819865037002309FF /* RestarauntStartViewController.m in Sources */,
+				B9C29F9819865037002309FF /* RestaurantStartViewController.m in Sources */,
 				B943ECDE19A60D7D001ABB4E /* AFHTTPRequestOperation.m in Sources */,
 				B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */,
 				B943ECE019A60D7D001ABB4E /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1238,7 +1181,6 @@
 				B909AF4D19B4DBC000CBA2B1 /* TransitionManager.m in Sources */,
 				B943ECE219A60D7D001ABB4E /* AFHTTPSessionManager.m in Sources */,
 				B9938C3019CA42CF00C5C749 /* DailyMenuCell.m in Sources */,
-				B9F19FFB19E8089100DD177E /* SLKTextInputbar.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
 				B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */,
@@ -1246,8 +1188,6 @@
 				B943ECEB19A60D7D001ABB4E /* AFURLRequestSerialization.m in Sources */,
 				B943ECED19A60D7D001ABB4E /* AFURLResponseSerialization.m in Sources */,
 				B93D7DCD19BA697100EAD43A /* Reachability.m in Sources */,
-				B9F1A01019E808A700DD177E /* UIView+SLKAdditions.m in Sources */,
-				B9F1A00119E8089100DD177E /* SLKTypingIndicatorView.m in Sources */,
 				B93D7DD419BA7D5300EAD43A /* NoImageTableViewCell.m in Sources */,
 				B9909C5419CC3E1200355418 /* UIScrollView+CRScrollIndicator.m in Sources */,
 				B943ECEF19A60D7D001ABB4E /* AFURLSessionManager.m in Sources */,
@@ -1517,7 +1457,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = BMSdk;
-				PROVISIONING_PROFILE = "aeed7a2e-02e6-456c-84fa-cbd97bc8dc2f";
+				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -1527,6 +1467,7 @@
 		B915C331197803C0005618A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matteo Comisso (S7YH5DL2AY)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1541,7 +1482,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = BMSdk;
-				PROVISIONING_PROFILE = "aeed7a2e-02e6-456c-84fa-cbd97bc8dc2f";
+				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;

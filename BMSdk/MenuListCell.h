@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *whiteViewContainer;
 
-@property (strong, nonatomic) NSString *recipeId;
+@property (strong, nonatomic) NSString *recipeSlug;
 @property (strong, nonatomic) NSString *recipeImageUrl;
 
 @property (nonatomic) BOOL canWhiteViewBeMovedLeft;

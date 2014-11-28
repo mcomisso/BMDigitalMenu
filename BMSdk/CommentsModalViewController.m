@@ -14,6 +14,11 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataSourceOfComments;
+
+//Background
+@property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@property (strong, nonatomic) IBOutlet UILabel *noCommentsLabel;
+
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @end
 
@@ -34,12 +39,28 @@
     self.statsManager = [BMUsageStatisticManager sharedInstance];
 
     // Do any additional setup after loading the view.
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+    self.backgroundView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
 
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
 //    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
     self.dataSourceOfComments = [NSArray arrayWithArray:[dataManager requestCommentsForRecipe:self.idRecipe]];
+
+    [self editViewIfNoRecipes];
+}
+
+/**
+ Checks if there's comments for the selected recipe. If not, removes the tableview and shows the label.
+ */
+-(void)editViewIfNoRecipes
+{
+    if ([self.dataSourceOfComments count] == 0) {
+        self.tableView.alpha = 0.f;
+    }
+    else
+    {
+        self.noCommentsLabel.alpha = 0.f;
+    }
 }
 
 - (void)didReceiveMemoryWarning

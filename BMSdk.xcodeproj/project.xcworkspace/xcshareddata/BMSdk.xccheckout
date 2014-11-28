@@ -10,31 +10,31 @@
 	<string>BMSdk</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>01116101AF9F3CD42BC2F41EB6D51AE29042923A</key>
-		<string>ssh://bitbucket.org/bluemate/misiedo-sdk.git</string>
+		<key>7EE81A2B0960A0FBE843D8AF3CF25C8F49441627</key>
+		<string>bitbucket.org:bluemate/framework-framework-tester.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BMSdk.xcodeproj/project.xcworkspace</string>
+	<string>BMSdk.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>01116101AF9F3CD42BC2F41EB6D51AE29042923A</key>
+		<key>7EE81A2B0960A0FBE843D8AF3CF25C8F49441627</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://bitbucket.org/bluemate/misiedo-sdk.git</string>
+	<string>bitbucket.org:bluemate/framework-framework-tester.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>01116101AF9F3CD42BC2F41EB6D51AE29042923A</string>
+	<string>7EE81A2B0960A0FBE843D8AF3CF25C8F49441627</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>01116101AF9F3CD42BC2F41EB6D51AE29042923A</string>
+			<string>7EE81A2B0960A0FBE843D8AF3CF25C8F49441627</string>
 			<key>IDESourceControlWCCName</key>
-			<string>BMSdk</string>
+			<string>BMSdk%20copia</string>
 		</dict>
 	</array>
 </dict>

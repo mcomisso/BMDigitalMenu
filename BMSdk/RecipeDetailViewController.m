@@ -12,10 +12,11 @@
 #import "BMUsageStatisticManager.h"
 #import "CommentsModalViewController.h"
 
+#import "RecipeInfo.h"
+
 #import "bestMatchCollectionViewCell.h"
 
 #import "UIImageView+WebCache.h"
-#define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
 
 //TEST
 #import "BMDownloadManager.h"
@@ -43,7 +44,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *descriptionTextLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ingredientsTextLabel;
 
-@property (strong, nonatomic) NSMutableDictionary *recipeDetails;
+@property (strong, nonatomic) RecipeInfo *recipeDetails;
 @property (nonatomic, strong) TransitionManager *transitionManager;
 
 //Classes for Blue-Mate services
@@ -145,20 +146,7 @@
     [super viewDidLoad];
     [self.navigationController.toolbar setBarStyle:UIBarStyleBlackTranslucent];
 
-    //Loads the images from the bluemateSDK bundle
-    [self loadBundleForResources];
-    
-    // Save the important centers for future animations
-    [self saveViewsCenters];
-    
-    // Loads the dummy data for the collection view
-    [self loadDataForCollectionView];
-    
-    // Adds the scroll down gesture recognizer to show the full picture + motion sensor
-    [self addGestureRecognizerToScrollview];
-    
-    //Setup Center for abbinamenti
-    [self setCenterForBestMatchCollection];
+    [self viewInitializer];
     
     //Check if the recipe is saved inside the cart manager
     [self isRecipeInsideCart];
@@ -177,19 +165,28 @@
     [self loadRecipeData];
     [self loadRating];
     
-
-    
     BMDownloadManager *dm = [BMDownloadManager sharedInstance];
     BMDataManager *dataManage = [BMDataManager sharedInstance];
     
-    if ([dataManage shouldFetchCommentsFromServer:self.recipeId]) {
-        NSLog(@"[RecipeDetailViewController] Comments not found for recipeID %@, name: %@", self.recipeId, self.recipeName);
-        [dm fetchCommentsForRecipe:self.recipeId];
+    if ([dataManage shouldFetchCommentsFromServer:self.recipeSlug]) {
+        NSLog(@"[RecipeDetailViewController] Comments not found for recipeID %@, name: %@", self.recipeSlug, self.recipeName);
+        [dm fetchCommentsForRecipe:self.recipeSlug];
     }
     else
     {
         NSLog(@"[RecipeDetailViewController] Comments found in database");
     }
+}
+
+-(void)viewInitializer
+{
+//Bundle load and view save
+    [self loadBundleForResources];
+    [self saveViewsCenters];
+    [self addGestureRecognizerToScrollview];
+//Best Match
+    [self loadDataForCollectionView];
+    [self setCenterForBestMatchCollection];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -223,7 +220,7 @@
 -(void)isRecipeInsideCart
 {
     BMCartManager *cartManager = [BMCartManager sharedInstance];
-    self.isRecipeSelected = [cartManager isRecipeSavedInCart:self.recipeId];
+    self.isRecipeSelected = [cartManager isRecipeSavedInCart:self.recipeSlug];
     
     if (_isRecipeSelected) {
         self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
@@ -242,7 +239,7 @@
     
     BMDataManager *dm = [BMDataManager sharedInstance];
     
-    thisratingView.value = [dm requestRatingForRecipe:self.recipeId];
+    thisratingView.value = [dm requestRatingForRecipe:self.recipeSlug];
     thisratingView.tag = 114;
     thisratingView.numberOfStar = 5;
     thisratingView.baseColor = [UIColor blackColor];
@@ -260,24 +257,28 @@
     UIFont *fontForItems = [UIFont systemFontOfSize:16];
     
     BMDataManager *dataManager = [BMDataManager sharedInstance];
-    [[NSUserDefaults standardUserDefaults]objectForKey:@"//RESTARAUNT"];
 
-    self.recipeDetails = [dataManager requestDetailsForRecipe:self.recipeId ofRestaraunt:@"0"];
+    self.recipeDetails = [dataManager requestDetailsForRecipe:self.recipeSlug];
     
     self.recipeNameLabel.text = [self.recipeName uppercaseString];
     self.recipePriceLabel.text = self.recipePrice;
-
-    self.ingredientsTextLabel.text = [self.recipeDetails objectForKey:@"ingredienti"];
+    
+    self.ingredientsTextLabel.text = _recipeDetails.ingredients;
     [self.ingredientsTextLabel setFont:fontForItems];
 
-    self.descriptionTextLabel.text = [self.recipeDetails objectForKey:@"descrizione"];
+    self.descriptionTextLabel.text = _recipeDetails.recipe_description;
     [self.descriptionTextLabel setFont:fontForItems];
+
+    //Hide unused label
+    if ([_recipeDetails.recipe_description isEqualToString:@""]) {
+        self.recipeDescriptionLabel.alpha = 0.f;
+    }
     
     self.recipeImageView.clipsToBounds = YES;
 
     _motionView = [[CRMotionView alloc]initWithFrame:self.view.frame];
     
-    [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:[BMIMAGEAPI stringByAppendingString:self.recipeImageUrl]]
+    [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:self.recipeImageUrl]
                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                        if (error) {
                                            NSLog(@"Error download image: %@ %@", [error localizedDescription], [error localizedFailureReason]);
@@ -354,13 +355,13 @@
 
     if (_isRecipeSelected) {
         self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
-        [cartManager deleteFromCartWithId:self.recipeId];
+        [cartManager deleteFromCartWithSlug:self.recipeSlug];
         self.isRecipeSelected = NO;
     }
     else
     {
         self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
-        [cartManager addItemInCart:self.recipeId];
+        [cartManager addItemInCart:self.recipeSlug];
         self.isRecipeSelected = YES;
 
 // CREATE "Instagram style" notification
@@ -400,7 +401,7 @@
 {
     BMCartManager *cartManager = [BMCartManager sharedInstance];
     
-    if ([cartManager isRecipeSavedInCart:self.recipeId]) {
+    if ([cartManager isRecipeSavedInCart:self.recipeSlug]) {
         self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
     }
     else
@@ -476,7 +477,7 @@
 {
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     
-    self.bestMatchDataSource = [NSArray arrayWithArray: [dataManager bestMatchForRecipe:self.recipeId]];
+    self.bestMatchDataSource = [[NSArray arrayWithArray: [dataManager bestMatchForRecipe:self.recipeSlug]]copy];
     [self.bestMatchCollectionView reloadData];
 }
 
@@ -495,20 +496,24 @@
 {
     NSLog(@"Bestmatch collectionView CENTER IN Y: %f", _bestMatchCollectionView.center.y);
     static NSString *cellIdentifier = @"bestMatchIdentifier";
+    RecipeInfo *recipe = [self.bestMatchDataSource objectAtIndex:indexPath.row];
     
     bestMatchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-//    NSLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
+    NSLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
     
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[BMIMAGEAPI stringByAppendingString:[[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"immagine"]]]];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:recipe.image_url]];
     cell.imageView.layer.borderColor = [UIColor blackColor].CGColor;
     cell.imageView.layer.borderWidth = 1.f;
-    cell.categoryName.text = [[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"categoria"];
+
+    cell.categoryName.text = recipe.category;
     
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    RecipeInfo *recipe = [self.bestMatchDataSource objectAtIndex:indexPath.row];
+    
     self.bestMatchSelectedView.layer.cornerRadius = 10.f;
     self.bestMatchSelectedView.layer.borderColor = [UIColor blackColor].CGColor;
     self.bestMatchSelectedView.layer.borderWidth = 1.f;
@@ -521,14 +526,14 @@
                          NSLog(@"Completed show recipe transition");
                      }];
 
-    self.bestMatchRecipeViewLabelName.text = [[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"nome"];
+    self.bestMatchRecipeViewLabelName.text = recipe.name;
 
     self.bestMatchRecipeViewBig.clipsToBounds = YES;
     self.bestMatchRecipeViewBig.layer.cornerRadius = 10.f;
     
-    [self.bestMatchRecipeViewBig sd_setImageWithURL:[NSURL URLWithString:[BMIMAGEAPI stringByAppendingString:[[self.bestMatchDataSource objectAtIndex:indexPath.row]objectForKey:@"immagine"]]]];
+    [self.bestMatchRecipeViewBig sd_setImageWithURL:[NSURL URLWithString:recipe.image_url]];
     
-    self.bestMatchRecipeViewLabelIngredients.text = [[self.bestMatchDataSource objectAtIndex:indexPath.row] objectForKey:@"ingredienti"];
+    self.bestMatchRecipeViewLabelIngredients.text = recipe.ingredients;
     
 }
 
@@ -621,7 +626,7 @@
 
     if ([segue.identifier isEqualToString:@"commentSegue"]) {
         CommentsModalViewController *cmd = segue.destinationViewController;
-        cmd.idRecipe = self.recipeId;
+        cmd.idRecipe = self.recipeSlug;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

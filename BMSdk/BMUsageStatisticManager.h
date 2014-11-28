@@ -27,5 +27,14 @@
  */
 -(void)sendEventually:(NSDictionary *)data;
 
+/**
+ Timer counter for app usage.
+ */
+-(void)startTimer;
+
+/**
+ Stops the class timer counter for app usage.
+ */
+-(void)stopTimer;
 
 @end

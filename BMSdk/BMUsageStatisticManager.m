@@ -7,7 +7,7 @@
 //
 
 #import "BMUsageStatisticManager.h"
-#import "BMDataManager.h"
+#import "BMUsageStatisticModel.h"
 #import "AFHTTPRequestOperationManager.h"
 
 #import "AFNetworkReachabilityManager.h"
@@ -122,11 +122,6 @@
 }
 
 #pragma mark - Collect data
--(void)collectDescription:(NSString *)description withKey:(NSString *)key
-{
-    
-}
-
 /*-(NSData *)jsonConvert:(NSMutableArray *)dictionary
 {
     NSError *error;

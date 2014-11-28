@@ -67,62 +67,6 @@
     return self;
 }
 
-#pragma mark - DEBUG ONLY
-#warning REMOVE ONCE IN PRODUCTION
--(void)downloadCatalogOfRecipesWithoutBeacon
-{
-    [[NSUserDefaults standardUserDefaults]setObject:@161 forKey:@"majorBeacon"];
-    [[NSUserDefaults standardUserDefaults]setObject:@243 forKey:@"minorBeacon"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    BMDownloadManager *downloadManager = [BMDownloadManager sharedInstance];
-    [downloadManager fetchMenuOfRestaurantWithMajor:@161 andMinor:@243];
-}
-
-#warning REMOVE ONCE IN PRODUCTION
--(void)deleteAllRecipes
-{
-    BMDataManager *dataManager = [BMDataManager sharedInstance];
-
-    NSLog(@"Deleted Entire database");
-}
-
-#warning REMOVE ONCE IN PRODUCTION
--(void)setupMutitapForDownload
-{
-    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deleteAllRecipes)];
-    doubleTapGesture.delegate = self;
-    doubleTapGesture.numberOfTapsRequired = 3;
-    [doubleTapGesture setNumberOfTouchesRequired: 2];
-    
-    [self.restaurantNameContainer addGestureRecognizer:doubleTapGesture];
-    
-    UITapGestureRecognizer *tpg = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(downloadCatalogOfRecipesWithoutBeacon)];
-    
-    tpg.delegate = self;
-    tpg.numberOfTapsRequired = 5;
-    
-    [self.restaurantNameContainer addGestureRecognizer:tpg];
-}
-#pragma mark -
-
-
-/**
- Scale and rotation transforms are applied relative to the layer's anchor point this method moves a gesture recognizer's view's anchor point between the user's fingers.
- */
-- (void)adjustAnchorPointForGestureRecognizer:(UIPanGestureRecognizer *)gestureRecognizer
-{
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        UIView *piece = gestureRecognizer.view;
- 
-        CGPoint locationInView = [gestureRecognizer locationInView:piece];
-        CGPoint locationInSuperview = [gestureRecognizer locationInView:piece.superview];
-        
-        piece.layer.anchorPoint = CGPointMake(locationInView.x / piece.bounds.size.width, locationInView.y / piece.bounds.size.height);
-        piece.center = locationInSuperview;
-    }
-}
-
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleDefault;
@@ -187,13 +131,6 @@
     [self blackLayerGradient];
     [self setupPaperButton];
     
-    /*
-     TODO: REMOVE THIS ONCE IN PRODUCTION
-     */
-    [self setupMutitapForDownload];
-    /**/
-
-
     // Ask for Background Image
     self.backgroundRestaurantImage.contentMode = UIViewContentModeScaleAspectFill;
     
@@ -219,7 +156,6 @@
 -(void)setColors
 {
     self.topBarHider.backgroundColor = [UIColor whiteColor];
-//    self.restaurantNameContainer.layer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7].CGColor;
 }
 
 -(void)blackLayerGradient
@@ -262,16 +198,10 @@
     CGPoint originalDailyButtonCenter = self.dailyMenuButton.center;
     
     self.pdfViewLoader.alpha = 0.f;
-
-//    self.restaurantNameContainer.center = CGPointMake(originalCenter.x - self.restaurantNameContainer.frame.size.width, originalCenter.y);
-    
-//    self.categoriesMenuContainer.center = CGPointMake(originalTableCenter.x + self.categoriesMenuContainer.frame.size.width, originalTableCenter.y);
     
     self.dailyMenuButton.center = CGPointMake(originalDailyButtonCenter.x - self.dailyMenuButton.frame.size.width, originalDailyButtonCenter.y);
     
     [UIView animateWithDuration:0.4 delay:1 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//        self.restaurantNameContainer.center = originalCenter;
-//        self.categoriesMenuContainer.center = originalTableCenter;
         self.dailyMenuButton.center = originalDailyButtonCenter;
         
     } completion:^(BOOL finished) {
@@ -326,6 +256,14 @@
     [self.restaurantLabelName setText:[dataManager requestRestaurantNameForMajorBeacon:majorNumber andMinorBeacon:minorNumber]];
     self.categorie = [dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber];
     
+    if ([_restaurantLabelName.text isEqualToString:@"locale2"]) {
+        [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/981/rbig_pontedeldiavolo.jpeg"]];
+    }
+    else
+    {
+        [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -345,7 +283,6 @@
             }
             cell.badgeString = [NSString stringWithFormat:@"%d",[self.cartManager numbersOfItemInCart]];
             cell.badgeTextColor = [UIColor whiteColor];
-//            cell.textLabel.textColor = [UIColor colorWithRed:0.61 green:0.77 blue:0.8 alpha:1];
 
             cell.textLabel.textColor = [UIColor redColor];
             cell.textLabel.text = @"SCELTI";
@@ -448,7 +385,7 @@
         DocumentsViewController *dvc = [segue destinationViewController];
         BMDataManager *dataManager = [BMDataManager sharedInstance];
 #warning Change the RestaurantID
-        dvc.documentName = [dataManager requestPDFNameOfRestaurant:@"Ciao"];
+//        dvc.documentName = [dataManager requestPDFNameOfRestaurant:@"Ciao"];
     }
 }
 

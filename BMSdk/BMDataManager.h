@@ -14,6 +14,7 @@
  
  */
 #import <Foundation/Foundation.h>
+#import "RecipeInfo.h"
 
 @interface BMDataManager : NSObject
 
@@ -28,7 +29,7 @@
 #pragma mark - Save Methods
 /**
  Saves the latest fetched menu into the SQLite DataBase
- @param JSONArray json containing all the recipes of a particular restaraunt
+ @param JSONArray json containing all the recipes of a particular restaurant
  */
 -(void)saveMenuData:(NSArray *)JSONArray;
 
@@ -48,60 +49,65 @@
 /**
  Saves The UUID of the PDF inside the database.
  @param pdfUUID The name of the pdf
- @param restaraunt The id of the restaraunt
+ @param restaurant The id of the restaurant
  */
--(void)savePDFUuid:(NSString *)pdfUUID ofRestaraunt:(NSString *)restaraunt;
+-(void)savePDFUuid:(NSString *)pdfUUID ofRestaurant:(NSString *)restaurant;
+
+/**
+ Save the day menu of the restaurant inside the database
+ @param JSONArray array of results
+ */
+-(void)saveDayMenu:(NSArray *)JSONArray;
 
 #pragma mark - Check Methods
 /**
- Interrogates the database to fetch all the data of a particular restaraunt. Policy: Cache first, then Network if available.
- @param restarauntId The major number of the beacons inside a restaraunt.
+ Interrogates the database to fetch all the data of a particular restaurant. Policy: Cache first, then Network if available.
+ @param restaurantId The major number of the beacons inside a restaurant.
  @return The date in string format of the latest recipe inside the database.
  */
--(NSString *)latestMenuEntryOfRestaraunt:(NSString *)restarauntId;
+-(NSString *)latestMenuEntryOfRestaurant:(NSString *)restaurantId;
 
 /**
  Interrogates the existing database to determine if should download data
- @param idRecipe The unique ID of a recipe
+ @param recipeSlug The unique ID of a recipe
  @return BOOL YES or NO
  */
--(BOOL)shouldFetchCommentsFromServer:(NSString*)idRecipe;
+-(BOOL)shouldFetchCommentsFromServer:(NSString*)recipeSlug;
 
 #pragma mark - Data Request Methods
 /**
- Interrogates the database to fetch all and only the categories for the given restarauntMajorNumber
+ Interrogates the database to fetch all and only the categories for the given restaurantMajorNumber
 
- @param restarauntMajorNumber The major number of a certain restaraunt.
+ @param restaurantMajorNumber The major number of a certain restaurant.
  
  */
--(NSArray *)requestCategoriesForRestaraunt:(NSNumber *)restarauntMajorNumber;
+-(NSArray *)requestCategoriesForRestaurantMajorNumber:(NSNumber *)restaurantMajorNumber andMinorNumber:(NSNumber *)restaurantMinorNumber;
 
 /**
  Interrogates the database to fetch all the data of a particular category. Policy: Only cache.
  
  @param category The category wanted to show.
- @param restarauntId The identification number of the restaraunt
+ @param restaurantId The identification number of the restaurant
  
  */
--(NSArray *)requestRecipesForCategory:(NSString *)category ofRestaraunt:(NSString *)restarauntID;
+-(NSArray *)requestRecipesForCategory:(NSString *)category ofRestaurantMajorNUmber:(NSNumber *)restaurantMajorNumber andMinorNumber:(NSNumber *)restaurantMinorNumber;
 
 /**
  Interrogates the database to fetch all the data of a particular recipe. Policy: Only cache. Images are handled as multimedia with SDImageView.
  
- @param idRecipe The unique ID of a recipe.
- @param restarauntID The identification number of the restaraunt
+ @param recipeSlug The unique Slug of a recipe.
  
  */
--(NSMutableDictionary*)requestDetailsForRecipe:(NSString *)idRecipe ofRestaraunt:(NSString *)restarauntID;
+-(RecipeInfo *)requestDetailsForRecipe:(NSString *)recipeSlug;
 
 /**
  Interrogates the existing database to fetch the rating of a particular recipe. Returns nil if there's no data to show.
 
- @param idRecipe The unique ID of a recipe.
- @param restarauntID The identification number of the restaraunt
+ @param recipeSlug The unique ID of a recipe.
+ @param restaurantID The identification number of the restaurant
  
  */
--(int)requestRatingForRecipe:(NSString *)idRecipe;
+-(int)requestRatingForRecipe:(NSString *)recipeSlug;
 
 /**
  Interrogates the existing database to fetch all the ratings for the selected categories.
@@ -113,10 +119,10 @@
 /**
  Interrogates the existing database to fetch the comments for a particular recipe. Returns nil if there's no data to show.
 
- @param idRecipe The unique ID of a recipe.
+ @param recipeSlug The unique ID of a recipe.
  @return Array containing all the comments available
  */
--(NSArray *)requestCommentsForRecipe:(NSString *)idRecipe;
+-(NSArray *)requestCommentsForRecipe:(NSString *)recipeSlug;
 
 /**
  Fetch all data for recipes inserted in "cart"
@@ -129,22 +135,22 @@
 #pragma mark - Delete from menu
 
 /**
- Deletes all recipes for a partcular restaraunt
- @param restarauntId Id of restaraunt, which recipes will be deleted.
+ Deletes all recipes for a partcular restaurant
+ @param restaurantSlug Slug of restaurant, which recipes will be deleted.
  */
--(void)deleteDataFromRestaraunt:(NSString *)restarauntId;
+-(void)deleteDataFromRestaurant:(NSString *)restaurantSlug;
 
 /**
  Deletes all comments for a particular recipe
- @param idRecipe ID for a particular recipe.
+ @param recipeSlug ID for a particular recipe.
  */
--(void)deleteCommentsOfRecipe:(NSString *)idRecipe;
+-(void)deleteCommentsOfRecipe:(NSString *)recipeSlug;
 
 /**
  Counts the numbers of recipes currently inside the database.
  @return COUNT(*) of recipes
  */
--(int)numberOfrecipesInCache;
+-(int)numberOfrecipesInCacheForRestaurant;
 
 #pragma mark - PDF utils
 
@@ -154,17 +160,22 @@
 -(NSString *)pathToPDFDirectory;
 
 /**
- Selects from the database the name of the pdf for a particular restarauntID
- @param restarauntId The ID of the restaraunt
- @return The UUID of the pdf for the selected restarauntId
+ Selects the restaraunt name from the parameters major and minor beacon.
+ @param majorBeacon The Major number of the closest beacon.
+ @param minorBeacon The Minor number of the closest beacon.
+ @return The name of the restaraunt.
  */
--(NSString *)requestPDFNameOfRestaraunt:(NSString *)restarauntId;
-
+-(NSString *)requestRestaurantNameForMajorBeacon:(NSNumber *)majorBeacon andMinorBeacon:(NSNumber *)minorBeacon;
 
 #pragma mark - fakeituntilyoumakeit
 /**
     Returns 1 recipe for every category inside the local database
  */
--(NSMutableArray *)bestMatchForRecipe:(NSString *)idRecipe;
+-(NSMutableArray *)bestMatchForRecipe:(NSString *)recipeSlug;
+
+/**
+ Close database connection when the application closes
+ */
+-(void)closeDatabaseConnection;
 
 @end

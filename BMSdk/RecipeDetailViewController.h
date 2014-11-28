@@ -11,7 +11,7 @@
 @interface RecipeDetailViewController : UIViewController<UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSString *recipeName;
-@property (nonatomic, strong) NSString *recipeId;
+@property (nonatomic, strong) NSString *recipeSlug;
 @property (nonatomic, strong) NSString *recipePrice;
 @property (nonatomic, strong) NSString *recipeImageUrl;
 @property (strong, nonatomic) IBOutlet UIImageView *recipeImageView;

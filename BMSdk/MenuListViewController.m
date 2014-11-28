@@ -13,7 +13,10 @@
 #import "BMDataManager.h"
 #import "BMUsageStatisticManager.h"
 
+#import "AFNetworkReachabilityManager.h"
+
 #import "RecipeDetailViewController.h"
+#import "RecipeInfo.h"
 
 //Cell related
 #import "UIImageView+WebCache.h"
@@ -36,9 +39,40 @@
 //Testing purpose variables
 @property (nonatomic) BOOL ratingDownloaded;
 
+
+//Test full list of recipes in sections
+@property (strong, nonatomic) NSMutableDictionary *allListOfRecipes;
 @end
 
 @implementation MenuListViewController
+
+
+#pragma mark - testing all recipes in one list
+-(void)loadAllRecipesInView
+{
+    
+    NSNumber *minorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"minorBeacon"];
+    NSNumber *majorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
+    
+    //Categorie all'interno del ristorante
+    NSArray *categories = [NSArray arrayWithArray:[self.dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber]];
+
+    //Mutable Dictionary da ritornare per lista scroll infinita
+    _allListOfRecipes = [NSMutableDictionary new];
+    
+    /*
+     FOR LOOP: prende il nome della categoria e lo imposta come chiave del dizionario.
+     -> Poi aggiunge l'array di ricette alla chiave corrisposta dalla categoria
+    
+     @{'Primi':[@{'nome':'Nome', 'etc':'etc'}]}
+    */
+    for (int i = 0; i < [categories count]; i++) {
+        NSArray *recipesOfCategory = [NSArray arrayWithArray:[self.dataManager requestRecipesForCategory:categories[i] ofRestaurantMajorNUmber:majorNumber andMinorNumber:minorNumber]];
+        [_allListOfRecipes setObject:recipesOfCategory forKey:categories[i]];
+    }
+    
+//    NSLog(@"All list recipes description: %@", [_allListOfRecipes description]);
+}
 
 #pragma mark - Color Utils
 -(UIColor *)BMDarkValueColor
@@ -61,9 +95,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     self.dataManager = [BMDataManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
 
+    //[self loadAllRecipesInView];
+    
     [self setPreferredToolbar];
     
     [self loadRecipesForCategory];
@@ -75,6 +112,8 @@
 {
     [super viewWillAppear:animated];
     
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
@@ -145,12 +184,6 @@
                 }];
             }
         }
-        
-        //Get the cell out of the table view
-        //        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        
-        //Update the cell or model
-        //        cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
 }
 
@@ -182,8 +215,11 @@
 
 -(void)loadRecipesForCategory
 {
+    NSNumber *majorBeacon = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
+    NSNumber *minorBeacon = [[NSUserDefaults standardUserDefaults]objectForKey:@"minorBeacon"];
+    
     self.ratingForRecipe = [[NSMutableDictionary alloc]init];
-    self.recipesInCategory = [self.dataManager requestRecipesForCategory:self.category ofRestaraunt:@"2"];
+    self.recipesInCategory = [self.dataManager requestRecipesForCategory:self.category ofRestaurantMajorNUmber:majorBeacon andMinorNumber:minorBeacon];
     NSLog(@"Array description: %@", [_recipesInCategory description]);
 
     [self loadRatingForRecipesInThisCategory];
@@ -194,29 +230,32 @@
 -(void)loadRatingForRecipesInThisCategory
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-
+    
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    for (NSDictionary *recipe in self.recipesInCategory)
-    {
-        NSString *ricetta_id = [recipe objectForKey:@"ricetta_id"];
+    
+    //Test reachability manager
+    if (true) {
         
-        // Point to vote API for every recipeID inside the Array
-        [manager GET:[BMRATEAPI stringByAppendingString:ricetta_id]
-          parameters:nil
-             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-                 //Set the pair "AVG Rate" : "Recipe ID"
-                 [self.ratingForRecipe setObject:[responseObject objectForKey:@"media"] forKey:ricetta_id];
-
-                 //Save rating value inside database
-                 [self.dataManager saveRatingValue:[NSNumber numberWithInt:(int)[[responseObject objectForKey:@"media"]intValue]] forRecipe:ricetta_id];
-                 
-             }
-             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-                 NSLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
-
-             }];
+        for (RecipeInfo *recipe in self.recipesInCategory)
+        {
+            // Point to vote API for every recipeID inside the Array
+            [manager GET:[BMRATEAPI stringByAppendingString:recipe.slug]
+              parameters:nil
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     
+                     //Set the pair "AVG Rate" : "Recipe ID"
+                     [self.ratingForRecipe setObject:[responseObject objectForKey:@"media"] forKey:recipe.slug];
+                     
+                     //Save rating value inside database
+                     [self.dataManager saveRatingValue:[NSNumber numberWithInt:(int)[[responseObject objectForKey:@"media"]intValue]] forRecipe:recipe.slug];
+                     
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     
+                     NSLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                     
+                 }];
+        }
     }
 }
 
@@ -227,26 +266,25 @@
 }
 
 #pragma mark - Table View methods
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-
     static NSString *cellIdentifier = @"cellIdentifier";
     static NSString *whiteCellIdentifier = @"whiteCellIdentifier";
 
-    NSDictionary *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
-    //IF RECIPE HAS IMAGE
-    if ([[recipe objectForKey:@"immagine"]isEqualToString:@"nil"]) {
+    RecipeInfo *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
+    //IF RECIPE DOESN'T HAVE ANY IMAGE
+    if ([recipe.image_url isEqualToString:@"nil"]) {
+        NSLog(@"recipe image string: %@", recipe.image_url);
         NoImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:whiteCellIdentifier];
         //Setup Cell
-        cell.recipeId = [recipe objectForKey:@"ricetta_id"];
-        cell.recipeIngredients.text = [recipe objectForKey:@"ingredienti"];
+        cell.recipeSlug = recipe.slug;
+        cell.recipeIngredients.text = recipe.ingredients;
         UILabel *recipeName = (UILabel *)[cell viewWithTag:200];
-        recipeName.text = [[recipe objectForKey:@"nome"]uppercaseString];
+        recipeName.text = [recipe.name uppercaseString];
 
         UILabel *recipePrice = (UILabel *)[cell viewWithTag:201];
-        recipePrice.text = [[recipe objectForKey:@"prezzo"]stringByAppendingString:@"€"];
+        recipePrice.text = [[NSString stringWithFormat:@"%@",recipe.price] stringByAppendingString:@"€"];
 
         AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, cell.rateViewContainer.frame.size.height)];
         thisratingView.value = 4.f;
@@ -267,14 +305,14 @@
         MenuListCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        cell.recipeId = [recipe objectForKey:@"ricetta_id"];
+        cell.recipeSlug = recipe.slug;
         
         UILabel *recipeName = (UILabel *)[cell viewWithTag:111];
-        recipeName.text = [[recipe objectForKey:@"nome"]uppercaseString];
+        recipeName.text = [recipe.name uppercaseString];
         
         UILabel *recipePrice = (UILabel *)[cell viewWithTag:112];
         
-        recipePrice.text = [[recipe objectForKey:@"prezzo"]stringByAppendingString:@"€"];
+        recipePrice.text = [[NSString stringWithFormat:@"%@", recipe.price] stringByAppendingString:@"€"];
         
         AXRatingView *thisratingView = [[AXRatingView alloc]initWithFrame:CGRectMake(13, 2, 70, cell.rateViewContainer.frame.size.height)];
         thisratingView.value = 4.f;
@@ -288,19 +326,17 @@
         
         [cell.rateViewContainer addSubview:thisratingView];
         
-        cell.recipeImageUrl = [recipe objectForKey:@"immagine"];
+        cell.recipeImageUrl = recipe.image_url;
         cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
         cell.imageView.clipsToBounds = YES;
-
-        NSString *downloadString = [BMIMAGEAPI stringByAppendingString:cell.recipeImageUrl];
         
         UIImageView *recipeImageView = (UIImageView *)[cell viewWithTag:110];
         recipeImageView.clipsToBounds = YES;
-        [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:downloadString]
+        [recipeImageView  sd_setImageWithURL:[[NSURL alloc]initWithString:[cell.recipeImageUrl stringByAppendingString:@"=s640-c"]]
                             placeholderImage:[self imageColoredGenerator]
                                      options:SDWebImageRefreshCached];
     
-        thisratingView.value = [self.dataManager requestRatingForRecipe:cell.recipeId];
+        thisratingView.value = [self.dataManager requestRatingForRecipe:cell.recipeSlug];
 
         return cell;
     }
@@ -330,19 +366,27 @@
     return [self.recipesInCategory count];
 }
 
+-(void)scrollToCellWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *arrayForCategory = [NSArray arrayWithArray:[self.allListOfRecipes objectForKey:self.category]];
+    
+
+    
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"details"]) {
         RecipeDetailViewController *dvc = (RecipeDetailViewController *)[segue destinationViewController];
-        NSDictionary *recipe = [self.recipesInCategory objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        RecipeInfo *recipe = [self.recipesInCategory objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         
-        dvc.recipeName = [[recipe objectForKey:@"nome"]capitalizedString];
-        dvc.recipePrice = [[@"Prezzo: " stringByAppendingString:[recipe objectForKey:@"prezzo"]]stringByAppendingString:@"€"];
-        dvc.recipeImageUrl = [recipe objectForKey:@"immagine"];
-        dvc.recipeId = [recipe objectForKey:@"ricetta_id"];
-
+        dvc.recipeName = [recipe.name capitalizedString];
+        dvc.recipePrice = [[@"Prezzo: " stringByAppendingString:[NSString stringWithFormat:@"%@", recipe.price]]stringByAppendingString:@"€"];
+        dvc.recipeImageUrl = recipe.image_url;
+        dvc.recipeSlug = recipe.slug;
     }
 }
 

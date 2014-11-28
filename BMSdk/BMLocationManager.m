@@ -9,8 +9,8 @@
 #import "BMLocationManager.h"
 #import "BMDownloadManager.h"
 
-#define BMBEACON @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"
-//#define BMBEACON @"96A1736B-11FC-85C3-1762-80DF658F0B29"
+//#define BMBEACON @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"
+#define BMBEACON @"96A1736B-11FC-85C3-1762-80DF658F0B29"
 
 @import UIKit;
 @import CoreBluetooth;

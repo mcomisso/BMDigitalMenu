@@ -10,7 +10,7 @@
     DESCRIPTION of Class:
  Singleton Class.
  
- BMDownload Manager Should fetch and store all the data requested by the application to gather informations about restaraunt and its recipes.
+ BMDownload Manager Should fetch and store all the data requested by the application to gather informations about Restaurant and its recipes.
  
  */
 
@@ -35,17 +35,19 @@
  Downloads all the comments for a particular recipe.
  @param idRecipe The id of the selected recipe.
  */
--(void)fetchCommentsForRecipe:(NSString *)idRecipe;
+-(void)fetchCommentsForRecipe:(NSString *)recipeSlug;
 
 /**
  Downloads the rating for a particular recipe.
- @param idRecipe The id of the selected recipe.
+ @param recipeSlug The id of the selected recipe.
  */
--(void)fetchRatingForRecipe:(NSString *)idRecipe;
+-(void)fetchRatingForRecipe:(NSString *)recipeSlug;
 
 /**
- @param restarauntMajorNumber The restaraunt's beacon major number
+ Makes a GET request to the bluemate server and downlaods the menu
+ @param majorNumber The Restaurant's beacon major number
+ @param minorNumber The Restaurant's beacon minor number
  */
--(void)fetchMenuOfRestaraunt:(NSNumber *)restarauntMajorNumber;
+-(void)fetchMenuOfRestaurantWithMajor:(NSNumber *)majorNumber andMinor:(NSNumber *)minorNumber;
 
 @end

@@ -169,8 +169,6 @@
 		B9938C3019CA42CF00C5C749 /* DailyMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C2E19CA42CF00C5C749 /* DailyMenuCell.m */; };
 		B9938C3419CAE10800C5C749 /* NoInteractionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9938C3219CAE10800C5C749 /* NoInteractionView.h */; };
 		B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C3319CAE10800C5C749 /* NoInteractionView.m */; };
-		B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9A180A519AD3C8A00866E36 /* BMActivator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A180A619AD3C8A00866E36 /* BMActivator.m */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestaurantStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -399,8 +397,6 @@
 		B9938C2E19CA42CF00C5C749 /* DailyMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyMenuCell.m; sourceTree = "<group>"; };
 		B9938C3219CAE10800C5C749 /* NoInteractionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoInteractionView.h; path = BMSdk/NoInteractionView.h; sourceTree = "<group>"; };
 		B9938C3319CAE10800C5C749 /* NoInteractionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoInteractionView.m; path = BMSdk/NoInteractionView.m; sourceTree = "<group>"; };
-		B9A180A519AD3C8A00866E36 /* BMActivator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMActivator.h; sourceTree = "<group>"; };
-		B9A180A619AD3C8A00866E36 /* BMActivator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMActivator.m; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
 		B9C29F9519865037002309FF /* RestaurantStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartViewController.h; sourceTree = "<group>"; };
@@ -757,8 +753,6 @@
 				B9F0871E1991148F00002074 /* BMDataManager.m */,
 				B92AD6D919AB27DC00DDA65A /* BMCartManager.h */,
 				B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */,
-				B9A180A519AD3C8A00866E36 /* BMActivator.h */,
-				B9A180A619AD3C8A00866E36 /* BMActivator.m */,
 				B928DE8319ED857E009A6F2C /* BMUsageStatisticModel.h */,
 				B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */,
 				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
@@ -926,10 +920,10 @@
 			files = (
 				B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */,
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
+				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
 				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
-				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */,
@@ -999,7 +993,6 @@
 				B9D4B2BB19D080AD00116805 /* Constants.h in Headers */,
 				B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */,
 				B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */,
-				B9A180A719AD3C8A00866E36 /* BMActivator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1196,7 +1189,6 @@
 				B921D5EC19BDB1EA001294AD /* DocumentsViewController.m in Sources */,
 				B9193AFF19A110180008149D /* UIView+WebCacheOperation.m in Sources */,
 				B9193ADB19A10D850008149D /* SDWebImagePrefetcher.m in Sources */,
-				B9A180A819AD3C8A00866E36 /* BMActivator.m in Sources */,
 				B9DECD5719A3992100C17799 /* CommentsModalViewController.m in Sources */,
 				B9193AD819A10D730008149D /* SDWebImageManager.m in Sources */,
 				B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */,

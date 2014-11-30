@@ -56,8 +56,9 @@
 /**
  Save the day menu of the restaurant inside the database
  @param JSONArray array of results
+ @param day The string in yyyy-mm-dd format of the current day
  */
--(void)saveDayMenu:(NSArray *)JSONArray;
+-(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day;
 
 #pragma mark - Check Methods
 /**
@@ -177,5 +178,8 @@
  Close database connection when the application closes
  */
 -(void)closeDatabaseConnection;
+
+-(NSMutableDictionary *)fetchDayMenuForRestaurant:(NSString *)restaurantSlug andDay:(NSString *)day;
+
 
 @end

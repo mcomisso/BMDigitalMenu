@@ -67,12 +67,18 @@
                     NSLog(@"Completed Download of the menu, response: %@", [responseObject description]);
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
                     NSString *restaurantSlug = responseObject[@"results"][0][@"restaurant"][@"slug"];
+                    
+                    [[NSUserDefaults standardUserDefaults]setObject:restaurantSlug forKey:@"restaurantSlug"];
+                    [[NSUserDefaults standardUserDefaults]synchronize];
+                    
                     //If > 0 -> save recipes
                     if (numbersOfRecipes) {
                         //Ask the datamanager to save recipes
                         [dataManager deleteDataFromRestaurant:restaurantSlug];
                         
                         [dataManager saveMenuData:[responseObject objectForKey:@"results"]];
+                        
+                        [self fetchDayMenuOfRestaurantWithMajor:majorNumber andMinor:minorNumber];
                     }
                     else
                     {
@@ -93,20 +99,29 @@
     [_AFmanager GET:[BMAPI_DAYMENU_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
          parameters:nil
             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
-                if (numbersOfRecipes) {
+                int numbersOfMenus = (int)[[responseObject objectForKey:@"count"]integerValue];
+                if (numbersOfMenus) {
+
                     //Visualize the button and serve the recipes of the day.
-                    NSLog(@"Day Menu downloaded");
+                    NSLog(@"Day Menu api downloaded %d menus", numbersOfMenus);
                     
-                    //TODO: Save Day Menu
-                    //[dataManager saveDayMenu:[responseObject objectForKey:@"results"]];
+                    //Keep looking until you find today inside the results list
+                    for (int j = 0; j < numbersOfMenus; j++) {
+                        
+                        NSString *dayOfMenu = [[[responseObject objectForKey:@"results"]objectAtIndex:j]objectForKey:@"day"];
+                        
+                        if ([self todayIsTheSameDayAs:dayOfMenu]) {
+                            BMDataManager *dataManager = [BMDataManager sharedInstance];
+                            
+                            [dataManager saveMenu:[[responseObject objectForKey:@"results"]objectAtIndex:j] forDay:dayOfMenu];
+                        }
+                    }
                 }
                 else
                 {
                     //No day menu. Don't visualize the button.
                     NSLog(@"No day menu entries");
                 }
-                
             }
             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error while downloading day menu: %@, %@", [error localizedDescription], [error localizedFailureReason]);
@@ -114,6 +129,41 @@
 }
 
 #pragma mark - Utils
+/**
+ Checks the input string to the current day.
+ @param dateToCompare The NSString with date format to be compare.
+ @return YES or NO
+ */
+-(BOOL)todayIsTheSameDayAs:(NSString *)dateToCompare
+{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    //Today date without hours/min/sec
+    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:flags fromDate:[NSDate date]];
+    
+    NSDate *today = [calendar dateFromComponents:components];
+    NSDate *dayOfMenu = [dateFormatter dateFromString:dateToCompare];
+    
+    NSLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
+    
+    long int result = [dayOfMenu compare:today];
+    
+    //Se la data è di oggi
+    if (!result) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+/**
+ Downloads the latest recipe of the restaurant with the majornumber in params
+ @param majorNumber The majorNumber of the restaurant
+ */
 -(void)fetchLatestRecipeOfRestaurant:(NSNumber *)majorNumber
 {
     [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:@"menu/"]

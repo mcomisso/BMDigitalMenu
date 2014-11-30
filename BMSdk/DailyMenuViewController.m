@@ -9,6 +9,8 @@
 #import "DailyMenuViewController.h"
 #import "DailyMenuCell.h"
 
+#import "BMDataManager.h"
+
 @interface DailyMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
 /* DAILY MENU DATA*/
@@ -28,7 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self dailyMenuObserver];
+
     [self setupDailyMenu];
 }
 
@@ -104,6 +107,19 @@
     self.dailyCategorieDataSource = [self.dailyMenuDataSource allKeys];
 }
 
+-(void)loadRecipesForDayMenu
+{
+    BMDataManager *dm = [BMDataManager sharedInstance];
+    
+
+    NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [DateFormatter stringFromDate:[NSDate date]];
+    
+    self.dailyMenuDataSource = [dm fetchDayMenuForRestaurant:[[NSUserDefaults standardUserDefaults]objectForKey:@"restaurantSlug"] andDay:dateString];
+    self.dailyCategorieDataSource = [self.dailyMenuDataSource allKeys];
+}
+
 -(NSUInteger)countOfDailyMenuDataSourceForSection:(NSInteger)section
 {
     NSArray *allKeys = [self.dailyMenuDataSource allKeys];
@@ -115,29 +131,15 @@
 
 -(void)setupDailyMenu
 {
-    if ([self isDailyMenuAvailable]) {
-        [self dailyMenuFakerLoader];
-        [self setupDatesOfDailyMenu];
-    }
-    else
-    {
-        //Remove from superview the container of tableview
-        
-    }
+//    [self dailyMenuFakerLoader];
+    [self setupDatesOfDailyMenu];
+    [self loadRecipesForDayMenu];
 }
 
 /*Check if daily menu is available and downloads it*/
--(BOOL)isDailyMenuAvailable
+-(void)dailyMenuObserver
 {
-    int i = 1;
-    
-    if (i) {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+
 }
 
 -(void)setupDatesOfDailyMenu
@@ -256,9 +258,10 @@
     
     NSString *sectionKey = [[self.dailyMenuDataSource allKeys]objectAtIndex:indexPath.section];
     NSLog(@"%@", sectionKey);
-    
-    NSString *recipeNameString = [[[self.dailyMenuDataSource objectForKey:sectionKey]objectAtIndex:indexPath.row] objectForKey:@"name"];
-    NSString *recipePriceString = [[[self.dailyMenuDataSource objectForKey:sectionKey]objectAtIndex:indexPath.row] objectForKey:@"price"];
+
+    RecipeInfo *recipe = [[self.dailyMenuDataSource objectForKey:sectionKey]objectAtIndex:indexPath.row];
+    NSString *recipeNameString = recipe.name;
+    NSString *recipePriceString = [recipe.price stringValue];
     
     NSLog(@"%@", recipeNameString);
 

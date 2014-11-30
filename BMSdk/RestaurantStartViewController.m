@@ -97,8 +97,7 @@
  */
 -(void)setupPaperButton
 {
-//    self.dailyMenuButton.cornerRadius = self.dailyMenuButton.frame.size.width / 2;
-    [self.dailyMenuButton addTarget:self action:@selector(alertView) forControlEvents:UIControlEventTouchUpInside];
+    [self.dailyMenuButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     
     //Set orange colors
     [self.dailyMenuButton setTapCircleColor:[UIColor colorWithRed:0.91 green:0.25 blue:0.1 alpha:1]];
@@ -126,10 +125,12 @@
 {
     [super viewDidLoad];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
+    
+    //This class is called when the api responds with the day menu
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setupPaperButton) name:@"restaurantHasDayMenu" object:nil];
 
     // Setup the black layer gradient
     [self blackLayerGradient];
-    [self setupPaperButton];
     
     // Ask for Background Image
     self.backgroundRestaurantImage.contentMode = UIViewContentModeScaleAspectFill;

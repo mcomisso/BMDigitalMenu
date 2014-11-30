@@ -85,7 +85,7 @@
     
         @"CREATE TABLE IF NOT EXISTS recipe (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, category TEXT, last_edit_datetime DATE, image_url TEXT, description TEXT, ingredients TEXT, slug TEXT UNIQUE, avg_rating INTEGER, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
     
-        @"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
+        @"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
     
         @"CREATE TABLE IF NOT EXISTS bestMatch ( id INTEGER PRIMARY KEY, base_recipe_slug TEXT, target_recipe_slug TEXT, FOREIGN KEY (base_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE, FOREIGN KEY (target_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
     
@@ -111,6 +111,7 @@
  Salva tutti i piatti di un menu ricevuto come Array[Piatto][Piatto][...]
  @param JSONArray L'array contenente in ogni cella un JSON compatibile con tutte le informazioni per il salvataggio in memoria
  */
+
 -(void)saveMenuData:(NSArray *)JSONArray
 {
     [self checkForeignKeys];
@@ -132,8 +133,6 @@
         {
             NSLog(@"%@, %d, %@", [_fmdb lastError], [_fmdb lastErrorCode], [_fmdb lastErrorMessage]);
         }
-    
-    //const char *dbPath = [_databasePath UTF8String];
 
     //TODO: change for loop with increased performance forin
     for (int i = 0; i < [JSONArray count]; i++) {
@@ -168,6 +167,10 @@
     [self performSelector:@selector(saveBestMatch:) withObject:JSONArray];
 }
 
+/**
+ BestMatch saves all the recipes fetched from the database inside the backend.
+ @param recipeArray Array containing the recipes with bestmatch
+ */
 -(void)saveBestMatch:(NSArray *)recipeArray
 {
     int numberOfRecipes = (int)[recipeArray count];
@@ -192,65 +195,53 @@
     }
 }
 
-//TODO: To be Completed
--(void)saveDayMenu:(NSArray *)JSONArray
+/**
+ Saves the current day menu inside the database, for quick caching.
+ @param JSONArray The array containg all the recipes
+ */
+-(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day
 {
-    const char *dbPath = [_databasePath UTF8String];
-
-    NSString *dayMenuDateString = JSONArray[0][@"day"];
     
-    //Se la data è di oggi
-    if ([self isTheSameDayAsToday:dayMenuDateString]) {
-        
-        //Send notification
-        [[NSNotificationCenter defaultCenter]setValue:@"YES" forKey:@"restaurantHasDayMenu"];
-        
-        sqlite3_stmt *statement;
-        
-        
-        /*
-         CREATE TABLE IF NOT EXISTS dayMenu ( \
-         id INTEGER PRIMARY KEY AUTOINCREMENT, \
-         day DATE, \
-         restaurant_slug TEXT, \
-         FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);\
-         */
-        if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-            
-            //Slug of restaurant
-            NSString *restaurantSlug = JSONArray[0][@"restaurant"][@"slug"];
+    //Send notification
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
+    
+    //Slug of restaurant
+    NSString *restaurantSlug = JSONArray[@"restaurant"][@"slug"];
+    NSLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
+    
+    NSArray *recipes = JSONArray[@"recipes"];
 
-            NSLog(@"JSONArray[i][recipes]: %@", restaurantSlug);
-            NSArray *recipes = JSONArray[0][@"recipes"];
-            int recipesCount = (int)[JSONArray[0][@"recipes"] count];
-            
-            for (int i = 0; i < recipesCount; i++) {
+    NSLog(@"Downloaded Day Menu recipes description %@", [recipes description]);
 
-                NSMutableString *insertSql = [[NSMutableString alloc]initWithString:@""];
-                [insertSql appendString:[NSString stringWithFormat:@"INSERT INTO dayMenu(day, restaurant_slug, price, name, slug) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", dayMenuDateString, restaurantSlug, recipes[i][@"price"], recipes[i][@"name"], recipes[i][@"slug"]]];
-                
-                const char *insert_stmt_one = [insertSql UTF8String];
-                
-                int response = sqlite3_prepare_v2(_database, insert_stmt_one, -1, &statement, NULL);
-                
-                NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
-                
-                if (sqlite3_step(statement) == SQLITE_DONE) {
-                    NSLog(@"[DataManager] BestMatch saved successfully");
-                }
-                else
-                {
-                    NSLog(@"[DataManager] Failed insert restaurant data into database, %s", sqlite3_errmsg(self.database));
-                }
-                
-                sqlite3_finalize(statement);
-                sqlite3_close(_database);
+    int recipesCount = (int)[JSONArray[@"recipes"] count];
 
-            }
+    for (int i = 0; i < recipesCount; i++) {
+        RecipeInfo *dayRecipe = [RecipeInfo new];
+        
+        dayRecipe.slug = recipes[i][@"slug"];
+        dayRecipe.price = recipes[i][@"price"];
+        dayRecipe.name = recipes[i][@"name"];
+        dayRecipe.category = [recipes[i][@"category"][@"name"] lowercaseString];
+        
+        if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?)", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
+        {
+            NSLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
+        }
+        else
+        {
+            NSLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
+    
+
+    
 }
 
+/**
+ Checks the input string to the current day.
+ @param dateToCompare The NSString with date format to be compare.
+ @return YES or NO
+ */
 -(BOOL)isTheSameDayAsToday:(NSString *)dateToCompare
 {
 
@@ -662,6 +653,39 @@
     }
     
     [combined close];
+    
+    return retval;
+}
+
+#pragma mark - Day Menu fetcher
+
+-(NSMutableDictionary *)fetchDayMenuForRestaurant:(NSString *)restaurantSlug andDay:(NSString *)day
+{
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc]init];
+
+
+    FMResultSet *categories = [_fmdb executeQuery:@"SELECT DISTINCT category FROM dayMenu WHERE day = ? AND restaurant_slug = ?;", day, restaurantSlug];
+    
+    while ([categories next]) {
+        NSString *category = [categories stringForColumn:@"category"];
+
+        FMResultSet *recipeListForCategory = [_fmdb executeQuery:@"SELECT name, price, slug FROM dayMenu WHERE day = ? AND restaurant_slug = ? AND category = ?;", day, restaurantSlug, category];
+        NSLog(@"DEBUG: %@ %@ %d", [_fmdb lastErrorMessage], [_fmdb lastError], [_fmdb lastErrorCode]);
+        NSMutableArray *recipesForCategory = [[NSMutableArray alloc]init];
+        
+        while ([recipeListForCategory next]) {
+            RecipeInfo *recipe = [RecipeInfo new];
+            
+            recipe.slug = [recipeListForCategory stringForColumn:@"slug"];
+            recipe.name = [recipeListForCategory stringForColumn:@"name"];
+            recipe.price = [NSNumber numberWithDouble:[recipeListForCategory doubleForColumn:@"price"]];
+            recipe.category = category;
+            
+            [recipesForCategory addObject:recipe];
+        }
+        
+        [retval setObject:recipesForCategory forKey:category];
+    }
     
     return retval;
 }

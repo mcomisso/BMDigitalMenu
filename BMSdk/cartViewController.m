@@ -132,6 +132,20 @@
     return YES;
 }
 
+-(void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y + 100);
+    }];
+}
+
+-(void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y - 100);
+    }];
+}
+
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -163,16 +177,18 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [UIView animateWithDuration:0.2f animations:^{
-        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y + 100);
-    }];
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+                         self.reminderButton.alpha = 0.3f;
+                     }];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [UIView animateWithDuration:0.2f animations:^{
-        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y - 100);
-    }];
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+                         self.reminderButton.alpha = 1.f;
+                     }];
 }
 
 #pragma mark - Utils

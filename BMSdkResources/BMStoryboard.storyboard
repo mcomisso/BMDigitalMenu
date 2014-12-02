@@ -611,22 +611,13 @@
                                                     <rect key="frame" x="0.0" y="62" width="320" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Piatto Piatto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5v-8D-D7B">
-                                                            <rect key="frame" x="8" y="9" width="243" height="24"/>
+                                                            <rect key="frame" x="8" y="9" width="304" height="24"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="38€" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO7-us-FlM">
-                                                            <rect key="frame" x="259" y="9" width="53" height="43"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="53" id="RDz-aC-H6g"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5e-vg-oOG" userLabel="Prezzo">
-                                                            <rect key="frame" x="8" y="31" width="243" height="21"/>
+                                                            <rect key="frame" x="8" y="31" width="304" height="21"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -635,14 +626,12 @@
                                                     <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="B5v-8D-D7B" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="17F-Ht-jRx"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="B5v-8D-D7B" secondAttribute="trailing" constant="8" id="HuS-Oz-cPu"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="WM2-M4-Tw3"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="A5e-vg-oOG" secondAttribute="trailing" constant="8" id="Xip-Gb-auc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="A5e-vg-oOG" secondAttribute="bottom" constant="8" id="5tY-OZ-0k5"/>
+                                                        <constraint firstAttribute="trailing" secondItem="B5v-8D-D7B" secondAttribute="trailing" constant="8" id="ThW-wM-PeQ"/>
                                                         <constraint firstAttribute="bottom" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="27" id="gDl-FQ-9yr"/>
-                                                        <constraint firstAttribute="trailing" secondItem="MO7-us-FlM" secondAttribute="trailing" constant="8" id="hZ3-TS-EDs"/>
                                                         <constraint firstItem="A5e-vg-oOG" firstAttribute="leading" secondItem="IE3-gM-UDq" secondAttribute="leading" constant="8" id="hib-RJ-x1B"/>
+                                                        <constraint firstAttribute="trailing" secondItem="A5e-vg-oOG" secondAttribute="trailing" constant="8" id="rTf-WG-nk8"/>
                                                         <constraint firstItem="A5e-vg-oOG" firstAttribute="top" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="-2" id="sHP-VK-HBB"/>
-                                                        <constraint firstAttribute="bottom" secondItem="MO7-us-FlM" secondAttribute="bottom" constant="8" id="vFK-Ph-bvW"/>
                                                         <constraint firstItem="B5v-8D-D7B" firstAttribute="leading" secondItem="IE3-gM-UDq" secondAttribute="leading" constant="8" id="xhg-R3-ojF"/>
                                                     </constraints>
                                                 </view>
@@ -662,7 +651,6 @@
                                             <outlet property="recipeCategory" destination="A5e-vg-oOG" id="HZz-Ty-yiL"/>
                                             <outlet property="recipeImageView" destination="TYK-cj-w3A" id="hXm-6J-eFc"/>
                                             <outlet property="recipeName" destination="B5v-8D-D7B" id="d6J-HB-AIR"/>
-                                            <outlet property="recipePrice" destination="MO7-us-FlM" id="vCB-Z8-B4e"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -672,7 +660,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKx-t6-hZt">
-                                <rect key="frame" x="224" y="404" width="80" height="80"/>
+                                <rect key="frame" x="242" y="422" width="62" height="62"/>
                                 <color key="backgroundColor" red="0.098039215686274508" green="0.5490196078431373" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="Reminder.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

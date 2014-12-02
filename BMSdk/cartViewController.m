@@ -21,6 +21,8 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
+@property (weak, nonatomic) IBOutlet UIButton *reminderButton;
+
 @end
 
 @implementation cartViewController
@@ -48,6 +50,9 @@
     [self setupViewIfEmptyArray];
     
     [self setPreferredToolbar];
+    
+    /*CONFIGURATION OF BUTTON*/
+    self.reminderButton.layer.cornerRadius = self.reminderButton.frame.size.width/2;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -117,6 +122,7 @@
     
     cell.recipeName.text = recipe.name;
 
+    cell.recipeCategory.text = [recipe.category capitalizedString];
     return cell;
 }
 
@@ -151,6 +157,22 @@
  
     NSLog(@"Description: %@", [self.dataSource description]);
    return [self.dataSource count];
+}
+
+#pragma mark - Scrollview delegate
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y + 100);
+    }];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [UIView animateWithDuration:0.2f animations:^{
+        self.reminderButton.center = CGPointMake(self.reminderButton.center.x, self.reminderButton.center.y - 100);
+    }];
 }
 
 #pragma mark - Utils

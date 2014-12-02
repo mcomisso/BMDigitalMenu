@@ -49,6 +49,7 @@
 @property (strong, nonatomic) IBOutlet BFPaperButton *dailyMenuButton;
 
 /* DAILY MENU DATA*/
+@property (nonatomic) BOOL isDayMenuAvailable;
 @property (strong, nonatomic) NSArray *dailyCategorieDataSource;
 @property (strong, nonatomic) NSArray *dailyRecipesDataSource;
 
@@ -63,6 +64,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.isDayMenuAvailable = NO;
     }
     return self;
 }
@@ -82,8 +84,7 @@
     [self.tableView reloadData];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self.navigationController setToolbarHidden:YES animated:NO];
-    
-    [self animateToPositionsForMenu];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -97,8 +98,7 @@
  */
 -(void)setupPaperButton
 {
-//    self.dailyMenuButton.cornerRadius = self.dailyMenuButton.frame.size.width / 2;
-    [self.dailyMenuButton addTarget:self action:@selector(alertView) forControlEvents:UIControlEventTouchUpInside];
+    [self.dailyMenuButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     
     //Set orange colors
     [self.dailyMenuButton setTapCircleColor:[UIColor colorWithRed:0.91 green:0.25 blue:0.1 alpha:1]];
@@ -107,55 +107,89 @@
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [self.dailyMenuButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    
-    //puts a shadow behind the button
+
     self.dailyMenuButton.isRaised = YES;
     
     //Set title
     self.dailyMenuButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.dailyMenuButton.titleLabel.textAlignment = NSTextAlignmentLeft;
     [self.dailyMenuButton setTitle:@"MENÙ\nDEL\nGIORNO" forState:UIControlStateNormal];
-}
 
--(void)alertView
-{
-    NSLog(@"Paper button pressed");
+    self.dailyMenuButton.alpha = 1.f;
+
+    /*[UIView animateWithDuration:0.4
+                          delay:0.8
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:6
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.dailyMenuButton.center = dayMenuButtonNewCenter;
+                     }
+                     completion:^(BOOL finished) {
+                         self.dailyMenuButton.center = dayMenuButtonNewCenter;
+                         NSLog(@"%f - %f", self.dailyMenuButton.center.x, self.dailyMenuButton.center.y);
+                     }];*/
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.dailyMenuButton.alpha = 0.f;
+    
     self.statsManager = [BMUsageStatisticManager sharedInstance];
+    
+    //restaurant Has Day menu || UpdateMenu
+    [self addObservers];
 
     // Setup the black layer gradient
     [self blackLayerGradient];
-    [self setupPaperButton];
     
     // Ask for Background Image
     self.backgroundRestaurantImage.contentMode = UIViewContentModeScaleAspectFill;
-    
+
+    //TODO: change with the right background image
     [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
     
     // Appereance Settings
     [self setColors];
-    [self setPdfButton];
     
     //Objects Instantiations
     self.cartManager = [BMCartManager sharedInstance];
     
     [self loadCategories];
-
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(dataChangedInDB)
-                                                name:@"updateMenu"
-                                              object:nil];
+    
+    if (self.isDayMenuAvailable) {
+        [self setupPaperButton];
+    }
 }
+
 /**
  Sets the colors of the static interface
  */
 -(void)setColors
 {
     self.topBarHider.backgroundColor = [UIColor whiteColor];
+}
+
+-(void)addObservers
+{
+    //This class is called when the api responds with the day menu
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(setupPaperButton)
+                                                name:@"restaurantHasDayMenu"
+                                              object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(dataChangedInDB)
+                                                name:@"updateMenu"
+                                              object:nil];
+    
+    BMDataManager *dm = [BMDataManager sharedInstance];
+    
+    if ([dm isTodayDayMenuAvailableForRestaurant:[[NSUserDefaults standardUserDefaults]objectForKey:@"restaurantSlug"]]) {
+        self.isDayMenuAvailable = YES;
+    }
 }
 
 -(void)blackLayerGradient
@@ -175,41 +209,6 @@
     gradientLayer.frame = CGRectMake(0, 0, self.restaurantNameContainer.frame.size.width, self.restaurantNameContainer.frame.size.height);
     
     [self.restaurantNameContainer.layer insertSublayer:gradientLayer atIndex:0];
-}
-
-/**
- Sets the pdf "button"
- */
--(void)setPdfButton
-{
-    self.pdfViewLoader.layer.cornerRadius = self.pdfViewLoader.frame.size.width /2;
-    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(loadPDFView)];
-    [self.pdfViewLoader addGestureRecognizer:tgr];
-}
-
-
-/**
- Initial animation for menù entry
- */
--(void)animateToPositionsForMenu
-{
-//    CGPoint originalCenter = self.restaurantNameContainer.center;
-//    CGPoint originalTableCenter = self.categoriesMenuContainer.center;
-    CGPoint originalDailyButtonCenter = self.dailyMenuButton.center;
-    
-    self.pdfViewLoader.alpha = 0.f;
-    
-    self.dailyMenuButton.center = CGPointMake(originalDailyButtonCenter.x - self.dailyMenuButton.frame.size.width, originalDailyButtonCenter.y);
-    
-    [UIView animateWithDuration:0.4 delay:1 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.dailyMenuButton.center = originalDailyButtonCenter;
-        
-    } completion:^(BOOL finished) {
-        NSLog(@"Day Menu Button Animation Completed");
-    }];
-    //Central circle with spinning
-    //Move central circle to storyboard position
-    //Add tableview at side
 }
 
 -(void)animateToPositionsForPDF
@@ -384,7 +383,6 @@
     if ([[segue identifier] isEqualToString:@"pdfView"]) {
         DocumentsViewController *dvc = [segue destinationViewController];
         BMDataManager *dataManager = [BMDataManager sharedInstance];
-#warning Change the RestaurantID
 //        dvc.documentName = [dataManager requestPDFNameOfRestaurant:@"Ciao"];
     }
 }

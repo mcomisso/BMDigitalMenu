@@ -745,6 +745,7 @@
 		B9909F9B19892B2000D02CB6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9D4B2BA19D080AD00116805 /* Constants.h */,
 				B915C33419780B8E005618A6 /* BMLocationManager.h */,
 				B915C33519780B8E005618A6 /* BMLocationManager.m */,
 				B9C29F8F19864614002309FF /* BMDownloadManager.h */,
@@ -757,7 +758,6 @@
 				B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */,
 				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
 				B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */,
-				B9D4B2BA19D080AD00116805 /* Constants.h */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -919,8 +919,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */,
-				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
+				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
 				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,

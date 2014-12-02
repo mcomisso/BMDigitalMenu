@@ -56,8 +56,9 @@
 /**
  Save the day menu of the restaurant inside the database
  @param JSONArray array of results
+ @param day The string in yyyy-mm-dd format of the current day
  */
--(void)saveDayMenu:(NSArray *)JSONArray;
+-(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day;
 
 #pragma mark - Check Methods
 /**
@@ -67,19 +68,12 @@
  */
 -(NSString *)latestMenuEntryOfRestaurant:(NSString *)restaurantId;
 
-/**
- Interrogates the existing database to determine if should download data
- @param recipeSlug The unique ID of a recipe
- @return BOOL YES or NO
- */
--(BOOL)shouldFetchCommentsFromServer:(NSString*)recipeSlug;
-
 #pragma mark - Data Request Methods
 /**
  Interrogates the database to fetch all and only the categories for the given restaurantMajorNumber
 
  @param restaurantMajorNumber The major number of a certain restaurant.
- 
+ @return All the categories for the "tuple" maj-min
  */
 -(NSArray *)requestCategoriesForRestaurantMajorNumber:(NSNumber *)restaurantMajorNumber andMinorNumber:(NSNumber *)restaurantMinorNumber;
 
@@ -88,15 +82,30 @@
  
  @param category The category wanted to show.
  @param restaurantId The identification number of the restaurant
- 
+ @return All the recipes for a certain category
  */
 -(NSArray *)requestRecipesForCategory:(NSString *)category ofRestaurantMajorNUmber:(NSNumber *)restaurantMajorNumber andMinorNumber:(NSNumber *)restaurantMinorNumber;
 
 /**
+ Interrogates the database to fetch all the recipes for a certain day.
+ @param restaurantSlug The slug of the restaurant to search
+ @param day The day to search
+ 
+ @return
+ */
+-(NSMutableDictionary *)fetchDayMenuForRestaurant:(NSString *)restaurantSlug andDay:(NSString *)day;
+
+/**
+ Returns true if there's some recipe available for today
+ @param restaurantSlug The restaurant's slug field inside the database
+ @return YES or NO
+ */
+-(BOOL)isTodayDayMenuAvailableForRestaurant:(NSString *)restaurantSlug;
+
+/**
  Interrogates the database to fetch all the data of a particular recipe. Policy: Only cache. Images are handled as multimedia with SDImageView.
- 
  @param recipeSlug The unique Slug of a recipe.
- 
+ @return all the recipe contents for the recipeSlug
  */
 -(RecipeInfo *)requestDetailsForRecipe:(NSString *)recipeSlug;
 
@@ -105,7 +114,7 @@
 
  @param recipeSlug The unique ID of a recipe.
  @param restaurantID The identification number of the restaurant
- 
+ @return
  */
 -(int)requestRatingForRecipe:(NSString *)recipeSlug;
 
@@ -132,6 +141,14 @@
  */
 -(NSMutableArray *)requestDataForCart:(NSArray*)listOfRecipesToFind;
 
+/**
+ Selects the restaraunt name from the parameters major and minor beacon.
+ @param majorBeacon The Major number of the closest beacon.
+ @param minorBeacon The Minor number of the closest beacon.
+ @return The name of the restaraunt.
+ */
+-(NSString *)requestRestaurantNameForMajorBeacon:(NSNumber *)majorBeacon andMinorBeacon:(NSNumber *)minorBeacon;
+
 #pragma mark - Delete from menu
 
 /**
@@ -148,9 +165,10 @@
 
 /**
  Counts the numbers of recipes currently inside the database.
- @return COUNT(*) of recipes
+ @param restaurantSlug The slug of the selected restaurant
+ @return count of recipes
  */
--(int)numberOfrecipesInCacheForRestaurant;
+-(int)numberOfrecipesInCacheForRestaurant:(NSString *)restaurantSlug;
 
 #pragma mark - PDF utils
 
@@ -159,15 +177,7 @@
  */
 -(NSString *)pathToPDFDirectory;
 
-/**
- Selects the restaraunt name from the parameters major and minor beacon.
- @param majorBeacon The Major number of the closest beacon.
- @param minorBeacon The Minor number of the closest beacon.
- @return The name of the restaraunt.
- */
--(NSString *)requestRestaurantNameForMajorBeacon:(NSNumber *)majorBeacon andMinorBeacon:(NSNumber *)minorBeacon;
-
-#pragma mark - fakeituntilyoumakeit
+#pragma mark - Best match
 /**
     Returns 1 recipe for every category inside the local database
  */
@@ -177,5 +187,6 @@
  Close database connection when the application closes
  */
 -(void)closeDatabaseConnection;
+
 
 @end

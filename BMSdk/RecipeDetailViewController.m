@@ -166,16 +166,8 @@
     [self loadRating];
     
     BMDownloadManager *dm = [BMDownloadManager sharedInstance];
-    BMDataManager *dataManage = [BMDataManager sharedInstance];
     
-    if ([dataManage shouldFetchCommentsFromServer:self.recipeSlug]) {
-        NSLog(@"[RecipeDetailViewController] Comments not found for recipeID %@, name: %@", self.recipeSlug, self.recipeName);
-        [dm fetchCommentsForRecipe:self.recipeSlug];
-    }
-    else
-    {
-        NSLog(@"[RecipeDetailViewController] Comments found in database");
-    }
+    [dm fetchCommentsForRecipe:self.recipeSlug];
 }
 
 -(void)viewInitializer

@@ -44,10 +44,17 @@
 -(void)fetchRatingForRecipe:(NSString *)recipeSlug;
 
 /**
- Makes a GET request to the bluemate server and downlaods the menu
+ Makes a GET request to the bluemate server and downloads the menu
  @param majorNumber The Restaurant's beacon major number
  @param minorNumber The Restaurant's beacon minor number
  */
 -(void)fetchMenuOfRestaurantWithMajor:(NSNumber *)majorNumber andMinor:(NSNumber *)minorNumber;
+
+/**
+ Makes a GET request to the bluemate server and downloads the day menu
+ @param majorNumber The Restaurant's beacon major number
+ @param minorNumber The Restaurant's beacon minor number
+ */
+-(void)fetchDayMenuOfRestaurantWithMajor:(NSNumber *)majorNumber andMinor:(NSNumber *)minorNumber;
 
 @end

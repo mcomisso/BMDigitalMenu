@@ -85,7 +85,7 @@
     
         @"CREATE TABLE IF NOT EXISTS recipe (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, category TEXT, last_edit_datetime DATE, image_url TEXT, description TEXT, ingredients TEXT, slug TEXT UNIQUE, avg_rating INTEGER, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
     
-        @"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
+        @"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
     
         @"CREATE TABLE IF NOT EXISTS bestMatch ( id INTEGER PRIMARY KEY, base_recipe_slug TEXT, target_recipe_slug TEXT, FOREIGN KEY (base_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE, FOREIGN KEY (target_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
     
@@ -132,8 +132,6 @@
         {
             NSLog(@"%@, %d, %@", [_fmdb lastError], [_fmdb lastErrorCode], [_fmdb lastErrorMessage]);
         }
-    
-    //const char *dbPath = [_databasePath UTF8String];
 
     //TODO: change for loop with increased performance forin
     for (int i = 0; i < [JSONArray count]; i++) {
@@ -150,9 +148,6 @@
         recipe.recipe_description = JSONArray[i][@"description"]; //if nil -> @"<null>"
         recipe.best_match = [NSArray arrayWithArray:JSONArray[i][@"best_match"]];
         
-//        NSLog(@"Date: %@, class: %@", [recipe.last_edit_datetime description], NSStringFromClass([recipe.last_edit_datetime class]));
-//        NSLog(@"Date in secs %f", [recipe.last_edit_datetime timeIntervalSince1970]);
-        
         if ([_fmdb executeUpdate:@"INSERT INTO recipe VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)", recipe.name, recipe.price, recipe.category, recipe.last_edit_datetime, recipe.image_url, recipe.recipe_description, recipe.ingredients, recipe.slug, restaurant.slug]) {
             NSLog(@"Saved Recipe with slug: %@", recipe.slug);
         }
@@ -168,6 +163,10 @@
     [self performSelector:@selector(saveBestMatch:) withObject:JSONArray];
 }
 
+/**
+ BestMatch saves all the recipes fetched from the database inside the backend.
+ @param recipeArray Array containing the recipes with bestmatch
+ */
 -(void)saveBestMatch:(NSArray *)recipeArray
 {
     int numberOfRecipes = (int)[recipeArray count];
@@ -192,156 +191,45 @@
     }
 }
 
-//TODO: To be Completed
--(void)saveDayMenu:(NSArray *)JSONArray
+/**
+ Saves the current day menu inside the database, for quick caching.
+ @param JSONArray The array containg all the recipes
+ */
+-(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day
 {
-    const char *dbPath = [_databasePath UTF8String];
-
-    NSString *dayMenuDateString = JSONArray[0][@"day"];
+    //Send notification
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
     
-    //Se la data è di oggi
-    if ([self isTheSameDayAsToday:dayMenuDateString]) {
+    //Slug of restaurant
+    NSString *restaurantSlug = JSONArray[@"restaurant"][@"slug"];
+    NSLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
+    
+    NSArray *recipes = JSONArray[@"recipes"];
+
+    NSLog(@"Downloaded Day Menu recipes description %@", [recipes description]);
+
+    int recipesCount = (int)[JSONArray[@"recipes"] count];
+
+    for (int i = 0; i < recipesCount; i++) {
+        RecipeInfo *dayRecipe = [RecipeInfo new];
         
-        //Send notification
-        [[NSNotificationCenter defaultCenter]setValue:@"YES" forKey:@"restaurantHasDayMenu"];
+        dayRecipe.slug = recipes[i][@"slug"];
+        dayRecipe.price = recipes[i][@"price"];
+        dayRecipe.name = recipes[i][@"name"];
+        dayRecipe.category = [recipes[i][@"category"][@"name"] lowercaseString];
         
-        sqlite3_stmt *statement;
-        
-        
-        /*
-         CREATE TABLE IF NOT EXISTS dayMenu ( \
-         id INTEGER PRIMARY KEY AUTOINCREMENT, \
-         day DATE, \
-         restaurant_slug TEXT, \
-         FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);\
-         */
-        if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-            
-            //Slug of restaurant
-            NSString *restaurantSlug = JSONArray[0][@"restaurant"][@"slug"];
-
-            NSLog(@"JSONArray[i][recipes]: %@", restaurantSlug);
-            NSArray *recipes = JSONArray[0][@"recipes"];
-            int recipesCount = (int)[JSONArray[0][@"recipes"] count];
-            
-            for (int i = 0; i < recipesCount; i++) {
-
-                NSMutableString *insertSql = [[NSMutableString alloc]initWithString:@""];
-                [insertSql appendString:[NSString stringWithFormat:@"INSERT INTO dayMenu(day, restaurant_slug, price, name, slug) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", dayMenuDateString, restaurantSlug, recipes[i][@"price"], recipes[i][@"name"], recipes[i][@"slug"]]];
-                
-                const char *insert_stmt_one = [insertSql UTF8String];
-                
-                int response = sqlite3_prepare_v2(_database, insert_stmt_one, -1, &statement, NULL);
-                
-                NSLog(@"Response insert inside DB : %d %s", response, sqlite3_errmsg(self.database));
-                
-                if (sqlite3_step(statement) == SQLITE_DONE) {
-                    NSLog(@"[DataManager] BestMatch saved successfully");
-                }
-                else
-                {
-                    NSLog(@"[DataManager] Failed insert restaurant data into database, %s", sqlite3_errmsg(self.database));
-                }
-                
-                sqlite3_finalize(statement);
-                sqlite3_close(_database);
-
-            }
-        }
-    }
-}
-
--(BOOL)isTheSameDayAsToday:(NSString *)dateToCompare
-{
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    //Today date without hours/min/sec
-    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:flags fromDate:[NSDate date]];
-    
-    NSDate *today = [calendar dateFromComponents:components];
-    NSDate *dayOfMenu = [dateFormatter dateFromString:dateToCompare];
-    
-    NSLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
-    
-    long int result = [dayOfMenu compare:today];
-    
-    //Se la data è di oggi
-    if (!result) {
-        return YES;
-    }
-    
-    return YES;
-}
-
-#pragma mark - UTILS
-
--(void)closeDatabaseConnection
-{
-    [_fmdb close];
-}
-
--(NSDate *)dateFromString:(NSString *)date
-{
-    if ([date isMemberOfClass:[NSNull class]] || [date isEqualToString:@""]) {
-        return [NSDate date];
-    }
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssz"];
-    return [dateFormatter dateFromString:date];
-}
-
--(void)saveCommentsData:(NSDictionary *)commentsDictionary
-{
-    NSArray *commentsArray = [commentsDictionary objectForKey:@"commenti"];
-    for (int i = 0; i < [commentsArray count]; i++) {
-        
-        NSString *recipe_slug = [commentsArray[i] objectForKey:@"ricetta_id"];
-        NSString *singleComment = [commentsArray[i] objectForKey:@"commento"];
-        NSString *userId = [commentsArray[i] objectForKey:@"utente"];
-
-        if ([_fmdb executeUpdate:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
+        if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?)", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
         {
-            NSLog(@"Completed insert of comment");
+            NSLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
         }
         else
         {
-            NSLog(@"Error while inserting comment %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            NSLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
-}
+    
 
-//TODO: use fmdb
--(void)savePDFUuid:(NSString *)pdfUUID ofRestaurant:(NSString *)restaurant
-{
-    const char *dbPath = [_databasePath UTF8String];
-    sqlite3_stmt *statement;
-    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        NSString *query = [NSString stringWithFormat:@"INSERT INTO restaurant(id, pdfUUID, name) VALUES(1, \"%@\", \"ratana\")", pdfUUID];
-        const char *forged = [query UTF8String];
-        
-        int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
-        
-        NSLog(@"[SAVE PDF] Response insert inside DB: %d %s", response, sqlite3_errmsg(self.database));
-        if (sqlite3_step(statement) == SQLITE_DONE) {
-            NSLog(@"[Save PDF] Completed save");
-        }
-        else
-        {
-            NSLog(@"[Save PDF] Failed Insert into database");
-        }
-        sqlite3_finalize(statement);
-        sqlite3_close(_database);
-    }
-    else
-    {
-        NSLog(@"[Save PDF] Failed Open Database");
-        sqlite3_close(_database);
-    }
+    
 }
 
 #pragma mark - Get data methods
@@ -406,8 +294,8 @@
 }
 
 #pragma mark - CARTMANAGER
-#pragma mark -
 #pragma mark Fetch data for cart
+
 -(NSMutableArray *)requestDataForCart:(NSArray*)listOfRecipesToFind
 {
     if ([listOfRecipesToFind count] != 0) {
@@ -444,23 +332,28 @@
     return nil;
 }
 
-#pragma mark - Delete data from menu
--(void)deleteDataFromRestaurant:(NSString *)restaurantSlug
+#pragma mark - Comments and rating Management
+
+/* Saves all the comments for the recipe */
+-(void)saveCommentsData:(NSDictionary *)commentsDictionary
 {
-    
-    [self checkForeignKeys];
-    
-    if ([_fmdb executeUpdate:@"DELETE FROM restaurant WHERE slug = ?;", restaurantSlug])
-    {
-        NSLog(@"Deleted successfully from db the restaurant and data with slug %@", restaurantSlug);
-    }
-    else
-    {
-        NSLog(@"Errors while deleting restaurant");
+    NSArray *commentsArray = [commentsDictionary objectForKey:@"commenti"];
+    for (int i = 0; i < [commentsArray count]; i++) {
+        
+        NSString *recipe_slug = [commentsArray[i] objectForKey:@"ricetta_id"];
+        NSString *singleComment = [commentsArray[i] objectForKey:@"commento"];
+        NSString *userId = [commentsArray[i] objectForKey:@"utente"];
+        
+        if ([_fmdb executeUpdate:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
+        {
+            NSLog(@"Completed insert of comment");
+        }
+        else
+        {
+            NSLog(@"Error while inserting comment %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        }
     }
 }
-
-#pragma mark - Comments and rating Management
 
 -(void)deleteCommentsOfRecipe:(NSString *)recipeSlug
 {
@@ -494,36 +387,18 @@
     return retval;
 }
 
--(BOOL)shouldFetchCommentsFromServer:(NSString*)recipeSlug
+#pragma mark - Rating
+-(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipeSlug
 {
-    const char *dbPath = [_databasePath UTF8String];
-    sqlite3_stmt *statement;
-    
-    BOOL retval = YES;
-    
-    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-        //        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM commenti WHERE locale_id = %@ AND ricetta_id = %@", restaurant, recipeSlug];
-        NSString *query = [[NSString alloc]initWithFormat:@"SELECT * FROM comments WHERE ricetta_id = %@", recipeSlug];
-        const char *forged = [query UTF8String];
-        
-        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
-            
-            if (sqlite3_step(statement) == SQLITE_ROW) {
-                //Check Last Date.
-                retval = NO;
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(_database);
+    if ([_fmdb executeUpdate:@"UPDATE recipe SET avg_rating = ? WHERE slug = ?;", value, recipeSlug]) {
+        NSLog(@"Updated average rating of recipe %@", recipeSlug);
     }
     else
     {
-        retval = YES;
+        NSLog(@"Errors while updating average rating of %@. Errors: %@ %@ | Code: %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
     }
-    return retval;
 }
 
-#pragma mark -
 -(int)requestRatingForRecipe:(NSString *)recipeSlug
 {
     int retval = 0;
@@ -551,17 +426,7 @@
     return retval;
 }
 
--(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipeSlug
-{
-    if ([_fmdb executeUpdate:@"UPDATE recipe SET avg_rating = ? WHERE slug = ?;", value, recipeSlug]) {
-        NSLog(@"Updated average rating of recipe %@", recipeSlug);
-    }
-    else
-    {
-        NSLog(@"Errors while updating average rating of %@. Errors: %@ %@ | Code: %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
-    }
-}
-
+#pragma mark -
 /**
  Gets from internal sqlite database the latest date of a menu
  @param restaurantId The Id of one restaurant
@@ -570,22 +435,14 @@
 -(NSString *)latestMenuEntryOfRestaurant:(NSString *)restaurantSlug
 {
     NSString *latestDateString;
-    const char *dbPath = [_databasePath UTF8String];
-    sqlite3_stmt *statement;
-    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
-//        NSString *query = [NSString stringWithFormat:@"SELECT id, data_creazione FROM menu WHERE locale_id = %@ ORDER BY data_creazione DESC LIMIT 1;", restaurantId];
-        NSString *query = [NSString stringWithFormat:@"SELECT * FROM recipe ORDER BY last_edit_datetime DESC LIMIT 1;"];
-        const char *forged = [query UTF8String];
-        
-        if (sqlite3_prepare_v2(_database, forged, -1, &statement, NULL) == SQLITE_OK) {
-            if (sqlite3_step(statement) == SQLITE_ROW) {
-                //Fetched latest
-                // Request backend to fetch
-                latestDateString = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 4)];
-            }
-            sqlite3_finalize(statement);
-        }
-        sqlite3_close(_database);
+    
+    FMResultSet *result = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE restaurant_slug = ? ORDER BY last_edit_datetime DESC LIMIT 1;", restaurantSlug];
+    if ([result next]) {
+        latestDateString = [result stringForColumn:@"last_edit_datetime"];
+    }
+    else
+    {
+        latestDateString = @"";
     }
     return latestDateString;
 }
@@ -599,19 +456,6 @@
         total = [result intForColumnIndex:0];
     }
     return total;
-}
-
--(NSString *)requestRestaurantNameForMajorBeacon:(NSNumber *)majorBeacon andMinorBeacon:(NSNumber *)minorBeacon
-{
-    NSString *retval = @"";
-    
-    FMResultSet *result = [_fmdb executeQuery:@"SELECT name FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ?;", majorBeacon, minorBeacon];
-    
-    if ([result next]) {
-        retval = [result stringForColumn:@"name"];
-    }
-    
-    return retval;
 }
 
 #pragma mark - PDF utils
@@ -640,7 +484,7 @@
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
-#pragma mark - FAKE IT UNTIL YOU MAKE IT
+#pragma mark - BestMatch
 -(NSMutableArray *)bestMatchForRecipe:(NSString *)recipeSlug
 {
     NSMutableArray *retval = [[NSMutableArray alloc]init];
@@ -664,6 +508,188 @@
     [combined close];
     
     return retval;
+}
+
+#pragma mark - Day Menu
+-(NSMutableDictionary *)fetchDayMenuForRestaurant:(NSString *)restaurantSlug andDay:(NSString *)day
+{
+    NSMutableDictionary *retval = [[NSMutableDictionary alloc]init];
+
+
+    FMResultSet *categories = [_fmdb executeQuery:@"SELECT DISTINCT category FROM dayMenu WHERE day = ? AND restaurant_slug = ?;", day, restaurantSlug];
+    
+    while ([categories next]) {
+        NSString *category = [categories stringForColumn:@"category"];
+
+        FMResultSet *recipeListForCategory = [_fmdb executeQuery:@"SELECT name, price, slug FROM dayMenu WHERE day = ? AND restaurant_slug = ? AND category = ?;", day, restaurantSlug, category];
+        NSLog(@"DEBUG: %@ %@ %d", [_fmdb lastErrorMessage], [_fmdb lastError], [_fmdb lastErrorCode]);
+        NSMutableArray *recipesForCategory = [[NSMutableArray alloc]init];
+        
+        while ([recipeListForCategory next]) {
+            RecipeInfo *recipe = [RecipeInfo new];
+            
+            recipe.slug = [recipeListForCategory stringForColumn:@"slug"];
+            recipe.name = [recipeListForCategory stringForColumn:@"name"];
+            recipe.price = [NSNumber numberWithDouble:[recipeListForCategory doubleForColumn:@"price"]];
+            recipe.category = category;
+            
+            [recipesForCategory addObject:recipe];
+        }
+        
+        [retval setObject:recipesForCategory forKey:category];
+    }
+    
+    return retval;
+}
+
+#pragma mark - Utils
+
+-(BOOL)isTodayDayMenuAvailableForRestaurant:(NSString *)restaurantSlug
+{
+    
+    //@"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
+    
+    NSDate *today = [NSDate date];
+    
+    NSString *stringDate = [self dateInYearMonthDayFormatFromDate:today];
+    
+    FMResultSet *result = [_fmdb executeQuery:@"SELECT * FROM dayMenu WHERE restaurant_slug = ? AND day = ?;", restaurantSlug, stringDate];
+    
+    if ([result next]) {
+        [result close];
+        return YES;
+    }
+    else
+    {
+        [result close];
+        return NO;
+    }
+}
+
+
+/**
+ Checks the input string to the current day.
+ @param dateToCompare The NSString with date format to be compare.
+ @return YES or NO
+ */
+-(BOOL)isTheSameDayAsToday:(NSString *)dateToCompare
+{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDate *menuDate = [dateFormatter dateFromString:dateToCompare];
+    
+    NSString *today = [self dateInYearMonthDayFormatFromDate:[NSDate date]];
+    NSString *dayOfMenu = [self dateInYearMonthDayFormatFromDate:menuDate];
+    
+    NSLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
+    
+    //Se la data è di oggi
+    if ([today isEqualToString:dayOfMenu]) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+-(NSString *)dateInYearMonthDayFormatFromDate:(NSDate *)date
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:flags fromDate:date];
+    
+    NSDate *today = [calendar dateFromComponents:components];
+    
+    NSString *stringDate = [dateFormatter stringFromDate:today];
+
+    return stringDate;
+}
+
+/**
+ Closes the database connection
+ */
+-(void)closeDatabaseConnection
+{
+    [_fmdb close];
+}
+
+/**
+ Returns a date from a string
+ @param date The date in format yyyy-MM-dd'T'HH:mm:ssz
+ */
+-(NSDate *)dateFromString:(NSString *)date
+{
+    if ([date isMemberOfClass:[NSNull class]] || [date isEqualToString:@""]) {
+        return [NSDate date];
+    }
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssz"];
+    return [dateFormatter dateFromString:date];
+}
+
+/*Saves the PDF data for the restaurant*/
+-(void)savePDFUuid:(NSString *)pdfUUID ofRestaurant:(NSString *)restaurant
+{
+    const char *dbPath = [_databasePath UTF8String];
+    sqlite3_stmt *statement;
+    if (sqlite3_open(dbPath, &_database) == SQLITE_OK) {
+        NSString *query = [NSString stringWithFormat:@"INSERT INTO restaurant(id, pdfUUID, name) VALUES(1, \"%@\", \"ratana\")", pdfUUID];
+        const char *forged = [query UTF8String];
+        
+        int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
+        
+        NSLog(@"[SAVE PDF] Response insert inside DB: %d %s", response, sqlite3_errmsg(self.database));
+        if (sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"[Save PDF] Completed save");
+        }
+        else
+        {
+            NSLog(@"[Save PDF] Failed Insert into database");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(_database);
+    }
+    else
+    {
+        NSLog(@"[Save PDF] Failed Open Database");
+        sqlite3_close(_database);
+    }
+}
+
+-(NSString *)requestRestaurantNameForMajorBeacon:(NSNumber *)majorBeacon andMinorBeacon:(NSNumber *)minorBeacon
+{
+    NSString *retval = @"";
+    
+    FMResultSet *result = [_fmdb executeQuery:@"SELECT name FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ?;", majorBeacon, minorBeacon];
+    
+    if ([result next]) {
+        retval = [result stringForColumn:@"name"];
+    }
+    
+    return retval;
+}
+
+#pragma mark Delete data from menu
+-(void)deleteDataFromRestaurant:(NSString *)restaurantSlug
+{
+    
+    [self checkForeignKeys];
+    
+    if ([_fmdb executeUpdate:@"DELETE FROM restaurant WHERE slug = ?;", restaurantSlug])
+    {
+        NSLog(@"Deleted successfully from db the restaurant and data with slug %@", restaurantSlug);
+    }
+    else
+    {
+        NSLog(@"Errors while deleting restaurant");
+    }
 }
 
 @end

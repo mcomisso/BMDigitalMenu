@@ -159,6 +159,8 @@
 		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
+		B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */ = {isa = PBXBuildFile; fileRef = B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */; };
+		B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */ = {isa = PBXBuildFile; fileRef = B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */; };
 		B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4D19CC3E1200355418 /* CRMotionView.h */; };
 		B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909C4E19CC3E1200355418 /* CRMotionView.m */; };
 		B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */; };
@@ -171,6 +173,7 @@
 		B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C3319CAE10800C5C749 /* NoInteractionView.m */; };
 		B9AE62CA1A2E06C200D7987C /* MSUserData.h in Headers */ = {isa = PBXBuildFile; fileRef = B9AE62C81A2E06C200D7987C /* MSUserData.h */; };
 		B9AE62CB1A2E06C200D7987C /* MSUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = B9AE62C91A2E06C200D7987C /* MSUserData.m */; };
+		B9AE62D11A2E32FD00D7987C /* Reminder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestaurantStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -389,6 +392,8 @@
 		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
+		B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = previouslyOrderedRecipes.h; sourceTree = "<group>"; };
+		B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = previouslyOrderedRecipes.m; sourceTree = "<group>"; };
 		B9909C4D19CC3E1200355418 /* CRMotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMotionView.h; sourceTree = "<group>"; };
 		B9909C4E19CC3E1200355418 /* CRMotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMotionView.m; sourceTree = "<group>"; };
 		B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+CRScrollIndicator.h"; sourceTree = "<group>"; };
@@ -401,6 +406,7 @@
 		B9938C3319CAE10800C5C749 /* NoInteractionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoInteractionView.m; path = BMSdk/NoInteractionView.m; sourceTree = "<group>"; };
 		B9AE62C81A2E06C200D7987C /* MSUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUserData.h; sourceTree = "<group>"; };
 		B9AE62C91A2E06C200D7987C /* MSUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserData.m; sourceTree = "<group>"; };
+		B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reminder@2x.png"; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
 		B9C29F9519865037002309FF /* RestaurantStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartViewController.h; sourceTree = "<group>"; };
@@ -705,6 +711,15 @@
 			name = bestMatch;
 			sourceTree = "<group>";
 		};
+		B977DDA11A2E6986000ECC5A /* Piatti ordinati precedentemente */ = {
+			isa = PBXGroup;
+			children = (
+				B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */,
+				B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */,
+			);
+			name = "Piatti ordinati precedentemente";
+			sourceTree = "<group>";
+		};
 		B9909C4919CC3D9A00355418 /* UIView No interaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,6 +802,7 @@
 				B9C29FA919865A31002309FF /* Menu List */,
 				B9193AC419A09AE10008149D /* Dettaglio Ricetta */,
 				B92AD6E819AB46E100DDA65A /* Lista piatti da ordinare */,
+				B977DDA11A2E6986000ECC5A /* Piatti ordinati precedentemente */,
 				B95744EC19E5E811000B9540 /* Daily Menu */,
 				B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */,
 				B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */,
@@ -887,6 +903,7 @@
 		B9F1A01219E824DF00DD177E /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */,
 				B9116BDA19E56F580024332B /* MHExit@2x.png */,
 				B9116BDC19E56F580024332B /* MHNotification@2x.png */,
 				B96D556119D96C2700DEC274 /* dragMe2@.png */,
@@ -946,6 +963,7 @@
 				B93CD7BD19A650B200C97622 /* singleCommentTableViewCell.h in Headers */,
 				B943ECE419A60D7D001ABB4E /* AFNetworkReachabilityManager.h in Headers */,
 				B943ECE619A60D7D001ABB4E /* AFSecurityPolicy.h in Headers */,
+				B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFURLConnectionOperation.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFURLRequestSerialization.h in Headers */,
 				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
@@ -1113,6 +1131,7 @@
 				B935492A19D5C1B2002138DE /* Cuore-filled@2x.png in Resources */,
 				B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */,
 				B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */,
+				B9AE62D11A2E32FD00D7987C /* Reminder@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
 				B9D7CBD019DC3E6500B0992D /* Cuore-big@2x.png in Resources */,
 				B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */,
@@ -1179,6 +1198,7 @@
 				B9116BE419E59A300024332B /* BFPaperButton.m in Sources */,
 				B947FC061A19035400C57FC1 /* FMDatabasePool.m in Sources */,
 				B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */,
+				B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
 				B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */,

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fy1-tG-f7a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fy1-tG-f7a">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -611,7 +611,7 @@
                                                     <rect key="frame" x="0.0" y="62" width="320" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Piatto Piatto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5v-8D-D7B">
-                                                            <rect key="frame" x="8" y="9" width="95" height="24"/>
+                                                            <rect key="frame" x="8" y="9" width="243" height="24"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -626,18 +626,18 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5e-vg-oOG" userLabel="Prezzo">
-                                                            <rect key="frame" x="8" y="31" width="42" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <rect key="frame" x="8" y="31" width="243" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="B5v-8D-D7B" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="17F-Ht-jRx"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="B5v-8D-D7B" secondAttribute="trailing" priority="250" constant="156" id="HuS-Oz-cPu"/>
+                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="B5v-8D-D7B" secondAttribute="trailing" constant="8" id="HuS-Oz-cPu"/>
                                                         <constraint firstItem="MO7-us-FlM" firstAttribute="top" secondItem="IE3-gM-UDq" secondAttribute="top" constant="9" id="WM2-M4-Tw3"/>
-                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="A5e-vg-oOG" secondAttribute="trailing" constant="209" id="Xip-Gb-auc"/>
+                                                        <constraint firstItem="MO7-us-FlM" firstAttribute="leading" secondItem="A5e-vg-oOG" secondAttribute="trailing" constant="8" id="Xip-Gb-auc"/>
                                                         <constraint firstAttribute="bottom" secondItem="B5v-8D-D7B" secondAttribute="bottom" constant="27" id="gDl-FQ-9yr"/>
                                                         <constraint firstAttribute="trailing" secondItem="MO7-us-FlM" secondAttribute="trailing" constant="8" id="hZ3-TS-EDs"/>
                                                         <constraint firstItem="A5e-vg-oOG" firstAttribute="leading" secondItem="IE3-gM-UDq" secondAttribute="leading" constant="8" id="hib-RJ-x1B"/>
@@ -659,6 +659,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="recipeCategory" destination="A5e-vg-oOG" id="HZz-Ty-yiL"/>
                                             <outlet property="recipeImageView" destination="TYK-cj-w3A" id="hXm-6J-eFc"/>
                                             <outlet property="recipeName" destination="B5v-8D-D7B" id="d6J-HB-AIR"/>
                                             <outlet property="recipePrice" destination="MO7-us-FlM" id="vCB-Z8-B4e"/>
@@ -670,6 +671,17 @@
                                     <outlet property="delegate" destination="oST-t1-aRE" id="2Ts-qa-fr7"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKx-t6-hZt">
+                                <rect key="frame" x="224" y="404" width="80" height="80"/>
+                                <color key="backgroundColor" red="0.098039215686274508" green="0.5490196078431373" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="Reminder.png">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="yNM-3X-k9R" kind="push" id="fSv-b3-DTz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -693,6 +705,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="reminderButton" destination="pKx-t6-hZt" id="6od-D5-NfT"/>
                         <outlet property="tableView" destination="KSr-IY-d6H" id="1Y9-29-bbd"/>
                     </connections>
                 </viewController>
@@ -1112,6 +1125,65 @@
             </objects>
             <point key="canvasLocation" x="2337" y="-698"/>
         </scene>
+        <!--STORICO-->
+        <scene sceneID="ZBQ-zc-QO3">
+            <objects>
+                <viewController id="yNM-3X-k9R" customClass="previouslyOrderedRecipes" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="82o-SC-EZG"/>
+                        <viewControllerLayoutGuide type="bottom" id="beE-EQ-vsy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="n2C-VP-nLl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JfW-MR-R9p">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EKA-NS-N5A">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="M73-Oo-v2p">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A9M-Ut-GfU"/>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RtB-NY-6Ij">
+                                                    <rect key="frame" x="0.0" y="50" width="100" height="50"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHL-bk-qJw">
+                                                            <rect key="frame" x="8" y="14" width="84" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="STORICO" id="pE9-jU-o3I"/>
+                    <connections>
+                        <outlet property="collectionView" destination="JfW-MR-R9p" id="skq-fx-2k3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gUo-4a-zho" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2337" y="1"/>
+        </scene>
         <!--turnOnBluetooth-->
         <scene sceneID="I0A-Le-JRd">
             <objects>
@@ -1183,7 +1255,7 @@ sul tuo iPhone immediatamente</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgb-4x-hGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337" y="-10"/>
+            <point key="canvasLocation" x="3261" y="-32"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ic5-IU-OLF">
@@ -1201,7 +1273,7 @@ sul tuo iPhone immediatamente</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6J-f3-fvC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2720" y="-10"/>
+            <point key="canvasLocation" x="3639" y="-32"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sj4-oL-7ma">
@@ -1230,6 +1302,7 @@ sul tuo iPhone immediatamente</string>
         <image name="Condividi.png" width="22" height="22"/>
         <image name="Cuore.png" width="22" height="22"/>
         <image name="MHExit.png" width="22" height="22"/>
+        <image name="Reminder.png" width="45" height="45"/>
         <image name="Suggerimenti.png" width="22" height="22"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

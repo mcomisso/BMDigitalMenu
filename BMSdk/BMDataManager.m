@@ -93,7 +93,8 @@
     
         @"CREATE TABLE IF NOT EXISTS cartManager(id INTEGER PRIMARY KEY, recipe_slug TEXT, FOREIGN KEY (recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
     
-        @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT UNIQUE, recipe_ingredients TEXT, recipe_price REAL);";
+        @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT, recipe_ingredients TEXT, recipe_price REAL, restaurant_slug TEXT);";
+    
     if ([_fmdb executeStatements:createDB])
     {
         NSLog(@"Creation completed");
@@ -218,7 +219,7 @@
         dayRecipe.name = recipes[i][@"name"];
         dayRecipe.category = [recipes[i][@"category"][@"name"] lowercaseString];
         
-        if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?)", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
+        if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?);", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
         {
             NSLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
         }
@@ -227,9 +228,25 @@
             NSLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
-    
+}
 
+-(void)saveOrderedListInHistory:(NSArray *)orderedList
+{
+//    @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT UNIQUE, recipe_ingredients TEXT, recipe_price REAL);";
     
+    for (NSString *slug in orderedList) {
+        
+        RecipeInfo *recipe = [self requestDetailsForRecipe:slug];
+
+        if ([_fmdb executeUpdate:@"INSERT INTO orders(orderDate, recipe_name, recipe_image_url, recipe_slug, recipe_ingredients, recipe_price, restaurant_slug) VALUES (?, ?, ?, ?, ?, ?, ?);", [NSDate date], recipe.name, recipe.image_url, recipe.slug, recipe.ingredients, recipe.price, [[NSUserDefaults standardUserDefaults] objectForKey:@"restaurantSlug"]])
+        {
+            NSLog(@"Done inserting data into orders");
+        }
+        else
+        {
+            NSLog(@"Errors while inserting orders in history. %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        }
+    }
 }
 
 #pragma mark - Get data methods
@@ -301,32 +318,20 @@
     if ([listOfRecipesToFind count] != 0) {
         NSMutableArray *retval = [[NSMutableArray alloc]initWithCapacity:[listOfRecipesToFind count]];
 
-        //Generating query
-        NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT * FROM recipe WHERE slug = \"%@\"", [listOfRecipesToFind objectAtIndex:0]];
-        if ([listOfRecipesToFind count] > 1) {
-            for (int i = 1; i < [listOfRecipesToFind count]; i++) {
-                [query appendString:[NSString stringWithFormat:@" OR slug = \"%@\"", (NSString *)[listOfRecipesToFind objectAtIndex:i]]];
-            }
-            [query appendString:@";"];
-        }
         
-        if ([_fmdb open]) {
-            FMResultSet *results = [_fmdb executeQuery:query];
-            
-            while ([results next]) {
+        for (NSString *slug in listOfRecipesToFind) {
+            FMResultSet *result = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE slug = ?;", slug];
+            if ([result next]) {
                 RecipeInfo *recipe = [RecipeInfo new];
-                
-                //Set details for recipe
-                recipe.name = [results stringForColumn:@"name"];
-                recipe.price = [NSNumber numberWithDouble:[results doubleForColumn:@"price"]];
-                recipe.category = [results stringForColumn:@"category"];
-                recipe.image_url = [results stringForColumn:@"image_url"];
-                recipe.slug = [results stringForColumn:@"slug"];
+                recipe.name = [result stringForColumn:@"name"];
+                recipe.price = [NSNumber numberWithDouble:[result doubleForColumn:@"price"]];
+                recipe.category = [result stringForColumn:@"category"];
+                recipe.image_url = [result stringForColumn:@"image_url"];
+                recipe.slug = [result stringForColumn:@"slug"];
                 
                 [retval addObject:recipe];
             }
         }
-        
         return retval;
     }
     return nil;
@@ -546,9 +551,6 @@
 
 -(BOOL)isTodayDayMenuAvailableForRestaurant:(NSString *)restaurantSlug
 {
-    
-    //@"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
-    
     NSDate *today = [NSDate date];
     
     NSString *stringDate = [self dateInYearMonthDayFormatFromDate:today];

@@ -6,16 +6,14 @@
 //  Copyright (c) 2014 Blue-Mate. All rights reserved.
 //
 
-#import "BMDataManager.h"   
-#import <sqlite3.h>
-#import "BMDownloadManager.h"
 
+#import "BMDownloadManager.h"
+#import "BMDataManager.h"   
+
+#import <sqlite3.h>
 #import "FMDB.h"
 
 #import "RestaurantInfo.h"
-
-#define PRINT_CLOSE_DB_ERROR NSLog(@"Errors while closing database connection. Last error: %@, Code: %d, Error: %@", [_fmdb lastErrorMessage], [_fmdb lastErrorCode], [_fmdb lastError]);
-#define PRINT_OPEN_DB_ERROR NSLog(@"Errors while opening database connection. Last error: %@, Code: %d, Error: %@", [_fmdb lastErrorMessage], [_fmdb lastErrorCode], [_fmdb lastError]);
 
 @interface BMDataManager()
 

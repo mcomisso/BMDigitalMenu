@@ -155,7 +155,7 @@
             NSLog(@"Error while saving recipe: %@,  %@, - Error Code %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
-
+    
     [[NSNotificationCenter defaultCenter]postNotificationName:@"updateMenu" object:@"YES"];
     
     //Maybe in a new thread
@@ -196,9 +196,6 @@
  */
 -(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day
 {
-    //Send notification
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
-    
     //Slug of restaurant
     NSString *restaurantSlug = JSONArray[@"restaurant"][@"slug"];
     NSLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
@@ -226,6 +223,7 @@
             NSLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
 }
 
 -(void)saveOrderedListInHistory:(NSArray *)orderedList

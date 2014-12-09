@@ -448,7 +448,6 @@
                              [sender setEnabled:YES];
                          }];
     }
-    
 }
 
 #pragma mark - Transition to Comments view

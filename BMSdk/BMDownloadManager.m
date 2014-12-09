@@ -64,7 +64,7 @@
         [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    NSLog(@"Completed Download of the menu, response: %@", [responseObject description]);
+                    NSLog(@"Completed Download of the menu.");
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
                     
                     //If > 0 -> save recipes

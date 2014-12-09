@@ -66,13 +66,14 @@
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     NSLog(@"Completed Download of the menu, response: %@", [responseObject description]);
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
-                    NSString *restaurantSlug = responseObject[@"results"][0][@"restaurant"][@"slug"];
-                    
-                    [[NSUserDefaults standardUserDefaults]setObject:restaurantSlug forKey:@"restaurantSlug"];
-                    [[NSUserDefaults standardUserDefaults]synchronize];
                     
                     //If > 0 -> save recipes
                     if (numbersOfRecipes) {
+                        NSString *restaurantSlug = responseObject[@"results"][0][@"restaurant"][@"slug"];
+                        
+                        [[NSUserDefaults standardUserDefaults]setObject:restaurantSlug forKey:@"restaurantSlug"];
+                        [[NSUserDefaults standardUserDefaults]synchronize];
+                        
                         //Ask the datamanager to save recipes
                         [dataManager deleteDataFromRestaurant:restaurantSlug];
                         

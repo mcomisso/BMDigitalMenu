@@ -90,7 +90,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 /**
@@ -209,9 +208,6 @@
     } completion:^(BOOL finished) {
         NSLog(@"PDF Button Animation Completed");
     }];
-    //Central circle with spinning
-    //move central circle up to 2/3
-    //Add new button for pdf view
 }
 
 -(void)loadPDFView

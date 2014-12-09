@@ -116,19 +116,6 @@
     [self.dailyMenuButton setTitle:@"MENÙ\nDEL\nGIORNO" forState:UIControlStateNormal];
 
     self.dailyMenuButton.alpha = 1.f;
-
-    /*[UIView animateWithDuration:0.4
-                          delay:0.8
-         usingSpringWithDamping:0.8
-          initialSpringVelocity:6
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.dailyMenuButton.center = dayMenuButtonNewCenter;
-                     }
-                     completion:^(BOOL finished) {
-                         self.dailyMenuButton.center = dayMenuButtonNewCenter;
-                         NSLog(@"%f - %f", self.dailyMenuButton.center.x, self.dailyMenuButton.center.y);
-                     }];*/
 }
 
 - (void)viewDidLoad
@@ -144,8 +131,6 @@
 
     // Setup the black layer gradient
     [self blackLayerGradient];
-    
-    // Ask for Background Image
     self.backgroundRestaurantImage.contentMode = UIViewContentModeScaleAspectFill;
 
     //TODO: change with the right background image
@@ -247,6 +232,8 @@
 #pragma mark - Tableview utils
 -(void)loadCategories
 {
+    
+    NSString *restaurantImage = [[NSUserDefaults standardUserDefaults]objectForKey:@"MSRestaurantImage"];
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     
     NSNumber *majorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
@@ -255,12 +242,19 @@
     [self.restaurantLabelName setText:[dataManager requestRestaurantNameForMajorBeacon:majorNumber andMinorBeacon:minorNumber]];
     self.categorie = [dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber];
     
-    if ([_restaurantLabelName.text isEqualToString:@"locale2"]) {
-        [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/981/rbig_pontedeldiavolo.jpeg"]];
+    
+    if (restaurantImage != nil) {
+        [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:restaurantImage]];
     }
     else
     {
-        [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
+        if ([_restaurantLabelName.text isEqualToString:@"locale2"]) {
+            [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/981/rbig_pontedeldiavolo.jpeg"]];
+        }
+        else
+        {
+            [self.backgroundRestaurantImage sd_setImageWithURL:[NSURL URLWithString:@"http://s3-eu-west-1.amazonaws.com/misiedo/images/restaurants/823/rbig_alcason_mestre2.jpg"]];
+        }
     }
     
     [self.tableView reloadData];

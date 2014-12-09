@@ -203,6 +203,8 @@
 
 #if TARGET_IPHONE_SIMULATOR
     [self.downloadManager fetchMenuOfRestaurantWithMajor:@243 andMinor:@161];
+    [[NSUserDefaults standardUserDefaults]setObject:@243 forKey:@"majorBeacon"];
+    [[NSUserDefaults standardUserDefaults]setObject:@161 forKey:@"minorBeacon"];
 #endif
 
     [self startRanging];

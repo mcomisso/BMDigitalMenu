@@ -190,7 +190,7 @@
     gradientLayer.locations = gradientLocations;
     
     //Set the layer at 0,0 for the dimension of the frame
-    gradientLayer.frame = CGRectMake(0, 0, self.restaurantNameContainer.frame.size.width, self.restaurantNameContainer.frame.size.height);
+    gradientLayer.frame = CGRectMake(0, 0, self.restaurantNameContainer.bounds.size.width, self.restaurantNameContainer.frame.size.height);
     
     [self.restaurantNameContainer.layer insertSublayer:gradientLayer atIndex:0];
 }

@@ -176,7 +176,7 @@
                 whiteView.alpha = 0.f;
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
                     whiteView.alpha = 1;
-                    whiteView.center = CGPointMake(originalCenter.x - 210, originalCenter.y);
+                    whiteView.center = CGPointMake(originalCenter.x - whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
                     NSLog(@"End animation");
                     cell.canWhiteViewBeMovedRight = YES;
@@ -202,7 +202,7 @@
                 CGPoint originalCenter = whiteView.center;
                 
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
-                    whiteView.center = CGPointMake(originalCenter.x + 210, originalCenter.y);
+                    whiteView.center = CGPointMake(originalCenter.x + whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
                     NSLog(@"End animation");
                     cell.canWhiteViewBeMovedRight = NO;

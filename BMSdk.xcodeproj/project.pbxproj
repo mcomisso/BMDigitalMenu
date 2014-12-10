@@ -156,6 +156,8 @@
 		B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */; };
 		B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
+		B9694CA31A3714B00014BB0D /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9694CA21A3714B00014BB0D /* Flurry.h */; };
+		B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */; };
 		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
@@ -184,8 +186,6 @@
 		B9C29FA719865A29002309FF /* MenuListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FA519865A29002309FF /* MenuListCell.m */; };
 		B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */; };
 		B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */; };
-		B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */; };
-		B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C4870E19C777E1003F2F6E /* Flurry.h */; };
 		B9D4B2BB19D080AD00116805 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D4B2BA19D080AD00116805 /* Constants.h */; };
 		B9D7CBD019DC3E6500B0992D /* Cuore-big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */; };
 		B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */; };
@@ -389,6 +389,8 @@
 		B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticManager.h; sourceTree = "<group>"; };
 		B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticManager.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B9694CA21A3714B00014BB0D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
@@ -418,7 +420,6 @@
 		B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartmenuCell.h; sourceTree = "<group>"; };
 		B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartmenuCell.m; sourceTree = "<group>"; };
 		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
-		B9C4870E19C777E1003F2F6E /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = BMSdk/Flurry.h; sourceTree = "<group>"; };
 		B9D4B2BA19D080AD00116805 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cuore-big@2x.png"; sourceTree = "<group>"; };
 		B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalBlurredSegue.h; path = BMSdkResources/ModalBlurredSegue.h; sourceTree = "<group>"; };
@@ -444,7 +445,7 @@
 			files = (
 				B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */,
 				B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */,
-				B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */,
+				B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */,
 				B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +523,7 @@
 		B915C2F01977FFAF005618A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */,
 				B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */,
 				B94EC1EC19C704C20084F6F5 /* AdSupport.framework */,
 				B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */,
@@ -611,8 +613,8 @@
 			children = (
 				B947FBF51A19032700C57FC1 /* FMDB */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
-				B9C4870E19C777E1003F2F6E /* Flurry.h */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
+				B9694CA21A3714B00014BB0D /* Flurry.h */,
 				B93D7DCA19BA697100EAD43A /* Reachability.h */,
 				B93D7DCB19BA697100EAD43A /* Reachability.m */,
 				B909D5FF19AD59290064B794 /* Shimmering Effect */,
@@ -986,7 +988,6 @@
 				B9193ACE19A10D1C0008149D /* SDImageCache.h in Headers */,
 				B95744EF19E5E880000B9540 /* DailyMenuViewController.h in Headers */,
 				B9193AEA19A10DBB0008149D /* SDWebImageCompat.h in Headers */,
-				B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */,
 				B9193AEB19A10DBB0008149D /* SDWebImageDecoder.h in Headers */,
 				B9193AEC19A10DBB0008149D /* SDWebImageDownloader.h in Headers */,
 				B9938C3419CAE10800C5C749 /* NoInteractionView.h in Headers */,
@@ -1010,6 +1011,7 @@
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */,
 				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
+				B9694CA31A3714B00014BB0D /* Flurry.h in Headers */,
 				B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */,
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
 				B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */,
@@ -1429,7 +1431,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
+				PROVISIONING_PROFILE = "a8b72954-d501-4a22-a342-a17bdc78c431";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
@@ -1440,6 +1442,7 @@
 		B915C3131977FFAF005618A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Matteo Comisso (B82WJF6RBY)";
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/BMSdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1450,7 +1453,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
+				PROVISIONING_PROFILE = "a8b72954-d501-4a22-a342-a17bdc78c431";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;

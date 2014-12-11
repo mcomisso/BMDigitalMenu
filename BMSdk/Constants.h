@@ -24,7 +24,7 @@
 
 #define BMAPI_RECIPE_DETAILS_FROM_SLUG  @"https://bmbackend-misiedo.appspot.com/api/recipe/"
 #define BMAPI_COMMENTS_FOR_RECIPE_SLUG  @"https://bmbackend-misiedo.appspot.com/api/comments/recipe/"
-#define BMAPI_RATING_FOR_RECIPE_SLUG    @"https://bmbackend-misiedo.appspot.com/api/rating/recipe/"
+#define BMAPI_RATING_FOR_RECIPE_SLUG    @"https://bmbackend-misiedo.appspot.com/api/ratings/recipe/"
 
 #define BMDarkValueColor        [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]
 #define BMLightDarkValueColor   [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]

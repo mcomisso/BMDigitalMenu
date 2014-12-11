@@ -29,8 +29,6 @@
 - (void)awakeFromNib
 {
     // Initialization code
-    self.canWhiteViewBeMovedLeft = NO;
-    self.canWhiteViewBeMovedRight = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -55,10 +53,7 @@
 -(void)prepareForReuse
 {
     [super prepareForReuse];
-    
-    self.canWhiteViewBeMovedLeft = NO;
-    self.canWhiteViewBeMovedRight = YES;
-    
+
     AXRatingView *axrate = (AXRatingView *)[self.rateViewContainer viewWithTag:114];
     [axrate removeFromSuperview];
     if (!IS_OS_8_OR_LATER) {

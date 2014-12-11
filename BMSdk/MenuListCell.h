@@ -21,7 +21,4 @@
 @property (strong, nonatomic) NSString *recipeSlug;
 @property (strong, nonatomic) NSString *recipeImageUrl;
 
-@property (nonatomic) BOOL canWhiteViewBeMovedLeft;
-@property (nonatomic) BOOL canWhiteViewBeMovedRight;
-
 @end

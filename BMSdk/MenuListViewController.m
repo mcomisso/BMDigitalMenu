@@ -26,6 +26,8 @@
 #define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
 #define BMRATEAPI @"http://54.76.193.225/api/v1/client/vote/"
 
+#define LEFTMARGIN 110
+
 @interface MenuListViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -171,16 +173,13 @@
             
             UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
             
-            if (cell.canWhiteViewBeMovedLeft) {
+            if (cell.whiteViewContainer.frame.origin.x >= cell.frame.size.width) {
                 CGPoint originalCenter = whiteView.center;
                 whiteView.alpha = 0.f;
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
                     whiteView.alpha = 1;
                     whiteView.center = CGPointMake(originalCenter.x - whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
-                    NSLog(@"End animation");
-                    cell.canWhiteViewBeMovedRight = YES;
-                    cell.canWhiteViewBeMovedLeft = NO;
                 }];
             }
         }
@@ -198,15 +197,12 @@
             
             UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
 
-            if (cell.canWhiteViewBeMovedRight) {
+            if (cell.whiteViewContainer.frame.origin.x == LEFTMARGIN) {
                 CGPoint originalCenter = whiteView.center;
                 
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
                     whiteView.center = CGPointMake(originalCenter.x + whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
-                    NSLog(@"End animation");
-                    cell.canWhiteViewBeMovedRight = NO;
-                    cell.canWhiteViewBeMovedLeft = YES;
                 }];
             }
         }

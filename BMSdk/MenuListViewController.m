@@ -48,34 +48,6 @@
 
 @implementation MenuListViewController
 
-
-#pragma mark - testing all recipes in one list
--(void)loadAllRecipesInView
-{
-    
-    NSNumber *minorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"minorBeacon"];
-    NSNumber *majorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
-    
-    //Categorie all'interno del ristorante
-    NSArray *categories = [NSArray arrayWithArray:[self.dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber]];
-
-    //Mutable Dictionary da ritornare per lista scroll infinita
-    _allListOfRecipes = [NSMutableDictionary new];
-    
-    /*
-     FOR LOOP: prende il nome della categoria e lo imposta come chiave del dizionario.
-     -> Poi aggiunge l'array di ricette alla chiave corrisposta dalla categoria
-    
-     @{'Primi':[@{'nome':'Nome', 'etc':'etc'}]}
-    */
-    for (int i = 0; i < [categories count]; i++) {
-        NSArray *recipesOfCategory = [NSArray arrayWithArray:[self.dataManager requestRecipesForCategory:categories[i] ofRestaurantMajorNUmber:majorNumber andMinorNumber:minorNumber]];
-        [_allListOfRecipes setObject:recipesOfCategory forKey:categories[i]];
-    }
-    
-//    NSLog(@"All list recipes description: %@", [_allListOfRecipes description]);
-}
-
 #pragma mark - Initialization View methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -99,8 +71,7 @@
     _requestOperationManager.requestSerializer = [AFHTTPRequestSerializer serializer];
     
     [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"ios_client" password:@"189vMktXsnd3V4mH1BAQ2q9eT6Je0H0Tds9svK0KSJ4"];
-    
-    //[self loadAllRecipesInView];
+
     [self setPreferredToolbar];
     [self loadRecipesForCategory];
     [self loadSwipeGestureRecognizer];
@@ -225,16 +196,17 @@
         for (RecipeInfo *recipe in self.recipesInCategory)
         {
             // Point to vote API for every recipeID inside the Array
-            [_requestOperationManager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:recipe.slug]
+            [_requestOperationManager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipe.slug]]
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      
                      //Set the pair "AVG Rate" : "Recipe ID"
-                     [self.ratingForRecipe setObject:[responseObject objectForKey:@"media"] forKey:recipe.slug];
-                     
-                     //Save rating value inside database
-                     [self.dataManager saveRatingValue:[NSNumber numberWithInt:(int)[[responseObject objectForKey:@"media"]intValue]] forRecipe:recipe.slug];
-                     
+                     NSNumber *ratingValue = [responseObject objectForKey:@"rating"];
+
+                     if (ratingValue != (id)[NSNull null]) {
+                         [self.ratingForRecipe setObject:[responseObject objectForKey:@"rating"] forKey:recipe.slug];
+                         [self.dataManager saveRatingValue:ratingValue forRecipe:recipe.slug];
+                     }
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      

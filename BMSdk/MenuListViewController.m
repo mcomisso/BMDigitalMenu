@@ -23,8 +23,7 @@
 #import "AFNetworking.h"
 #import "AXRatingView.h"
 
-#define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
-#define BMRATEAPI @"http://54.76.193.225/api/v1/client/vote/"
+#import "Constants.h"
 
 #define LEFTMARGIN 110
 
@@ -37,6 +36,7 @@
 
 @property (strong, nonatomic) BMDataManager *dataManager;
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
+@property (strong, nonatomic) AFHTTPRequestOperationManager *requestOperationManager;
 
 //Testing purpose variables
 @property (nonatomic) BOOL ratingDownloaded;
@@ -76,12 +76,6 @@
 //    NSLog(@"All list recipes description: %@", [_allListOfRecipes description]);
 }
 
-#pragma mark - Color Utils
--(UIColor *)BMDarkValueColor
-{
-    return [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
-}
-
 #pragma mark - Initialization View methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -92,30 +86,31 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     self.dataManager = [BMDataManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
-
+    self.requestOperationManager = [AFHTTPRequestOperationManager manager];
+    
+    _requestOperationManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"ios_client" password:@"189vMktXsnd3V4mH1BAQ2q9eT6Je0H0Tds9svK0KSJ4"];
+    
     //[self loadAllRecipesInView];
-    
     [self setPreferredToolbar];
-    
     [self loadRecipesForCategory];
-
     [self loadSwipeGestureRecognizer];
 }
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
@@ -129,10 +124,10 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [self BMDarkValueColor];
+    self.navigationController.navigationBar.tintColor = BMDarkValueColor;
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [self BMDarkValueColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName :  BMDarkValueColor}];
     
 //    self.view.backgroundColor = [UIColor whiteColor];
     
@@ -225,17 +220,12 @@
 
 -(void)loadRatingForRecipesInThisCategory
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    
-    //Test reachability manager
+    //TODO: Test reachability manager
     if (true) {
-        
         for (RecipeInfo *recipe in self.recipesInCategory)
         {
             // Point to vote API for every recipeID inside the Array
-            [manager GET:[BMRATEAPI stringByAppendingString:recipe.slug]
+            [_requestOperationManager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:recipe.slug]
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      
@@ -271,11 +261,11 @@
     RecipeInfo *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
     //IF RECIPE DOESN'T HAVE ANY IMAGE
     if ([recipe.image_url isEqualToString:@"nil"]) {
-        NSLog(@"recipe image string: %@", recipe.image_url);
         NoImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:whiteCellIdentifier];
-        //Setup Cell
+        
         cell.recipeSlug = recipe.slug;
         cell.recipeIngredients.text = recipe.ingredients;
+        
         UILabel *recipeName = (UILabel *)[cell viewWithTag:200];
         recipeName.text = [recipe.name uppercaseString];
 
@@ -286,7 +276,7 @@
         thisratingView.value = 4.f;
         thisratingView.tag = 114;
         thisratingView.numberOfStar = 5;
-        thisratingView.baseColor = [self BMDarkValueColor];
+        thisratingView.baseColor = BMDarkValueColor;
         thisratingView.highlightColor = [UIColor whiteColor];
 
         thisratingView.userInteractionEnabled = NO;
@@ -314,7 +304,7 @@
         thisratingView.value = 4.f;
         thisratingView.tag = 114;
         thisratingView.numberOfStar = 5;
-        thisratingView.baseColor = [self BMDarkValueColor];
+        thisratingView.baseColor = BMDarkValueColor;
         thisratingView.highlightColor = [UIColor whiteColor];
         
         thisratingView.userInteractionEnabled = NO;
@@ -365,8 +355,6 @@
 -(void)scrollToCellWithIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *arrayForCategory = [NSArray arrayWithArray:[self.allListOfRecipes objectForKey:self.category]];
-    
-
     
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }

@@ -489,9 +489,8 @@
 -(NSMutableArray *)bestMatchForRecipe:(NSString *)recipeSlug
 {
     NSMutableArray *retval = [[NSMutableArray alloc]init];
-    
-    FMResultSet *combined = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE slug = (SELECT target_recipe_slug FROM bestMatch WHERE base_recipe_slug = ?);", recipeSlug];
-    
+    FMResultSet *combined = [_fmdb executeQuery:@"SELECT * FROM recipe AS r JOIN bestMatch AS b ON r.slug = b.target_recipe_slug WHERE base_recipe_slug = ?", recipeSlug];
+
     while ([combined next]) {
         RecipeInfo *recipe = [RecipeInfo new];
         

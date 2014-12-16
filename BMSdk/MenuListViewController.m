@@ -24,6 +24,7 @@
 #import "AXRatingView.h"
 
 #import "Constants.h"
+#import "UAObfuscatedString.h"
 
 #define LEFTMARGIN 110
 
@@ -69,8 +70,11 @@
     self.requestOperationManager = [AFHTTPRequestOperationManager manager];
     
     _requestOperationManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+
+    NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
+    NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
     
-    [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"ios_client" password:@"189vMktXsnd3V4mH1BAQ2q9eT6Je0H0Tds9svK0KSJ4"];
+    [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
 
     [self setPreferredToolbar];
     [self loadRecipesForCategory];

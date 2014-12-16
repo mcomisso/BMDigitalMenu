@@ -163,6 +163,8 @@
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
 		B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */ = {isa = PBXBuildFile; fileRef = B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */; };
 		B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */ = {isa = PBXBuildFile; fileRef = B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */; };
+		B97C36561A40429B009176FC /* UAObfuscatedString.h in Headers */ = {isa = PBXBuildFile; fileRef = B97C36541A40429B009176FC /* UAObfuscatedString.h */; };
+		B97C36571A40429B009176FC /* UAObfuscatedString.m in Sources */ = {isa = PBXBuildFile; fileRef = B97C36551A40429B009176FC /* UAObfuscatedString.m */; };
 		B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4D19CC3E1200355418 /* CRMotionView.h */; };
 		B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909C4E19CC3E1200355418 /* CRMotionView.m */; };
 		B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */; };
@@ -186,6 +188,21 @@
 		B9C29FA719865A29002309FF /* MenuListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FA519865A29002309FF /* MenuListCell.m */; };
 		B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */; };
 		B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */; };
+		B9CFD8571A3EF60600A8C18D /* DEComposeRuledView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */; };
+		B9CFD8581A3EF60600A8C18D /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */; };
+		B9CFD8591A3EF60600A8C18D /* DEComposeTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */; };
+		B9CFD85A1A3EF60600A8C18D /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */; };
+		B9CFD85B1A3EF60600A8C18D /* RECommonFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */; };
+		B9CFD85C1A3EF60600A8C18D /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */; };
+		B9CFD85D1A3EF60600A8C18D /* REComposeBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */; };
+		B9CFD85E1A3EF60600A8C18D /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */; };
+		B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */; };
+		B9CFD8601A3EF60600A8C18D /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */; };
+		B9CFD8611A3EF60600A8C18D /* REComposeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */; };
+		B9CFD8621A3EF60600A8C18D /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */; };
+		B9CFD8641A3F268800A8C18D /* bluemate-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */; };
+		B9D141531A3B1000006578F4 /* CocoaSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D141511A3B1000006578F4 /* CocoaSecurity.h */; };
+		B9D141541A3B1000006578F4 /* CocoaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D141521A3B1000006578F4 /* CocoaSecurity.m */; };
 		B9D4B2BB19D080AD00116805 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D4B2BA19D080AD00116805 /* Constants.h */; };
 		B9D7CBD019DC3E6500B0992D /* Cuore-big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */; };
 		B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */; };
@@ -396,6 +413,8 @@
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
 		B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = previouslyOrderedRecipes.h; sourceTree = "<group>"; };
 		B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = previouslyOrderedRecipes.m; sourceTree = "<group>"; };
+		B97C36541A40429B009176FC /* UAObfuscatedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAObfuscatedString.h; sourceTree = "<group>"; };
+		B97C36551A40429B009176FC /* UAObfuscatedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAObfuscatedString.m; sourceTree = "<group>"; };
 		B9909C4D19CC3E1200355418 /* CRMotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMotionView.h; sourceTree = "<group>"; };
 		B9909C4E19CC3E1200355418 /* CRMotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMotionView.m; sourceTree = "<group>"; };
 		B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+CRScrollIndicator.h"; sourceTree = "<group>"; };
@@ -420,6 +439,22 @@
 		B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartmenuCell.h; sourceTree = "<group>"; };
 		B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartmenuCell.m; sourceTree = "<group>"; };
 		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
+		B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
+		B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
+		B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
+		B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeTextView.m; sourceTree = "<group>"; };
+		B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeBackgroundView.h; sourceTree = "<group>"; };
+		B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeBackgroundView.m; sourceTree = "<group>"; };
+		B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeSheetView.h; sourceTree = "<group>"; };
+		B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeSheetView.m; sourceTree = "<group>"; };
+		B9CFD8541A3EF60600A8C18D /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
+		B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
+		B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
+		B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluemate-logo@2x.png"; sourceTree = "<group>"; };
+		B9D141511A3B1000006578F4 /* CocoaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaSecurity.h; sourceTree = "<group>"; };
+		B9D141521A3B1000006578F4 /* CocoaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaSecurity.m; sourceTree = "<group>"; };
 		B9D4B2BA19D080AD00116805 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cuore-big@2x.png"; sourceTree = "<group>"; };
 		B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalBlurredSegue.h; path = BMSdkResources/ModalBlurredSegue.h; sourceTree = "<group>"; };
@@ -579,6 +614,7 @@
 		B915C328197803BF005618A6 /* BMSdkResources */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */,
 				B9F1A01219E824DF00DD177E /* Icons */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
 				B915C329197803C0005618A6 /* Supporting Files */,
@@ -611,6 +647,8 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFD8491A3EF5C300A8C18D /* commentComposer */,
+				B9D141501A3B0FF1006578F4 /* CocoaSecurity */,
 				B947FBF51A19032700C57FC1 /* FMDB */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
@@ -836,6 +874,37 @@
 			name = RestarauntStartScreen;
 			sourceTree = "<group>";
 		};
+		B9CFD8491A3EF5C300A8C18D /* commentComposer */ = {
+			isa = PBXGroup;
+			children = (
+				B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */,
+				B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */,
+				B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */,
+				B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */,
+				B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */,
+				B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */,
+				B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */,
+				B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */,
+				B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */,
+				B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */,
+				B9CFD8541A3EF60600A8C18D /* REComposeViewController.bundle */,
+				B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */,
+				B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */,
+			);
+			name = commentComposer;
+			sourceTree = "<group>";
+		};
+		B9D141501A3B0FF1006578F4 /* CocoaSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				B97C36541A40429B009176FC /* UAObfuscatedString.h */,
+				B97C36551A40429B009176FC /* UAObfuscatedString.m */,
+				B9D141511A3B1000006578F4 /* CocoaSecurity.h */,
+				B9D141521A3B1000006578F4 /* CocoaSecurity.m */,
+			);
+			name = CocoaSecurity;
+			sourceTree = "<group>";
+		};
 		B9DECD4719A397F000C17799 /* SDImageView */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +1017,7 @@
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
 				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
+				B97C36561A40429B009176FC /* UAObfuscatedString.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
@@ -962,10 +1032,13 @@
 				B943ECE119A60D7D001ABB4E /* AFHTTPSessionManager.h in Headers */,
 				B943ECE319A60D7D001ABB4E /* AFNetworking.h in Headers */,
 				B947FC051A19035400C57FC1 /* FMDatabasePool.h in Headers */,
+				B9CFD8611A3EF60600A8C18D /* REComposeViewController.h in Headers */,
 				B93CD7BD19A650B200C97622 /* singleCommentTableViewCell.h in Headers */,
 				B943ECE419A60D7D001ABB4E /* AFNetworkReachabilityManager.h in Headers */,
 				B943ECE619A60D7D001ABB4E /* AFSecurityPolicy.h in Headers */,
+				B9CFD8571A3EF60600A8C18D /* DEComposeRuledView.h in Headers */,
 				B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */,
+				B9CFD8591A3EF60600A8C18D /* DEComposeTextView.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFURLConnectionOperation.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFURLRequestSerialization.h in Headers */,
 				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
@@ -979,12 +1052,14 @@
 				B9193B0A19A110650008149D /* NSData+ImageContentType.h in Headers */,
 				B9193B0B19A110650008149D /* UIButton+WebCache.h in Headers */,
 				B9116BE319E59A300024332B /* BFPaperButton.h in Headers */,
+				B9D141531A3B1000006578F4 /* CocoaSecurity.h in Headers */,
 				B9193B0C19A110650008149D /* UIImage+GIF.h in Headers */,
 				B9193B0D19A110650008149D /* UIImage+MultiFormat.h in Headers */,
 				B9193B0E19A110650008149D /* UIImage+WebP.h in Headers */,
 				B9193ADF19A10D9C0008149D /* UIImageView+HighlightedWebCache.h in Headers */,
 				B9193B0F19A110650008149D /* UIImageView+WebCache.h in Headers */,
 				B9193B1019A110650008149D /* UIView+WebCacheOperation.h in Headers */,
+				B9CFD85D1A3EF60600A8C18D /* REComposeBackgroundView.h in Headers */,
 				B9193ACE19A10D1C0008149D /* SDImageCache.h in Headers */,
 				B95744EF19E5E880000B9540 /* DailyMenuViewController.h in Headers */,
 				B9193AEA19A10DBB0008149D /* SDWebImageCompat.h in Headers */,
@@ -998,6 +1073,7 @@
 				B9193AE119A10DA40008149D /* SDWebImagePrefetcher.h in Headers */,
 				B947FC031A19035400C57FC1 /* FMDatabaseAdditions.h in Headers */,
 				B93D7DD319BA7D5300EAD43A /* NoImageTableViewCell.h in Headers */,
+				B9CFD85B1A3EF60600A8C18D /* RECommonFunctions.h in Headers */,
 				B9909F8E198903A800D02CB6 /* MenuListViewController.h in Headers */,
 				B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */,
 				B915C31819780002005618A6 /* BMSdk.h in Headers */,
@@ -1005,6 +1081,7 @@
 				B909D5F819AD59230064B794 /* FBShimmering.h in Headers */,
 				B921D5EB19BDB1EA001294AD /* DocumentsViewController.h in Headers */,
 				B947FC0A1A19035400C57FC1 /* FMResultSet.h in Headers */,
+				B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */,
 				B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */,
 				B9AE62CA1A2E06C200D7987C /* MSUserData.h in Headers */,
 				B9938C2F19CA42CF00C5C749 /* DailyMenuCell.h in Headers */,
@@ -1125,6 +1202,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CFD8641A3F268800A8C18D /* bluemate-logo@2x.png in Resources */,
 				B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */,
 				B9116BE019E56F580024332B /* MHNotification@2x.png in Resources */,
 				B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */,
@@ -1197,6 +1275,7 @@
 			files = (
 				B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */,
 				B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */,
+				B9D141541A3B1000006578F4 /* CocoaSecurity.m in Sources */,
 				B9116BE419E59A300024332B /* BFPaperButton.m in Sources */,
 				B947FC061A19035400C57FC1 /* FMDatabasePool.m in Sources */,
 				B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */,
@@ -1222,6 +1301,7 @@
 				B9193AD819A10D730008149D /* SDWebImageManager.m in Sources */,
 				B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */,
 				B9193AD619A10D6B0008149D /* SDWebImageDownloaderOperation.m in Sources */,
+				B9CFD8601A3EF60600A8C18D /* REComposeSheetView.m in Sources */,
 				B9193AD419A10D640008149D /* SDWebImageDownloader.m in Sources */,
 				B9193AD219A10D5E0008149D /* SDWebImageDecoder.m in Sources */,
 				B947FC021A19035400C57FC1 /* FMDatabase.m in Sources */,
@@ -1229,6 +1309,7 @@
 				B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */,
 				B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */,
+				B9CFD85C1A3EF60600A8C18D /* RECommonFunctions.m in Sources */,
 				B9193AD019A10D580008149D /* SDWebImageCompat.m in Sources */,
 				B9E45A631A0D39D200EC4F7D /* RestaurantInfo.m in Sources */,
 				B95744F019E5E880000B9540 /* DailyMenuViewController.m in Sources */,
@@ -1236,12 +1317,14 @@
 				B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */,
 				B9AE62CB1A2E06C200D7987C /* MSUserData.m in Sources */,
 				B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */,
+				B97C36571A40429B009176FC /* UAObfuscatedString.m in Sources */,
 				B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */,
 				B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */,
 				B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */,
 				B9C29FA719865A29002309FF /* MenuListCell.m in Sources */,
 				B915C33719780B8E005618A6 /* BMLocationManager.m in Sources */,
 				B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
+				B9CFD85E1A3EF60600A8C18D /* REComposeBackgroundView.m in Sources */,
 				B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B9F087201991148F00002074 /* BMDataManager.m in Sources */,
 				B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */,
@@ -1255,7 +1338,9 @@
 				B9938C3019CA42CF00C5C749 /* DailyMenuCell.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
+				B9CFD8581A3EF60600A8C18D /* DEComposeRuledView.m in Sources */,
 				B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */,
+				B9CFD85A1A3EF60600A8C18D /* DEComposeTextView.m in Sources */,
 				B943ECE919A60D7D001ABB4E /* AFURLConnectionOperation.m in Sources */,
 				B943ECEB19A60D7D001ABB4E /* AFURLRequestSerialization.m in Sources */,
 				B943ECED19A60D7D001ABB4E /* AFURLResponseSerialization.m in Sources */,
@@ -1265,6 +1350,7 @@
 				B947FC081A19035400C57FC1 /* FMDatabaseQueue.m in Sources */,
 				B9909C5419CC3E1200355418 /* UIScrollView+CRScrollIndicator.m in Sources */,
 				B943ECEF19A60D7D001ABB4E /* AFURLSessionManager.m in Sources */,
+				B9CFD8621A3EF60600A8C18D /* REComposeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

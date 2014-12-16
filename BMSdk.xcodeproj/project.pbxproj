@@ -28,12 +28,6 @@
 		B909AF4D19B4DBC000CBA2B1 /* TransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */; };
 		B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
-		B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */; };
-		B909D5F819AD59230064B794 /* FBShimmering.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F219AD59230064B794 /* FBShimmering.h */; };
-		B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F319AD59230064B794 /* FBShimmeringLayer.h */; };
-		B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F419AD59230064B794 /* FBShimmeringLayer.m */; };
-		B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F519AD59230064B794 /* FBShimmeringView.h */; };
-		B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F619AD59230064B794 /* FBShimmeringView.m */; };
 		B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D60019AE350F0064B794 /* cartTableViewCell.h */; };
 		B909D60319AE350F0064B794 /* cartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D60119AE350F0064B794 /* cartTableViewCell.m */; };
 		B9116BDE19E56F580024332B /* MHExit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9116BDA19E56F580024332B /* MHExit@2x.png */; };
@@ -265,12 +259,6 @@
 		B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionManager.m; sourceTree = "<group>"; };
 		B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LocationManager.h"; sourceTree = "<group>"; };
 		B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+LocationManager.m"; sourceTree = "<group>"; };
-		B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBShimmering-Prefix.pch"; sourceTree = "<group>"; };
-		B909D5F219AD59230064B794 /* FBShimmering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmering.h; sourceTree = "<group>"; };
-		B909D5F319AD59230064B794 /* FBShimmeringLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringLayer.h; sourceTree = "<group>"; };
-		B909D5F419AD59230064B794 /* FBShimmeringLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringLayer.m; sourceTree = "<group>"; };
-		B909D5F519AD59230064B794 /* FBShimmeringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringView.h; sourceTree = "<group>"; };
-		B909D5F619AD59230064B794 /* FBShimmeringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringView.m; sourceTree = "<group>"; };
 		B909D60019AE350F0064B794 /* cartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cartTableViewCell.h; sourceTree = "<group>"; };
 		B909D60119AE350F0064B794 /* cartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cartTableViewCell.m; sourceTree = "<group>"; };
 		B9116BDA19E56F580024332B /* MHExit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MHExit@2x.png"; sourceTree = "<group>"; };
@@ -509,19 +497,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B909D5FF19AD59290064B794 /* Shimmering Effect */ = {
-			isa = PBXGroup;
-			children = (
-				B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */,
-				B909D5F219AD59230064B794 /* FBShimmering.h */,
-				B909D5F319AD59230064B794 /* FBShimmeringLayer.h */,
-				B909D5F419AD59230064B794 /* FBShimmeringLayer.m */,
-				B909D5F519AD59230064B794 /* FBShimmeringView.h */,
-				B909D5F619AD59230064B794 /* FBShimmeringView.m */,
-			);
-			name = "Shimmering Effect";
-			sourceTree = "<group>";
-		};
 		B9116BE519E59A6E0024332B /* PapersButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,14 +623,13 @@
 			isa = PBXGroup;
 			children = (
 				B9CFD8491A3EF5C300A8C18D /* commentComposer */,
-				B9D141501A3B0FF1006578F4 /* CocoaSecurity */,
+				B9D141501A3B0FF1006578F4 /* Security */,
 				B947FBF51A19032700C57FC1 /* FMDB */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
 				B9694CA21A3714B00014BB0D /* Flurry.h */,
 				B93D7DCA19BA697100EAD43A /* Reachability.h */,
 				B93D7DCB19BA697100EAD43A /* Reachability.m */,
-				B909D5FF19AD59290064B794 /* Shimmering Effect */,
 				B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */,
 				B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */,
 				B9DECD4719A397F000C17799 /* SDImageView */,
@@ -894,7 +868,7 @@
 			name = commentComposer;
 			sourceTree = "<group>";
 		};
-		B9D141501A3B0FF1006578F4 /* CocoaSecurity */ = {
+		B9D141501A3B0FF1006578F4 /* Security */ = {
 			isa = PBXGroup;
 			children = (
 				B97C36541A40429B009176FC /* UAObfuscatedString.h */,
@@ -902,7 +876,7 @@
 				B9D141511A3B1000006578F4 /* CocoaSecurity.h */,
 				B9D141521A3B1000006578F4 /* CocoaSecurity.m */,
 			);
-			name = CocoaSecurity;
+			name = Security;
 			sourceTree = "<group>";
 		};
 		B9DECD4719A397F000C17799 /* SDImageView */ = {
@@ -1016,13 +990,11 @@
 				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
-				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
 				B97C36561A40429B009176FC /* UAObfuscatedString.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */,
-				B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */,
 				B943ECDD19A60D7D001ABB4E /* AFHTTPRequestOperation.h in Headers */,
 				B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */,
 				B943ECDF19A60D7D001ABB4E /* AFHTTPRequestOperationManager.h in Headers */,
@@ -1045,7 +1017,6 @@
 				B943ECEC19A60D7D001ABB4E /* AFURLResponseSerialization.h in Headers */,
 				B943ECEE19A60D7D001ABB4E /* AFURLSessionManager.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
-				B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */,
 				B947FC071A19035400C57FC1 /* FMDatabaseQueue.h in Headers */,
 				B9F0871F1991148F00002074 /* BMDataManager.h in Headers */,
 				B9193B0919A110650008149D /* MKAnnotationView+WebCache.h in Headers */,
@@ -1078,7 +1049,6 @@
 				B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */,
 				B915C31819780002005618A6 /* BMSdk.h in Headers */,
 				B9C29FA1198659E1002309FF /* RecipeDetailViewController.h in Headers */,
-				B909D5F819AD59230064B794 /* FBShimmering.h in Headers */,
 				B921D5EB19BDB1EA001294AD /* DocumentsViewController.h in Headers */,
 				B947FC0A1A19035400C57FC1 /* FMResultSet.h in Headers */,
 				B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */,
@@ -1282,13 +1252,11 @@
 				B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
-				B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */,
 				B9193AFA19A110180008149D /* UIButton+WebCache.m in Sources */,
 				B9116BE919E59ABC0024332B /* UIColor+BFPaperColors.m in Sources */,
 				B928DE8619ED857E009A6F2C /* BMUsageStatisticModel.m in Sources */,
 				B9193AFB19A110180008149D /* UIImage+GIF.m in Sources */,
 				B9193AFC19A110180008149D /* UIImage+MultiFormat.m in Sources */,
-				B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */,
 				B9193AFD19A110180008149D /* UIImage+WebP.m in Sources */,
 				B9193ADD19A10D930008149D /* UIImageView+HighlightedWebCache.m in Sources */,
 				B93CD7BE19A650B200C97622 /* singleCommentTableViewCell.m in Sources */,

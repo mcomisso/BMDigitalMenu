@@ -12,6 +12,8 @@
 #import "AFNetworking.h"
 #import "Constants.h"
 
+#import "UAObfuscatedString.h"
+
 #define DEBUGGER NO
 
 @import UIKit;
@@ -47,7 +49,11 @@
         [self isConnectionAvailable];
         self.AFmanager = [AFHTTPRequestOperationManager manager];
         self.AFmanager.requestSerializer = [AFHTTPRequestSerializer serializer];
-        [self.AFmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"ios_client" password:@"189vMktXsnd3V4mH1BAQ2q9eT6Je0H0Tds9svK0KSJ4"];
+        
+        NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
+        NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+        
+        [self.AFmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
     }
     return self;
 }

@@ -628,10 +628,8 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 
     if ([segue.identifier isEqualToString:@"commentSegue"]) {
         CommentsModalViewController *cmd = segue.destinationViewController;
-        cmd.idRecipe = self.recipeSlug;
+        cmd.recipeSlug = self.recipeSlug;
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 
 @end

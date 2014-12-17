@@ -31,7 +31,6 @@
 {
     self = [super init];
     if (self != nil) {
-        NSLog(@"[Cart Manager] BMDownload Manager initialized");
         self.selectedRecipes = [[NSMutableArray alloc]init];
     }
     return self;
@@ -60,8 +59,6 @@
 
 -(void)addItemInCart:(NSString *)recipeSlug
 {
-    NSLog(@"[CartManager]ID recipe %@", recipeSlug);
-    NSLog(@"[Cartmanager]Description %@", [self.selectedRecipes description]);
     [self.selectedRecipes addObject:recipeSlug];
 }
 
@@ -72,7 +69,6 @@
 
 -(BOOL)isRecipeSavedInCart:(NSString *)recipeSlug
 {
-    NSLog(@"[CartManager] ID recipe to check %@", recipeSlug);
     if ([self.selectedRecipes containsObject:recipeSlug]) {
         return YES;
     }
@@ -80,7 +76,12 @@
     {
         return NO;
     }
-    
+}
+
+-(void)saveCurrentRecipesForHistory
+{
+    BMDataManager *dataManager = [BMDataManager sharedInstance];
+    [dataManager saveOrderedListInHistory:self.selectedRecipes];
 }
 
 @end

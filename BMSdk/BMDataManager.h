@@ -60,6 +60,12 @@
  */
 -(void)saveMenu:(NSDictionary *)JSONArray forDay:(NSString *)day;
 
+/**
+ Saves all the bought recipes inside the history of the user.
+ @param orderedList List of recipes that was ordered
+ */
+-(void)saveOrderedListInHistory:(NSArray *)orderedList;
+
 #pragma mark - Check Methods
 /**
  Interrogates the database to fetch all the data of a particular restaurant. Policy: Cache first, then Network if available.

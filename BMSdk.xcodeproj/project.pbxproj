@@ -28,12 +28,6 @@
 		B909AF4D19B4DBC000CBA2B1 /* TransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */; };
 		B909D5EE19AD4DE50064B794 /* UIButton+LocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */; };
-		B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */; };
-		B909D5F819AD59230064B794 /* FBShimmering.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F219AD59230064B794 /* FBShimmering.h */; };
-		B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F319AD59230064B794 /* FBShimmeringLayer.h */; };
-		B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F419AD59230064B794 /* FBShimmeringLayer.m */; };
-		B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D5F519AD59230064B794 /* FBShimmeringView.h */; };
-		B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D5F619AD59230064B794 /* FBShimmeringView.m */; };
 		B909D60219AE350F0064B794 /* cartTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B909D60019AE350F0064B794 /* cartTableViewCell.h */; };
 		B909D60319AE350F0064B794 /* cartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B909D60119AE350F0064B794 /* cartTableViewCell.m */; };
 		B9116BDE19E56F580024332B /* MHExit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9116BDA19E56F580024332B /* MHExit@2x.png */; };
@@ -156,9 +150,15 @@
 		B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */; };
 		B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
+		B9694CA31A3714B00014BB0D /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9694CA21A3714B00014BB0D /* Flurry.h */; };
+		B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */; };
 		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
+		B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */ = {isa = PBXBuildFile; fileRef = B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */; };
+		B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */ = {isa = PBXBuildFile; fileRef = B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */; };
+		B97C36561A40429B009176FC /* UAObfuscatedString.h in Headers */ = {isa = PBXBuildFile; fileRef = B97C36541A40429B009176FC /* UAObfuscatedString.h */; };
+		B97C36571A40429B009176FC /* UAObfuscatedString.m in Sources */ = {isa = PBXBuildFile; fileRef = B97C36551A40429B009176FC /* UAObfuscatedString.m */; };
 		B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4D19CC3E1200355418 /* CRMotionView.h */; };
 		B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9909C4E19CC3E1200355418 /* CRMotionView.m */; };
 		B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */; };
@@ -169,6 +169,9 @@
 		B9938C3019CA42CF00C5C749 /* DailyMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C2E19CA42CF00C5C749 /* DailyMenuCell.m */; };
 		B9938C3419CAE10800C5C749 /* NoInteractionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9938C3219CAE10800C5C749 /* NoInteractionView.h */; };
 		B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9938C3319CAE10800C5C749 /* NoInteractionView.m */; };
+		B9AE62CA1A2E06C200D7987C /* MSUserData.h in Headers */ = {isa = PBXBuildFile; fileRef = B9AE62C81A2E06C200D7987C /* MSUserData.h */; };
+		B9AE62CB1A2E06C200D7987C /* MSUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = B9AE62C91A2E06C200D7987C /* MSUserData.m */; };
+		B9AE62D11A2E32FD00D7987C /* Reminder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */; };
 		B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F8F19864614002309FF /* BMDownloadManager.h */; };
 		B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29F9019864614002309FF /* BMDownloadManager.m */; };
 		B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29F9519865037002309FF /* RestaurantStartViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -179,8 +182,21 @@
 		B9C29FA719865A29002309FF /* MenuListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FA519865A29002309FF /* MenuListCell.m */; };
 		B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */; };
 		B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */; };
-		B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */; };
-		B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C4870E19C777E1003F2F6E /* Flurry.h */; };
+		B9CFD8571A3EF60600A8C18D /* DEComposeRuledView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */; };
+		B9CFD8581A3EF60600A8C18D /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */; };
+		B9CFD8591A3EF60600A8C18D /* DEComposeTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */; };
+		B9CFD85A1A3EF60600A8C18D /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */; };
+		B9CFD85B1A3EF60600A8C18D /* RECommonFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */; };
+		B9CFD85C1A3EF60600A8C18D /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */; };
+		B9CFD85D1A3EF60600A8C18D /* REComposeBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */; };
+		B9CFD85E1A3EF60600A8C18D /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */; };
+		B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */; };
+		B9CFD8601A3EF60600A8C18D /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */; };
+		B9CFD8611A3EF60600A8C18D /* REComposeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */; };
+		B9CFD8621A3EF60600A8C18D /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */; };
+		B9CFD8641A3F268800A8C18D /* bluemate-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */; };
+		B9D141531A3B1000006578F4 /* CocoaSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D141511A3B1000006578F4 /* CocoaSecurity.h */; };
+		B9D141541A3B1000006578F4 /* CocoaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D141521A3B1000006578F4 /* CocoaSecurity.m */; };
 		B9D4B2BB19D080AD00116805 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B9D4B2BA19D080AD00116805 /* Constants.h */; };
 		B9D7CBD019DC3E6500B0992D /* Cuore-big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */; };
 		B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */ = {isa = PBXBuildFile; fileRef = B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */; };
@@ -243,12 +259,6 @@
 		B909AF4919B4D3E600CBA2B1 /* TransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionManager.m; sourceTree = "<group>"; };
 		B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LocationManager.h"; sourceTree = "<group>"; };
 		B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+LocationManager.m"; sourceTree = "<group>"; };
-		B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FBShimmering-Prefix.pch"; sourceTree = "<group>"; };
-		B909D5F219AD59230064B794 /* FBShimmering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmering.h; sourceTree = "<group>"; };
-		B909D5F319AD59230064B794 /* FBShimmeringLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringLayer.h; sourceTree = "<group>"; };
-		B909D5F419AD59230064B794 /* FBShimmeringLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringLayer.m; sourceTree = "<group>"; };
-		B909D5F519AD59230064B794 /* FBShimmeringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBShimmeringView.h; sourceTree = "<group>"; };
-		B909D5F619AD59230064B794 /* FBShimmeringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBShimmeringView.m; sourceTree = "<group>"; };
 		B909D60019AE350F0064B794 /* cartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cartTableViewCell.h; sourceTree = "<group>"; };
 		B909D60119AE350F0064B794 /* cartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cartTableViewCell.m; sourceTree = "<group>"; };
 		B9116BDA19E56F580024332B /* MHExit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MHExit@2x.png"; sourceTree = "<group>"; };
@@ -384,9 +394,15 @@
 		B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticManager.h; sourceTree = "<group>"; };
 		B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticManager.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B9694CA21A3714B00014BB0D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
+		B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = previouslyOrderedRecipes.h; sourceTree = "<group>"; };
+		B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = previouslyOrderedRecipes.m; sourceTree = "<group>"; };
+		B97C36541A40429B009176FC /* UAObfuscatedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAObfuscatedString.h; sourceTree = "<group>"; };
+		B97C36551A40429B009176FC /* UAObfuscatedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAObfuscatedString.m; sourceTree = "<group>"; };
 		B9909C4D19CC3E1200355418 /* CRMotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMotionView.h; sourceTree = "<group>"; };
 		B9909C4E19CC3E1200355418 /* CRMotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMotionView.m; sourceTree = "<group>"; };
 		B9909C4F19CC3E1200355418 /* UIScrollView+CRScrollIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+CRScrollIndicator.h"; sourceTree = "<group>"; };
@@ -397,6 +413,9 @@
 		B9938C2E19CA42CF00C5C749 /* DailyMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyMenuCell.m; sourceTree = "<group>"; };
 		B9938C3219CAE10800C5C749 /* NoInteractionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoInteractionView.h; path = BMSdk/NoInteractionView.h; sourceTree = "<group>"; };
 		B9938C3319CAE10800C5C749 /* NoInteractionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoInteractionView.m; path = BMSdk/NoInteractionView.m; sourceTree = "<group>"; };
+		B9AE62C81A2E06C200D7987C /* MSUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUserData.h; sourceTree = "<group>"; };
+		B9AE62C91A2E06C200D7987C /* MSUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserData.m; sourceTree = "<group>"; };
+		B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reminder@2x.png"; sourceTree = "<group>"; };
 		B9C29F8F19864614002309FF /* BMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadManager.h; sourceTree = "<group>"; };
 		B9C29F9019864614002309FF /* BMDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadManager.m; sourceTree = "<group>"; };
 		B9C29F9519865037002309FF /* RestaurantStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartViewController.h; sourceTree = "<group>"; };
@@ -408,7 +427,22 @@
 		B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartmenuCell.h; sourceTree = "<group>"; };
 		B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartmenuCell.m; sourceTree = "<group>"; };
 		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
-		B9C4870E19C777E1003F2F6E /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = BMSdk/Flurry.h; sourceTree = "<group>"; };
+		B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
+		B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
+		B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
+		B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeTextView.m; sourceTree = "<group>"; };
+		B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeBackgroundView.h; sourceTree = "<group>"; };
+		B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeBackgroundView.m; sourceTree = "<group>"; };
+		B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeSheetView.h; sourceTree = "<group>"; };
+		B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeSheetView.m; sourceTree = "<group>"; };
+		B9CFD8541A3EF60600A8C18D /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
+		B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
+		B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
+		B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluemate-logo@2x.png"; sourceTree = "<group>"; };
+		B9D141511A3B1000006578F4 /* CocoaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaSecurity.h; sourceTree = "<group>"; };
+		B9D141521A3B1000006578F4 /* CocoaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaSecurity.m; sourceTree = "<group>"; };
 		B9D4B2BA19D080AD00116805 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B9D7CBCF19DC3E6500B0992D /* Cuore-big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cuore-big@2x.png"; sourceTree = "<group>"; };
 		B9DECD4919A3981400C17799 /* ModalBlurredSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModalBlurredSegue.h; path = BMSdkResources/ModalBlurredSegue.h; sourceTree = "<group>"; };
@@ -434,7 +468,7 @@
 			files = (
 				B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */,
 				B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */,
-				B9C4870D19C777D4003F2F6E /* libFlurry_5.3.0.a in Frameworks */,
+				B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */,
 				B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,19 +497,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B909D5FF19AD59290064B794 /* Shimmering Effect */ = {
-			isa = PBXGroup;
-			children = (
-				B909D5F119AD59230064B794 /* FBShimmering-Prefix.pch */,
-				B909D5F219AD59230064B794 /* FBShimmering.h */,
-				B909D5F319AD59230064B794 /* FBShimmeringLayer.h */,
-				B909D5F419AD59230064B794 /* FBShimmeringLayer.m */,
-				B909D5F519AD59230064B794 /* FBShimmeringView.h */,
-				B909D5F619AD59230064B794 /* FBShimmeringView.m */,
-			);
-			name = "Shimmering Effect";
-			sourceTree = "<group>";
-		};
 		B9116BE519E59A6E0024332B /* PapersButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,6 +533,7 @@
 		B915C2F01977FFAF005618A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */,
 				B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */,
 				B94EC1EC19C704C20084F6F5 /* AdSupport.framework */,
 				B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */,
@@ -567,6 +589,7 @@
 		B915C328197803BF005618A6 /* BMSdkResources */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */,
 				B9F1A01219E824DF00DD177E /* Icons */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
 				B915C329197803C0005618A6 /* Supporting Files */,
@@ -599,13 +622,14 @@
 		B9193B1119A11DFF0008149D /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFD8491A3EF5C300A8C18D /* commentComposer */,
+				B9D141501A3B0FF1006578F4 /* Security */,
 				B947FBF51A19032700C57FC1 /* FMDB */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
-				B9C4870E19C777E1003F2F6E /* Flurry.h */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
+				B9694CA21A3714B00014BB0D /* Flurry.h */,
 				B93D7DCA19BA697100EAD43A /* Reachability.h */,
 				B93D7DCB19BA697100EAD43A /* Reachability.m */,
-				B909D5FF19AD59290064B794 /* Shimmering Effect */,
 				B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */,
 				B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */,
 				B9DECD4719A397F000C17799 /* SDImageView */,
@@ -701,6 +725,15 @@
 			name = bestMatch;
 			sourceTree = "<group>";
 		};
+		B977DDA11A2E6986000ECC5A /* Piatti ordinati precedentemente */ = {
+			isa = PBXGroup;
+			children = (
+				B977DDA21A2E69AF000ECC5A /* previouslyOrderedRecipes.h */,
+				B977DDA31A2E69AF000ECC5A /* previouslyOrderedRecipes.m */,
+			);
+			name = "Piatti ordinati precedentemente";
+			sourceTree = "<group>";
+		};
 		B9909C4919CC3D9A00355418 /* UIView No interaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,6 +791,8 @@
 				B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */,
 				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
 				B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */,
+				B9AE62C81A2E06C200D7987C /* MSUserData.h */,
+				B9AE62C91A2E06C200D7987C /* MSUserData.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -781,6 +816,7 @@
 				B9C29FA919865A31002309FF /* Menu List */,
 				B9193AC419A09AE10008149D /* Dettaglio Ricetta */,
 				B92AD6E819AB46E100DDA65A /* Lista piatti da ordinare */,
+				B977DDA11A2E6986000ECC5A /* Piatti ordinati precedentemente */,
 				B95744EC19E5E811000B9540 /* Daily Menu */,
 				B909D5EC19AD4DE50064B794 /* UIButton+LocationManager.h */,
 				B909D5ED19AD4DE50064B794 /* UIButton+LocationManager.m */,
@@ -810,6 +846,37 @@
 				B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */,
 			);
 			name = RestarauntStartScreen;
+			sourceTree = "<group>";
+		};
+		B9CFD8491A3EF5C300A8C18D /* commentComposer */ = {
+			isa = PBXGroup;
+			children = (
+				B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */,
+				B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */,
+				B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */,
+				B9CFD84D1A3EF60600A8C18D /* DEComposeTextView.m */,
+				B9CFD84E1A3EF60600A8C18D /* RECommonFunctions.h */,
+				B9CFD84F1A3EF60600A8C18D /* RECommonFunctions.m */,
+				B9CFD8501A3EF60600A8C18D /* REComposeBackgroundView.h */,
+				B9CFD8511A3EF60600A8C18D /* REComposeBackgroundView.m */,
+				B9CFD8521A3EF60600A8C18D /* REComposeSheetView.h */,
+				B9CFD8531A3EF60600A8C18D /* REComposeSheetView.m */,
+				B9CFD8541A3EF60600A8C18D /* REComposeViewController.bundle */,
+				B9CFD8551A3EF60600A8C18D /* REComposeViewController.h */,
+				B9CFD8561A3EF60600A8C18D /* REComposeViewController.m */,
+			);
+			name = commentComposer;
+			sourceTree = "<group>";
+		};
+		B9D141501A3B0FF1006578F4 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				B97C36541A40429B009176FC /* UAObfuscatedString.h */,
+				B97C36551A40429B009176FC /* UAObfuscatedString.m */,
+				B9D141511A3B1000006578F4 /* CocoaSecurity.h */,
+				B9D141521A3B1000006578F4 /* CocoaSecurity.m */,
+			);
+			name = Security;
 			sourceTree = "<group>";
 		};
 		B9DECD4719A397F000C17799 /* SDImageView */ = {
@@ -881,6 +948,7 @@
 		B9F1A01219E824DF00DD177E /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				B9AE62D01A2E32FD00D7987C /* Reminder@2x.png */,
 				B9116BDA19E56F580024332B /* MHExit@2x.png */,
 				B9116BDC19E56F580024332B /* MHNotification@2x.png */,
 				B96D556119D96C2700DEC274 /* dragMe2@.png */,
@@ -922,12 +990,11 @@
 				B9C29F9719865037002309FF /* RestaurantStartViewController.h in Headers */,
 				B955D17E197ED5110052ED2B /* BMLocationManager.h in Headers */,
 				B91E545F19B0F61D00DE56AB /* NGAParallaxMotion.h in Headers */,
-				B909D5F919AD59230064B794 /* FBShimmeringLayer.h in Headers */,
+				B97C36561A40429B009176FC /* UAObfuscatedString.h in Headers */,
 				B91D68BF199C156500C2C135 /* RecipeInfo.h in Headers */,
 				B9DECD4B19A3981400C17799 /* ModalBlurredSegue.h in Headers */,
 				B92AD6E019AB353200DDA65A /* TDBadgedCell.h in Headers */,
 				B9909C5319CC3E1200355418 /* UIScrollView+CRScrollIndicator.h in Headers */,
-				B909D5FC19AD59230064B794 /* FBShimmeringView.h in Headers */,
 				B943ECDD19A60D7D001ABB4E /* AFHTTPRequestOperation.h in Headers */,
 				B9909C5119CC3E1200355418 /* CRMotionView.h in Headers */,
 				B943ECDF19A60D7D001ABB4E /* AFHTTPRequestOperationManager.h in Headers */,
@@ -937,32 +1004,36 @@
 				B943ECE119A60D7D001ABB4E /* AFHTTPSessionManager.h in Headers */,
 				B943ECE319A60D7D001ABB4E /* AFNetworking.h in Headers */,
 				B947FC051A19035400C57FC1 /* FMDatabasePool.h in Headers */,
+				B9CFD8611A3EF60600A8C18D /* REComposeViewController.h in Headers */,
 				B93CD7BD19A650B200C97622 /* singleCommentTableViewCell.h in Headers */,
 				B943ECE419A60D7D001ABB4E /* AFNetworkReachabilityManager.h in Headers */,
 				B943ECE619A60D7D001ABB4E /* AFSecurityPolicy.h in Headers */,
+				B9CFD8571A3EF60600A8C18D /* DEComposeRuledView.h in Headers */,
+				B977DDA41A2E69AF000ECC5A /* previouslyOrderedRecipes.h in Headers */,
+				B9CFD8591A3EF60600A8C18D /* DEComposeTextView.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFURLConnectionOperation.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFURLRequestSerialization.h in Headers */,
 				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
 				B943ECEC19A60D7D001ABB4E /* AFURLResponseSerialization.h in Headers */,
 				B943ECEE19A60D7D001ABB4E /* AFURLSessionManager.h in Headers */,
 				B9C29F9119864614002309FF /* BMDownloadManager.h in Headers */,
-				B909D5F719AD59230064B794 /* FBShimmering-Prefix.pch in Headers */,
 				B947FC071A19035400C57FC1 /* FMDatabaseQueue.h in Headers */,
 				B9F0871F1991148F00002074 /* BMDataManager.h in Headers */,
 				B9193B0919A110650008149D /* MKAnnotationView+WebCache.h in Headers */,
 				B9193B0A19A110650008149D /* NSData+ImageContentType.h in Headers */,
 				B9193B0B19A110650008149D /* UIButton+WebCache.h in Headers */,
 				B9116BE319E59A300024332B /* BFPaperButton.h in Headers */,
+				B9D141531A3B1000006578F4 /* CocoaSecurity.h in Headers */,
 				B9193B0C19A110650008149D /* UIImage+GIF.h in Headers */,
 				B9193B0D19A110650008149D /* UIImage+MultiFormat.h in Headers */,
 				B9193B0E19A110650008149D /* UIImage+WebP.h in Headers */,
 				B9193ADF19A10D9C0008149D /* UIImageView+HighlightedWebCache.h in Headers */,
 				B9193B0F19A110650008149D /* UIImageView+WebCache.h in Headers */,
 				B9193B1019A110650008149D /* UIView+WebCacheOperation.h in Headers */,
+				B9CFD85D1A3EF60600A8C18D /* REComposeBackgroundView.h in Headers */,
 				B9193ACE19A10D1C0008149D /* SDImageCache.h in Headers */,
 				B95744EF19E5E880000B9540 /* DailyMenuViewController.h in Headers */,
 				B9193AEA19A10DBB0008149D /* SDWebImageCompat.h in Headers */,
-				B9C4870F19C777E1003F2F6E /* Flurry.h in Headers */,
 				B9193AEB19A10DBB0008149D /* SDWebImageDecoder.h in Headers */,
 				B9193AEC19A10DBB0008149D /* SDWebImageDownloader.h in Headers */,
 				B9938C3419CAE10800C5C749 /* NoInteractionView.h in Headers */,
@@ -973,18 +1044,21 @@
 				B9193AE119A10DA40008149D /* SDWebImagePrefetcher.h in Headers */,
 				B947FC031A19035400C57FC1 /* FMDatabaseAdditions.h in Headers */,
 				B93D7DD319BA7D5300EAD43A /* NoImageTableViewCell.h in Headers */,
+				B9CFD85B1A3EF60600A8C18D /* RECommonFunctions.h in Headers */,
 				B9909F8E198903A800D02CB6 /* MenuListViewController.h in Headers */,
 				B9DECD5019A3985600C17799 /* UIImage+ImageEffects.h in Headers */,
 				B915C31819780002005618A6 /* BMSdk.h in Headers */,
 				B9C29FA1198659E1002309FF /* RecipeDetailViewController.h in Headers */,
-				B909D5F819AD59230064B794 /* FBShimmering.h in Headers */,
 				B921D5EB19BDB1EA001294AD /* DocumentsViewController.h in Headers */,
 				B947FC0A1A19035400C57FC1 /* FMResultSet.h in Headers */,
+				B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */,
 				B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */,
+				B9AE62CA1A2E06C200D7987C /* MSUserData.h in Headers */,
 				B9938C2F19CA42CF00C5C749 /* DailyMenuCell.h in Headers */,
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */,
 				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
+				B9694CA31A3714B00014BB0D /* Flurry.h in Headers */,
 				B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */,
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
 				B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */,
@@ -1098,6 +1172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CFD8641A3F268800A8C18D /* bluemate-logo@2x.png in Resources */,
 				B9DECD5A19A3992900C17799 /* comments@2x.png in Resources */,
 				B9116BE019E56F580024332B /* MHNotification@2x.png in Resources */,
 				B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */,
@@ -1106,6 +1181,7 @@
 				B935492A19D5C1B2002138DE /* Cuore-filled@2x.png in Resources */,
 				B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */,
 				B95C3D9B19B5DDFD009FE141 /* Cuore@2x.png in Resources */,
+				B9AE62D11A2E32FD00D7987C /* Reminder@2x.png in Resources */,
 				B93CD7B819A642D300C97622 /* star@2x.png in Resources */,
 				B9D7CBD019DC3E6500B0992D /* Cuore-big@2x.png in Resources */,
 				B95C3D9919B5DDFD009FE141 /* Commenti@2x.png in Resources */,
@@ -1169,18 +1245,18 @@
 			files = (
 				B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */,
 				B92AD6E619AB46DA00DDA65A /* cartViewController.m in Sources */,
+				B9D141541A3B1000006578F4 /* CocoaSecurity.m in Sources */,
 				B9116BE419E59A300024332B /* BFPaperButton.m in Sources */,
 				B947FC061A19035400C57FC1 /* FMDatabasePool.m in Sources */,
 				B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */,
+				B977DDA51A2E69AF000ECC5A /* previouslyOrderedRecipes.m in Sources */,
 				B9193AF819A110180008149D /* MKAnnotationView+WebCache.m in Sources */,
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
-				B909D5FD19AD59230064B794 /* FBShimmeringView.m in Sources */,
 				B9193AFA19A110180008149D /* UIButton+WebCache.m in Sources */,
 				B9116BE919E59ABC0024332B /* UIColor+BFPaperColors.m in Sources */,
 				B928DE8619ED857E009A6F2C /* BMUsageStatisticModel.m in Sources */,
 				B9193AFB19A110180008149D /* UIImage+GIF.m in Sources */,
 				B9193AFC19A110180008149D /* UIImage+MultiFormat.m in Sources */,
-				B909D5FA19AD59230064B794 /* FBShimmeringLayer.m in Sources */,
 				B9193AFD19A110180008149D /* UIImage+WebP.m in Sources */,
 				B9193ADD19A10D930008149D /* UIImageView+HighlightedWebCache.m in Sources */,
 				B93CD7BE19A650B200C97622 /* singleCommentTableViewCell.m in Sources */,
@@ -1193,6 +1269,7 @@
 				B9193AD819A10D730008149D /* SDWebImageManager.m in Sources */,
 				B9938C3519CAE10800C5C749 /* NoInteractionView.m in Sources */,
 				B9193AD619A10D6B0008149D /* SDWebImageDownloaderOperation.m in Sources */,
+				B9CFD8601A3EF60600A8C18D /* REComposeSheetView.m in Sources */,
 				B9193AD419A10D640008149D /* SDWebImageDownloader.m in Sources */,
 				B9193AD219A10D5E0008149D /* SDWebImageDecoder.m in Sources */,
 				B947FC021A19035400C57FC1 /* FMDatabase.m in Sources */,
@@ -1200,18 +1277,22 @@
 				B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
 				B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */,
 				B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */,
+				B9CFD85C1A3EF60600A8C18D /* RECommonFunctions.m in Sources */,
 				B9193AD019A10D580008149D /* SDWebImageCompat.m in Sources */,
 				B9E45A631A0D39D200EC4F7D /* RestaurantInfo.m in Sources */,
 				B95744F019E5E880000B9540 /* DailyMenuViewController.m in Sources */,
 				B9193ACC19A10D0C0008149D /* SDImageCache.m in Sources */,
 				B9C29F9219864614002309FF /* BMDownloadManager.m in Sources */,
+				B9AE62CB1A2E06C200D7987C /* MSUserData.m in Sources */,
 				B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */,
+				B97C36571A40429B009176FC /* UAObfuscatedString.m in Sources */,
 				B9C29FAE19865C6B002309FF /* RestaurantStartmenuCell.m in Sources */,
 				B91D68C0199C156500C2C135 /* RecipeInfo.m in Sources */,
 				B9909F8F198903A800D02CB6 /* MenuListViewController.m in Sources */,
 				B9C29FA719865A29002309FF /* MenuListCell.m in Sources */,
 				B915C33719780B8E005618A6 /* BMLocationManager.m in Sources */,
 				B9DECD5119A3985600C17799 /* UIImage+ImageEffects.m in Sources */,
+				B9CFD85E1A3EF60600A8C18D /* REComposeBackgroundView.m in Sources */,
 				B9C29FA2198659E1002309FF /* RecipeDetailViewController.m in Sources */,
 				B9F087201991148F00002074 /* BMDataManager.m in Sources */,
 				B909D5EF19AD4DE50064B794 /* UIButton+LocationManager.m in Sources */,
@@ -1225,7 +1306,9 @@
 				B9938C3019CA42CF00C5C749 /* DailyMenuCell.m in Sources */,
 				B943ECE519A60D7D001ABB4E /* AFNetworkReachabilityManager.m in Sources */,
 				B943ECE719A60D7D001ABB4E /* AFSecurityPolicy.m in Sources */,
+				B9CFD8581A3EF60600A8C18D /* DEComposeRuledView.m in Sources */,
 				B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */,
+				B9CFD85A1A3EF60600A8C18D /* DEComposeTextView.m in Sources */,
 				B943ECE919A60D7D001ABB4E /* AFURLConnectionOperation.m in Sources */,
 				B943ECEB19A60D7D001ABB4E /* AFURLRequestSerialization.m in Sources */,
 				B943ECED19A60D7D001ABB4E /* AFURLResponseSerialization.m in Sources */,
@@ -1235,6 +1318,7 @@
 				B947FC081A19035400C57FC1 /* FMDatabaseQueue.m in Sources */,
 				B9909C5419CC3E1200355418 /* UIScrollView+CRScrollIndicator.m in Sources */,
 				B943ECEF19A60D7D001ABB4E /* AFURLSessionManager.m in Sources */,
+				B9CFD8621A3EF60600A8C18D /* REComposeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1366,7 +1450,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Matteo Comisso (B82WJF6RBY)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1379,7 +1463,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PROVISIONING_PROFILE = "77bdb7d7-a25e-4d2c-8463-799e902e95e7";
+				PROVISIONING_PROFILE = "d858c4f7-1dac-4ffd-8bab-0cc98a20ef27";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRIP_STYLE = "non-global";
@@ -1391,6 +1475,7 @@
 		B915C3121977FFAF005618A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/BMSdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1401,7 +1486,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
+				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
@@ -1412,6 +1497,7 @@
 		B915C3131977FFAF005618A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/BMSdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1422,7 +1508,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7cd4ab7f-cdf8-44ef-a76e-0d33db4d0451";
+				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;

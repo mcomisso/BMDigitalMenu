@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *recipeImageView;
 @property (strong, nonatomic) NSString *recipeSlug;
 @property (strong, nonatomic) IBOutlet UILabel *recipePrice;
+@property (weak, nonatomic) IBOutlet UILabel *recipeCategory;
 
 @end

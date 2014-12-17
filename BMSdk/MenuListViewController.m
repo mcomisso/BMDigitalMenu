@@ -23,8 +23,10 @@
 #import "AFNetworking.h"
 #import "AXRatingView.h"
 
-#define BMIMAGEAPI @"https://s3-eu-west-1.amazonaws.com/bmbackend/"
-#define BMRATEAPI @"http://54.76.193.225/api/v1/client/vote/"
+#import "Constants.h"
+#import "UAObfuscatedString.h"
+
+#define LEFTMARGIN 110
 
 @interface MenuListViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -35,6 +37,7 @@
 
 @property (strong, nonatomic) BMDataManager *dataManager;
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
+@property (strong, nonatomic) AFHTTPRequestOperationManager *requestOperationManager;
 
 //Testing purpose variables
 @property (nonatomic) BOOL ratingDownloaded;
@@ -46,40 +49,6 @@
 
 @implementation MenuListViewController
 
-
-#pragma mark - testing all recipes in one list
--(void)loadAllRecipesInView
-{
-    
-    NSNumber *minorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"minorBeacon"];
-    NSNumber *majorNumber = [[NSUserDefaults standardUserDefaults]objectForKey:@"majorBeacon"];
-    
-    //Categorie all'interno del ristorante
-    NSArray *categories = [NSArray arrayWithArray:[self.dataManager requestCategoriesForRestaurantMajorNumber:majorNumber andMinorNumber:minorNumber]];
-
-    //Mutable Dictionary da ritornare per lista scroll infinita
-    _allListOfRecipes = [NSMutableDictionary new];
-    
-    /*
-     FOR LOOP: prende il nome della categoria e lo imposta come chiave del dizionario.
-     -> Poi aggiunge l'array di ricette alla chiave corrisposta dalla categoria
-    
-     @{'Primi':[@{'nome':'Nome', 'etc':'etc'}]}
-    */
-    for (int i = 0; i < [categories count]; i++) {
-        NSArray *recipesOfCategory = [NSArray arrayWithArray:[self.dataManager requestRecipesForCategory:categories[i] ofRestaurantMajorNUmber:majorNumber andMinorNumber:minorNumber]];
-        [_allListOfRecipes setObject:recipesOfCategory forKey:categories[i]];
-    }
-    
-//    NSLog(@"All list recipes description: %@", [_allListOfRecipes description]);
-}
-
-#pragma mark - Color Utils
--(UIColor *)BMDarkValueColor
-{
-    return [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
-}
-
 #pragma mark - Initialization View methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,30 +59,33 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     self.dataManager = [BMDataManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
-
-    //[self loadAllRecipesInView];
+    self.requestOperationManager = [AFHTTPRequestOperationManager manager];
     
+    _requestOperationManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+
+    NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
+    NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+    
+    [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
+
     [self setPreferredToolbar];
-    
     [self loadRecipesForCategory];
-
     [self loadSwipeGestureRecognizer];
 }
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-
     [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
@@ -127,10 +99,10 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [self BMDarkValueColor];
+    self.navigationController.navigationBar.tintColor = BMDarkValueColor;
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [self BMDarkValueColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName :  BMDarkValueColor}];
     
 //    self.view.backgroundColor = [UIColor whiteColor];
     
@@ -171,16 +143,13 @@
             
             UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
             
-            if (cell.canWhiteViewBeMovedLeft) {
+            if (cell.whiteViewContainer.frame.origin.x >= cell.frame.size.width) {
                 CGPoint originalCenter = whiteView.center;
                 whiteView.alpha = 0.f;
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
                     whiteView.alpha = 1;
-                    whiteView.center = CGPointMake(originalCenter.x - 210, originalCenter.y);
+                    whiteView.center = CGPointMake(originalCenter.x - whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
-                    NSLog(@"End animation");
-                    cell.canWhiteViewBeMovedRight = YES;
-                    cell.canWhiteViewBeMovedLeft = NO;
                 }];
             }
         }
@@ -198,15 +167,12 @@
             
             UIView *whiteView = (UIView *)[cell.contentView viewWithTag:115];
 
-            if (cell.canWhiteViewBeMovedRight) {
+            if (cell.whiteViewContainer.frame.origin.x == LEFTMARGIN) {
                 CGPoint originalCenter = whiteView.center;
                 
                 [UIView animateWithDuration:0.3 delay:0.f usingSpringWithDamping:2.f initialSpringVelocity:6.f options:UIViewAnimationOptionCurveEaseOut animations:^{
-                    whiteView.center = CGPointMake(originalCenter.x + 210, originalCenter.y);
+                    whiteView.center = CGPointMake(originalCenter.x + whiteView.frame.size.width, originalCenter.y);
                 } completion:^(BOOL finished) {
-                    NSLog(@"End animation");
-                    cell.canWhiteViewBeMovedRight = NO;
-                    cell.canWhiteViewBeMovedLeft = YES;
                 }];
             }
         }
@@ -229,26 +195,22 @@
 
 -(void)loadRatingForRecipesInThisCategory
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    
-    //Test reachability manager
+    //TODO: Test reachability manager
     if (true) {
-        
         for (RecipeInfo *recipe in self.recipesInCategory)
         {
             // Point to vote API for every recipeID inside the Array
-            [manager GET:[BMRATEAPI stringByAppendingString:recipe.slug]
+            [_requestOperationManager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipe.slug]]
               parameters:nil
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      
                      //Set the pair "AVG Rate" : "Recipe ID"
-                     [self.ratingForRecipe setObject:[responseObject objectForKey:@"media"] forKey:recipe.slug];
-                     
-                     //Save rating value inside database
-                     [self.dataManager saveRatingValue:[NSNumber numberWithInt:(int)[[responseObject objectForKey:@"media"]intValue]] forRecipe:recipe.slug];
-                     
+                     NSNumber *ratingValue = [responseObject objectForKey:@"rating"];
+
+                     if (ratingValue != (id)[NSNull null]) {
+                         [self.ratingForRecipe setObject:[responseObject objectForKey:@"rating"] forKey:recipe.slug];
+                         [self.dataManager saveRatingValue:ratingValue forRecipe:recipe.slug];
+                     }
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      
@@ -275,11 +237,11 @@
     RecipeInfo *recipe = [self.recipesInCategory objectAtIndex:indexPath.row];
     //IF RECIPE DOESN'T HAVE ANY IMAGE
     if ([recipe.image_url isEqualToString:@"nil"]) {
-        NSLog(@"recipe image string: %@", recipe.image_url);
         NoImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:whiteCellIdentifier];
-        //Setup Cell
+        
         cell.recipeSlug = recipe.slug;
         cell.recipeIngredients.text = recipe.ingredients;
+        
         UILabel *recipeName = (UILabel *)[cell viewWithTag:200];
         recipeName.text = [recipe.name uppercaseString];
 
@@ -290,7 +252,7 @@
         thisratingView.value = 4.f;
         thisratingView.tag = 114;
         thisratingView.numberOfStar = 5;
-        thisratingView.baseColor = [self BMDarkValueColor];
+        thisratingView.baseColor = BMDarkValueColor;
         thisratingView.highlightColor = [UIColor whiteColor];
 
         thisratingView.userInteractionEnabled = NO;
@@ -318,7 +280,7 @@
         thisratingView.value = 4.f;
         thisratingView.tag = 114;
         thisratingView.numberOfStar = 5;
-        thisratingView.baseColor = [self BMDarkValueColor];
+        thisratingView.baseColor = BMDarkValueColor;
         thisratingView.highlightColor = [UIColor whiteColor];
         
         thisratingView.userInteractionEnabled = NO;
@@ -369,8 +331,6 @@
 -(void)scrollToCellWithIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *arrayForCategory = [NSArray arrayWithArray:[self.allListOfRecipes objectForKey:self.category]];
-    
-
     
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }

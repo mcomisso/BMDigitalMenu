@@ -9,17 +9,21 @@
 #import "CommentsModalViewController.h"
 #import "BMDataManager.h"
 #import "BMUsageStatisticManager.h"
+#import "REComposeViewController.h"
 
-@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate>
+#import "AFHTTPRequestOperationManager.h"
+
+@interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate, REComposeViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *dataSourceOfComments;
+@property (strong, nonatomic) NSMutableArray *dataSourceOfComments;
 
 //Background
 @property (strong, nonatomic) IBOutlet UIView *backgroundView;
 @property (strong, nonatomic) IBOutlet UILabel *noCommentsLabel;
 
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
+@property (strong, nonatomic) REComposeViewController *composeViewController;
 @end
 
 @implementation CommentsModalViewController
@@ -39,14 +43,16 @@
     self.statsManager = [BMUsageStatisticManager sharedInstance];
 
     // Do any additional setup after loading the view.
-    self.backgroundView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
+    self.backgroundView.backgroundColor = BMDarkValueColor;
 
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
-//    self.dataSourceOfComments = [NSArray arrayWithObject:@"Nessun commento ancora inserito."];
-    self.dataSourceOfComments = [NSArray arrayWithArray:[dataManager requestCommentsForRecipe:self.idRecipe]];
-
+    self.dataSourceOfComments = [NSMutableArray arrayWithArray:[dataManager requestCommentsForRecipe:self.recipeSlug]];
+    NSLog(@"%@", self.recipeSlug);
+    
     [self editViewIfNoRecipes];
+    
+    [self fakeLoader];
 }
 
 /**
@@ -95,7 +101,7 @@
 
 -(void)setUsernameForCell:(singleCommentTableViewCell *)cell item:(NSDictionary*)item
 {
-    NSNumber *usernameID = [item objectForKey:@"user"];
+    NSNumber *usernameID = [item objectForKey:@"username"];
     NSString *string = [NSString stringWithFormat:@"Utente id: %@", usernameID];
     [cell.usernameLabel setText:string];
 }
@@ -144,6 +150,90 @@
     [self.tableView endUpdates];
 }
 
+#pragma mark - Add comment
+
+- (IBAction)callCommentsView:(id)sender {
+    
+    //TODO: Controllare se l'utente è esistente.
+    NSDictionary *msUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:@"MSUserDetails"];
+    NSString *username = [msUserDetails objectForKey:@"username"];
+    
+    if (username != nil) {
+        NSBundle *BMResourcesBundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"BMSdk" withExtension:@"bundle"]];
+        [BMResourcesBundle load];
+        NSString *bluemateLogo = [BMResourcesBundle pathForResource:@"bluemate-logo@2x" ofType:@"png"];
+        UIImageView *titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:bluemateLogo]];
+        titleImageView.frame = CGRectMake(0, 0, 110, 30);
+        
+        _composeViewController = [[REComposeViewController alloc]init];
+        _composeViewController.navigationItem.titleView = titleImageView;
+        _composeViewController.delegate = self;
+        _composeViewController.hasAttachment = NO;
+        _composeViewController.placeholderText = @"Scrivi qui il tuo commento";
+        [self.composeViewController presentFromViewController:self];
+    }
+    else
+    {
+        UIAlertView *alertview = [[UIAlertView alloc]initWithTitle:@"Attenzione!"
+                                                           message:@"Per commentare e votare i piatti è necessario un account MiSiedo."
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"Ok"
+                                                 otherButtonTitles:nil, nil];
+        [alertview show];
+    }
+}
+
+-(void)composeViewController:(REComposeViewController *)composeViewController didFinishWithResult:(REComposeResult)result
+{
+    [composeViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if (result == REComposeResultCancelled) {
+        NSLog(@"Cancelled Comment");
+    }
+    else if (result == REComposeResultPosted)
+    {
+        //Send the content on the server
+        [self encryptAndSendComment:composeViewController.text];
+        [self updateTheTableViewWithNewComment:composeViewController.text];
+    }
+}
+
+//TODO: REMOVE THIS IN PROUCTION
+-(void)fakeLoader
+{
+    NSMutableDictionary *userData = [[NSMutableDictionary alloc]init];
+    [userData setObject:@"matteo" forKey:@"username"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:userData forKey:@"MSUserDetails"];
+}
+
+#pragma mark - Send comment to server
+-(void)encryptAndSendComment:(NSString *)comment
+{
+    NSDate *date = [NSDate date];
+    double intervalTime = [date timeIntervalSince1970];
+    
+    NSString *timeStampIntervalTime = [NSString stringWithFormat:@"%f", intervalTime];
+    
+}
+
+#pragma mark - Update The View
+-(void)updateTheTableViewWithNewComment:(NSString *)comment
+{
+
+    NSMutableDictionary *userComment = [[NSMutableDictionary alloc]init];
+    NSDictionary *msUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:@"MSUserDetails"];
+    NSString *username = [msUserDetails objectForKey:@"username"];
+    
+    [userComment setObject:comment forKey:@"comment"];
+    [userComment setObject:username forKey:@"username"];
+    
+    [self.dataSourceOfComments addObject:userComment];
+    [self.tableView reloadData];
+    self.tableView.alpha = 1.f;
+    self.noCommentsLabel.alpha = 0.f;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -154,8 +244,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - Gesture recognizer
-
 
 @end

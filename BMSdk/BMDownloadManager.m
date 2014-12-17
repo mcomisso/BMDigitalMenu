@@ -12,6 +12,8 @@
 #import "AFNetworking.h"
 #import "Constants.h"
 
+#import "UAObfuscatedString.h"
+
 #define DEBUGGER NO
 
 @import UIKit;
@@ -47,7 +49,11 @@
         [self isConnectionAvailable];
         self.AFmanager = [AFHTTPRequestOperationManager manager];
         self.AFmanager.requestSerializer = [AFHTTPRequestSerializer serializer];
-        [self.AFmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"ios_client" password:@"189vMktXsnd3V4mH1BAQ2q9eT6Je0H0Tds9svK0KSJ4"];
+        
+        NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
+        NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+        
+        [self.AFmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
     }
     return self;
 }
@@ -64,15 +70,16 @@
         [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    NSLog(@"Completed Download of the menu, response: %@", [responseObject description]);
+                    NSLog(@"Completed Download of the menu.");
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
-                    NSString *restaurantSlug = responseObject[@"results"][0][@"restaurant"][@"slug"];
-                    
-                    [[NSUserDefaults standardUserDefaults]setObject:restaurantSlug forKey:@"restaurantSlug"];
-                    [[NSUserDefaults standardUserDefaults]synchronize];
                     
                     //If > 0 -> save recipes
                     if (numbersOfRecipes) {
+                        NSString *restaurantSlug = responseObject[@"results"][0][@"restaurant"][@"slug"];
+                        
+                        [[NSUserDefaults standardUserDefaults]setObject:restaurantSlug forKey:@"restaurantSlug"];
+                        [[NSUserDefaults standardUserDefaults]synchronize];
+                        
                         //Ask the datamanager to save recipes
                         [dataManager deleteDataFromRestaurant:restaurantSlug];
                         

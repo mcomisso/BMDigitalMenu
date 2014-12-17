@@ -26,6 +26,14 @@
 #import "CRMotionView.h"
 #import "TransitionManager.h"
 
+typedef NS_ENUM(NSInteger, BMImageBundle) {
+    BMImageBundleOpenHeart = 0,
+    BMImageBundleFilledHeart,
+    BMImageBundleBigFilledHeart,
+    BMImageBundleOpenPuzzle,
+    BMImageBundleFilledPuzzle
+};
+
 @interface RecipeDetailViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 #pragma mark -
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
@@ -193,6 +201,9 @@
 {
     [super viewWillDisappear:animated];
     
+    //Hide collectionView
+    
+    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -215,11 +226,11 @@
     self.isRecipeSelected = [cartManager isRecipeSavedInCart:self.recipeSlug];
     
     if (_isRecipeSelected) {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleFilledHeart]];
     }
     else
     {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleOpenHeart]];
     }
 }
 
@@ -346,13 +357,13 @@
     BMCartManager *cartManager = [BMCartManager sharedInstance];
 
     if (_isRecipeSelected) {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleOpenHeart]];
         [cartManager deleteFromCartWithSlug:self.recipeSlug];
         self.isRecipeSelected = NO;
     }
     else
     {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleFilledHeart]];
         [cartManager addItemInCart:self.recipeSlug];
         self.isRecipeSelected = YES;
 
@@ -361,7 +372,7 @@
         UIView *heartContainer = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width / 2)-100, (self.view.frame.size.height / 2)-150, 200, 200)];
         heartContainer.backgroundColor = [UIColor clearColor];
         
-        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:self.imagesPathArray[2]]];
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleBigFilledHeart]]];
         
         [heartContainer addSubview:imageView];
 
@@ -394,11 +405,11 @@
     BMCartManager *cartManager = [BMCartManager sharedInstance];
     
     if ([cartManager isRecipeSavedInCart:self.recipeSlug]) {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[1]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleFilledHeart]];
     }
     else
     {
-        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[0]];
+        self.heartButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleOpenHeart]];
     }
 }
 
@@ -409,7 +420,7 @@
     [sender setEnabled:NO];
     if (_isCombinationOpen) {
         //Hide collectionView
-        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[3]];
+        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleOpenPuzzle]];
         [UIView animateWithDuration:0.3
                               delay:0.0
              usingSpringWithDamping:0.8
@@ -431,7 +442,7 @@
         //Show CollectionView
         //Alter the center of bestMatchCollectionView
         self.bestMatchCollectionView.center = CGPointMake(_originalCenter.x, _originalCenter.y + self.bestMatchCollectionView.frame.size.height);
-        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[4]];
+        self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleFilledPuzzle]];
 
         //Animate it to new position with animation
         [UIView animateWithDuration:0.3
@@ -448,7 +459,6 @@
                              [sender setEnabled:YES];
                          }];
     }
-    
 }
 
 #pragma mark - Transition to Comments view
@@ -618,10 +628,8 @@
 
     if ([segue.identifier isEqualToString:@"commentSegue"]) {
         CommentsModalViewController *cmd = segue.destinationViewController;
-        cmd.idRecipe = self.recipeSlug;
+        cmd.recipeSlug = self.recipeSlug;
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 
 @end

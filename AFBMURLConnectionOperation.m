@@ -1,6 +1,6 @@
-// AFURLConnectionOperation.m
+// AFBMURLConnectionOperation.m
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFURLConnectionOperation.h"
+#import "AFBMURLConnectionOperation.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
 #endif
 
 #if !__has_feature(objc_arc)
-#error AFNetworking must be built with ARC.
-// You can turn on ARC for only AFNetworking files by adding -fobjc-arc to the build phase for each of its files.
+#error AFBMNetworking must be built with ARC.
+// You can turn on ARC for only AFBMNetworking files by adding -fobjc-arc to the build phase for each of its files.
 #endif
 
 typedef NS_ENUM(NSInteger, AFOperationState) {
@@ -64,15 +64,15 @@ static dispatch_queue_t url_request_operation_completion_queue() {
     return af_url_request_operation_completion_queue;
 }
 
-static NSString * const kAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
+static NSString * const kAFBMBMNetworkingLockName = @"com.alamofire.networking.operation.lock";
 
-NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
-NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
+NSString * const AFBMNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
+NSString * const AFBMNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
 
-typedef void (^AFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
-typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
-typedef NSCachedURLResponse * (^AFURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
-typedef NSURLRequest * (^AFURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
+typedef void (^AFBMURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
+typedef void (^AFBMURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
+typedef NSCachedURLResponse * (^AFBMURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
+typedef NSURLRequest * (^AFBMURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
 
 static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
     switch (state) {
@@ -134,7 +134,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     }
 }
 
-@interface AFURLConnectionOperation ()
+@interface AFBMURLConnectionOperation ()
 @property (readwrite, nonatomic, assign) AFOperationState state;
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
 @property (readwrite, nonatomic, strong) NSURLConnection *connection;
@@ -146,23 +146,23 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 @property (readwrite, nonatomic, assign) NSStringEncoding responseStringEncoding;
 @property (readwrite, nonatomic, assign) long long totalBytesRead;
 @property (readwrite, nonatomic, assign) AFBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationProgressBlock uploadProgress;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationProgressBlock downloadProgress;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationCacheResponseBlock cacheResponse;
-@property (readwrite, nonatomic, copy) AFURLConnectionOperationRedirectResponseBlock redirectResponse;
+@property (readwrite, nonatomic, copy) AFBMURLConnectionOperationProgressBlock uploadProgress;
+@property (readwrite, nonatomic, copy) AFBMURLConnectionOperationProgressBlock downloadProgress;
+@property (readwrite, nonatomic, copy) AFBMURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
+@property (readwrite, nonatomic, copy) AFBMURLConnectionOperationCacheResponseBlock cacheResponse;
+@property (readwrite, nonatomic, copy) AFBMURLConnectionOperationRedirectResponseBlock redirectResponse;
 
 - (void)operationDidStart;
 - (void)finish;
 - (void)cancelConnection;
 @end
 
-@implementation AFURLConnectionOperation
+@implementation AFBMURLConnectionOperation
 @synthesize outputStream = _outputStream;
 
 + (void)networkRequestThreadEntryPoint:(id)__unused object {
     @autoreleasepool {
-        [[NSThread currentThread] setName:@"AFNetworking"];
+        [[NSThread currentThread] setName:@"AFBMNetworking"];
 
         NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
         [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
@@ -192,7 +192,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     _state = AFOperationReadyState;
 
     self.lock = [[NSRecursiveLock alloc] init];
-    self.lock.name = kAFNetworkingLockName;
+    self.lock.name = kAFBMBMNetworkingLockName;
     
     self.runLoopModes = [NSSet setWithObject:NSRunLoopCommonModes];
     
@@ -200,7 +200,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     
     self.shouldUseCredentialStorage = YES;
 
-    self.securityPolicy = [AFSecurityPolicy defaultPolicy];
+    self.securityPolicy = [AFBMSecurityPolicy defaultPolicy];
 
     return self;
 }
@@ -345,7 +345,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-            [notificationCenter postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+            [notificationCenter postNotificationName:AFBMNetworkingOperationDidFinishNotification object:self];
         });
     }
     
@@ -471,7 +471,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     [self.lock unlock];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidStartNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AFBMNetworkingOperationDidStartNotification object:self];
     });
 }
 
@@ -481,7 +481,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     [self.lock unlock];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AFBMNetworkingOperationDidFinishNotification object:self];
     });
 }
 
@@ -541,7 +541,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         });
     }];
 
-    for (AFURLConnectionOperation *operation in operations) {
+    for (AFBMURLConnectionOperation *operation in operations) {
         operation.completionGroup = group;
         void (^originalCompletionBlock)(void) = [operation.completionBlock copy];
         __weak __typeof(operation)weakOperation = operation;
@@ -773,7 +773,7 @@ didReceiveResponse:(NSURLResponse *)response
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFURLConnectionOperation *operation = [(AFURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
+    AFBMURLConnectionOperation *operation = [(AFBMURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
     
     operation.uploadProgress = self.uploadProgress;
     operation.downloadProgress = self.downloadProgress;

@@ -1,5 +1,5 @@
 //
-//  BFPaperButton.h
+//  BFBMPaperButton.h
 //  BFPaperKit
 //
 //  Created by Bence Feher on 7/11/14.
@@ -31,13 +31,13 @@
 
 #pragma mark - Useful constants
 // Nice circle diameter constants with ugly names:
-static CGFloat const bfPaperButton_tapCircleDiameterMedium = 305.f;
-static CGFloat const bfPaperButton_tapCircleDiameterSmall = bfPaperButton_tapCircleDiameterMedium / 2.f;
-static CGFloat const bfPaperButton_tapCircleDiameterLarge = bfPaperButton_tapCircleDiameterMedium * 1.5f;
-extern CGFloat const bfPaperButton_tapCircleDiameterDefault;
+static CGFloat const bfbmPaperButton_tapCircleDiameterMedium = 305.f;
+static CGFloat const bfbmPaperButton_tapCircleDiameterSmall = bfbmPaperButton_tapCircleDiameterMedium / 2.f;
+static CGFloat const bfbmPaperButton_tapCircleDiameterLarge = bfbmPaperButton_tapCircleDiameterMedium * 1.5f;
+extern CGFloat const bfbmPaperButton_tapCircleDiameterDefault;
 
 
-@interface BFPaperButton : UIButton <UIGestureRecognizerDelegate>
+@interface BFBMPaperButton : UIButton <UIGestureRecognizerDelegate>
 
 #pragma mark - Properties
 /** The corner radius which propagates through to the sub layers. */
@@ -49,7 +49,7 @@ extern CGFloat const bfPaperButton_tapCircleDiameterDefault;
 /** The UIColor to use for the circle which appears where you tap. NOTE: Setting this defeats the "Smart Color" ability of the tap circle. Alpha values less than 1 are recommended. */
 @property UIColor *tapCircleColor;
 
-/** The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. An alpha value of 1 is recommended, as the fade is a constant (clearBGFadeConstant) defined in the BFPaperButton.m. This bothers me too. */
+/** The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. An alpha value of 1 is recommended, as the fade is a constant (clearBGFadeConstant) defined in the BFBMPaperButton.m. This bothers me too. */
 @property UIColor *backgroundFadeColor;
 
 /** The CGFloat value representing the Diameter of the tap-circle. By default it will be the result of MAX(self.frame.width, self.frame.height). Any value less than zero will result in default being used. The constants: tapCircleDiameterLarge, tapCircleDiameterMedium, and tapCircleDiameterSmall are also available for use. */
@@ -93,52 +93,52 @@ extern CGFloat const bfPaperButton_tapCircleDiameterDefault;
 
 #pragma mark - Initializers
 /**
- *  Initializes a BFPaperButton without a frame. Can be Raised of Flat.
+ *  Initializes a BFBMPaperButton without a frame. Can be Raised of Flat.
  *
  *  @param raised A BOOL flag to determine whether or not this instance should be raised or flat. YES = Raised, NO = Flat.
  *
- *  @return A (Raised or Flat) BFPaperButton without a frame!
+ *  @return A (Raised or Flat) BFBMPaperButton without a frame!
  */
 - (instancetype)initWithRaised:(BOOL)raised;
 
 
 /**
- *  Initializes a BFPaperButton with a frame. Can be Raised of Flat.
+ *  Initializes a BFBMPaperButton with a frame. Can be Raised of Flat.
  *
  *  @param frame  A CGRect to use as the button's frame.
  *  @param raised A BOOL flag to determine whether or not this instance should be raised or flat. YES = Raised, NO = Flat.
  *
- *  @return A (Raised or Flat) BFPaperButton with a frame!
+ *  @return A (Raised or Flat) BFBMPaperButton with a frame!
  */
 - (instancetype)initWithFrame:(CGRect)frame raised:(BOOL)raised;
 
 
 #pragma mark - Deprecated Initializers
 /**
- *  Initializes a Raised BFPaperButton, obviously without a frame.
+ *  Initializes a Raised BFBMPaperButton, obviously without a frame.
  *
- *  @return A Raised BFPaperButton!
+ *  @return A Raised BFBMPaperButton!
  */
 - (instancetype)initRaised __attribute__((deprecated("Please use -(instancetype)initWithRaised:(BOOL)raised")));
 
 /**
- *  Initializes a Raised BFPaperButton and assigns it a frame.
+ *  Initializes a Raised BFBMPaperButton and assigns it a frame.
  *
- *  @return A Raised BFPaperButton with a frame!
+ *  @return A Raised BFBMPaperButton with a frame!
  */
 - (instancetype)initRaisedWithFrame:(CGRect)frame __attribute__((deprecated("Please use - (instancetype)initWithFrame:(CGRect)frame raised:(BOOL)raised")));
 
 /**
- *  Initializes a Flat BFPaperButton, obviously without a frame.
+ *  Initializes a Flat BFBMPaperButton, obviously without a frame.
  *
- *  @return A Flat BFPaperButton!
+ *  @return A Flat BFBMPaperButton!
  */
 - (instancetype)initFlat __attribute__((deprecated("Please use -(instancetype)initWithRaised:(BOOL)raised")));
 
 /**
- *  Initializes a Flat BFPaperButton and assigns it a frame.
+ *  Initializes a Flat BFBMPaperButton and assigns it a frame.
  *
- *  @return A Flat BFPaperButton with a frame!
+ *  @return A Flat BFBMPaperButton with a frame!
  */
 - (instancetype)initFlatWithFrame:(CGRect)frame __attribute__((deprecated("Please use - (instancetype)initWithFrame:(CGRect)frame raised:(BOOL)raised")));
 

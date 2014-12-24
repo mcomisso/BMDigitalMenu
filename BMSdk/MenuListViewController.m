@@ -13,14 +13,14 @@
 #import "BMDataManager.h"
 #import "BMUsageStatisticManager.h"
 
-#import "AFNetworkReachabilityManager.h"
+#import "AFBMNetworkReachabilityManager.h"
 
 #import "RecipeDetailViewController.h"
 #import "RecipeInfo.h"
 
 //Cell related
 #import "UIImageView+WebCache.h"
-#import "AFNetworking.h"
+#import "AFBMNetworking.h"
 #import "AXRatingView.h"
 
 #import "Constants.h"
@@ -37,7 +37,7 @@
 
 @property (strong, nonatomic) BMDataManager *dataManager;
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
-@property (strong, nonatomic) AFHTTPRequestOperationManager *requestOperationManager;
+@property (strong, nonatomic) AFBMHTTPRequestOperationManager *requestOperationManager;
 
 //Testing purpose variables
 @property (nonatomic) BOOL ratingDownloaded;
@@ -67,9 +67,9 @@
     
     self.dataManager = [BMDataManager sharedInstance];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
-    self.requestOperationManager = [AFHTTPRequestOperationManager manager];
+    self.requestOperationManager = [AFBMHTTPRequestOperationManager manager];
     
-    _requestOperationManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    _requestOperationManager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
 
     NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
     NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
@@ -202,7 +202,7 @@
             // Point to vote API for every recipeID inside the Array
             [_requestOperationManager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipe.slug]]
               parameters:nil
-                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                      
                      //Set the pair "AVG Rate" : "Recipe ID"
                      NSNumber *ratingValue = [responseObject objectForKey:@"rating"];
@@ -212,7 +212,7 @@
                          [self.dataManager saveRatingValue:ratingValue forRecipe:recipe.slug];
                      }
                  }
-                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                      
                      NSLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
                      

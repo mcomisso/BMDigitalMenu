@@ -1,6 +1,6 @@
-// AFURLConnectionOperation.h
+// AFBMURLConnectionOperation.h
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,22 @@
 #import <Foundation/Foundation.h>
 
 #import <Availability.h>
-#import "AFURLRequestSerialization.h"
-#import "AFURLResponseSerialization.h"
-#import "AFSecurityPolicy.h"
+#import "AFBMURLRequestSerialization.h"
+#import "AFBMURLResponseSerialization.h"
+#import "AFBMSecurityPolicy.h"
 
 /**
- `AFURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
+ `AFBMURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
 
  ## Subclassing Notes
 
  This is the base class of all network request operations. You may wish to create your own subclass in order to implement additional `NSURLConnection` delegate methods (see "`NSURLConnection` Delegate Methods" below), or to provide additional properties and/or class constructors.
 
- If you are creating a subclass that communicates over the HTTP or HTTPS protocols, you may want to consider subclassing `AFHTTPRequestOperation` instead, as it supports specifying acceptable content types or status codes.
+ If you are creating a subclass that communicates over the HTTP or HTTPS protocols, you may want to consider subclassing `AFBMHTTPRequestOperation` instead, as it supports specifying acceptable content types or status codes.
 
  ## NSURLConnection Delegate Methods
 
- `AFURLConnectionOperation` implements the following `NSURLConnection` delegate methods:
+ `AFBMURLConnectionOperation` implements the following `NSURLConnection` delegate methods:
 
  - `connection:didReceiveResponse:`
  - `connection:didReceiveData:`
@@ -54,9 +54,9 @@
 
  ## Callbacks and Completion Blocks
 
- The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed after the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `AFHTTPRequestOperation` subclasses for an example of this.
+ The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed after the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `AFBMHTTPRequestOperation` subclasses for an example of this.
 
- Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `AFURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as ["The Deallocation Problem"](http://developer.apple.com/library/ios/#technotes/tn2109/).
+ Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `AFBMURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as ["The Deallocation Problem"](http://developer.apple.com/library/ios/#technotes/tn2109/).
  
  ## SSL Pinning
  
@@ -68,11 +68,11 @@
  
  ## App Extensions
  
- When using AFNetworking in an App Extension, `#define AF_APP_EXTENSIONS` to avoid using unavailable APIs.
+ When using AFBMNetworking in an App Extension, `#define AF_APP_EXTENSIONS` to avoid using unavailable APIs.
 
  ## NSCoding & NSCopying Conformance
 
- `AFURLConnectionOperation` conforms to the `NSCoding` and `NSCopying` protocols, allowing operations to be archived to disk, and copied in memory, respectively. However, because of the intrinsic limitations of capturing the exact state of an operation at a particular moment, there are some important caveats to keep in mind:
+ `AFBMURLConnectionOperation` conforms to the `NSCoding` and `NSCopying` protocols, allowing operations to be archived to disk, and copied in memory, respectively. However, because of the intrinsic limitations of capturing the exact state of an operation at a particular moment, there are some important caveats to keep in mind:
 
  ### NSCoding Caveats
 
@@ -86,7 +86,7 @@
  - Operation copies do not include `completionBlock`, as it often strongly captures a reference to `self`, which would otherwise have the unintuitive side-effect of pointing to the _original_ operation when copied.
  */
 
-@interface AFURLConnectionOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSSecureCoding, NSCopying>
+@interface AFBMURLConnectionOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSSecureCoding, NSCopying>
 
 ///-------------------------------
 /// @name Accessing Run Loop Modes
@@ -162,7 +162,7 @@
 /**
  The security policy used to evaluate server trust for secure connections.
  */
-@property (nonatomic, strong) AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) AFBMSecurityPolicy *securityPolicy;
 
 ///------------------------
 /// @name Accessing Streams
@@ -206,7 +206,7 @@
 @property (nonatomic, strong) NSDictionary *userInfo;
 
 ///------------------------------------------------------
-/// @name Initializing an AFURLConnectionOperation Object
+/// @name Initializing an AFBMURLConnectionOperation Object
 ///------------------------------------------------------
 
 /**
@@ -239,7 +239,7 @@
 /**
  Resumes the execution of the paused request operation.
 
- Pause/Resume behavior varies depending on the underlying implementation for the operation class. In its base implementation, resuming a paused requests restarts the original request. However, since HTTP defines a specification for how to request a specific content range, `AFHTTPRequestOperation` will resume downloading the request from where it left off, instead of restarting the original request.
+ Pause/Resume behavior varies depending on the underlying implementation for the operation class. In its base implementation, resuming a paused requests restarts the original request. However, since HTTP defines a specification for how to request a specific content range, `AFBMHTTPRequestOperation` will resume downloading the request from where it left off, instead of restarting the original request.
  */
 - (void)resume;
 
@@ -320,9 +320,9 @@
 /**
  Posted when an operation begins executing.
  */
-extern NSString * const AFNetworkingOperationDidStartNotification;
+extern NSString * const AFBMNetworkingOperationDidStartNotification;
 
 /**
  Posted when an operation finishes.
  */
-extern NSString * const AFNetworkingOperationDidFinishNotification;
+extern NSString * const AFBMNetworkingOperationDidFinishNotification;

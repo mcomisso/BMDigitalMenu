@@ -120,7 +120,7 @@
                                     <constraint firstItem="P2n-yB-QmX" firstAttribute="leading" secondItem="vYA-ht-lUp" secondAttribute="leading" id="s5q-eA-D1B"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kv7-RB-AWO" customClass="BFPaperButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kv7-RB-AWO" customClass="BFBMPaperButton">
                                 <rect key="frame" x="0.0" y="255" width="90" height="90"/>
                                 <color key="backgroundColor" red="0.85302992724867721" green="0.31147968142827942" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>

@@ -28,7 +28,7 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "UIColor+BFPaperColors.h"
+#import "UIColor+BFBMPaperColors.h"
 
 @implementation UIColor (BFPaperColors)
 

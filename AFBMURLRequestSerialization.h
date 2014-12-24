@@ -1,6 +1,6 @@
 // AFSerialization.h
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,11 @@
 #endif
 
 /**
- The `AFURLRequestSerialization` protocol is adopted by an object that encodes parameters for a specified HTTP requests. Request serializers may encode parameters as query strings, HTTP bodies, setting the appropriate HTTP header fields as necessary.
+ The `AFBMURLRequestSerialization` protocol is adopted by an object that encodes parameters for a specified HTTP requests. Request serializers may encode parameters as query strings, HTTP bodies, setting the appropriate HTTP header fields as necessary.
 
  For example, a JSON request serializer may set the HTTP body of the request to a JSON representation, and set the `Content-Type` HTTP header field value to `application/json`.
  */
-@protocol AFURLRequestSerialization <NSObject, NSSecureCoding, NSCopying>
+@protocol AFBMURLRequestSerialization <NSObject, NSSecureCoding, NSCopying>
 
 /**
  Returns a request with the specified parameters encoded into a copy of the original request.
@@ -52,18 +52,18 @@
 /**
 
  */
-typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
-    AFHTTPRequestQueryStringDefaultStyle = 0,
+typedef NS_ENUM(NSUInteger, AFBMHTTPRequestQueryStringSerializationStyle) {
+    AFBMHTTPRequestQueryStringDefaultStyle = 0,
 };
 
-@protocol AFMultipartFormData;
+@protocol AFBMMultipartFormData;
 
 /**
- `AFHTTPRequestSerializer` conforms to the `AFURLRequestSerialization` & `AFURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
+ `AFBMHTTPRequestSerializer` conforms to the `AFBMURLRequestSerialization` & `AFBMURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
 
- Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPRequestSerializer` in order to ensure consistent default behavior.
+ Any request or response serializer dealing with HTTP is encouraged to subclass `AFBMHTTPRequestSerializer` in order to ensure consistent default behavior.
  */
-@interface AFHTTPRequestSerializer : NSObject <AFURLRequestSerialization>
+@interface AFBMHTTPRequestSerializer : NSObject <AFBMURLRequestSerialization>
 
 /**
  The string encoding used to serialize parameters. `NSUTF8StringEncoding` by default.
@@ -178,9 +178,9 @@ forHTTPHeaderField:(NSString *)field;
 
  @param style The serialization style.
 
- @see AFHTTPRequestQueryStringSerializationStyle
+ @see AFBMHTTPRequestQueryStringSerializationStyle
  */
-- (void)setQueryStringSerializationWithStyle:(AFHTTPRequestQueryStringSerializationStyle)style;
+- (void)setQueryStringSerializationWithStyle:(AFBMHTTPRequestQueryStringSerializationStyle)style;
 
 /**
  Set the a custom method of query string serialization according to the specified block.
@@ -223,7 +223,7 @@ forHTTPHeaderField:(NSString *)field;
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block DEPRECATED_ATTRIBUTE;
+                              constructingBodyWithBlock:(void (^)(id <AFBMMultipartFormData> formData))block DEPRECATED_ATTRIBUTE;
 
 /**
  Creates an `NSMutableURLRequest` object with the specified HTTP method and URLString, and constructs a `multipart/form-data` HTTP body, using the specified parameters and multipart form data block. See http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.2
@@ -233,7 +233,7 @@ forHTTPHeaderField:(NSString *)field;
  @param method The HTTP method for the request. This parameter must not be `GET` or `HEAD`, or `nil`.
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded and set in the request HTTP body.
- @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `AFMultipartFormData` protocol.
+ @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `AFBMMultipartFormData` protocol.
  @param error The error that occured while constructing the request.
 
  @return An `NSMutableURLRequest` object
@@ -241,7 +241,7 @@ forHTTPHeaderField:(NSString *)field;
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                              constructingBodyWithBlock:(void (^)(id <AFBMMultipartFormData> formData))block
                                                   error:(NSError * __autoreleasing *)error;
 
 /**
@@ -251,9 +251,9 @@ forHTTPHeaderField:(NSString *)field;
  @param fileURL The file URL to write multipart form contents to.
  @param handler A handler block to execute.
  
- @discussion There is a bug in `NSURLSessionTask` that causes requests to not send a `Content-Length` header when streaming contents from an HTTP body, which is notably problematic when interacting with the Amazon S3 webservice. As a workaround, this method takes a request constructed with `multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:error:`, or any other request with an `HTTPBodyStream`, writes the contents to the specified file and returns a copy of the original request with the `HTTPBodyStream` property set to `nil`. From here, the file can either be passed to `AFURLSessionManager -uploadTaskWithRequest:fromFile:progress:completionHandler:`, or have its contents read into an `NSData` that's assigned to the `HTTPBody` property of the request.
+ @discussion There is a bug in `NSURLSessionTask` that causes requests to not send a `Content-Length` header when streaming contents from an HTTP body, which is notably problematic when interacting with the Amazon S3 webservice. As a workaround, this method takes a request constructed with `multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:error:`, or any other request with an `HTTPBodyStream`, writes the contents to the specified file and returns a copy of the original request with the `HTTPBodyStream` property set to `nil`. From here, the file can either be passed to `AFBMURLSessionManager -uploadTaskWithRequest:fromFile:progress:completionHandler:`, or have its contents read into an `NSData` that's assigned to the `HTTPBody` property of the request.
 
- @see https://github.com/AFNetworking/AFNetworking/issues/1398
+ @see https://github.com/AFBMNetworking/AFBMNetworking/issues/1398
  */
 - (NSMutableURLRequest *)requestWithMultipartFormRequest:(NSURLRequest *)request
                              writingStreamContentsToFile:(NSURL *)fileURL
@@ -264,9 +264,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `AFHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
+ The `AFBMMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `AFBMHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
  */
-@protocol AFMultipartFormData
+@protocol AFBMMultipartFormData
 
 /**
  Appends the HTTP header `Content-Disposition: file; filename=#{generated filename}; name=#{name}"` and `Content-Type: #{generated mimeType}`, followed by the encoded file data and the multipart form boundary.
@@ -351,7 +351,7 @@ forHTTPHeaderField:(NSString *)field;
 /**
  Throttles request bandwidth by limiting the packet size and adding a delay for each chunk read from the upload stream.
 
- When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kAFUploadStream3GSuggestedPacketSize` and `kAFUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, there is no definite way to distinguish between a 3G, EDGE, or LTE connection over `NSURLConnection`. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
+ When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kAFBMUploadStream3GSuggestedPacketSize` and `kAFBMUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, there is no definite way to distinguish between a 3G, EDGE, or LTE connection over `NSURLConnection`. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
 
  @param numberOfBytes Maximum packet size, in number of bytes. The default packet size for an input stream is 16kb.
  @param delay Duration of delay each time a packet is read. By default, no delay is set.
@@ -363,7 +363,7 @@ forHTTPHeaderField:(NSString *)field;
 
 #pragma mark -
 
-@interface AFJSONRequestSerializer : AFHTTPRequestSerializer
+@interface AFBMJSONRequestSerializer : AFBMHTTPRequestSerializer
 
 /**
  Options for writing the request JSON data from Foundation objects. For possible values, see the `NSJSONSerialization` documentation section "NSJSONWritingOptions". `0` by default.
@@ -379,7 +379,7 @@ forHTTPHeaderField:(NSString *)field;
 
 @end
 
-@interface AFPropertyListRequestSerializer : AFHTTPRequestSerializer
+@interface AFBMPropertyListRequestSerializer : AFBMHTTPRequestSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".
@@ -413,28 +413,28 @@ forHTTPHeaderField:(NSString *)field;
 
  The following error domain is predefined.
 
- - `NSString * const AFURLRequestSerializationErrorDomain`
+ - `NSString * const AFBMURLRequestSerializationErrorDomain`
 
  ### Constants
 
- `AFURLRequestSerializationErrorDomain`
- AFURLRequestSerializer errors. Error codes for `AFURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ `AFBMURLRequestSerializationErrorDomain`
+ AFURLRequestSerializer errors. Error codes for `AFBMURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
-extern NSString * const AFURLRequestSerializationErrorDomain;
+extern NSString * const AFBMURLRequestSerializationErrorDomain;
 
 /**
  ## User info dictionary keys
 
  These keys may exist in the user info dictionary, in addition to those defined for NSError.
 
- - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const AFBMNetworkingOperationFailingURLResponseErrorKey`
 
  ### Constants
 
- `AFNetworkingOperationFailingURLRequestErrorKey`
- The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `AFURLRequestSerializationErrorDomain`.
+ `AFBMNetworkingOperationFailingURLRequestErrorKey`
+ The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `AFBMURLRequestSerializationErrorDomain`.
  */
-extern NSString * const AFNetworkingOperationFailingURLRequestErrorKey;
+extern NSString * const AFBMNetworkingOperationFailingURLRequestErrorKey;
 
 /**
  ## Throttling Bandwidth for HTTP Request Input Streams
@@ -443,11 +443,11 @@ extern NSString * const AFNetworkingOperationFailingURLRequestErrorKey;
 
  ### Constants
 
- `kAFUploadStream3GSuggestedPacketSize`
+ `kAFBMUploadStream3GSuggestedPacketSize`
  Maximum packet size, in number of bytes. Equal to 16kb.
 
- `kAFUploadStream3GSuggestedDelay`
+ `kAFBMUploadStream3GSuggestedDelay`
  Duration of delay each time a packet is read. Equal to 0.2 seconds.
  */
-extern NSUInteger const kAFUploadStream3GSuggestedPacketSize;
-extern NSTimeInterval const kAFUploadStream3GSuggestedDelay;
+extern NSUInteger const kAFBMUploadStream3GSuggestedPacketSize;
+extern NSTimeInterval const kAFBMUploadStream3GSuggestedDelay;

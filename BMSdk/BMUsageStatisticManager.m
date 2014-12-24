@@ -8,9 +8,9 @@
 
 #import "BMUsageStatisticManager.h"
 #import "BMUsageStatisticModel.h"
-#import "AFHTTPRequestOperationManager.h"
+#import "AFBMHTTPRequestOperationManager.h"
 
-#import "AFNetworkReachabilityManager.h"
+#import "AFBMNetworkReachabilityManager.h"
 #import <sys/utsname.h>
 
 #define POLLINGTIMER 20
@@ -38,8 +38,8 @@
 @property (strong, nonatomic) NSMutableDictionary *info;
 
 @property (strong, nonatomic) NSOperationQueue *dataMonitoringQueue;
-@property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
-@property (strong, nonatomic) AFNetworkReachabilityManager *reachManager;
+@property (strong, nonatomic) AFBMHTTPRequestOperationManager *manager;
+@property (strong, nonatomic) AFBMNetworkReachabilityManager *reachManager;
 
 @end
 
@@ -71,9 +71,9 @@
         _categoriesViewed = [[NSMutableArray alloc]init];
         _info = [[NSMutableDictionary alloc]init];
         
-        _reachManager = [AFNetworkReachabilityManager sharedManager];
+        _reachManager = [AFBMNetworkReachabilityManager sharedManager];
 
-        _manager = [AFHTTPRequestOperationManager manager];
+        _manager = [AFBMHTTPRequestOperationManager manager];
         _manager.securityPolicy.allowInvalidCertificates = YES;
         _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         _dataMonitoringQueue = _manager.operationQueue;
@@ -159,10 +159,10 @@
     
     [_manager POST:BMPARSEAPI
        parameters:params
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
               //DELETE THIS DATA
               
-          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          } failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
               //SAVE AND RETRY
         
           }];
@@ -173,10 +173,10 @@
     
     [_manager POST:BMPARSEAPI
         parameters:0
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                //DELETE THIS DATA
 
-           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           } failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                //SAVE AND RETRY
 
            }];
@@ -203,11 +203,11 @@
        parameters:@{@"X-Parse-Application-Id":APPLICATION_ID,
                     @"X-Parse-REST-API-Key":REST_API,
                     }
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
               
               NSLog(@"%@",[responseObject description]);
           }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
           }];
 }

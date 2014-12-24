@@ -9,7 +9,7 @@
 #import "BMDownloadManager.h"
 #import "BMLocationManager.h"
 #import "Reachability.h"
-#import "AFNetworking.h"
+#import "AFBMNetworking.h"
 #import "Constants.h"
 
 #import "UAObfuscatedString.h"
@@ -22,7 +22,7 @@
 
 @property BOOL isNetworkAvailable;
 @property (nonatomic, readwrite) BOOL isMenuDownloaded;
-@property (nonatomic, strong) AFHTTPRequestOperationManager *AFmanager;
+@property (nonatomic, strong) AFBMHTTPRequestOperationManager *AFmanager;
 
 @end
 
@@ -47,8 +47,8 @@
     if (self != nil) {
         NSLog(@"[Download manager] BMDownload Manager initialized");
         [self isConnectionAvailable];
-        self.AFmanager = [AFHTTPRequestOperationManager manager];
-        self.AFmanager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        self.AFmanager = [AFBMHTTPRequestOperationManager manager];
+        self.AFmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
         
         NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
         NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
@@ -69,7 +69,7 @@
         //GET request for downloading the menu starting from the beacons parameters
         [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
              parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                     NSLog(@"Completed Download of the menu.");
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
                     
@@ -93,7 +93,7 @@
                         NSLog(@"Il menu scaricato non contiene alcuna ricetta");
                     }
                 }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                     NSLog(@"Error downloading the menu");
                     NSLog(@"%@, %@", [error localizedDescription], [error localizedFailureReason]);
                 }];
@@ -105,7 +105,7 @@
     // GET FOR Day MENU
     [_AFmanager GET:[BMAPI_DAYMENU_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
          parameters:nil
-            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                 int numbersOfMenus = (int)[[responseObject objectForKey:@"count"]integerValue];
                 if (numbersOfMenus) {
 
@@ -130,7 +130,7 @@
                     NSLog(@"No day menu entries");
                 }
             }
-            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error while downloading day menu: %@, %@", [error localizedDescription], [error localizedFailureReason]);
             }];
 }
@@ -175,11 +175,11 @@
 {
     [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:@"menu/"]
         parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                //saveRatingData
                [self performSelector:@selector(latestFetchedDate:) withObject:responseObject];
            }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                //Something wrong happened
                NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
            }];
@@ -232,12 +232,12 @@
     
     [_AFmanager GET:[BMAPI_COMMENTS_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipeSlug]]
         parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                NSLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
                
                [dataManager saveCommentsData:responseObject];
            }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                NSLog(@"[Download Manager] Cannot download data for comments: %@, %@", [error localizedDescription], [error localizedFailureReason]);
            }];
 }
@@ -248,12 +248,12 @@
     
     [_AFmanager GET:[BMAPI_RATING_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipeSlug]]
         parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
                //saveRatingData
                int ratingValue = (int)[[responseObject objectForKey:@"rating"]integerValue];
                [dataManager saveRatingValue:[NSNumber numberWithInt:ratingValue] forRecipe:recipeSlug];
            }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                //Something wrong happened
                NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
            }];

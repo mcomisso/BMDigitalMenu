@@ -22,7 +22,7 @@
 #import "DocumentsViewController.h"
 
 //Daily Menu
-#import "BFPaperButton.h"
+#import "BFBMPaperButton.h"
 
 //Remove in production
 #import "BMDownloadManager.h"
@@ -46,7 +46,7 @@
 
 
 // Daily - PaperButton
-@property (strong, nonatomic) IBOutlet BFPaperButton *dailyMenuButton;
+@property (strong, nonatomic) IBOutlet BFBMPaperButton *dailyMenuButton;
 
 /* DAILY MENU DATA*/
 @property (nonatomic) BOOL isDayMenuAvailable;

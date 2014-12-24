@@ -1,6 +1,6 @@
 // AFSecurity.m
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFSecurityPolicy.h"
+#import "AFBMSecurityPolicy.h"
 
 // Equivalent of macro in <AssertMacros.h>, without causing compiler warning:
 // "'DebugAssert' is deprecated: first deprecated in OS X 10.8"
@@ -167,11 +167,11 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 #pragma mark -
 
-@interface AFSecurityPolicy()
+@interface AFBMSecurityPolicy()
 @property (readwrite, nonatomic, strong) NSArray *pinnedPublicKeys;
 @end
 
-@implementation AFSecurityPolicy
+@implementation AFBMSecurityPolicy
 
 + (NSArray *)defaultPinnedCertificates {
     static NSArray *_defaultPinnedCertificates = nil;
@@ -193,14 +193,14 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 }
 
 + (instancetype)defaultPolicy {
-    AFSecurityPolicy *securityPolicy = [[self alloc] init];
+    AFBMSecurityPolicy *securityPolicy = [[self alloc] init];
     securityPolicy.SSLPinningMode = AFSSLPinningModeNone;
 
     return securityPolicy;
 }
 
 + (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode {
-    AFSecurityPolicy *securityPolicy = [[self alloc] init];
+    AFBMSecurityPolicy *securityPolicy = [[self alloc] init];
     securityPolicy.SSLPinningMode = pinningMode;
     securityPolicy.validatesDomainName = YES;
     [securityPolicy setPinnedCertificates:[self defaultPinnedCertificates]];

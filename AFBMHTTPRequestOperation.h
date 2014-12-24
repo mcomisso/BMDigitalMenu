@@ -1,6 +1,6 @@
-// AFHTTPRequestOperation.h
+// AFBMHTTPRequestOperation.h
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "AFURLConnectionOperation.h"
+#import "AFBMURLConnectionOperation.h"
 
 /**
- `AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
+ `AFBMHTTPRequestOperation` is a subclass of `AFBMURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
  */
-@interface AFHTTPRequestOperation : AFURLConnectionOperation
+@interface AFBMHTTPRequestOperation : AFBMURLConnectionOperation
 
 ///------------------------------------------------
 /// @name Getting HTTP URL Connection Information
@@ -38,11 +38,11 @@
 @property (readonly, nonatomic, strong) NSHTTPURLResponse *response;
 
 /**
- Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an AFHTTPResponse serializer, which uses the raw data as its response object. The serializer validates the status code to be in the `2XX` range, denoting success. If the response serializer generates an error in `-responseObjectForResponse:data:error:`, the `failure` callback of the session task or request operation will be executed; otherwise, the `success` callback will be executed.
+ Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an AFBMHTTPResponse serializer, which uses the raw data as its response object. The serializer validates the status code to be in the `2XX` range, denoting success. If the response serializer generates an error in `-responseObjectForResponse:data:error:`, the `failure` callback of the session task or request operation will be executed; otherwise, the `success` callback will be executed.
 
  @warning `responseSerializer` must not be `nil`. Setting a response serializer will clear out any cached value 
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) AFBMHTTPResponseSerializer <AFBMURLResponseSerialization> * responseSerializer;
 
 /**
  An object constructed by the `responseSerializer` from the response and response data. Returns `nil` unless the operation `isFinished`, has a `response`, and has `responseData` with non-zero content length. If an error occurs during serialization, `nil` will be returned, and the `error` property will be populated with the serialization error.
@@ -61,7 +61,7 @@
  @param success The block to be executed on the completion of a successful request. This block has no return value and takes two arguments: the receiver operation and the object constructed from the response data of the request.
  @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occurred during the request.
  */
-- (void)setCompletionBlockWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+- (void)setCompletionBlockWithSuccess:(void (^)(AFBMHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(AFBMHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

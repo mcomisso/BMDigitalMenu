@@ -345,7 +345,7 @@
         NSString *singleComment = [commentsArray[i] objectForKey:@"commento"];
         NSString *userId = [commentsArray[i] objectForKey:@"utente"];
         
-        if ([_fmdb executeUpdate:@"INSERT INTO comments (ricetta_id, comment, userId) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
+        if ([_fmdb executeUpdate:@"INSERT INTO comment (recipe_slug, comment, customer) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
         {
             NSLog(@"Completed insert of comment");
         }
@@ -371,7 +371,7 @@
 {
     NSMutableArray *retval = [[NSMutableArray alloc]init];
     
-    FMResultSet *results = [_fmdb executeQuery:@"SELECT * FROM comments WHERE recipe_slug = ?;", recipeSlug];
+    FMResultSet *results = [_fmdb executeQuery:@"SELECT * FROM comment WHERE recipe_slug = ?;", recipeSlug];
     
     while ([results next]) {
         NSMutableDictionary *singleComment = [[NSMutableDictionary alloc]init];

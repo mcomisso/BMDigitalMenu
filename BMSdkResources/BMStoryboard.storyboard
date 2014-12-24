@@ -120,7 +120,7 @@
                                     <constraint firstItem="P2n-yB-QmX" firstAttribute="leading" secondItem="vYA-ht-lUp" secondAttribute="leading" id="s5q-eA-D1B"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kv7-RB-AWO" customClass="BFPaperButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kv7-RB-AWO" customClass="BFBMPaperButton">
                                 <rect key="frame" x="0.0" y="255" width="90" height="90"/>
                                 <color key="backgroundColor" red="0.85302992724867721" green="0.31147968142827942" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1144,7 +1144,6 @@
                         <outlet property="bestMatchRecipeViewLabelIngredients" destination="MbV-TO-4bq" id="HLc-8w-fye"/>
                         <outlet property="bestMatchRecipeViewLabelName" destination="9Ds-OA-UL7" id="rsn-B1-0Tf"/>
                         <outlet property="bestMatchSelectedView" destination="neS-aj-CNj" id="EW2-Yb-Yrw"/>
-                        <outlet property="closebutton" destination="JY2-i1-qrg" id="jdO-JH-efM"/>
                         <outlet property="contentViewHeight" destination="ll3-Ar-3YN" id="a5t-9q-OQw"/>
                         <outlet property="descriptionTextLabel" destination="y8q-Vo-pSO" id="FH4-Kl-l9w"/>
                         <outlet property="heartButton" destination="8Iz-RB-FVg" id="TsU-wT-6Dp"/>

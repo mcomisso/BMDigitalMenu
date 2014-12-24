@@ -7,7 +7,7 @@
 //
 
 #import "previouslyOrderedRecipes.h"
-#import "BFPaperButton.h"
+#import "BFBMPaperButton.h"
 
 @interface previouslyOrderedRecipes()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

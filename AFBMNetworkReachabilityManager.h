@@ -1,6 +1,6 @@
-// AFNetworkReachabilityManager.h
+// AFBMNetworkReachabilityManager.h
 // 
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFBMNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,15 +31,15 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 };
 
 /**
- `AFNetworkReachabilityManager` monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.
+ `AFBMNetworkReachabilityManager` monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.
  
  Reachability can be used to determine background information about why a network operation failed, or to trigger a network operation retrying when a connection is established. It should not be used to prevent a user from initiating a network request, as it's possible that an initial request may be required to establish reachability.
 
  See Apple's Reachability Sample Code (https://developer.apple.com/library/ios/samplecode/reachability/)
  
- @warning Instances of `AFNetworkReachabilityManager` must be started with `-startMonitoring` before reachability status can be determined.
+ @warning Instances of `AFBMNetworkReachabilityManager` must be started with `-startMonitoring` before reachability status can be determined.
  */
-@interface AFNetworkReachabilityManager : NSObject
+@interface AFBMNetworkReachabilityManager : NSObject
 
 /**
  The current network reachability status.
@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 /**
  ## Network Reachability
 
- The following constants are provided by `AFNetworkReachabilityManager` as possible network reachability statuses.
+ The following constants are provided by `AFBMNetworkReachabilityManager` as possible network reachability statuses.
 
  enum {
  AFNetworkReachabilityStatusUnknown,
@@ -165,8 +165,8 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
  Strings that are used as keys in a `userInfo` dictionary in a network reachability status change notification.
 
- `AFNetworkingReachabilityNotificationStatusItem`
- A key in the userInfo dictionary in a `AFNetworkingReachabilityDidChangeNotification` notification.
+ `AFBMNetworkingReachabilityNotificationStatusItem`
+ A key in the userInfo dictionary in a `AFBMNetworkingReachabilityDidChangeNotification` notification.
  The corresponding value is an `NSNumber` object representing the `AFNetworkReachabilityStatus` value for the current reachability status.
  */
 
@@ -176,12 +176,12 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
 /**
  Posted when network reachability changes.
- This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `AFNetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
+ This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `AFBMNetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
 
  @warning In order for network reachability to be monitored, include the `SystemConfiguration` framework in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
-extern NSString * const AFNetworkingReachabilityDidChangeNotification;
-extern NSString * const AFNetworkingReachabilityNotificationStatusItem;
+extern NSString * const AFBMNetworkingReachabilityDidChangeNotification;
+extern NSString * const AFBMNetworkingReachabilityNotificationStatusItem;
 
 ///--------------------
 /// @name Functions
@@ -190,4 +190,4 @@ extern NSString * const AFNetworkingReachabilityNotificationStatusItem;
 /**
  Returns a localized string representation of an `AFNetworkReachabilityStatus` value.
  */
-extern NSString * AFStringFromNetworkReachabilityStatus(AFNetworkReachabilityStatus status);
+extern NSString * AFBMStringFromNetworkReachabilityStatus(AFNetworkReachabilityStatus status);

@@ -10,7 +10,7 @@
 #import "BMLocationManager.h"
 #import "BMUsageStatisticManager.h"
 
-#import "AFHTTPRequestOperationManager.h"
+#import "AFBMHTTPRequestOperationManager.h"
 
 #import "Flurry.h"
 

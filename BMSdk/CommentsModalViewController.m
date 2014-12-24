@@ -11,7 +11,11 @@
 #import "BMUsageStatisticManager.h"
 #import "REComposeViewController.h"
 
-#import "AFHTTPRequestOperationManager.h"
+#import "AFBMHTTPRequestOperationManager.h"
+
+//Security Classes
+#import "UAObfuscatedString.h"
+#import "CocoaSecurity.h"
 
 @interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate, REComposeViewControllerDelegate>
 
@@ -202,18 +206,62 @@
 -(void)fakeLoader
 {
     NSMutableDictionary *userData = [[NSMutableDictionary alloc]init];
-    [userData setObject:@"matteo" forKey:@"username"];
+    [userData setObject:@"matteo-comisso" forKey:@"username"];
+    [userData setObject:@"Matteo Comisso" forKey:@"fullName"];
     
     [[NSUserDefaults standardUserDefaults] setObject:userData forKey:@"MSUserDetails"];
+    
+    [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
 #pragma mark - Send comment to server
 -(void)encryptAndSendComment:(NSString *)comment
-{
+{   //TODO: remove "PfK5/Q9b6q0/ZgMOqQDJglc0rl6ub+eY"
+    NSString *key = Obfuscate.P.f.K._5.forward_slash.Q._9.b._6.q._0.forward_slash.Z.g.M.O.q.Q.D.J.g.l.c._0.r.l._6.u.b.plus.e.Y;
+    NSInteger blockSize = 32;
+    
+    NSMutableDictionary *payload = [[NSMutableDictionary alloc]init];
+    
     NSDate *date = [NSDate date];
     double intervalTime = [date timeIntervalSince1970];
-    
     NSString *timeStampIntervalTime = [NSString stringWithFormat:@"%f", intervalTime];
+    [payload setObject:timeStampIntervalTime forKey:@"timestamp"];
+    
+    NSDictionary *MSUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:@"MSUserDetails"];
+    
+    [payload setObject:MSUserDetails[@"fullName"] forKey:@"complete_name"];
+    [payload setObject:MSUserDetails[@"username"] forKey:@"customer"];
+    [payload setObject:self.recipeSlug forKey:@"recipe"];
+    [payload setObject:comment forKey:@"comment"];
+    
+    NSString *dictionaryContent = [NSString stringWithFormat:@"%@", payload];
+    
+    NSInteger missingChars = blockSize - (dictionaryContent.length % blockSize);
+    NSInteger wantedLength = dictionaryContent.length + missingChars;
+    
+    NSString *paddedString = [dictionaryContent stringByPaddingToLength:wantedLength withString:@"{" startingAtIndex:0];
+    
+    CocoaSecurityResult *aesEncrypt = [CocoaSecurity aesEncrypt:[NSString stringWithFormat:@"%@", paddedString] key:key];
+    NSString *encryptedPOST = aesEncrypt.base64;
+    
+    AFBMHTTPRequestOperationManager *AFBMmanager = [AFBMHTTPRequestOperationManager manager];
+    AFBMmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
+    
+    NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
+    NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+    
+    [AFBMmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
+    
+    NSDictionary *params = @{@"comment":encryptedPOST};
+    
+    [AFBMmanager POST:BMAPI_CREATE_COMMENT_FOR_RECIPE_SLUG
+         parameters:params
+            success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
+                NSLog(@"%@", responseObject);
+            }
+            failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+            }];
     
 }
 
@@ -224,7 +272,8 @@
     NSMutableDictionary *userComment = [[NSMutableDictionary alloc]init];
     NSDictionary *msUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:@"MSUserDetails"];
     NSString *username = [msUserDetails objectForKey:@"username"];
-    
+    NSString *fullName = [msUserDetails objectForKey:@"fullName"];
+
     [userComment setObject:comment forKey:@"comment"];
     [userComment setObject:username forKey:@"username"];
     

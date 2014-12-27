@@ -7,3 +7,11 @@
 */
 
 "KEY" = "CONTENT";
+"SCELTI" = "SCELTI";
+"NoContent" = "Nessun contenuto";
+"NoContentMessage" = "Tocca l'icona a forma di cuore per ricordarti cosa ordinare";
+"Price" = "Prezzo";
+"DefaultShareMessage" = "Sto mangiando %@";
+"CommentPlaceholder" = "Scrivi qui il tuo commento";
+"Warning" = "Attenzione";
+"MSAccountRequired" = "Per questa funzione è necessario un account MiSiedo.";

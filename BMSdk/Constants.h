@@ -31,3 +31,6 @@
 
 #define BMDarkValueColor        [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]
 #define BMLightDarkValueColor   [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]
+
+#define BMLocalizedString(key, comment) \
+[[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"BMSdk" withExtension:@"bundle"]] localizedStringForKey:(key) value:@"" table:nil]

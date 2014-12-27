@@ -266,7 +266,7 @@
     NSLog(@"%@", recipeNameString);
 
     cell.recipeName.text = recipeNameString;
-    cell.recipePrice.text = [[@"Prezzo: " stringByAppendingString:recipePriceString]stringByAppendingString:@"€"];
+    cell.recipePrice.text = [[BMLocalizedString(@"Price", nil) stringByAppendingString:recipePriceString]stringByAppendingString:@"€"];
     
     return cell;
 }

@@ -274,7 +274,7 @@
             cell.badgeTextColor = [UIColor whiteColor];
 
             cell.textLabel.textColor = [UIColor redColor];
-            cell.textLabel.text = @"SCELTI";
+            cell.textLabel.text = BMLocalizedString(@"SCELTI", nil);
             cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
             
             cell.badgeColor = [UIColor redColor];

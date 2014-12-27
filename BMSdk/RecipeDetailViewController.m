@@ -321,7 +321,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 /* Condividi il piatto sui social networks */
 - (IBAction)share:(id)sender
 {
-    NSString *shareString = [NSString stringWithFormat:@"Sto mangiando %@", self.recipeName];
+    NSString *shareString = [NSString stringWithFormat:BMLocalizedString(@"DefaultShareMessage", nil), self.recipeName];
     NSArray *shareContent = @[self.recipeImageView.image, shareString];
     
     NSArray *excludedActivities = @[UIActivityTypeAddToReadingList,

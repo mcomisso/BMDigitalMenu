@@ -106,7 +106,7 @@
 -(void)setUsernameForCell:(singleCommentTableViewCell *)cell item:(NSDictionary*)item
 {
     NSNumber *usernameID = [item objectForKey:@"username"];
-    NSString *string = [NSString stringWithFormat:@"Utente id: %@", usernameID];
+    NSString *string = [NSString stringWithFormat:@"%@", usernameID];
     [cell.usernameLabel setText:string];
 }
 
@@ -173,13 +173,13 @@
         _composeViewController.navigationItem.titleView = titleImageView;
         _composeViewController.delegate = self;
         _composeViewController.hasAttachment = NO;
-        _composeViewController.placeholderText = @"Scrivi qui il tuo commento";
+        _composeViewController.placeholderText = BMLocalizedString(@"CommentPlaceholder", nil);
         [self.composeViewController presentFromViewController:self];
     }
     else
     {
-        UIAlertView *alertview = [[UIAlertView alloc]initWithTitle:@"Attenzione!"
-                                                           message:@"Per commentare e votare i piatti è necessario un account MiSiedo."
+        UIAlertView *alertview = [[UIAlertView alloc]initWithTitle:BMLocalizedString(@"Warning", nil)
+                                                           message:BMLocalizedString(@"MSAccountRequired", nil)
                                                           delegate:nil
                                                  cancelButtonTitle:@"Ok"
                                                  otherButtonTitles:nil, nil];

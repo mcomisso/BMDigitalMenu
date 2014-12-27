@@ -23,6 +23,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *reminderButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *noContentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *helpMessageLabel;
 @end
 
 @implementation cartViewController
@@ -51,6 +53,8 @@
     
     [self setPreferredToolbar];
     
+    [self localizeView];
+    
     /*CONFIGURATION OF BUTTON*/
     self.reminderButton.layer.cornerRadius = self.reminderButton.frame.size.width/2;
 }
@@ -71,6 +75,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)localizeView
+{
+    self.noContentLabel.text = BMLocalizedString(@"NoContent", nil);
+    self.helpMessageLabel.text = BMLocalizedString(@"NoContentMessage", nil);
+    
 }
 
 -(void)setupViewIfEmptyArray

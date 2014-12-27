@@ -611,8 +611,8 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tocca l'icona a forma di cuore per ricordarti cosa ordinare" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DA2-mQ-0BN" userLabel="Description help">
-                                <rect key="frame" x="20" y="328" width="560" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tocca l'icona a forma di cuore per ricordarti cosa ordinare" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DA2-mQ-0BN" userLabel="Description help">
+                                <rect key="frame" x="20" y="327" width="560" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -723,6 +723,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="helpMessageLabel" destination="DA2-mQ-0BN" id="0w6-4c-O0h"/>
+                        <outlet property="noContentLabel" destination="lTf-cl-IrH" id="Jtl-1A-7lm"/>
                         <outlet property="reminderButton" destination="pKx-t6-hZt" id="6od-D5-NfT"/>
                         <outlet property="tableView" destination="KSr-IY-d6H" id="1Y9-29-bbd"/>
                     </connections>

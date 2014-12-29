@@ -67,7 +67,7 @@
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
         
-        NSLog(@"[Usage Statistic] BMUsageStatistic initialized");
+        DLog(@"[Usage Statistic] BMUsageStatistic initialized");
         _categoriesViewed = [[NSMutableArray alloc]init];
         _info = [[NSMutableDictionary alloc]init];
         
@@ -106,7 +106,7 @@
 
 -(void)appWillTerminate:(NSNotification *)note
 {
-    NSLog(@"Usage Manager: app will terminate");
+    DLog(@"Usage Manager: app will terminate");
     //Save everyting not sent on DB
     //Stop timer run
     
@@ -116,7 +116,7 @@
 
 -(void)appWillResignActive:(NSNotification*)note
 {
-    NSLog(@"Usage Manager: app will resign active");
+    DLog(@"Usage Manager: app will resign active");
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
@@ -205,10 +205,10 @@
                     }
           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
               
-              NSLog(@"%@",[responseObject description]);
+              DLog(@"%@",[responseObject description]);
           }
           failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+              DLog(@"error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
           }];
 }
 
@@ -226,7 +226,7 @@
     
     NSString *sysInformation = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", sysInformation);
+    DLog(@"%@", sysInformation);
     return sysInformation;
 }
 

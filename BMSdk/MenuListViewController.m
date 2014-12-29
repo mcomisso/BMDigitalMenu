@@ -186,7 +186,7 @@
     
     self.ratingForRecipe = [[NSMutableDictionary alloc]init];
     self.recipesInCategory = [self.dataManager requestRecipesForCategory:self.category ofRestaurantMajorNUmber:majorBeacon andMinorNumber:minorBeacon];
-    NSLog(@"Array description: %@", [_recipesInCategory description]);
+    DLog(@"Array description: %@", [_recipesInCategory description]);
 
     [self loadRatingForRecipesInThisCategory];
     
@@ -214,7 +214,7 @@
                  }
                  failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                      
-                     NSLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                     DLog(@"Cannot download rating for recipe. Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
                      
                  }];
         }

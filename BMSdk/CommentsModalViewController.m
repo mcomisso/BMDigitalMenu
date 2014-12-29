@@ -52,7 +52,7 @@
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     self.dataSourceOfComments = [NSMutableArray arrayWithArray:[dataManager requestCommentsForRecipe:self.recipeSlug]];
-    NSLog(@"%@", self.recipeSlug);
+    DLog(@"%@", self.recipeSlug);
     
     [self editViewIfNoRecipes];
     
@@ -106,7 +106,7 @@
 -(void)setUsernameForCell:(singleCommentTableViewCell *)cell item:(NSDictionary*)item
 {
     NSNumber *usernameID = [item objectForKey:@"username"];
-    NSString *string = [NSString stringWithFormat:@"Utente id: %@", usernameID];
+    NSString *string = [NSString stringWithFormat:@"%@", usernameID];
     [cell.usernameLabel setText:string];
 }
 
@@ -173,13 +173,13 @@
         _composeViewController.navigationItem.titleView = titleImageView;
         _composeViewController.delegate = self;
         _composeViewController.hasAttachment = NO;
-        _composeViewController.placeholderText = @"Scrivi qui il tuo commento";
+        _composeViewController.placeholderText = BMLocalizedString(@"CommentPlaceholder", nil);
         [self.composeViewController presentFromViewController:self];
     }
     else
     {
-        UIAlertView *alertview = [[UIAlertView alloc]initWithTitle:@"Attenzione!"
-                                                           message:@"Per commentare e votare i piatti è necessario un account MiSiedo."
+        UIAlertView *alertview = [[UIAlertView alloc]initWithTitle:BMLocalizedString(@"Warning", nil)
+                                                           message:BMLocalizedString(@"MSAccountRequired", nil)
                                                           delegate:nil
                                                  cancelButtonTitle:@"Ok"
                                                  otherButtonTitles:nil, nil];
@@ -192,7 +192,7 @@
     [composeViewController dismissViewControllerAnimated:YES completion:nil];
     
     if (result == REComposeResultCancelled) {
-        NSLog(@"Cancelled Comment");
+        DLog(@"Cancelled Comment");
     }
     else if (result == REComposeResultPosted)
     {
@@ -257,10 +257,10 @@
     [AFBMmanager POST:BMAPI_CREATE_COMMENT_FOR_RECIPE_SLUG
          parameters:params
             success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"%@", responseObject);
+                DLog(@"%@", responseObject);
             }
             failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                DLog(@"Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
             }];
     
 }

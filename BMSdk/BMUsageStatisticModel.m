@@ -58,12 +58,12 @@
 
     if ([fileManager fileExistsAtPath:_databasePath] == NO)
     {
-        NSLog(@"[BMUsageStatisticModel] Database not found, initializing...");
+        DLog(@"[BMUsageStatisticModel] Database not found, initializing...");
         [self initializeDatabase];
     }
     else
     {
-        NSLog(@"[BMUsageStatisticModel] Database found");
+        DLog(@"[BMUsageStatisticModel] Database found");
     }
 }
 
@@ -73,7 +73,7 @@
 -(void)initializeDatabase
 {
     const char *dbpath = [_databasePath UTF8String];
-    NSLog(@"%s", dbpath);
+    DLog(@"%s", dbpath);
     if (sqlite3_open(dbpath, &_database) == SQLITE_OK) {
         char *errMessage;
         const char *sql_stmt =
@@ -104,14 +104,14 @@
             context TEXT);";
         
         if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMessage) != SQLITE_OK) {
-            NSLog(@"[BMUsageStatisticModel]Failed To create table, %s", errMessage);
+            DLog(@"[BMUsageStatisticModel]Failed To create table, %s", errMessage);
         }
         sqlite3_close(_database);
-        NSLog(@"[BMUsageStatisticModel] Done creating Database");
+        DLog(@"[BMUsageStatisticModel] Done creating Database");
     }
     else
     {
-        NSLog(@"[BMUsageStatisticModel] Failed to open/create database");
+        DLog(@"[BMUsageStatisticModel] Failed to open/create database");
     }
 }
 

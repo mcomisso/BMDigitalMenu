@@ -55,13 +55,13 @@
 
 -(void)enableButton
 {
-    NSLog(@"Notification received");
+    DLog(@"Notification received");
     [self setEnabled:YES];
 }
 
 -(void)disableButton
 {
-    NSLog(@"Notification received");
+    DLog(@"Notification received");
     [self setEnabled:NO];
 }
 

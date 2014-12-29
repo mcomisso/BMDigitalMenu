@@ -30,7 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self dailyMenuObserver];
 
     [self setupDailyMenu];
 }
@@ -46,67 +45,6 @@
 }
 
 #pragma mark - Daily menu datasource
--(void)dailyMenuFakerLoader
-{
-    
-    self.dailyMenuDataSource = @{   @"PRIMI":@[
-                                            @{
-                                                @"name" :@"Linguine al Pesto",
-                                                @"price":@"4"
-                                            },
-                                            @{
-                                                @"name" :@"Pasta all'amatriciana",
-                                                @"price":@"6"
-                                            },
-                                            @{
-                                                @"name" :@"Pasta al Ragù",
-                                                @"price":@"5"
-                                            },
-                                            @{
-                                                @"name" :@"Pasta al Ragù",
-                                                @"price":@"2"
-                                            }],
-                                    @"SECONDI":@[
-                                            @{
-                                                @"name" : @"Scaloppine al vino bianco",
-                                                @"price" : @"12"
-                                                },
-                                            @{
-                                                @"name" : @"Tagliata di manzo",
-                                                @"price" : @"123"
-                                                },
-                                            @{
-                                                @"name" : @"Vitello tonnato",
-                                                @"price" : @"65"
-                                                },
-                                            @{
-                                                @"name" : @"Cotoletta alla milanese",
-                                                @"price" : @"1"
-                                                }],
-                                    @"CONTORNI": @[
-                                            @{
-                                                @"name" : @"Carote e insalata",
-                                                @"price" : @"51"
-                                                },
-                                            @{
-                                                @"name" : @"Patate al forno",
-                                                @"price" : @"6"
-                                                },
-                                            @{
-                                                @"name" : @"Verdure grigliate",
-                                                @"price" : @"13"
-                                                },
-                                            @{
-                                                @"name" : @"Spinaci",
-                                                @"price" : @"4"
-                                                }]
-                                    };
-
-    NSLog(@"Numero di elementi in dailyMenuDataSource %lu", (unsigned long)[self.dailyMenuDataSource count]);
-    
-    self.dailyCategorieDataSource = [self.dailyMenuDataSource allKeys];
-}
-
 -(void)loadRecipesForDayMenu
 {
     BMDataManager *dm = [BMDataManager sharedInstance];
@@ -131,15 +69,8 @@
 
 -(void)setupDailyMenu
 {
-//    [self dailyMenuFakerLoader];
     [self setupDatesOfDailyMenu];
     [self loadRecipesForDayMenu];
-}
-
-/*Check if daily menu is available and downloads it*/
--(void)dailyMenuObserver
-{
-
 }
 
 -(void)setupDatesOfDailyMenu
@@ -205,18 +136,6 @@
     
     return headerView;
 }
-/*
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section
-{
-    return 4;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 4)];
-    footerView.backgroundColor = [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1];
-    return footerView;
-}*/
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -257,16 +176,16 @@
     }
     
     NSString *sectionKey = [[self.dailyMenuDataSource allKeys]objectAtIndex:indexPath.section];
-    NSLog(@"%@", sectionKey);
+    DLog(@"%@", sectionKey);
 
     RecipeInfo *recipe = [[self.dailyMenuDataSource objectForKey:sectionKey]objectAtIndex:indexPath.row];
     NSString *recipeNameString = recipe.name;
     NSString *recipePriceString = [recipe.price stringValue];
     
-    NSLog(@"%@", recipeNameString);
+    DLog(@"%@", recipeNameString);
 
     cell.recipeName.text = recipeNameString;
-    cell.recipePrice.text = [[@"Prezzo: " stringByAppendingString:recipePriceString]stringByAppendingString:@"€"];
+    cell.recipePrice.text = [[BMLocalizedString(@"Price", nil) stringByAppendingString:recipePriceString]stringByAppendingString:@"€"];
     
     return cell;
 }

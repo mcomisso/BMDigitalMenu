@@ -11,6 +11,7 @@
 #import "BMUsageStatisticManager.h"
 
 #import "AFBMHTTPRequestOperationManager.h"
+#import "UAObfuscatedString.h"
 
 #import "Flurry.h"
 
@@ -28,16 +29,15 @@
     self = [super init];
     if (self) {
         //Initialization
-        NSLog(@"Start BMSDK");
+        DLog(@"Start BMSDK");
     }
     return self;
 }
 
 -(void)start
 {
-    [Flurry startSession:@"PQKM6JQY9Z9GNP6ZMPB4"];
     
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [Flurry startSession:Obfuscate.P.Q.K.M._6.J.Q.Y._9.Z._9.G.N.P._6.Z.M.P.B._4];
     _locationManager = [BMLocationManager sharedInstance];
     _statsManager = [BMUsageStatisticManager sharedInstance];
 }
@@ -50,20 +50,20 @@
 -(NSDictionary *)handleNotification:(NSDictionary *)userInfo
 {
     if ([userInfo objectForKey:@"b"]) {
-        NSLog(@"Found push notification for Background Notification Usage");
-        NSLog(@"B Content: %@", [userInfo description]);
+        DLog(@"Found push notification for Background Notification Usage");
+        DLog(@"B Content: %@", [userInfo description]);
         
     }
     else if ([userInfo objectForKey:@"m"])
     {
-        NSLog(@"Found push notification for ModalView Notification Usage");
-        NSLog(@"M Content: %@", [userInfo description]);
+        DLog(@"Found push notification for ModalView Notification Usage");
+        DLog(@"M Content: %@", [userInfo description]);
     }
     else if ([userInfo objectForKey:@"a"])
     {
-        NSLog(@"Found push notification for Area Notification Usage");
+        DLog(@"Found push notification for Area Notification Usage");
         //Save data inside NSUserDefaults
-        NSLog(@"A Content: %@", [userInfo description]);
+        DLog(@"A Content: %@", [userInfo description]);
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:[userInfo objectForKey:@"hi"] forKey:@"welcomeMessage"];

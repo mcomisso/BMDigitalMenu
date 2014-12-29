@@ -112,7 +112,7 @@
     //Set title
     self.dailyMenuButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.dailyMenuButton.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [self.dailyMenuButton setTitle:@"MENÙ\nDEL\nGIORNO" forState:UIControlStateNormal];
+    [self.dailyMenuButton setTitle:BMLocalizedString(@"dayMenuButton", nil) forState:UIControlStateNormal];
 
     self.dailyMenuButton.alpha = 1.f;
 }

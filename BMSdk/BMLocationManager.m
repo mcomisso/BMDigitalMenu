@@ -72,7 +72,7 @@
 {
     self = [super init];
     if (self) {
-        NSLog(@"Initialization BMSdk");
+        DLog(@"Initialization BMSdk");
         
         self.isBlueMateInterfacePresented = NO;
         
@@ -108,7 +108,7 @@
     NSString *errorMessage;
     
     if (![CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
-        NSLog(@"Beacon Tracking Unavailable");
+        DLog(@"Beacon Tracking Unavailable");
     }
     
     if (![CLLocationManager locationServicesEnabled]) {
@@ -145,31 +145,10 @@
         self.trackLocationNotified = YES;
     }
     
-    NSLog(@"%@", errorMessage);
+    DLog(@"%@", errorMessage);
     return NO;
     
 }
-
-#pragma mark -
-/**
- Activates the notifications only if the beacon is seen in a available hour
- */
--(BOOL)canShowNotification
-{
-    NSDate *date = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    NSDateComponents *dateComponents = [calendar components:NSHourCalendarUnit fromDate:date];
-    
-    long hour = [dateComponents hour];
-    
-    if (hour <= 6 || hour >= 0) {
-        NSLog(@"Test");
-    }
-    
-    return YES;
-}
-
 
 /**
  Completes the setup of this class
@@ -221,25 +200,25 @@
     {
         [self.locationManager startRangingBeaconsInRegion:self.bmBeaconRegion];
     }
-    NSLog(@"App startRanging");
+    DLog(@"App startRanging");
 }
 
 -(void)stopRanging
 {
     [self.locationManager stopRangingBeaconsInRegion:self.bmBeaconRegion];
-    NSLog(@"App stopRanging");
+    DLog(@"App stopRanging");
 }
 
 -(void)enterBackground
 {
     [self stopRanging];
-    NSLog(@"App enters in background");
+    DLog(@"App enters in background");
 }
 
 -(void)enterForeground
 {
     [self startRanging];
-    NSLog(@"App enters in foreground");
+    DLog(@"App enters in foreground");
 }
 
 -(void)startLookingForTable
@@ -288,7 +267,7 @@
             authStatus = @"Default case";
             break;
     }
-    NSLog(@"[Location Manager] changed auth status. Now: %u", status);
+    DLog(@"[Location Manager] changed auth status. Now: %u", status);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
@@ -305,7 +284,7 @@
     
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
-    NSLog(@"[Location Manager] entered in region: %@", [region identifier]);
+    DLog(@"[Location Manager] entered in region: %@", [region identifier]);
     
     [[UIApplication sharedApplication]presentLocalNotificationNow:welcomeNotification];
 }
@@ -319,17 +298,17 @@
         [[UIApplication sharedApplication]presentLocalNotificationNow:goodbyeNotification];
     }
 
-    NSLog(@"[Location Manager] exited region: %@", [region identifier]);
+    DLog(@"[Location Manager] exited region: %@", [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
-    NSLog(@"[Location Manager] started Monitoring for region %@", [region identifier]);
+    DLog(@"[Location Manager] started Monitoring for region %@", [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
-    NSLog(@"[Location Manager] Monitoring did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
+    DLog(@"[Location Manager] Monitoring did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
 }
 
 /*
@@ -361,7 +340,7 @@
                 if (self.timerCounter == 0) {
                     NSNumber *locatedRestaurantMajor = self.closestBeacon.major;
                     NSNumber *locatedRestaurantMinor = self.closestBeacon.minor;
-                    NSLog(@"%@", [self.closestBeacon description]);
+                    DLog(@"%@", [self.closestBeacon description]);
                     
                     [[NSUserDefaults standardUserDefaults]setObject:locatedRestaurantMajor forKey:@"majorBeacon"];
                     [[NSUserDefaults standardUserDefaults]setObject:locatedRestaurantMinor forKey:@"minorBeacon"];
@@ -374,12 +353,12 @@
         }
     }
     
-    NSLog(@"[Location Manager] did range %lu beacons in region %@", (unsigned long)[beacons count], [region identifier]);
+    DLog(@"[Location Manager] did range %lu beacons in region %@", (unsigned long)[beacons count], [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
 {
-    NSLog(@"[Location Manager] did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
+    DLog(@"[Location Manager] did Fail For Region: %@, %@, %@", [region identifier], [error localizedDescription], [error localizedFailureReason]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
@@ -405,12 +384,12 @@
             status = @"Default Case";
             break;
     }
-    NSLog(@"[Location Manager] did determine state \"%@\" in region %@", status, [region identifier]);
+    DLog(@"[Location Manager] did determine state \"%@\" in region %@", status, [region identifier]);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"[Location Manager] did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+    DLog(@"[Location Manager] did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
 }
 
 #pragma mark - Determine current view

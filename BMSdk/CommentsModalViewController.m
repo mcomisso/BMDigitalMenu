@@ -52,7 +52,7 @@
     //Load Comments from database
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     self.dataSourceOfComments = [NSMutableArray arrayWithArray:[dataManager requestCommentsForRecipe:self.recipeSlug]];
-    NSLog(@"%@", self.recipeSlug);
+    DLog(@"%@", self.recipeSlug);
     
     [self editViewIfNoRecipes];
     
@@ -192,7 +192,7 @@
     [composeViewController dismissViewControllerAnimated:YES completion:nil];
     
     if (result == REComposeResultCancelled) {
-        NSLog(@"Cancelled Comment");
+        DLog(@"Cancelled Comment");
     }
     else if (result == REComposeResultPosted)
     {
@@ -257,10 +257,10 @@
     [AFBMmanager POST:BMAPI_CREATE_COMMENT_FOR_RECIPE_SLUG
          parameters:params
             success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"%@", responseObject);
+                DLog(@"%@", responseObject);
             }
             failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                DLog(@"Error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
             }];
     
 }

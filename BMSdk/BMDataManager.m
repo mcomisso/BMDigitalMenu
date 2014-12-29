@@ -67,7 +67,7 @@
     FMResultSet *result = [_fmdb executeQuery:@"PRAGMA foreign_keys;"];
     if ([result next]) {
         int response = [result intForColumnIndex:0];
-        NSLog(@"Foreign key is %d", response);
+        DLog(@"Foreign key is %d", response);
     }
     [result close];
 }
@@ -95,11 +95,11 @@
     
     if ([_fmdb executeStatements:createDB])
     {
-        NSLog(@"Creation completed");
+        DLog(@"Creation completed");
     }
     else
     {
-        NSLog(@"ERRORS while creating database %@, %@ - Error Code: %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        DLog(@"ERRORS while creating database %@, %@ - Error Code: %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
     }
     
     [self checkForeignKeys];
@@ -125,11 +125,11 @@
 
         if ([_fmdb executeUpdate:@"INSERT INTO restaurant (slug, name, majorBeacon, minorBeacon) VALUES (?, ?, ?, ?)", restaurant.slug, restaurant.name, restaurant.majorBeacon, restaurant.minorBeacon])
         {
-            NSLog(@"Saved data");
+            DLog(@"Saved data");
         }
         else
         {
-            NSLog(@"%@, %d, %@", [_fmdb lastError], [_fmdb lastErrorCode], [_fmdb lastErrorMessage]);
+            DLog(@"%@, %d, %@", [_fmdb lastError], [_fmdb lastErrorCode], [_fmdb lastErrorMessage]);
         }
 
     //TODO: change for loop with increased performance forin
@@ -148,11 +148,11 @@
         recipe.best_match = [NSArray arrayWithArray:JSONArray[i][@"best_match"]];
         
         if ([_fmdb executeUpdate:@"INSERT INTO recipe VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)", recipe.name, recipe.price, recipe.category, recipe.last_edit_datetime, recipe.image_url, recipe.recipe_description, recipe.ingredients, recipe.slug, restaurant.slug]) {
-            NSLog(@"Saved Recipe with slug: %@", recipe.slug);
+            DLog(@"Saved Recipe with slug: %@", recipe.slug);
         }
         else
         {
-            NSLog(@"Error while saving recipe: %@,  %@, - Error Code %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            DLog(@"Error while saving recipe: %@,  %@, - Error Code %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
     
@@ -180,11 +180,11 @@
 
             if([_fmdb executeUpdate:@"INSERT INTO bestMatch(base_recipe_slug, target_recipe_slug) VALUES (?, ?);", recipeSlug, bestMatchForCurrentRecipe[j][@"slug"]])
             {
-                NSLog(@"Done inserting data into bestMatch for recipe %@", recipeSlug);
+                DLog(@"Done inserting data into bestMatch for recipe %@", recipeSlug);
             }
             else
             {
-                NSLog(@"Errors while insering bestmatch: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+                DLog(@"Errors while insering bestmatch: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
             }
         }
     }
@@ -198,11 +198,11 @@
 {
     //Slug of restaurant
     NSString *restaurantSlug = JSONArray[@"restaurant"][@"slug"];
-    NSLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
+    DLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
     
     NSArray *recipes = JSONArray[@"recipes"];
 
-    NSLog(@"Downloaded Day Menu recipes description %@", [recipes description]);
+    DLog(@"Downloaded Day Menu recipes description %@", [recipes description]);
 
     int recipesCount = (int)[JSONArray[@"recipes"] count];
 
@@ -216,11 +216,11 @@
         
         if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?);", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
         {
-            NSLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
+            DLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
         }
         else
         {
-            NSLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            DLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
     [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
@@ -236,11 +236,11 @@
 
         if ([_fmdb executeUpdate:@"INSERT INTO orders(orderDate, recipe_name, recipe_image_url, recipe_slug, recipe_ingredients, recipe_price, restaurant_slug) VALUES (?, ?, ?, ?, ?, ?, ?);", [NSDate date], recipe.name, recipe.image_url, recipe.slug, recipe.ingredients, recipe.price, [[NSUserDefaults standardUserDefaults] objectForKey:@"restaurantSlug"]])
         {
-            NSLog(@"Done inserting data into orders");
+            DLog(@"Done inserting data into orders");
         }
         else
         {
-            NSLog(@"Errors while inserting orders in history. %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            DLog(@"Errors while inserting orders in history. %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
 }
@@ -347,11 +347,11 @@
         
         if ([_fmdb executeUpdate:@"INSERT INTO comment (recipe_slug, comment, customer) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
         {
-            NSLog(@"Completed insert of comment");
+            DLog(@"Completed insert of comment");
         }
         else
         {
-            NSLog(@"Error while inserting comment %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            DLog(@"Error while inserting comment %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
         }
     }
 }
@@ -359,11 +359,11 @@
 -(void)deleteCommentsOfRecipe:(NSString *)recipeSlug
 {
     if ([_fmdb executeUpdate:@"DELETE FROM comment WHERE recipe_slug = ?;", recipeSlug]) {
-        NSLog(@"Deleted successfully the comments of %@", recipeSlug);
+        DLog(@"Deleted successfully the comments of %@", recipeSlug);
     }
     else
     {
-        NSLog(@"Errors while deleting the comments of %@. Error: %@ %@ %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        DLog(@"Errors while deleting the comments of %@. Error: %@ %@ %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
     }
 }
 
@@ -392,11 +392,11 @@
 -(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipeSlug
 {
     if ([_fmdb executeUpdate:@"UPDATE recipe SET avg_rating = ? WHERE slug = ?;", value, recipeSlug]) {
-        NSLog(@"Updated average rating of recipe %@", recipeSlug);
+        DLog(@"Updated average rating of recipe %@", recipeSlug);
     }
     else
     {
-        NSLog(@"Errors while updating average rating of %@. Errors: %@ %@ | Code: %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        DLog(@"Errors while updating average rating of %@. Errors: %@ %@ | Code: %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
     }
 }
 
@@ -470,7 +470,7 @@
     if (![[NSFileManager defaultManager]fileExistsAtPath:dataPath]) {
         [[NSFileManager defaultManager]createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:&error];
         if (error) {
-            NSLog(@"Error while creating directory: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+            DLog(@"Error while creating directory: %@, %@", [error localizedDescription], [error localizedFailureReason]);
             return nil;
         }
     }
@@ -522,7 +522,7 @@
         NSString *category = [categories stringForColumn:@"category"];
 
         FMResultSet *recipeListForCategory = [_fmdb executeQuery:@"SELECT name, price, slug FROM dayMenu WHERE day = ? AND restaurant_slug = ? AND category = ?;", day, restaurantSlug, category];
-        NSLog(@"DEBUG: %@ %@ %d", [_fmdb lastErrorMessage], [_fmdb lastError], [_fmdb lastErrorCode]);
+        DLog(@"DEBUG: %@ %@ %d", [_fmdb lastErrorMessage], [_fmdb lastError], [_fmdb lastErrorCode]);
         NSMutableArray *recipesForCategory = [[NSMutableArray alloc]init];
         
         while ([recipeListForCategory next]) {
@@ -580,7 +580,7 @@
     NSString *today = [self dateInYearMonthDayFormatFromDate:[NSDate date]];
     NSString *dayOfMenu = [self dateInYearMonthDayFormatFromDate:menuDate];
     
-    NSLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
+    DLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
     
     //Se la data è di oggi
     if ([today isEqualToString:dayOfMenu]) {
@@ -642,20 +642,20 @@
         
         int response = sqlite3_prepare_v2(_database, forged, -1, &statement, NULL);
         
-        NSLog(@"[SAVE PDF] Response insert inside DB: %d %s", response, sqlite3_errmsg(self.database));
+        DLog(@"[SAVE PDF] Response insert inside DB: %d %s", response, sqlite3_errmsg(self.database));
         if (sqlite3_step(statement) == SQLITE_DONE) {
-            NSLog(@"[Save PDF] Completed save");
+            DLog(@"[Save PDF] Completed save");
         }
         else
         {
-            NSLog(@"[Save PDF] Failed Insert into database");
+            DLog(@"[Save PDF] Failed Insert into database");
         }
         sqlite3_finalize(statement);
         sqlite3_close(_database);
     }
     else
     {
-        NSLog(@"[Save PDF] Failed Open Database");
+        DLog(@"[Save PDF] Failed Open Database");
         sqlite3_close(_database);
     }
 }
@@ -681,11 +681,11 @@
     
     if ([_fmdb executeUpdate:@"DELETE FROM restaurant WHERE slug = ?;", restaurantSlug])
     {
-        NSLog(@"Deleted successfully from db the restaurant and data with slug %@", restaurantSlug);
+        DLog(@"Deleted successfully from db the restaurant and data with slug %@", restaurantSlug);
     }
     else
     {
-        NSLog(@"Errors while deleting restaurant");
+        DLog(@"Errors while deleting restaurant");
     }
 }
 

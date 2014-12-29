@@ -45,7 +45,7 @@
 {
     self = [super init];
     if (self != nil) {
-        NSLog(@"[Download manager] BMDownload Manager initialized");
+        DLog(@"[Download manager] BMDownload Manager initialized");
         [self isConnectionAvailable];
         self.AFmanager = [AFBMHTTPRequestOperationManager manager];
         self.AFmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
@@ -70,7 +70,7 @@
         [_AFmanager GET:[BMAPI_RECIPES_FROM_MAJ_MIN stringByAppendingString:[NSString stringWithFormat:@"%@/%@/?format=json", [majorNumber stringValue], [minorNumber stringValue]]]
              parameters:nil
                 success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-                    NSLog(@"Completed Download of the menu.");
+                    DLog(@"Completed Download of the menu.");
                     int numbersOfRecipes = (int)[[responseObject objectForKey:@"count"]integerValue];
                     
                     //If > 0 -> save recipes
@@ -90,12 +90,12 @@
                     else
                     {
                         //Il menu non contiene ricette
-                        NSLog(@"Il menu scaricato non contiene alcuna ricetta");
+                        DLog(@"Il menu scaricato non contiene alcuna ricetta");
                     }
                 }
                 failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-                    NSLog(@"Error downloading the menu");
-                    NSLog(@"%@, %@", [error localizedDescription], [error localizedFailureReason]);
+                    DLog(@"Error downloading the menu");
+                    DLog(@"%@, %@", [error localizedDescription], [error localizedFailureReason]);
                 }];
     }
 }
@@ -110,7 +110,7 @@
                 if (numbersOfMenus) {
 
                     //Visualize the button and serve the recipes of the day.
-                    NSLog(@"Day Menu api downloaded %d menus", numbersOfMenus);
+                    DLog(@"Day Menu api downloaded %d menus", numbersOfMenus);
                     
                     //Keep looking until you find today inside the results list
                     for (int j = 0; j < numbersOfMenus; j++) {
@@ -127,11 +127,11 @@
                 else
                 {
                     //No day menu. Don't visualize the button.
-                    NSLog(@"No day menu entries");
+                    DLog(@"No day menu entries");
                 }
             }
             failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error while downloading day menu: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+                DLog(@"Error while downloading day menu: %@, %@", [error localizedDescription], [error localizedFailureReason]);
             }];
 }
 
@@ -155,7 +155,7 @@
     NSDate *today = [calendar dateFromComponents:components];
     NSDate *dayOfMenu = [dateFormatter dateFromString:dateToCompare];
     
-    NSLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
+    DLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
     
     long int result = [dayOfMenu compare:today];
     
@@ -181,7 +181,7 @@
            }
            failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                //Something wrong happened
-               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
+               DLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
            }];
 }
 
@@ -189,7 +189,7 @@
 {
     NSArray *arrayOfRecipes = [self parseData:data of:@"menu"];
     
-    NSLog(@"[Download manager] Array description: %@ ", [arrayOfRecipes description]);
+    DLog(@"[Download manager] Array description: %@ ", [arrayOfRecipes description]);
 }
 
 -(NSMutableArray *)parseData:(NSData *)dataToParse of:(NSString*)categoryToParse
@@ -204,7 +204,7 @@
                                                        error:&error];
 
     if (error) {
-        NSLog(@"[Download manager] Error: %@", [error localizedDescription]);
+        DLog(@"[Download manager] Error: %@", [error localizedDescription]);
         return  nil;
     }
     NSArray *menuArray = nil;
@@ -233,12 +233,12 @@
     [_AFmanager GET:[BMAPI_COMMENTS_FOR_RECIPE_SLUG stringByAppendingString:[NSString stringWithFormat:@"%@/?format=json", recipeSlug]]
         parameters:nil
            success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-               NSLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
+               DLog(@"[DownloadManager] Comments description: %@", [responseObject description]);
                
                [dataManager saveCommentsData:responseObject];
            }
            failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-               NSLog(@"[Download Manager] Cannot download data for comments: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+               DLog(@"[Download Manager] Cannot download data for comments: %@, %@", [error localizedDescription], [error localizedFailureReason]);
            }];
 }
 
@@ -255,7 +255,7 @@
            }
            failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
                //Something wrong happened
-               NSLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
+               DLog(@"[Download Manager] Failed Fetch of rating recipe %@ , %@", [error localizedDescription], [error localizedFailureReason]);
            }];
 }
 
@@ -268,12 +268,12 @@
     
     if (networkStatus == NotReachable) {
         self.isNetworkAvailable = NO;
-        NSLog(@"[Download manager] No internet connection");
+        DLog(@"[Download manager] No internet connection");
     }
     else
     {
         self.isNetworkAvailable = YES;
-        NSLog(@"[Download manager] Connected To internet");
+        DLog(@"[Download manager] Connected To internet");
     }
 }
 

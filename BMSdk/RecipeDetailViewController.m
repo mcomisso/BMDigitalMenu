@@ -211,7 +211,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 {
     if (!IS_IPHONE4) {
         _originalCenter = CGPointMake(self.bestMatchCollectionView.center.x, self.bestMatchCollectionView.center.y);
-        NSLog(@"[BESTMATCH VIEW] Original center in view for bestMatchCollectionView: %f, %f", _originalCenter.x, _originalCenter.y);
+        DLog(@"[BESTMATCH VIEW] Original center in view for bestMatchCollectionView: %f, %f", _originalCenter.x, _originalCenter.y);
     }
     else
     {
@@ -284,10 +284,10 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
     [self.recipeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:self.recipeImageUrl]
                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                        if (error) {
-                                           NSLog(@"Error download image: %@ %@", [error localizedDescription], [error localizedFailureReason]);
+                                           DLog(@"Error download image: %@ %@", [error localizedDescription], [error localizedFailureReason]);
                                        }else
                                        {
-                                           NSLog(@"Download completed");
+                                           DLog(@"Download completed");
                                            [_motionView setImage:image];
                                            [self.view insertSubview:_motionView atIndex:0];
                                            [_motionView setMotionEnabled:NO];
@@ -455,7 +455,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
                              self.bestMatchCollectionView.center = _originalCenter;
                          } completion:^(BOOL finished) {
                              _isCombinationOpen = YES;
-                             NSLog(@"Completed bestmatch animation");
+                             DLog(@"Completed bestmatch animation");
                              [sender setEnabled:YES];
                          }];
     }
@@ -496,12 +496,12 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Bestmatch collectionView CENTER IN Y: %f", _bestMatchCollectionView.center.y);
+    DLog(@"Bestmatch collectionView CENTER IN Y: %f", _bestMatchCollectionView.center.y);
     static NSString *cellIdentifier = @"bestMatchIdentifier";
     RecipeInfo *recipe = [self.bestMatchDataSource objectAtIndex:indexPath.row];
     
     bestMatchCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    NSLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
+    DLog(@"BestMatch datasource %@", [self.bestMatchDataSource description]);
     
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:recipe.image_url]];
     cell.imageView.layer.borderColor = [UIColor blackColor].CGColor;
@@ -525,7 +525,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
                          self.bestMatchSelectedView.alpha = 1.f;
                      }
                      completion:^(BOOL finished) {
-                         NSLog(@"Completed show recipe transition");
+                         DLog(@"Completed show recipe transition");
                      }];
 
     self.bestMatchRecipeViewLabelName.text = recipe.name;

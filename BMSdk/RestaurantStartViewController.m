@@ -206,7 +206,7 @@
     [UIView animateWithDuration:0.4 delay:0.3 usingSpringWithDamping:0.8 initialSpringVelocity:6 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.restaurantNameContainer.center = originalCenter;
     } completion:^(BOOL finished) {
-        NSLog(@"PDF Button Animation Completed");
+        DLog(@"PDF Button Animation Completed");
     }];
 }
 
@@ -318,7 +318,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Selezionato row %@", [indexPath description]);
+    DLog(@"Selezionato row %@", [indexPath description]);
     if (indexPath.row == 0) {
         [self performSegueWithIdentifier:@"cartSegue" sender:self];
     }
@@ -338,7 +338,7 @@
 {
     RestaurantStartmenuCell *cell = (RestaurantStartmenuCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
     NSString *nameOfCategory = cell.categoryLabel.text;
-    NSLog(@"%@", nameOfCategory);
+    DLog(@"%@", nameOfCategory);
     
     return nameOfCategory;
 }
@@ -363,7 +363,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier]isEqualToString:@"cartSegue"]) {
-        NSLog(@"Cart View segue");
+        DLog(@"Cart View segue");
     }
     if ([[segue identifier] isEqualToString:@"showRecipes"])
     {

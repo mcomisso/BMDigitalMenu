@@ -120,7 +120,7 @@
                                   reuseIdentifier:cellIdentifier];
     }
     cell.recipeSlug = recipe.slug;
-    NSLog(@"Recipe Description: %@", [recipe description]);
+    DLog(@"Recipe Description: %@", [recipe description]);
     
     // SD_IMAGE to set the image in async
     [cell.recipeImageView sd_setImageWithURL:[NSURL URLWithString:recipe.image_url]
@@ -180,7 +180,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
  
-    NSLog(@"Description: %@", [self.dataSource description]);
+    DLog(@"Description: %@", [self.dataSource description]);
    return [self.dataSource count];
 }
 

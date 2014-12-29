@@ -257,13 +257,13 @@
     }
     
     NSString *sectionKey = [[self.dailyMenuDataSource allKeys]objectAtIndex:indexPath.section];
-    NSLog(@"%@", sectionKey);
+    DLog(@"%@", sectionKey);
 
     RecipeInfo *recipe = [[self.dailyMenuDataSource objectForKey:sectionKey]objectAtIndex:indexPath.row];
     NSString *recipeNameString = recipe.name;
     NSString *recipePriceString = [recipe.price stringValue];
     
-    NSLog(@"%@", recipeNameString);
+    DLog(@"%@", recipeNameString);
 
     cell.recipeName.text = recipeNameString;
     cell.recipePrice.text = [[BMLocalizedString(@"Price", nil) stringByAppendingString:recipePriceString]stringByAppendingString:@"€"];

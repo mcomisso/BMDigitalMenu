@@ -16,3 +16,4 @@
 "Warning" = "Warning";
 "MSAccountRequired" = "For this function is required a MiSiedo account.";
 "dayMenuButton" = "Day\nMenu";
+"noCommentsAvailable" = "There's no available comments for the selected recipe.";

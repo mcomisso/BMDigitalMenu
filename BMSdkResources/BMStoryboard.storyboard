@@ -1340,24 +1340,6 @@ sul tuo iPhone immediatamente</string>
             </objects>
             <point key="canvasLocation" x="4351" y="-21"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="ic5-IU-OLF">
-            <objects>
-                <viewController id="eGJ-UH-zUR" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4ec-fQ-X3v"/>
-                        <viewControllerLayoutGuide type="bottom" id="wFW-v5-4RT"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ru2-hS-MOx">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="q6J-f3-fvC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5466" y="-21"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sj4-oL-7ma">
             <objects>

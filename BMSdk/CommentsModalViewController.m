@@ -66,6 +66,7 @@
 {
     if ([self.dataSourceOfComments count] == 0) {
         self.tableView.alpha = 0.f;
+        self.noCommentsLabel.text = BMLocalizedString(@"noCommentsAvailable", nil);
     }
     else
     {

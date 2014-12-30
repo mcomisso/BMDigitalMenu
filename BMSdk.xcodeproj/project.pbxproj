@@ -550,11 +550,11 @@
 		B915C2F31977FFAF005618A6 /* BMSdk */ = {
 			isa = PBXGroup;
 			children = (
-				B99CBDF51A14D1AD00B8BEDE /* Class Definition */,
-				B9909F9B19892B2000D02CB6 /* Managers */,
-				B9A0286619C7076200B86031 /* Views */,
 				B915C2F61977FFAF005618A6 /* BMSdk.h */,
 				B915C2F81977FFAF005618A6 /* BMSdk.m */,
+				B99CBDF51A14D1AD00B8BEDE /* Model Object definition */,
+				B9909F9B19892B2000D02CB6 /* Managers */,
+				B9A0286619C7076200B86031 /* Views */,
 				B915C2F41977FFAF005618A6 /* Supporting Files */,
 			);
 			path = BMSdk;
@@ -590,10 +590,10 @@
 			isa = PBXGroup;
 			children = (
 				B9CFD8631A3F268800A8C18D /* bluemate-logo@2x.png */,
-				B9F1A01219E824DF00DD177E /* Icons */,
 				B915C338197857C5005618A6 /* BMStoryboard.storyboard */,
-				B915C329197803C0005618A6 /* Supporting Files */,
 				B92AD6D519AA87C600DDA65A /* Localizable.strings */,
+				B9F1A01219E824DF00DD177E /* Icons */,
+				B915C329197803C0005618A6 /* Supporting Files */,
 			);
 			path = BMSdkResources;
 			sourceTree = "<group>";
@@ -797,7 +797,7 @@
 			name = Managers;
 			sourceTree = "<group>";
 		};
-		B99CBDF51A14D1AD00B8BEDE /* Class Definition */ = {
+		B99CBDF51A14D1AD00B8BEDE /* Model Object definition */ = {
 			isa = PBXGroup;
 			children = (
 				B91D68BD199C156500C2C135 /* RecipeInfo.h */,
@@ -805,7 +805,7 @@
 				B9E45A601A0D39D200EC4F7D /* RestaurantInfo.h */,
 				B9E45A611A0D39D200EC4F7D /* RestaurantInfo.m */,
 			);
-			name = "Class Definition";
+			name = "Model Object definition";
 			sourceTree = "<group>";
 		};
 		B9A0286619C7076200B86031 /* Views */ = {

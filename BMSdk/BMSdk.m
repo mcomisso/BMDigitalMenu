@@ -36,7 +36,6 @@
 
 -(void)start
 {
-    
     [Flurry startSession:Obfuscate.P.Q.K.M._6.J.Q.Y._9.Z._9.G.N.P._6.Z.M.P.B._4];
     _locationManager = [BMLocationManager sharedInstance];
     _statsManager = [BMUsageStatisticManager sharedInstance];

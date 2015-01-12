@@ -39,9 +39,7 @@
 		B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2F11977FFAF005618A6 /* Foundation.framework */; };
 		B915C2F71977FFAF005618A6 /* BMSdk.h in Copy Files */ = {isa = PBXBuildFile; fileRef = B915C2F61977FFAF005618A6 /* BMSdk.h */; };
 		B915C2F91977FFAF005618A6 /* BMSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C2F81977FFAF005618A6 /* BMSdk.m */; };
-		B915C3001977FFAF005618A6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2FF1977FFAF005618A6 /* XCTest.framework */; };
 		B915C3011977FFAF005618A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2F11977FFAF005618A6 /* Foundation.framework */; };
-		B915C3031977FFAF005618A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C3021977FFAF005618A6 /* UIKit.framework */; };
 		B915C3061977FFAF005618A6 /* libBMSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B915C2EE1977FFAF005618A6 /* libBMSdk.a */; };
 		B915C30C1977FFAF005618A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B915C30A1977FFAF005618A6 /* InfoPlist.strings */; };
 		B915C30E1977FFAF005618A6 /* BMSdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B915C30D1977FFAF005618A6 /* BMSdkTests.m */; };
@@ -150,8 +148,6 @@
 		B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */; };
 		B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
-		B9694CA31A3714B00014BB0D /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9694CA21A3714B00014BB0D /* Flurry.h */; };
-		B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */; };
 		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
 		B9730CD119C3151F0005843D /* bestMatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */; };
@@ -212,6 +208,8 @@
 		B9F087201991148F00002074 /* BMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0871E1991148F00002074 /* BMDataManager.m */; };
 		B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F0872119911FE600002074 /* SystemConfiguration.framework */; };
 		B9FA5B41199659080072B21D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
+		B9FA72021A6427F1007CF3BF /* Flurry.h in Headers */ = {isa = PBXBuildFile; fileRef = B9FA72011A6427F1007CF3BF /* Flurry.h */; };
+		B9FA72041A64285C007CF3BF /* libFlurry_6.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9FA72031A64285C007CF3BF /* libFlurry_6.0.0.a */; };
 		B9FB0EDA19DEF3310007DAC7 /* Suggerimenti-filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9FB0ED919DEF3310007DAC7 /* Suggerimenti-filled@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -273,8 +271,6 @@
 		B915C2F61977FFAF005618A6 /* BMSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMSdk.h; sourceTree = "<group>"; };
 		B915C2F81977FFAF005618A6 /* BMSdk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BMSdk.m; sourceTree = "<group>"; };
 		B915C2FE1977FFAF005618A6 /* BMSdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMSdkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B915C2FF1977FFAF005618A6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		B915C3021977FFAF005618A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		B915C3091977FFAF005618A6 /* BMSdkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BMSdkTests-Info.plist"; sourceTree = "<group>"; };
 		B915C30B1977FFAF005618A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B915C30D1977FFAF005618A6 /* BMSdkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BMSdkTests.m; sourceTree = "<group>"; };
@@ -394,8 +390,6 @@
 		B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticManager.h; sourceTree = "<group>"; };
 		B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticManager.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		B9694CA21A3714B00014BB0D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
 		B9730CCF19C3151F0005843D /* bestMatchCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bestMatchCollectionViewCell.m; sourceTree = "<group>"; };
@@ -426,7 +420,6 @@
 		B9C29FA519865A29002309FF /* MenuListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListCell.m; sourceTree = "<group>"; };
 		B9C29FAB19865C6B002309FF /* RestaurantStartmenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantStartmenuCell.h; sourceTree = "<group>"; };
 		B9C29FAC19865C6B002309FF /* RestaurantStartmenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantStartmenuCell.m; sourceTree = "<group>"; };
-		B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.3.0.a; sourceTree = "<group>"; };
 		B9CFD84A1A3EF60600A8C18D /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
 		B9CFD84B1A3EF60600A8C18D /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
 		B9CFD84C1A3EF60600A8C18D /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
@@ -458,6 +451,8 @@
 		B9F0871E1991148F00002074 /* BMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataManager.m; sourceTree = "<group>"; };
 		B9F0872119911FE600002074 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		B9FA72011A6427F1007CF3BF /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		B9FA72031A64285C007CF3BF /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
 		B9FB0ED919DEF3310007DAC7 /* Suggerimenti-filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Suggerimenti-filled@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -468,7 +463,7 @@
 			files = (
 				B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */,
 				B915C2F21977FFAF005618A6 /* Foundation.framework in Frameworks */,
-				B9694CA51A37154C0014BB0D /* libFlurry_5.4.0.a in Frameworks */,
+				B9FA72041A64285C007CF3BF /* libFlurry_6.0.0.a in Frameworks */,
 				B9F0872219911FE600002074 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,9 +472,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B915C3001977FFAF005618A6 /* XCTest.framework in Frameworks */,
 				B915C3061977FFAF005618A6 /* libBMSdk.a in Frameworks */,
-				B915C3031977FFAF005618A6 /* UIKit.framework in Frameworks */,
 				B915C3011977FFAF005618A6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,15 +526,12 @@
 		B915C2F01977FFAF005618A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B9694CA41A37154C0014BB0D /* libFlurry_5.4.0.a */,
-				B9C4870C19C777D4003F2F6E /* libFlurry_5.3.0.a */,
+				B9FA72031A64285C007CF3BF /* libFlurry_6.0.0.a */,
 				B94EC1EC19C704C20084F6F5 /* AdSupport.framework */,
 				B9FA5B4219965A460072B21D /* libsqlite3.0.dylib */,
 				B96894EF19924042009E1036 /* libsqlite3.dylib */,
 				B9F0872119911FE600002074 /* SystemConfiguration.framework */,
 				B915C2F11977FFAF005618A6 /* Foundation.framework */,
-				B915C2FF1977FFAF005618A6 /* XCTest.framework */,
-				B915C3021977FFAF005618A6 /* UIKit.framework */,
 				B915C326197803BF005618A6 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
@@ -627,8 +617,8 @@
 				B947FBF51A19032700C57FC1 /* FMDB */,
 				B9116BE519E59A6E0024332B /* PapersButton */,
 				B9F39E4F19C82E0A00E4557B /* Animators and utils */,
-				B9694CA21A3714B00014BB0D /* Flurry.h */,
 				B93D7DCA19BA697100EAD43A /* Reachability.h */,
+				B9FA72011A6427F1007CF3BF /* Flurry.h */,
 				B93D7DCB19BA697100EAD43A /* Reachability.m */,
 				B92AD6DE19AB353200DDA65A /* TDBadgedCell.h */,
 				B92AD6DF19AB353200DDA65A /* TDBadgedCell.m */,
@@ -1013,6 +1003,7 @@
 				B9CFD8591A3EF60600A8C18D /* DEComposeTextView.h in Headers */,
 				B943ECE819A60D7D001ABB4E /* AFBMURLConnectionOperation.h in Headers */,
 				B943ECEA19A60D7D001ABB4E /* AFBMURLRequestSerialization.h in Headers */,
+				B9FA72021A6427F1007CF3BF /* Flurry.h in Headers */,
 				B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */,
 				B943ECEC19A60D7D001ABB4E /* AFBMURLResponseSerialization.h in Headers */,
 				B943ECEE19A60D7D001ABB4E /* AFBMURLSessionManager.h in Headers */,
@@ -1058,7 +1049,6 @@
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */,
 				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
-				B9694CA31A3714B00014BB0D /* Flurry.h in Headers */,
 				B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */,
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
 				B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */,

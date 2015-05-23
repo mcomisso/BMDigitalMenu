@@ -91,6 +91,8 @@
                     {
                         //Il menu non contiene ricette
                         DLog(@"Il menu scaricato non contiene alcuna ricetta");
+                        BMLocationManager *locationManager = [BMLocationManager sharedInstance];
+                        [locationManager startRanging];
                     }
                 }
                 failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {

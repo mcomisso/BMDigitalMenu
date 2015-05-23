@@ -8,7 +8,6 @@
 
 #import "BMSdk.h"
 #import "BMLocationManager.h"
-#import "BMUsageStatisticManager.h"
 
 #import "AFBMHTTPRequestOperationManager.h"
 #import "UAObfuscatedString.h"
@@ -18,7 +17,6 @@
 @interface BMSdk()
 
 @property (nonatomic, strong) BMLocationManager *locationManager;
-@property (nonatomic, strong) BMUsageStatisticManager *statsManager;
 
 @end
 
@@ -36,10 +34,9 @@
 
 -(void)start
 {
-    [Flurry startSession:Obfuscate.P.Q.K.M._6.J.Q.Y._9.Z._9.G.N.P._6.Z.M.P.B._4];
+    // Set here the session key of Flurry
+    [Flurry startSession:Obfuscate.s.e.s.s.i.o.n.k.e.y];
     _locationManager = [BMLocationManager sharedInstance];
-    
-    _statsManager = [BMUsageStatisticManager sharedInstance];
 }
 
 /**

@@ -9,7 +9,6 @@
 #import "RecipeDetailViewController.h"
 #import "ModalBlurredSegue.h"
 #import "BMDataManager.h"
-#import "BMUsageStatisticManager.h"
 #import "CommentsModalViewController.h"
 
 #import "RecipeInfo.h"
@@ -56,7 +55,6 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 @property (nonatomic, strong) TransitionManager *transitionManager;
 
 //Classes for Blue-Mate services
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) BMCartManager *cartManager;
 
 @property (strong, nonatomic) IBOutlet UIView *backviewContainer;
@@ -162,7 +160,6 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
     
     self.bestMatchCollectionView.alpha = 0.f;
     self.transitionManager = [[TransitionManager alloc]init];
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
     
     // Close button
     self.closeButton.layer.cornerRadius = self.closeButton.frame.size.width / 2;

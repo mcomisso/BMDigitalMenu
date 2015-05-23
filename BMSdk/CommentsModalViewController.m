@@ -8,7 +8,6 @@
 #import "singleCommentTableViewCell.h"
 #import "CommentsModalViewController.h"
 #import "BMDataManager.h"
-#import "BMUsageStatisticManager.h"
 #import "REComposeViewController.h"
 
 #import "AFBMHTTPRequestOperationManager.h"
@@ -30,7 +29,6 @@
 @property (strong, nonatomic) IBOutlet UIView *backgroundView;
 @property (strong, nonatomic) IBOutlet UILabel *noCommentsLabel;
 
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) REComposeViewController *composeViewController;
 
 @property (weak, nonatomic) IBOutlet UIButton *addCommentButton;
@@ -51,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
 
     // Do any additional setup after loading the view.
     self.backgroundView.backgroundColor = BMDarkValueColor;
@@ -226,9 +223,9 @@
 
 #pragma mark - Send comment to server
 -(void)encryptAndSendComment:(NSString *)comment
-{   //TODO: remove "PfK5/Q9b6q0/ZgMOqQDJglc0rl6ub+eY"
-    // SMALLER KEY "PfK5/Q9b6q0/ZgMO"
-    NSString *key = Obfuscate.P.f.K._5.forward_slash.Q._9.b._6.q._0.forward_slash.Z.g.M.O;
+{
+    // Set here a strong password for commenting
+    NSString *key = Obfuscate.p.a.s.s.w.o.r.d;
     NSInteger blockSize = 16;
     
     NSMutableDictionary *payload = [[NSMutableDictionary alloc]init];
@@ -262,8 +259,8 @@
     AFBMHTTPRequestOperationManager *AFBMmanager = [AFBMHTTPRequestOperationManager manager];
     AFBMmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
     
-    NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
-    NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+    NSString *user = Obfuscate.c.l.i.e.n.t;
+    NSString *password = Obfuscate.p.a.s.s.w.o.r.d;
     
     [AFBMmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
     

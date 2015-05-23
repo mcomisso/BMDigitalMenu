@@ -49,9 +49,10 @@
         [self isConnectionAvailable];
         self.AFmanager = [AFBMHTTPRequestOperationManager manager];
         self.AFmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
-        
-        NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
-        NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+
+        // Change client and password with something of your choice.
+        NSString *user = Obfuscate.c.l.i.e.n.t;
+        NSString *password = Obfuscate.p.a.s.s.w.o.r.d;
         
         [self.AFmanager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
     }

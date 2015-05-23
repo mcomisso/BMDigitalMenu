@@ -10,14 +10,12 @@
 #import "cartTableViewCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "BMCartManager.h"
-#import "BMUsageStatisticManager.h"
 
 #import "RecipeInfo.h"
 
 @interface cartViewController () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) BMCartManager *cartManager;
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
@@ -46,7 +44,6 @@
     //[self setNeedsStatusBarAppearanceUpdate];
     
     self.cartManager = [BMCartManager sharedInstance];
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
     
     self.dataSource = [[NSMutableArray alloc] initWithArray:[self.cartManager itemsInCart]];
     [self setupViewIfEmptyArray];

@@ -19,15 +19,15 @@
 #endif
 
 // Definition Bluemate Api
-#define BMAPI_RECIPES_FROM_MAJ_MIN      @"https://bmbackend-misiedo.appspot.com/api/recipes/majmin/"
-#define BMAPI_DAYMENU_FROM_MAJ_MIN      @"https://bmbackend-misiedo.appspot.com/api/daymenu/majmin/"
+#define BMAPI_RECIPES_FROM_MAJ_MIN      @"https://sample-backend.com/api/recipes/majmin/"
+#define BMAPI_DAYMENU_FROM_MAJ_MIN      @"https://sample-backend.com/api/daymenu/majmin/"
 
-#define BMAPI_RECIPE_DETAILS_FROM_SLUG  @"https://bmbackend-misiedo.appspot.com/api/recipe/"
-#define BMAPI_COMMENTS_FOR_RECIPE_SLUG  @"https://bmbackend-misiedo.appspot.com/api/comments/recipe/"
-#define BMAPI_RATING_FOR_RECIPE_SLUG    @"https://bmbackend-misiedo.appspot.com/api/ratings/recipe/"
+#define BMAPI_RECIPE_DETAILS_FROM_SLUG  @"https://sample-backend.com/api/recipe/"
+#define BMAPI_COMMENTS_FOR_RECIPE_SLUG  @"https://sample-backend.com/api/comments/recipe/"
+#define BMAPI_RATING_FOR_RECIPE_SLUG    @"https://sample-backend.com/api/ratings/recipe/"
 
-#define BMAPI_CREATE_COMMENT_FOR_RECIPE_SLUG @"https://bmbackend-misiedo.appspot.com/api/comment/create/"
-#define BMAPI_CREATE_RATING_FOR_RECIPE_SLUG @"https://bmbackend-misiedo.appspot.com/api/rating/create/"
+#define BMAPI_CREATE_COMMENT_FOR_RECIPE_SLUG @"https://sample-backend.com/api/comment/create/"
+#define BMAPI_CREATE_RATING_FOR_RECIPE_SLUG @"https://sample-backend.com/api/rating/create/"
 
 #define BMDarkValueColor        [UIColor colorWithRed:0.12 green:0.12 blue:0.12 alpha:1]
 #define BMLightDarkValueColor   [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]

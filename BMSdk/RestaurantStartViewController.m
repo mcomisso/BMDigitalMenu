@@ -14,7 +14,6 @@
 
 #import "BMDataManager.h"
 #import "BMCartManager.h"
-#import "BMUsageStatisticManager.h"
 
 #import <Accelerate/Accelerate.h>
 
@@ -43,7 +42,6 @@
 
 //Bluemate managers classes
 @property (strong, nonatomic) BMCartManager *cartManager;
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 
 
 // Daily - PaperButton
@@ -123,8 +121,6 @@
     [super viewDidLoad];
     
     self.dailyMenuButton.alpha = 0.f;
-    
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
     
     //restaurant Has Day menu || UpdateMenu
     [self addObservers];

@@ -11,7 +11,6 @@
 #import "NoImageTableViewCell.h"
 
 #import "BMDataManager.h"
-#import "BMUsageStatisticManager.h"
 
 #import "AFBMNetworkReachabilityManager.h"
 
@@ -36,7 +35,6 @@
 @property (strong, nonatomic) NSMutableDictionary *ratingForRecipe;
 
 @property (strong, nonatomic) BMDataManager *dataManager;
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) AFBMHTTPRequestOperationManager *requestOperationManager;
 
 //Testing purpose variables
@@ -66,13 +64,12 @@
     // Do any additional setup after loading the view.
     
     self.dataManager = [BMDataManager sharedInstance];
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
     self.requestOperationManager = [AFBMHTTPRequestOperationManager manager];
     
     _requestOperationManager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
 
-    NSString *user = Obfuscate.i.o.s.underscore.c.l.i.e.n.t;
-    NSString *password = Obfuscate._1._8._9.v.M.k.t.X.s.n.d._3.V._4.m.H._1.B.A.Q._2.q._9.e.T._6.J.e._0.H._0.T.d.s._9.s.v.K._0.K.S.J._4;
+    NSString *user = Obfuscate.c.l.i.e.n.t;
+    NSString *password = Obfuscate.p.a.s.s.w.o.r.d;
     
     [_requestOperationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:user password:password];
 

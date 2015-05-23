@@ -8,11 +8,8 @@
 
 #import "DocumentsViewController.h"
 
-#import "BMUsageStatisticManager.h"
-
 @interface DocumentsViewController ()
 
-@property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) IBOutlet UIWebView *documentWebView;
 
 @end
@@ -46,8 +43,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    self.statsManager = [BMUsageStatisticManager sharedInstance];
     
     // Toolbar
     [self setPreferredToolbar];

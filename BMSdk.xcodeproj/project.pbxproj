@@ -87,8 +87,6 @@
 		B91E546019B0F61D00DE56AB /* NGAParallaxMotion.m in Sources */ = {isa = PBXBuildFile; fileRef = B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */; };
 		B921D5EB19BDB1EA001294AD /* DocumentsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B921D5E919BDB1EA001294AD /* DocumentsViewController.h */; };
 		B921D5EC19BDB1EA001294AD /* DocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B921D5EA19BDB1EA001294AD /* DocumentsViewController.m */; };
-		B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */ = {isa = PBXBuildFile; fileRef = B928DE8319ED857E009A6F2C /* BMUsageStatisticModel.h */; };
-		B928DE8619ED857E009A6F2C /* BMUsageStatisticModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */; };
 		B92AD6D319AA87C600DDA65A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B92AD6D519AA87C600DDA65A /* Localizable.strings */; };
 		B92AD6DB19AB27DC00DDA65A /* BMCartManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B92AD6D919AB27DC00DDA65A /* BMCartManager.h */; };
 		B92AD6DC19AB27DC00DDA65A /* BMCartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */; };
@@ -145,8 +143,6 @@
 		B95C3D9C19B5DDFD009FE141 /* Suggerimenti@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */; };
 		B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9607D1419AF676D00B9556B /* AXRatingView.h */; };
 		B9607D1719AF676D00B9556B /* AXRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9607D1519AF676D00B9556B /* AXRatingView.m */; };
-		B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */; };
-		B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */; };
 		B96894F019924042009E1036 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B96894EF19924042009E1036 /* libsqlite3.dylib */; };
 		B96D556219D96C2700DEC274 /* dragMe2@.png in Resources */ = {isa = PBXBuildFile; fileRef = B96D556119D96C2700DEC274 /* dragMe2@.png */; };
 		B9730CD019C3151F0005843D /* bestMatchCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */; };
@@ -325,8 +321,6 @@
 		B91E545E19B0F61D00DE56AB /* NGAParallaxMotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NGAParallaxMotion.m; path = BMSdk/NGAParallaxMotion.m; sourceTree = "<group>"; };
 		B921D5E919BDB1EA001294AD /* DocumentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentsViewController.h; sourceTree = "<group>"; };
 		B921D5EA19BDB1EA001294AD /* DocumentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentsViewController.m; sourceTree = "<group>"; };
-		B928DE8319ED857E009A6F2C /* BMUsageStatisticModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticModel.h; sourceTree = "<group>"; };
-		B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticModel.m; sourceTree = "<group>"; };
 		B92AD6D119AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B92AD6D219AA878100DDA65A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B92AD6D419AA87C600DDA65A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -387,8 +381,6 @@
 		B95C3D9819B5DDFD009FE141 /* Suggerimenti@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Suggerimenti@2x.png"; sourceTree = "<group>"; };
 		B9607D1419AF676D00B9556B /* AXRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AXRatingView.h; path = BMSdk/AXRatingView.h; sourceTree = "<group>"; };
 		B9607D1519AF676D00B9556B /* AXRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AXRatingView.m; path = BMSdk/AXRatingView.m; sourceTree = "<group>"; };
-		B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUsageStatisticManager.h; sourceTree = "<group>"; };
-		B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUsageStatisticManager.m; sourceTree = "<group>"; };
 		B96894EF19924042009E1036 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		B96D556119D96C2700DEC274 /* dragMe2@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragMe2@.png"; sourceTree = "<group>"; };
 		B9730CCE19C3151F0005843D /* bestMatchCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bestMatchCollectionViewCell.h; sourceTree = "<group>"; };
@@ -777,10 +769,6 @@
 				B9F0871E1991148F00002074 /* BMDataManager.m */,
 				B92AD6D919AB27DC00DDA65A /* BMCartManager.h */,
 				B92AD6DA19AB27DC00DDA65A /* BMCartManager.m */,
-				B928DE8319ED857E009A6F2C /* BMUsageStatisticModel.h */,
-				B928DE8419ED857E009A6F2C /* BMUsageStatisticModel.m */,
-				B9647E1319B87E1C002AB506 /* BMUsageStatisticManager.h */,
-				B9647E1419B87E1C002AB506 /* BMUsageStatisticManager.m */,
 				B9AE62C81A2E06C200D7987C /* MSUserData.h */,
 				B9AE62C91A2E06C200D7987C /* MSUserData.m */,
 			);
@@ -1043,13 +1031,11 @@
 				B921D5EB19BDB1EA001294AD /* DocumentsViewController.h in Headers */,
 				B947FC0A1A19035400C57FC1 /* FMResultSet.h in Headers */,
 				B9CFD85F1A3EF60600A8C18D /* REComposeSheetView.h in Headers */,
-				B9647E1519B87E1C002AB506 /* BMUsageStatisticManager.h in Headers */,
 				B9AE62CA1A2E06C200D7987C /* MSUserData.h in Headers */,
 				B9938C2F19CA42CF00C5C749 /* DailyMenuCell.h in Headers */,
 				B9DECD5619A3992100C17799 /* CommentsModalViewController.h in Headers */,
 				B9C29FAD19865C6B002309FF /* RestaurantStartmenuCell.h in Headers */,
 				B909AF4A19B4D3E600CBA2B1 /* TransitionManager.h in Headers */,
-				B928DE8519ED857E009A6F2C /* BMUsageStatisticModel.h in Headers */,
 				B93D7DCC19BA697100EAD43A /* Reachability.h in Headers */,
 				B9E45A621A0D39D200EC4F7D /* RestaurantInfo.h in Headers */,
 				B9607D1619AF676D00B9556B /* AXRatingView.h in Headers */,
@@ -1244,7 +1230,6 @@
 				B9193AF919A110180008149D /* NSData+ImageContentType.m in Sources */,
 				B9193AFA19A110180008149D /* UIButton+WebCache.m in Sources */,
 				B9116BE919E59ABC0024332B /* UIColor+BFBMPaperColors.m in Sources */,
-				B928DE8619ED857E009A6F2C /* BMUsageStatisticModel.m in Sources */,
 				B9193AFB19A110180008149D /* UIImage+GIF.m in Sources */,
 				B9193AFC19A110180008149D /* UIImage+MultiFormat.m in Sources */,
 				B9193AFD19A110180008149D /* UIImage+WebP.m in Sources */,
@@ -1265,7 +1250,6 @@
 				B947FC021A19035400C57FC1 /* FMDatabase.m in Sources */,
 				B947FC041A19035400C57FC1 /* FMDatabaseAdditions.m in Sources */,
 				B9DECD4C19A3981400C17799 /* ModalBlurredSegue.m in Sources */,
-				B9647E1619B87E1C002AB506 /* BMUsageStatisticManager.m in Sources */,
 				B9909C5219CC3E1200355418 /* CRMotionView.m in Sources */,
 				B9CFD85C1A3EF60600A8C18D /* RECommonFunctions.m in Sources */,
 				B9193AD019A10D580008149D /* SDWebImageCompat.m in Sources */,

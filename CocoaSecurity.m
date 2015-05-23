@@ -23,6 +23,8 @@
     CocoaSecurityResult * sha = [self sha384:key];
     NSData *aesKey = [sha.data subdataWithRange:NSMakeRange(0, 32)];
     NSData *aesIv = [sha.data subdataWithRange:NSMakeRange(32, 16)];
+
+    DLog(@"%@, %@", [aesIv description], [[NSString alloc]initWithData:aesIv encoding:NSUTF8StringEncoding]);
     
     return [self aesEncrypt:data key:aesKey iv:aesIv];
 }
@@ -61,15 +63,29 @@
     size_t encryptedSize = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
                                           kCCAlgorithmAES128,
-                                          kCCOptionPKCS7Padding,
+                                          kCCOptionECBMode,
                                           [key bytes],     // Key
-                                          [key length],    // kCCKeySizeAES
-                                          [iv bytes],       // IV
+                                          kCCKeySizeAES128,    // kCCKeySizeAES
+                                          NULL,//[iv bytes],       // IV
                                           [data bytes],
                                           [data length],
                                           buffer,
                                           bufferSize,
                                           &encryptedSize);
+    
+/*    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionECBMode,
+                                          keyPtr,
+                                          CCKeySizeAES128,
+                                          NULL,
+                                          [self bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesEncrypted);*/
+    
+    
     if (cryptStatus == kCCSuccess) {
         CocoaSecurityResult *result = [[CocoaSecurityResult alloc] initWithBytes:buffer length:encryptedSize];
         free(buffer);

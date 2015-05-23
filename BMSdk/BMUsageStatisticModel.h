@@ -10,9 +10,11 @@
 
 @interface BMUsageStatisticModel : NSObject
 
+@property (nonatomic, strong, readonly) NSMutableDictionary *analyticsData;
+
 +(instancetype)alloc __attribute__((unavailable("alloc not available, call sharedInstance")));
--(instancetype)init __attribute__((unavailable("init not available, call sharedInstance")));
 +(instancetype)new __attribute__((unavailable("new not available, call sharedInstance")));
+-(instancetype)init __attribute__((unavailable("init not available, call sharedInstance")));
 
 
 /**
@@ -23,7 +25,7 @@
 /**
  Saves the temporary data inside the database.
  */
--(void)store;
+-(void)saveLocally:(NSDictionary *)localRecord;
 
 /**
  Loads the temporary data in context to be used and edited.

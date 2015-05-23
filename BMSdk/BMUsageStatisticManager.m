@@ -7,22 +7,19 @@
 //
 
 #import "BMUsageStatisticManager.h"
+
 #import "BMUsageStatisticModel.h"
 #import "AFBMHTTPRequestOperationManager.h"
-
 #import "AFBMNetworkReachabilityManager.h"
-#import <sys/utsname.h>
+
+#import "CocoaSecurity.h"
+
 
 #define POLLINGTIMER 20
 
-#define BMPARSEAPI @"https://api.parse.com/1/"
-
-// Test Parse REST
-#define APPLICATION_ID @"aHSvZObWED0XrBDCqbL6eeO01tCXmdFTyRH9oY2V"
-#define REST_API @"H9HXKUKQTtpq3F69PDyj0fnfQ8iTYV02JZqEwfeG"
-
-//DEFINE A NEW SQLITE DB
-
+#define BM_ANALYTICS_OPEN_API @"https://bmbackend-misiedo.appspot.com/api/analytics/open/"
+#define BM_ANALYTICS_CLOSE_API @"https://bmbackend-misiedo.appspot.com/api/analytics/close/"
+#define BM_ANALYTICS_UPDATE_API @"https://bmbackend-misiedo.appspot.com/api/analytics/update/"
 
 @interface BMUsageStatisticManager()
 
@@ -41,7 +38,10 @@
 @property (strong, nonatomic) AFBMHTTPRequestOperationManager *manager;
 @property (strong, nonatomic) AFBMNetworkReachabilityManager *reachManager;
 
+@property (strong, nonatomic) BMUsageStatisticModel *analyticsLocalManager;
+
 @end
+
 
 @implementation BMUsageStatisticManager
 
@@ -52,20 +52,18 @@
     
     dispatch_once(&onceToken, ^{
         sharedInstance = [[super alloc]initUniqueInstance];
-        [BMUsageStatisticManager checkIphoneType];
     });
     
     return sharedInstance;
 }
 
+
 -(instancetype)initUniqueInstance
 {
     self = [super init];
     if (self != nil) {
-        //Add observers for terminating and resignation
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
+        [self setupObservers];
         
         DLog(@"[Usage Statistic] BMUsageStatistic initialized");
         _categoriesViewed = [[NSMutableArray alloc]init];
@@ -77,38 +75,50 @@
         _manager.securityPolicy.allowInvalidCertificates = YES;
         _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
         _dataMonitoringQueue = _manager.operationQueue;
-        // SAVE THE DISPLAY SIZE
         
         [_reachManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
             if (status == AFNetworkReachabilityStatusNotReachable) {
                 // Save data in DB
-                
+                // Stop trying to save online
             }
             else if (status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)
             {
                 // Send data
-                
+                // Start sending data online
             }
         }];
-        
     }
+    
     return self;
 }
 
+
 #pragma mark - App States instances
+-(void)setupObservers
+{
+    //Add observers for terminating and resignation
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appWillBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
 
 -(void)appWillBecomeActive:(NSNotification *)note
 {
-    //Check if data exists inside DB, restore timer run
-    //send to parse existing data
+    //Check if data exists inside DB
+    //send to backend existing data
+    DLog(@"Usage Manager: app will become active");
     
+    /*
+     
+     if the analytics manager have something inside its cache database, save to server the data.
+     
+     */
 }
 
 -(void)appWillTerminate:(NSNotification *)note
 {
     DLog(@"Usage Manager: app will terminate");
-    //Save everyting not sent on DB
-    //Stop timer run
+    //Save everyting not sent on Database
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
@@ -117,69 +127,31 @@
 -(void)appWillResignActive:(NSNotification*)note
 {
     DLog(@"Usage Manager: app will resign active");
+    // Save everything not yet sent on database
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
-#pragma mark - Collect data
-/*-(NSData *)jsonConvert:(NSMutableArray *)dictionary
+#pragma mark - POST management
+-(void)saveEventually:(NSDictionary *)data
 {
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-}
-*/
-
--(void)sendEventually:(NSDictionary *)data
-{
-    NSDictionary *params = @{data : @"data"};
-    __weak NSOperationQueue *weakQueue = _dataMonitoringQueue;
+    AFNetworkReachabilityStatus status = _manager.reachabilityManager.networkReachabilityStatus;
     
-    [_manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        switch (status) {
-            case AFNetworkReachabilityStatusNotReachable:
-                //Something when not reachable
-                //Save data inside the db
-                break;
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                //Something online
-                //Send data
-                break;
-            case AFNetworkReachabilityStatusUnknown:
-                //Save data inside the db
-                break;
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                //Send data
-                
-                break;
-                
-            default:
-                break;
-        }
-    }];
-    
-    [_manager POST:BMPARSEAPI
-       parameters:params
-          success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-              //DELETE THIS DATA
-              
-          } failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-              //SAVE AND RETRY
-        
-          }];
-}
-
--(void)sendData
-{
-    
-    [_manager POST:BMPARSEAPI
-        parameters:0
-           success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-               //DELETE THIS DATA
-
-           } failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-               //SAVE AND RETRY
-
-           }];
+    if (status == AFNetworkReachabilityStatusReachableViaWiFi ||
+        status == AFNetworkReachabilityStatusReachableViaWWAN) {
+        [_manager POST:BM_ANALYTICS_OPEN_API
+            parameters:data
+               success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
+                   DLog(@"Successfully sent data");
+               }
+               failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
+                   DLog(@"Failure. Error message: %@, %@ - %ld", [error localizedDescription], [error localizedFailureReason], (long)[error code]);
+               }];
+    } else if (status == AFNetworkReachabilityStatusNotReachable ||
+               status == AFNetworkReachabilityStatusUnknown) {
+        // Save inside database
+        [_analyticsLocalManager saveLocally:data];
+    }
 }
 
 -(void)aliveConnection
@@ -194,40 +166,6 @@
     }
     
     //Ping a specific api with some private key to show the usage and an unique identifier.
-}
-
--(void)testConnectionToParse
-{
-    NSURL *baseUrl = [NSURL URLWithString:[BMPARSEAPI stringByAppendingString:@"classes/Analytics"]];
-    [_manager GET:[baseUrl absoluteString]
-       parameters:@{@"X-Parse-Application-Id":APPLICATION_ID,
-                    @"X-Parse-REST-API-Key":REST_API,
-                    }
-          success:^(AFBMHTTPRequestOperation *operation, id responseObject) {
-              
-              DLog(@"%@",[responseObject description]);
-          }
-          failure:^(AFBMHTTPRequestOperation *operation, NSError *error) {
-              DLog(@"error: %@ %@", [error localizedDescription], [error localizedFailureReason]);
-          }];
-}
-
--(void)saveViewControllerName:(id)viewController
-{
-    
-}
-
-#pragma mark - utils
-
-+(NSString *)checkIphoneType
-{
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    
-    NSString *sysInformation = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-    
-    DLog(@"%@", sysInformation);
-    return sysInformation;
 }
 
 @end

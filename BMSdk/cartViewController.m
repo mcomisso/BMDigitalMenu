@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
+// Will be available on version 2
 @property (weak, nonatomic) IBOutlet UIButton *reminderButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *noContentLabel;
@@ -48,11 +49,8 @@
     self.statsManager = [BMUsageStatisticManager sharedInstance];
     
     self.dataSource = [[NSMutableArray alloc] initWithArray:[self.cartManager itemsInCart]];
-
     [self setupViewIfEmptyArray];
-    
     [self setPreferredToolbar];
-    
     [self localizeView];
     
     /*CONFIGURATION OF BUTTON*/
@@ -185,7 +183,8 @@
 }
 
 #pragma mark - Scrollview delegate
-
+// Animate the button
+/*
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [UIView animateWithDuration:0.2f
@@ -200,7 +199,7 @@
                      animations:^{
                          self.reminderButton.alpha = 1.f;
                      }];
-}
+}*/
 
 #pragma mark - Utils
 -(void)reloadDataFromCart

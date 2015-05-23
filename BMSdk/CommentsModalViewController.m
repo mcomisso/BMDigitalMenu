@@ -17,6 +17,10 @@
 #import "UAObfuscatedString.h"
 #import "CocoaSecurity.h"
 
+#import <Security/Security.h>
+#import <CommonCrypto/CommonHMAC.h>
+#import <CommonCrypto/CommonCryptor.h>
+
 @interface CommentsModalViewController () <UITableViewDataSource, UITableViewDelegate, REComposeViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -28,6 +32,9 @@
 
 @property (strong, nonatomic) BMUsageStatisticManager *statsManager;
 @property (strong, nonatomic) REComposeViewController *composeViewController;
+
+@property (weak, nonatomic) IBOutlet UIButton *addCommentButton;
+
 @end
 
 @implementation CommentsModalViewController
@@ -53,6 +60,8 @@
     BMDataManager *dataManager = [BMDataManager sharedInstance];
     self.dataSourceOfComments = [NSMutableArray arrayWithArray:[dataManager requestCommentsForRecipe:self.recipeSlug]];
     DLog(@"%@", self.recipeSlug);
+    
+    self.addCommentButton.titleLabel.text = BMLocalizedString(@"AddComment", nil);
     
     [self editViewIfNoRecipes];
     
@@ -218,8 +227,9 @@
 #pragma mark - Send comment to server
 -(void)encryptAndSendComment:(NSString *)comment
 {   //TODO: remove "PfK5/Q9b6q0/ZgMOqQDJglc0rl6ub+eY"
-    NSString *key = Obfuscate.P.f.K._5.forward_slash.Q._9.b._6.q._0.forward_slash.Z.g.M.O.q.Q.D.J.g.l.c._0.r.l._6.u.b.plus.e.Y;
-    NSInteger blockSize = 32;
+    // SMALLER KEY "PfK5/Q9b6q0/ZgMO"
+    NSString *key = Obfuscate.P.f.K._5.forward_slash.Q._9.b._6.q._0.forward_slash.Z.g.M.O;
+    NSInteger blockSize = 16;
     
     NSMutableDictionary *payload = [[NSMutableDictionary alloc]init];
     
@@ -235,15 +245,19 @@
     [payload setObject:self.recipeSlug forKey:@"recipe"];
     [payload setObject:comment forKey:@"comment"];
     
-    NSString *dictionaryContent = [NSString stringWithFormat:@"%@", payload];
+    NSString *dictionaryContent = [NSString stringWithFormat:@"%@", [payload descriptionInStringsFileFormat]];
     
     NSInteger missingChars = blockSize - (dictionaryContent.length % blockSize);
     NSInteger wantedLength = dictionaryContent.length + missingChars;
     
     NSString *paddedString = [dictionaryContent stringByPaddingToLength:wantedLength withString:@"{" startingAtIndex:0];
     
-    CocoaSecurityResult *aesEncrypt = [CocoaSecurity aesEncrypt:[NSString stringWithFormat:@"%@", paddedString] key:key];
-    NSString *encryptedPOST = aesEncrypt.base64;
+    NSData *resultData = [self cipherData:[paddedString dataUsingEncoding:NSUTF8StringEncoding] key:key];
+    
+    DLog(@"%@", [resultData base64EncodedStringWithOptions:0]);
+    
+//    CocoaSecurityResult *aesEncrypt = [CocoaSecurity aesEncrypt:[NSString stringWithFormat:@"%@", paddedString] key:key];
+    NSString *encryptedPOST = [NSString stringWithFormat:@"%@", [resultData base64EncodedStringWithOptions:0]];
     
     AFBMHTTPRequestOperationManager *AFBMmanager = [AFBMHTTPRequestOperationManager manager];
     AFBMmanager.requestSerializer = [AFBMHTTPRequestSerializer serializer];
@@ -265,6 +279,41 @@
             }];
     
 }
+
+
+#pragma mark - AES Reimplementation
+- (NSData *)cipherData:(NSData *)data key:(NSString*)key{
+    return [self aesOperation:kCCEncrypt OnData:data key:key];
+}
+
+- (NSData *)decipherData:(NSData *)data key:(NSString*)key{
+    return [self aesOperation:kCCDecrypt OnData:data key:key];
+}
+
+- (NSData *)aesOperation:(CCOperation)op
+                  OnData:(NSData *)data
+                     key:(NSString*)inKey {
+    
+    const char * key = [inKey UTF8String];
+    NSUInteger dataLength = [data length];
+    uint8_t unencryptedData[dataLength + kCCKeySizeAES128];
+    size_t unencryptedLength;
+    
+    CCCrypt(op,
+            kCCAlgorithmAES128,
+            kCCOptionECBMode,
+            key,
+            kCCKeySizeAES128,
+            NULL,
+            [data bytes],
+            dataLength,
+            unencryptedData,
+            dataLength,
+            &unencryptedLength);
+    return [NSData dataWithBytes:unencryptedData length:unencryptedLength];
+}
+
+
 
 #pragma mark - Update The View
 -(void)updateTheTableViewWithNewComment:(NSString *)comment

@@ -13,6 +13,7 @@
 "Price" = "Price";
 "DefaultShareMessage" = "I'm eating %@";
 "CommentPlaceholder" = "Write here your comment";
+"AddComment" = "Add your comment";
 "Warning" = "Warning";
 "MSAccountRequired" = "For this function is required a MiSiedo account.";
 "dayMenuButton" = "Day\nMenu";

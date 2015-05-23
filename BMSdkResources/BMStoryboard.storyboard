@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fy1-tG-f7a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fy1-tG-f7a">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -684,7 +685,7 @@
                                     <outlet property="delegate" destination="oST-t1-aRE" id="2Ts-qa-fr7"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKx-t6-hZt">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKx-t6-hZt">
                                 <rect key="frame" x="522" y="454" width="62" height="62"/>
                                 <color key="backgroundColor" red="0.098039215686274508" green="0.5490196078431373" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -853,6 +854,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="addCommentButton" destination="ajk-b3-7Qh" id="FaF-en-s1M"/>
                         <outlet property="backgroundView" destination="PW2-bM-uiv" id="NTR-32-EWO"/>
                         <outlet property="noCommentsLabel" destination="dIq-gX-ziF" id="Tfr-gV-Bpw"/>
                         <outlet property="tableView" destination="nOx-hx-XwU" id="r5x-E8-LsA"/>
@@ -978,6 +980,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="116" id="7lj-EK-hfA"/>
+                                    <constraint firstAttribute="width" secondItem="2R6-ga-7bb" secondAttribute="height" multiplier="150:29" id="Whw-z7-cWj"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="B6m-zv-heg">
                                     <size key="itemSize" width="100" height="100"/>
@@ -1017,6 +1020,11 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="7lj-EK-hfA"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="hiB-J9-Yko" id="cFf-fF-bcX"/>
                                     <outlet property="delegate" destination="hiB-J9-Yko" id="tZj-x5-6lD"/>
@@ -1146,6 +1154,7 @@
                         <outlet property="bestMatchRecipeViewLabelIngredients" destination="MbV-TO-4bq" id="HLc-8w-fye"/>
                         <outlet property="bestMatchRecipeViewLabelName" destination="9Ds-OA-UL7" id="rsn-B1-0Tf"/>
                         <outlet property="bestMatchSelectedView" destination="neS-aj-CNj" id="EW2-Yb-Yrw"/>
+                        <outlet property="closeButton" destination="JY2-i1-qrg" id="82w-Ya-1Ui"/>
                         <outlet property="contentViewHeight" destination="ll3-Ar-3YN" id="a5t-9q-OQw"/>
                         <outlet property="descriptionTextLabel" destination="y8q-Vo-pSO" id="FH4-Kl-l9w"/>
                         <outlet property="heartButton" destination="8Iz-RB-FVg" id="TsU-wT-6Dp"/>

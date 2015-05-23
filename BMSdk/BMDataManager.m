@@ -8,12 +8,15 @@
 
 
 #import "BMDownloadManager.h"
-#import "BMDataManager.h"   
+#import "BMDataManager.h"
 
 #import <sqlite3.h>
 #import "FMDB.h"
 
 #import "RestaurantInfo.h"
+
+#define PRINT_DATABASE_ERRORS DLog(@"ERRORS on database operation: %@ %@ - CODE: %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+
 
 @interface BMDataManager()
 
@@ -23,6 +26,44 @@
 @property (nonatomic,strong) FMDatabase *fmdb;
 
 @end
+
+
+#pragma mark - QUERIES
+
+static NSString* const createDB =
+@"CREATE TABLE IF NOT EXISTS restaurant (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name TEXT, majorBeacon INTEGER, minorBeacon INTEGER); "
+
+@"CREATE TABLE IF NOT EXISTS recipe (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, category TEXT, last_edit_datetime DATE, image_url TEXT, description TEXT, ingredients TEXT, slug TEXT UNIQUE, avg_rating INTEGER, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
+
+@"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
+
+@"CREATE TABLE IF NOT EXISTS bestMatch ( id INTEGER PRIMARY KEY, base_recipe_slug TEXT, target_recipe_slug TEXT, FOREIGN KEY (base_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE, FOREIGN KEY (target_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
+
+@"CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, comment_datetime TEXT, comment TEXT, recipe_slug TEXT, FOREIGN KEY (recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
+
+@"CREATE TABLE IF NOT EXISTS cartManager(id INTEGER PRIMARY KEY, recipe_slug TEXT, FOREIGN KEY (recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
+
+@"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT, recipe_ingredients TEXT, recipe_price REAL, restaurant_slug TEXT);";
+
+
+static NSString* const insertNewRestaurant = @"INSERT INTO restaurant (slug, name, majorBeacon, minorBeacon) VALUES (?, ?, ?, ?);";
+static NSString* const insertNewRecipe = @"";
+static NSString* const insertNewDayMenu = @"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?);";
+static NSString* const selectRecipeForCategory = @"SELECT * FROM recipe WHERE category = ? AND restaurant_slug = (SELECT slug FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ? LIMIT 1);";
+static NSString* const selectRecipeDetails = @"SELECT description, ingredients FROM recipe WHERE slug = ? LIMIT 1;";
+
+static NSString* const selectRecipeFromSlug = @"SELECT * FROM recipe WHERE slug = ?;";
+static NSString* const selectCommentForRecipe = @"SELECT * FROM comment WHERE recipe_slug = ?;";
+static NSString* const updateRecipeRating = @"UPDATE recipe SET avg_rating = ? WHERE slug = ?;";
+static NSString* const selectAverageRatingForRecipe = @"SELECT avg_rating FROM recipe WHERE slug = ?";
+static NSString* const selectAverageRatingForRecipeInCategory = @"SELECT avg_rating, recipe_slug FROM recipe WHERE slug IN (SELECT slug FROM recipe WHERE category = ?);";
+static NSString* const selectLatestRecipeFromRestaurant = @"SELECT * FROM recipe WHERE restaurant_slug = ? ORDER BY last_edit_datetime DESC LIMIT 1;";
+
+static NSString* const numbersOfRecipesForRestaurant = @"SELECT COUNT(*) FROM recipe WHERE restaurant_slug = ?;";
+static NSString* const bestMatchForRecipe = @"SELECT * FROM recipe AS r JOIN bestMatch AS b ON r.slug = b.target_recipe_slug WHERE base_recipe_slug = ?";
+
+static NSString* const selectNameOfRestaurantByBeacon = @"SELECT name FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ?;";
+
 
 @implementation BMDataManager
 
@@ -77,29 +118,9 @@
  */
 -(void)initializeDatabase
 {
-    
-    NSString *createDB =
-        @"CREATE TABLE IF NOT EXISTS restaurant (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name TEXT, majorBeacon INTEGER, minorBeacon INTEGER); "
-    
-        @"CREATE TABLE IF NOT EXISTS recipe (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL, category TEXT, last_edit_datetime DATE, image_url TEXT, description TEXT, ingredients TEXT, slug TEXT UNIQUE, avg_rating INTEGER, restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE);"
-    
-        @"CREATE TABLE IF NOT EXISTS dayMenu ( id INTEGER PRIMARY KEY AUTOINCREMENT, day DATE, name TEXT, slug TEXT, price REAL, category TEXT,restaurant_slug TEXT, FOREIGN KEY (restaurant_slug) REFERENCES restaurant(slug) ON DELETE CASCADE );"
-    
-        @"CREATE TABLE IF NOT EXISTS bestMatch ( id INTEGER PRIMARY KEY, base_recipe_slug TEXT, target_recipe_slug TEXT, FOREIGN KEY (base_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE, FOREIGN KEY (target_recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
-    
-        @"CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY AUTOINCREMENT, customer TEXT, comment_datetime TEXT, comment TEXT, recipe_slug TEXT, FOREIGN KEY (recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
-    
-        @"CREATE TABLE IF NOT EXISTS cartManager(id INTEGER PRIMARY KEY, recipe_slug TEXT, FOREIGN KEY (recipe_slug) REFERENCES recipe(slug) ON DELETE CASCADE);"
-    
-        @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT, recipe_ingredients TEXT, recipe_price REAL, restaurant_slug TEXT);";
-    
-    if ([_fmdb executeStatements:createDB])
+    if (![_fmdb executeStatements:createDB])
     {
-        DLog(@"Creation completed");
-    }
-    else
-    {
-        DLog(@"ERRORS while creating database %@, %@ - Error Code: %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        PRINT_DATABASE_ERRORS
     }
     
     [self checkForeignKeys];
@@ -119,19 +140,14 @@
     
     restaurant.name = JSONArray[0][@"restaurant"][@"name"];
     restaurant.slug = JSONArray[0][@"restaurant"][@"slug"];
-
+    
     restaurant.minorBeacon = [[NSUserDefaults standardUserDefaults] objectForKey:@"minorBeacon"];
     restaurant.majorBeacon = [[NSUserDefaults standardUserDefaults] objectForKey:@"majorBeacon"];
-
-        if ([_fmdb executeUpdate:@"INSERT INTO restaurant (slug, name, majorBeacon, minorBeacon) VALUES (?, ?, ?, ?)", restaurant.slug, restaurant.name, restaurant.majorBeacon, restaurant.minorBeacon])
-        {
-            DLog(@"Saved data");
-        }
-        else
-        {
-            DLog(@"%@, %d, %@", [_fmdb lastError], [_fmdb lastErrorCode], [_fmdb lastErrorMessage]);
-        }
-
+    
+    if (![_fmdb executeUpdate:insertNewRestaurant, restaurant.slug, restaurant.name, restaurant.majorBeacon, restaurant.minorBeacon]) {
+        PRINT_DATABASE_ERRORS
+    }
+    
     //TODO: change for loop with increased performance forin
     for (int i = 0; i < [JSONArray count]; i++) {
         
@@ -147,12 +163,8 @@
         recipe.recipe_description = JSONArray[i][@"description"]; //if nil -> @"<null>"
         recipe.best_match = [NSArray arrayWithArray:JSONArray[i][@"best_match"]];
         
-        if ([_fmdb executeUpdate:@"INSERT INTO recipe VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)", recipe.name, recipe.price, recipe.category, recipe.last_edit_datetime, recipe.image_url, recipe.recipe_description, recipe.ingredients, recipe.slug, restaurant.slug]) {
-            DLog(@"Saved Recipe with slug: %@", recipe.slug);
-        }
-        else
-        {
-            DLog(@"Error while saving recipe: %@,  %@, - Error Code %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        if (![_fmdb executeUpdate:@"INSERT INTO recipe VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)", recipe.name, recipe.price, recipe.category, recipe.last_edit_datetime, recipe.image_url, recipe.recipe_description, recipe.ingredients, recipe.slug, restaurant.slug]) {
+            PRINT_DATABASE_ERRORS
         }
     }
     
@@ -166,8 +178,8 @@
  BestMatch saves all the recipes fetched from the database inside the backend.
  @param recipeArray Array containing the recipes with bestmatch
  */
--(void)saveBestMatch:(NSArray *)recipeArray
-{
+-(void)saveBestMatch:(NSArray *)recipeArray {
+    
     int numberOfRecipes = (int)[recipeArray count];
     
     for (int i = 0; i < numberOfRecipes; i++) {
@@ -177,14 +189,9 @@
         int numberOfRecipesInBestmatch = (int) [bestMatchForCurrentRecipe count];
         
         for (int j = 0; j < numberOfRecipesInBestmatch; j++) {
-
-            if([_fmdb executeUpdate:@"INSERT INTO bestMatch(base_recipe_slug, target_recipe_slug) VALUES (?, ?);", recipeSlug, bestMatchForCurrentRecipe[j][@"slug"]])
-            {
-                DLog(@"Done inserting data into bestMatch for recipe %@", recipeSlug);
-            }
-            else
-            {
-                DLog(@"Errors while insering bestmatch: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+            
+            if(![_fmdb executeUpdate:@"INSERT INTO bestMatch(base_recipe_slug, target_recipe_slug) VALUES (?, ?);", recipeSlug, bestMatchForCurrentRecipe[j][@"slug"]]) {
+                PRINT_DATABASE_ERRORS
             }
         }
     }
@@ -198,14 +205,11 @@
 {
     //Slug of restaurant
     NSString *restaurantSlug = JSONArray[@"restaurant"][@"slug"];
-    DLog(@"JSONArray[restaurant][slug]: %@", restaurantSlug);
     
     NSArray *recipes = JSONArray[@"recipes"];
-
-    DLog(@"Downloaded Day Menu recipes description %@", [recipes description]);
-
+    
     int recipesCount = (int)[JSONArray[@"recipes"] count];
-
+    
     for (int i = 0; i < recipesCount; i++) {
         RecipeInfo *dayRecipe = [RecipeInfo new];
         
@@ -214,13 +218,8 @@
         dayRecipe.name = recipes[i][@"name"];
         dayRecipe.category = [recipes[i][@"category"][@"name"] lowercaseString];
         
-        if([_fmdb executeUpdate:@"INSERT INTO dayMenu(day, restaurant_slug, category, name, slug, price) VALUES (?, ?, ?, ?, ?, ?);", day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price])
-        {
-            DLog(@"Done inserting data into DayMenu. Recipe: %@", dayRecipe.slug);
-        }
-        else
-        {
-            DLog(@"Errors while insering daymenu: %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        if (![_fmdb executeUpdate:insertNewDayMenu, day, restaurantSlug, dayRecipe.category, dayRecipe.name, dayRecipe.slug, dayRecipe.price]) {
+            PRINT_DATABASE_ERRORS
         }
     }
     [[NSNotificationCenter defaultCenter]postNotificationName:@"restaurantHasDayMenu" object:@"YES"];
@@ -228,19 +227,14 @@
 
 -(void)saveOrderedListInHistory:(NSArray *)orderedList
 {
-//    @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT UNIQUE, recipe_ingredients TEXT, recipe_price REAL);";
+    //    @"CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, orderDate DATE, recipe_name TEXT, recipe_image_url TEXT, recipe_slug TEXT UNIQUE, recipe_ingredients TEXT, recipe_price REAL);";
     
     for (NSString *slug in orderedList) {
         
         RecipeInfo *recipe = [self requestDetailsForRecipe:slug];
-
-        if ([_fmdb executeUpdate:@"INSERT INTO orders(orderDate, recipe_name, recipe_image_url, recipe_slug, recipe_ingredients, recipe_price, restaurant_slug) VALUES (?, ?, ?, ?, ?, ?, ?);", [NSDate date], recipe.name, recipe.image_url, recipe.slug, recipe.ingredients, recipe.price, [[NSUserDefaults standardUserDefaults] objectForKey:@"restaurantSlug"]])
-        {
-            DLog(@"Done inserting data into orders");
-        }
-        else
-        {
-            DLog(@"Errors while inserting orders in history. %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        
+        if (![_fmdb executeUpdate:@"INSERT INTO orders(orderDate, recipe_name, recipe_image_url, recipe_slug, recipe_ingredients, recipe_price, restaurant_slug) VALUES (?, ?, ?, ?, ?, ?, ?);", [NSDate date], recipe.name, recipe.image_url, recipe.slug, recipe.ingredients, recipe.price, [[NSUserDefaults standardUserDefaults] objectForKey:@"restaurantSlug"]]) {
+            PRINT_DATABASE_ERRORS
         }
     }
 }
@@ -253,12 +247,12 @@
     [self checkForeignKeys];
     
     NSMutableArray *retval = [[NSMutableArray alloc]init];
-
-        FMResultSet *results = [_fmdb executeQuery:@"SELECT DISTINCT category FROM recipe WHERE restaurant_slug = (SELECT slug FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ? LIMIT 1);", restaurantMajorNumber, restaurantMinorNumber];
-        while([results next]) {
-            NSString *categoryName = [results stringForColumn:@"category"];
-            [retval addObject:categoryName];
-        }
+    
+    FMResultSet *results = [_fmdb executeQuery:@"SELECT DISTINCT category FROM recipe WHERE restaurant_slug = (SELECT slug FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ? LIMIT 1);", restaurantMajorNumber, restaurantMinorNumber];
+    while([results next]) {
+        NSString *categoryName = [results stringForColumn:@"category"];
+        [retval addObject:categoryName];
+    }
     [results close];
     return retval;
 }
@@ -270,20 +264,20 @@
 {
     NSMutableArray *arrval = [[NSMutableArray alloc]init];
     
-
-        FMResultSet *results = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE category = ? AND restaurant_slug = (SELECT slug FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ? LIMIT 1);", category, restaurantMajorNumber, restaurantMinorNumber];
-        while ([results next]) {
-            RecipeInfo *recipe = [RecipeInfo new];
-            
-            //Add all data for selected category
-            recipe.name = [results stringForColumn:@"name"];
-            recipe.price = [NSNumber numberWithDouble:[results doubleForColumn:@"price"]];
-            recipe.image_url = [results stringForColumn:@"image_url"];
-            recipe.ingredients = [results stringForColumn:@"ingredients"];
-            recipe.slug = [results stringForColumn:@"slug"];
-            
-            [arrval addObject:recipe];
-        }
+    
+    FMResultSet *results = [_fmdb executeQuery:selectRecipeForCategory, category, restaurantMajorNumber, restaurantMinorNumber];
+    while ([results next]) {
+        RecipeInfo *recipe = [RecipeInfo new];
+        
+        //Add all data for selected category
+        recipe.name = [results stringForColumn:@"name"];
+        recipe.price = [NSNumber numberWithDouble:[results doubleForColumn:@"price"]];
+        recipe.image_url = [results stringForColumn:@"image_url"];
+        recipe.ingredients = [results stringForColumn:@"ingredients"];
+        recipe.slug = [results stringForColumn:@"slug"];
+        
+        [arrval addObject:recipe];
+    }
     return arrval;
 }
 
@@ -293,8 +287,8 @@
 -(RecipeInfo *)requestDetailsForRecipe:(NSString *)recipeSlug
 {
     RecipeInfo *recipeDetails = [RecipeInfo new];
-
-    FMResultSet *results = [_fmdb executeQuery:@"SELECT description, ingredients FROM recipe WHERE slug = ? LIMIT 1;", recipeSlug];
+    
+    FMResultSet *results = [_fmdb executeQuery:selectRecipeDetails, recipeSlug];
     
     if ([results next]) {
         recipeDetails.recipe_description = [results stringForColumn:@"description"];
@@ -313,10 +307,10 @@
 {
     if ([listOfRecipesToFind count] != 0) {
         NSMutableArray *retval = [[NSMutableArray alloc]initWithCapacity:[listOfRecipesToFind count]];
-
+        
         
         for (NSString *slug in listOfRecipesToFind) {
-            FMResultSet *result = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE slug = ?;", slug];
+            FMResultSet *result = [_fmdb executeQuery:selectRecipeFromSlug, slug];
             if ([result next]) {
                 RecipeInfo *recipe = [RecipeInfo new];
                 recipe.name = [result stringForColumn:@"name"];
@@ -345,25 +339,16 @@
         NSString *singleComment = [commentsArray[i] objectForKey:@"commento"];
         NSString *userId = [commentsArray[i] objectForKey:@"utente"];
         
-        if ([_fmdb executeUpdate:@"INSERT INTO comment (recipe_slug, comment, customer) VALUES (?, ?, ?);", recipe_slug, singleComment, userId])
-        {
-            DLog(@"Completed insert of comment");
-        }
-        else
-        {
-            DLog(@"Error while inserting comment %@ %@ %d", [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+        if (![_fmdb executeUpdate:@"INSERT INTO comment (recipe_slug, comment, customer) VALUES (?, ?, ?);", recipe_slug, singleComment, userId]) {
+            PRINT_DATABASE_ERRORS
         }
     }
 }
 
 -(void)deleteCommentsOfRecipe:(NSString *)recipeSlug
 {
-    if ([_fmdb executeUpdate:@"DELETE FROM comment WHERE recipe_slug = ?;", recipeSlug]) {
-        DLog(@"Deleted successfully the comments of %@", recipeSlug);
-    }
-    else
-    {
-        DLog(@"Errors while deleting the comments of %@. Error: %@ %@ %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+    if (![_fmdb executeUpdate:@"DELETE FROM comment WHERE recipe_slug = ?;", recipeSlug]) {
+        PRINT_DATABASE_ERRORS
     }
 }
 
@@ -371,7 +356,7 @@
 {
     NSMutableArray *retval = [[NSMutableArray alloc]init];
     
-    FMResultSet *results = [_fmdb executeQuery:@"SELECT * FROM comment WHERE recipe_slug = ?;", recipeSlug];
+    FMResultSet *results = [_fmdb executeQuery:selectCommentForRecipe, recipeSlug];
     
     while ([results next]) {
         NSMutableDictionary *singleComment = [[NSMutableDictionary alloc]init];
@@ -391,12 +376,8 @@
 #pragma mark - Rating
 -(void)saveRatingValue:(NSNumber *)value forRecipe:(NSString *)recipeSlug
 {
-    if ([_fmdb executeUpdate:@"UPDATE recipe SET avg_rating = ? WHERE slug = ?;", value, recipeSlug]) {
-        DLog(@"Updated average rating of recipe %@", recipeSlug);
-    }
-    else
-    {
-        DLog(@"Errors while updating average rating of %@. Errors: %@ %@ | Code: %d", recipeSlug, [_fmdb lastError], [_fmdb lastErrorMessage], [_fmdb lastErrorCode]);
+    if (![_fmdb executeUpdate:updateRecipeRating, value, recipeSlug]) {
+        PRINT_DATABASE_ERRORS
     }
 }
 
@@ -404,7 +385,7 @@
 {
     int retval = 0;
     
-    FMResultSet *result = [_fmdb executeQuery:@"SELECT avg_rating FROM recipe WHERE slug = ?", recipeSlug];
+    FMResultSet *result = [_fmdb executeQuery:selectAverageRatingForRecipe, recipeSlug];
     if ([result next]) {
         int rating =  [result intForColumn:@"avg_rating"];
         retval = rating;
@@ -415,8 +396,8 @@
 -(NSDictionary *)requestRatingForRecipesInCategory:(NSString *)category
 {
     NSMutableDictionary *retval = [[NSMutableDictionary alloc]init];
-    FMResultSet *results = [_fmdb executeQuery:@"SELECT avg_rating, recipe_slug FROM recipe WHERE slug IN (SELECT slug FROM recipe WHERE category = ?);", category];
-
+    FMResultSet *results = [_fmdb executeQuery:selectAverageRatingForRecipeInCategory, category];
+    
     while ([results next]) {
         int rating = [results intForColumn:@"avg_rating"];
         NSString *recipeSlug = [results stringForColumn:@"recipe_slug"];
@@ -437,12 +418,10 @@
 {
     NSString *latestDateString;
     
-    FMResultSet *result = [_fmdb executeQuery:@"SELECT * FROM recipe WHERE restaurant_slug = ? ORDER BY last_edit_datetime DESC LIMIT 1;", restaurantSlug];
+    FMResultSet *result = [_fmdb executeQuery:selectLatestRecipeFromRestaurant, restaurantSlug];
     if ([result next]) {
         latestDateString = [result stringForColumn:@"last_edit_datetime"];
-    }
-    else
-    {
+    } else {
         latestDateString = @"";
     }
     return latestDateString;
@@ -451,8 +430,8 @@
 -(int)numberOfrecipesInCacheForRestaurant:(NSString *)restaurantSlug
 {
     int total = 0;
-
-    FMResultSet *result = [_fmdb executeQuery:@"SELECT COUNT(*) FROM recipe WHERE restaurant_slug = ?;", restaurantSlug];
+    
+    FMResultSet *result = [_fmdb executeQuery:numbersOfRecipesForRestaurant, restaurantSlug];
     if ([result next]) {
         total = [result intForColumnIndex:0];
     }
@@ -489,8 +468,8 @@
 -(NSMutableArray *)bestMatchForRecipe:(NSString *)recipeSlug
 {
     NSMutableArray *retval = [[NSMutableArray alloc]init];
-    FMResultSet *combined = [_fmdb executeQuery:@"SELECT * FROM recipe AS r JOIN bestMatch AS b ON r.slug = b.target_recipe_slug WHERE base_recipe_slug = ?", recipeSlug];
-
+    FMResultSet *combined = [_fmdb executeQuery:bestMatchForRecipe, recipeSlug];
+    
     while ([combined next]) {
         RecipeInfo *recipe = [RecipeInfo new];
         
@@ -514,15 +493,17 @@
 -(NSMutableDictionary *)fetchDayMenuForRestaurant:(NSString *)restaurantSlug andDay:(NSString *)day
 {
     NSMutableDictionary *retval = [[NSMutableDictionary alloc]init];
-
-
+    
+    
     FMResultSet *categories = [_fmdb executeQuery:@"SELECT DISTINCT category FROM dayMenu WHERE day = ? AND restaurant_slug = ?;", day, restaurantSlug];
     
     while ([categories next]) {
         NSString *category = [categories stringForColumn:@"category"];
-
+        
         FMResultSet *recipeListForCategory = [_fmdb executeQuery:@"SELECT name, price, slug FROM dayMenu WHERE day = ? AND restaurant_slug = ? AND category = ?;", day, restaurantSlug, category];
-        DLog(@"DEBUG: %@ %@ %d", [_fmdb lastErrorMessage], [_fmdb lastError], [_fmdb lastErrorCode]);
+        
+        PRINT_DATABASE_ERRORS
+        
         NSMutableArray *recipesForCategory = [[NSMutableArray alloc]init];
         
         while ([recipeListForCategory next]) {
@@ -580,8 +561,6 @@
     NSString *today = [self dateInYearMonthDayFormatFromDate:[NSDate date]];
     NSString *dayOfMenu = [self dateInYearMonthDayFormatFromDate:menuDate];
     
-    DLog(@"Components date: %@ - DayMenu: %@", today, dayOfMenu);
-    
     //Se la data è di oggi
     if ([today isEqualToString:dayOfMenu]) {
         return YES;
@@ -604,7 +583,7 @@
     NSDate *today = [calendar dateFromComponents:components];
     
     NSString *stringDate = [dateFormatter stringFromDate:today];
-
+    
     return stringDate;
 }
 
@@ -648,14 +627,14 @@
         }
         else
         {
-            DLog(@"[Save PDF] Failed Insert into database");
+            PRINT_DATABASE_ERRORS
         }
         sqlite3_finalize(statement);
         sqlite3_close(_database);
     }
     else
     {
-        DLog(@"[Save PDF] Failed Open Database");
+        PRINT_DATABASE_ERRORS
         sqlite3_close(_database);
     }
 }
@@ -664,7 +643,7 @@
 {
     NSString *retval = @"";
     
-    FMResultSet *result = [_fmdb executeQuery:@"SELECT name FROM restaurant WHERE majorBeacon = ? AND minorBeacon = ?;", majorBeacon, minorBeacon];
+    FMResultSet *result = [_fmdb executeQuery:selectNameOfRestaurantByBeacon, majorBeacon, minorBeacon];
     
     if ([result next]) {
         retval = [result stringForColumn:@"name"];
@@ -679,13 +658,9 @@
     
     [self checkForeignKeys];
     
-    if ([_fmdb executeUpdate:@"DELETE FROM restaurant WHERE slug = ?;", restaurantSlug])
+    if (![_fmdb executeUpdate:@"DELETE FROM restaurant WHERE slug = ?;", restaurantSlug])
     {
-        DLog(@"Deleted successfully from db the restaurant and data with slug %@", restaurantSlug);
-    }
-    else
-    {
-        DLog(@"Errors while deleting restaurant");
+        PRINT_DATABASE_ERRORS
     }
 }
 

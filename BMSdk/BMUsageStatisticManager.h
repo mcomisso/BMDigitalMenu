@@ -17,24 +17,9 @@
 
 +(BMUsageStatisticManager *)sharedInstance;
 
-// COLLECT DATA TO PRESERVE
--(void)collectDescription:(NSString *)description withKey:(NSString *)key;
-
-
-// SEND DATA AS JSON
 /**
- 
+ Forges a POST request With data analytics. If the network is unreachable, saves all informations inside its database.
  */
--(void)sendEventually:(NSDictionary *)data;
-
-/**
- Timer counter for app usage.
- */
--(void)startTimer;
-
-/**
- Stops the class timer counter for app usage.
- */
--(void)stopTimer;
+-(void)saveEventually:(NSDictionary *)data;
 
 @end

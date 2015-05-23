@@ -16,3 +16,20 @@ Here's what: this is an iOS framework, build around iBeacon Technology.
 This is what we had in mind: why continue to use only the classic sheet of paper, where almost anybody has a smartphone? Why I cannot have a digital menù in my pocket? And what if that menù automatically changes by the places I'm in and matches for me the best recipes together?
 
 So, we made it: this framework enables third parties applications to integrate our work, connected to our backend. **(now offline)**
+
+
+##Usage
+
+####Libraries
+The only way it seemed possible to use external libraries was.. to include them manually. So, no cocoapods (unfortunally).
+
+This project has inside its own libraries of:
+- `AFNetworking`
+- `SDWebImage`
+- `FMDB`
+- `BFBMPaperButton`
+- `TDBadgedCell`
+- `UIImage+ImageEffects`
+- `CocoaSecurity` **(Warning, modified version)**
+- `UAObfuscatedString`
+- `REComposeViewController`

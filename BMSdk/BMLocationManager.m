@@ -9,13 +9,12 @@
 #import "BMLocationManager.h"
 #import "BMDownloadManager.h"
 
-//#define BMBEACON @"B9407F30-F5F8-466E-AFF9-25556B57FE6D"
 #define BMBEACON @"96A1736B-11FC-85C3-1762-80DF658F0B29"
 
 @import UIKit;
 @import CoreBluetooth;
 
-@interface BMLocationManager() <CLLocationManagerDelegate>
+@interface BMLocationManager() <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLBeaconRegion *bmBeaconRegion;
@@ -29,9 +28,11 @@
 @property (nonatomic, strong) NSDate *lastNotificationDate;
 @property (nonatomic, strong) NSString *beaconDistance;
 
+// Bluetooth manager part
+@property (nonatomic, strong) CBCentralManager *bluetoothManager;
+
 //Every scan in didRangeBeacons increments this counter of 1
 @property int timerCounter;
-
 @property BOOL isRanging;
 
 // Setup checks
@@ -39,8 +40,6 @@
 @property (readonly) BOOL canTrackLocation;
 @property BOOL setupCompleted;
 @property BOOL bluetoothEnabled;
-
-@property BOOL isBlueMateInterfacePresented;
 
 @property BOOL restaurantFound;
 @property (readwrite, nonatomic) BOOL canStartInterface;
@@ -56,7 +55,7 @@
 {
     static BMLocationManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
-    
+
     dispatch_once(&onceToken, ^{
         sharedInstance = [[super alloc]initUniqueInstance];
     });
@@ -64,7 +63,7 @@
     return sharedInstance;
 }
 
-/*
+/**
  Inizializzazione componenti essenziali
  -> settings manager
  */
@@ -73,8 +72,6 @@
     self = [super init];
     if (self) {
         DLog(@"Initialization BMSdk");
-        
-        self.isBlueMateInterfacePresented = NO;
         
         // Notification explicitally called on entry&&exit
         self.bmBeaconRegion.notifyOnEntry = YES;
@@ -87,6 +84,7 @@
         self.closestBeacon = [[CLBeacon alloc]init];
         self.BMUUID = [[NSUUID alloc]initWithUUIDString:BMBEACON];
         self.timerCounter = 0;
+
         //Download Manager
         self.downloadManager = [BMDownloadManager sharedInstance];
         
@@ -131,7 +129,6 @@
                 //Comunicate the user that the Location tracking is unavailable
                 //TODO
             }
-
         }
         else
         {
@@ -168,6 +165,7 @@
         [self.locationManager requestAlwaysAuthorization];
         [self.locationManager requestWhenInUseAuthorization];
     }
+    
     self.locationManager.distanceFilter = kCLLocationAccuracyBest;
     
     self.bmBeaconRegion = [[CLBeaconRegion alloc]initWithProximityUUID:self.BMUUID identifier:@"com.bluemate.mssdk"];
@@ -180,11 +178,63 @@
     
     self.setupCompleted = YES;
 
+
+//    Remove this comment to show the recipes of restaurant n° 1
     [self.downloadManager fetchMenuOfRestaurantWithMajor:@243 andMinor:@161];
     [[NSUserDefaults standardUserDefaults]setObject:@243 forKey:@"majorBeacon"];
     [[NSUserDefaults standardUserDefaults]setObject:@161 forKey:@"minorBeacon"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 
-    //[self startRanging];
+//    [self startRanging];
+}
+
+
+-(void)initializeBluetoothManager
+{
+    //Bluetooth Manager status
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], CBCentralManagerOptionShowPowerAlertKey, nil];
+    self.bluetoothManager = [[CBCentralManager alloc]initWithDelegate:self queue:dispatch_get_main_queue() options:options];
+    [self centralManagerDidUpdateState:self.bluetoothManager];
+}
+
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    NSString *state = nil;
+    
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOff:
+            state = @"Bluetooth powered OFF";
+            self.bluetoothEnabled = NO;
+            //Send notification
+            break;
+        case CBCentralManagerStatePoweredOn:
+            state = @"Bluetooth powered ON and available";
+            self.bluetoothEnabled = YES;
+            //Send notification
+            break;
+        case CBCentralManagerStateResetting:
+            state = @"Connection with system service was lost, resetting";
+            self.bluetoothEnabled = NO;
+            break;
+        case CBCentralManagerStateUnauthorized:
+            state = @"This app is not authorized to use Bluetooth Low Energy";
+            self.bluetoothEnabled = NO;
+            break;
+        case CBCentralManagerStateUnknown:
+            state = @"State Unknown, update imminent";
+            self.bluetoothEnabled = NO;
+            break;
+        case CBCentralManagerStateUnsupported:
+            state = @"State unsupported";
+            self.bluetoothEnabled = NO;
+            //Send notification to advertise the unsupported device
+            break;
+        default:
+            state = @"State Unknown, update imminent";
+            break;
+            
+    }
+    DLog(@"%@",state);
 }
 
 #pragma mark - Shortcut methods
@@ -247,20 +297,34 @@
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     NSString *authStatus = [[NSString alloc]init];
+
     switch (status) {
-        case 0:
+        case kCLAuthorizationStatusNotDetermined:
             authStatus = @"Not Determined";
+            //Inform the user that The location services are necessary
             break;
-        case 1:
+            
+        case kCLAuthorizationStatusRestricted:
             authStatus = @"Restricted";
+            //Restrictions (can be parental control)
             break;
-        case 2:
+            
+        case kCLAuthorizationStatusDenied:
             authStatus = @"Denied";
+            //Inform the user that location services are necessary
             break;
-        case 3:
+
+            // It's the same as kCLAuthorizationStatusAuthorized
+        case kCLAuthorizationStatusAuthorizedAlways:
             authStatus = @"Authorized";
             [self setupManager];
             break;
+            
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+            authStatus = @"Authorized When In Use";
+            [self setupManager];
+            break;
+            
         default:
             authStatus = @"Default case";
             break;
@@ -278,7 +342,6 @@
     else{
         welcomeNotification.alertBody = @"Welcome";
     }
-
     
     [self.locationManager startRangingBeaconsInRegion:(CLBeaconRegion *)region];
     
@@ -324,10 +387,7 @@
             
             // If user keep stayin in same zone for 3 seconds, check and fetch data for Restaurant
             if (self.timerCounter == 3) {
-                if (!self.isBlueMateInterfacePresented) {
-                    //Present Interface
-                    self.isBlueMateInterfacePresented = YES;
-                }
+                
                 [self stopRanging];
 
                 notification.alertBody = [NSString stringWithFormat:@"Proximity: %ld, ID: %@", (long)self.closestBeacon.proximity, self.closestBeacon.minor];
@@ -388,28 +448,6 @@
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     DLog(@"[Location Manager] did Fail with Error: %@, %@", [error localizedDescription], [error localizedFailureReason]);
-}
-
-#pragma mark - Determine current view
-
--(UIViewController *)topViewController
-{
-    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
-}
-
--(UIViewController *)topViewController:(UIViewController *)rootViewController
-{
-    if (rootViewController.presentedViewController == nil) {
-        return rootViewController;
-    }
-    if ([rootViewController.presentedViewController isMemberOfClass:[UINavigationController class]]) {
-        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
-        UIViewController *lastViewController = [[navigationController viewControllers]lastObject];
-        return [self topViewController:lastViewController];
-    }
-    
-    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
-    return [self topViewController:presentedViewController];
 }
 
 @end

@@ -34,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UIView *categoriesMenuContainer;
 @property (strong, nonatomic) NSArray *categorie;
 
+
 //Dettagli del ristorante
 @property (strong, nonatomic) IBOutlet UIView *restaurantNameContainer;
 @property (strong, nonatomic) IBOutlet UILabel *restaurantLabelName;

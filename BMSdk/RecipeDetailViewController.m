@@ -65,6 +65,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 @property (strong, nonatomic) NSArray *bestMatchDataSource;
 @property (strong, nonatomic) IBOutlet UICollectionView *bestMatchCollectionView;
 @property (nonatomic) BOOL isCombinationOpen;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 //Views properties
 @property (nonatomic) CGPoint originalCenter;
@@ -163,7 +164,8 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
     self.transitionManager = [[TransitionManager alloc]init];
     self.statsManager = [BMUsageStatisticManager sharedInstance];
     
-    
+    // Close button
+    self.closeButton.layer.cornerRadius = self.closeButton.frame.size.width / 2;
     
     //Text bigger
     self.recipeNameLabel.text = [self.recipeNameLabel.text uppercaseString];
@@ -340,16 +342,6 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
-/** 
- Carica i commenti per la ricetta corrente e inizializza la transizione
- */
-- (IBAction)viewComments:(id)sender {
-
-    [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    [self.navigationController setToolbarHidden:YES animated:YES];
-
-}
-
 /**
  Aggiunge il piatto nella lista da ordinare
  */
@@ -419,7 +411,7 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
 - (IBAction)loadCombinations:(id)sender {
     [sender setEnabled:NO];
     if (_isCombinationOpen) {
-        //Hide collectionView
+        // Must hide collectionView
         self.puzzleButton.image = [UIImage imageWithContentsOfFile:self.imagesPathArray[BMImageBundleOpenPuzzle]];
         [UIView animateWithDuration:0.3
                               delay:0.0
@@ -432,7 +424,6 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
                              self.bestMatchSelectedView.alpha = 0.f;
                          }
                          completion:^(BOOL finished) {
-                             
                              _isCombinationOpen = NO;
                              [sender setEnabled:YES];
                          }];
@@ -460,6 +451,18 @@ typedef NS_ENUM(NSInteger, BMImageBundle) {
                          }];
     }
 }
+
+
+/**
+ Carica i commenti per la ricetta corrente e inizializza la transizione
+ */
+- (IBAction)viewComments:(id)sender {
+    
+    [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+    
+}
+
 
 #pragma mark - Transition to Comments view
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
